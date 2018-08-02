@@ -19,6 +19,9 @@ let package = Package(
 		/*
 		.target(name: "Values", dependencies: ["Common"]),
 		.target(name: "Datatypes", dependencies: ["Values"])
+		*/
+		.testTarget(name: "CommonTests", dependencies: ["Common"]),
+		/*
 		.testTarget(name: "ValueTests", dependencies: ["Values"]),
 		.testTarget(name: "DatatypeTests", dependencies: ["Datatypes"]),
 		*/
