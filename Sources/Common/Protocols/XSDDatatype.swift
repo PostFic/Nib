@@ -1,6 +1,9 @@
 /// An abstracted XSD datatype.
 public protocol XSDDatatype {
 
+	/// The `XSDSimpleTypeDefinition` for the datatype.
+	var definition: XSDSimpleTypeDefinition { get }
+
 	/// Creates an `XSDLiteral` from the given string.
 	///
 	/// Throws if the given string is not in the lexical space for the datatype.

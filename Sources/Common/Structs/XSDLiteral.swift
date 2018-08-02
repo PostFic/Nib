@@ -21,16 +21,6 @@ public struct XSDLiteral: CustomStringConvertible, Hashable, Relatable {
 		value = try type.makeValue(representation)
 	}
 
-	/// "Unsafely" creates a new instance.
-	///
-	/// Does not validate the `value` against the `type` or apply pre-lexical transformations to the `representation`.
-	/// This initializer is strictly for `internal` use with "foggy" literals, particularly when `type.datatype` is not yet available.
-	init(unsafe representation: String, type: XSDDatatype, value: XSDValueList) {
-		datatype = type
-		description = representation
-		self.value = value
-	}
-
 	/// Hashes the literal.
 	///
 	/// Literals are hashed by their lexical representation.
@@ -40,9 +30,11 @@ public struct XSDLiteral: CustomStringConvertible, Hashable, Relatable {
 
 	/// Checks for literal equality.
 	///
-	/// Literals are equal if they have the same lexical representation and equivalent values.
+	/// Literals are equal if they have the same lexical representation and equivalent `datatype`s.
 	public static func ==(lhs: XSDLiteral, rhs: XSDLiteral) -> Bool {
-		return lhs ≍ rhs && lhs.description == rhs.description
+		return
+			lhs.datatype.definition === rhs.datatype.definition &&
+			lhs.description == rhs.description
 	}
 
 	/// Compares the values of literals using an identity relation.
