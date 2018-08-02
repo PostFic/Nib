@@ -10,6 +10,16 @@ public class XSDRegularExpression: NSRegularExpression {
 
 	/// Creates the regular expression.
 	public init(_ pattern: String) throws {
+		guard
+			try! NSRegularExpression(
+				pattern: "[^\\x{1}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{10FFFF}]"
+			).firstMatch(
+				in: pattern,
+				range: NSMakeRange(0, pattern.count)
+			) == nil
+		else {
+			throw NibError.invalidCharacterInRegularExpression
+		}
 		try super.init(pattern: "^\(pattern)$")
 	}
 
