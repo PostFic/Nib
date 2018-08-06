@@ -25,4 +25,22 @@ public enum XSDFundamentalFacet: Facet {
 		}
 	}
 
+	public var value: Any? {
+		var value: Any?
+		switch self {
+		case .ordered(value: let theValue): // `XSDOrdered` values
+			value = theValue as Any
+		case
+			.bounded(value: let theValue),
+			.numeric(value: let theValue)
+		: // `XSDLiteral` values
+			value = theValue as Any
+		case .cardinality(value: let theValue): // `XSDCardinality` values
+			value = theValue as Any
+		case .📛:
+			value = nil
+		}
+		return value
+	}
+
 }

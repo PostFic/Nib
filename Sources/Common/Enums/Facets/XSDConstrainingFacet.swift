@@ -1,63 +1,83 @@
 public enum XSDConstrainingFacet: Facet {
 
 	case length(
+		annotations: [Annotation],
 		value: XSDLiteral,
 		fixed: XSDLiteral
 	)
 
 	case minLength(
+		annotations: [Annotation],
 		value: XSDLiteral,
 		fixed: XSDLiteral
 	)
 
 	case maxLength(
+		annotations: [Annotation],
 		value: XSDLiteral,
 		fixed: XSDLiteral
 	)
 
-	case pattern(value: Set<XSDRegularExpression>)
+	case pattern(
+		annotations: [Annotation],
+		value: Set<XSDRegularExpression>
+	)
 
-	case enumeration(value: Set<XSDValue>)
+	case enumeration(
+		annotations: [Annotation],
+		value: Set<XSDValue>
+	)
 
 	case whiteSpace(
+		annotations: [Annotation],
 		value: XSDWhiteSpace,
 		fixed: XSDLiteral
 	)
 
 	case maxInclusive(
-		value: XSDLiteral,
+		annotations: [Annotation],
+		value: XSDValue,
 		fixed: XSDLiteral
 	)
 
 	case maxExclusive(
-		value: XSDLiteral,
+		annotations: [Annotation],
+		value: XSDValue,
 		fixed: XSDLiteral
 	)
 
 	case minExclusive(
-		value: XSDLiteral,
+		annotations: [Annotation],
+		value: XSDValue,
 		fixed: XSDLiteral
 	)
 
 	case minInclusive(
-		value: XSDLiteral,
+		annotations: [Annotation],
+		value: XSDValue,
 		fixed: XSDLiteral
 	)
 
 	case totalDigits(
+		annotations: [Annotation],
 		value: XSDLiteral,
 		fixed: XSDLiteral
 	)
 
 	case fractionDigits(
+		annotations: [Annotation],
 		value: XSDLiteral,
 		fixed: XSDLiteral
 	)
 
 	/// `Assertions` are not supported since they require XPath.
-	case Assertions(value: [Any])
+	case Assertions(
+		annotations: [Annotation],
+		value: [Assertion]
+	)
 
 	case explicitTimezone(
+		annotations: [Annotation],
 		value: XSDExplicitTimezone,
 		fixed: XSDLiteral
 	)
@@ -97,6 +117,40 @@ public enum XSDConstrainingFacet: Facet {
 		case .📛(let theName):
 			return theName
 		}
+	}
+
+	public var value: Any? {
+		var value: Any?
+		switch self {
+		case
+			.length(value: let theValue),
+			.minLength(value: let theValue),
+			.maxLength(value: let theValue),
+			.totalDigits(value: let theValue),
+			.fractionDigits(value: let theValue)
+		: // `XSDLiteral` values
+			value = theValue as Any
+		case .pattern(value: let theValue): // `Set<XSDRegularExpression>` values
+			value = theValue as Any
+		case .enumeration(value: let theValue): // `Set<XSDValue>` values
+			value = theValue as Any
+		case .whiteSpace(value: let theValue): // `XSDWhiteSpace` values
+			value = theValue as Any
+		case
+			.maxInclusive(value: let theValue),
+			.maxExclusive(value: let theValue),
+			.minExclusive(value: let theValue),
+			.minInclusive(value: let theValue)
+		: // `XSDValue` values
+			value = theValue as Any
+		case .Assertions(value: let theValue):
+			value = theValue as Any
+		case .explicitTimezone(value: let theValue): // `XSDExplicitTimexone` values
+			value = theValue as Any
+		case .📛:
+			value = nil
+		}
+		return value
 	}
 
 }
