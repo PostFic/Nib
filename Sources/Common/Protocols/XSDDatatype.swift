@@ -20,3 +20,22 @@ public protocol XSDDatatype {
 	func prelexicalTransform(_: String) throws -> String
 
 }
+
+extension XSDDatatype {
+
+	/// Defaults to just an alias for `definition.makeLiteral()`.
+	func makeLiteral(_ representation: String) throws -> XSDLiteral {
+		return try definition.makeLiteral(representation)
+	}
+
+	/// Defaults to just an alias for `definition.makeValue()`.
+	func makeValue(_ representation: String) throws -> XSDValueList {
+		return try definition.makeValue(representation)
+	}
+
+	/// Defaults to just an alias for `definition.prelexicalTransform()`.
+	func prelexicalTransform(_ representation: String) throws -> String {
+		return try definition.prelexicalTransform(representation)
+	}
+
+}
