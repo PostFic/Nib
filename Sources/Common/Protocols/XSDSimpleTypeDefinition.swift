@@ -4,10 +4,10 @@ public protocol XSDSimpleTypeDefinition: XSDDatatype, XSDTypeDefinition {
 	var baseTypeDefinition: XSDTypeDefinition { get }
 
 	/// The constraining facets for the type.
-	var facets: Set<XSDConstrainingFacet> { get }
+	var facets: XSDConstrainingFacets { get }
 
 	/// The fundamental facets for the type.
-	var fundamentalFacets: Set<XSDFundamentalFacet> { get }
+	var fundamentalFacets: XSDFundamentalFacets { get }
 
 	/// The type variety.
 	var variety: XSDSimpleTypeVariety? { get }

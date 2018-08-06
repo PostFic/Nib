@@ -27,7 +27,7 @@ public class XSDRegularExpression: NSRegularExpression {
 	///
 	/// Probably don't use this; it's only here because `Foundation` demands it.
 	/// Ignores the `NSOptions` because we don't use them.
-	required public convenience init?(coder aDecoder: NSCoder) {
+	public required convenience init?(coder aDecoder: NSCoder) {
 		guard aDecoder.allowsKeyedCoding else {
 			preconditionFailure("Unkeyed coding is unsupported.")
 		}

@@ -2,8 +2,8 @@ import XCTest
 
 extension FacetTests {
     static let __allTests = [
-        ("testConstrainingFacetSetInclusion", testConstrainingFacetSetInclusion),
-        ("testFundamentalFacetSetInclusion", testFundamentalFacetSetInclusion),
+        ("testXSDConstrainingFacetSetInclusion", testXSDConstrainingFacetSetInclusion),
+        ("testXSDFundamentalFacetSetInclusion", testXSDFundamentalFacetSetInclusion),
     ]
 }
 

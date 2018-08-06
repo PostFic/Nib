@@ -5,17 +5,20 @@
 /// You shouldn't create instances of this class directly; it exists for subclassing to create new value spaces.
 open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 
+	/// Converts the value to a `Bool`, if possible.
+	///
+	/// Needs to be overridden by subclasses for a non-`nil` result.
+	open var bool: Bool? {
+		return nil
+	}
+
+
 	/// Converts the value to a `Double`, if possible.
 	///
 	/// Needs to be overridden by subclasses for a non-`nil` result.
 	open var double: Double? {
 		return nil
 	}
-
-	/// The constraining facets which apply to the value.
-	///
-	/// Primarily used during initial validation.
-	let facets: Set<XSDConstrainingFacet>
 
 	/// Converts the value to a `Float`, if possible.
 	///
@@ -46,20 +49,13 @@ open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 	}
 
 	/// Creates a new instance.
-	///
-	/// This simply validates the instance with `` and throws any errors which result.
-	public init(
-		facets: Set<XSDConstrainingFacet> = []
-	) throws {
-		self.facets = facets
-	}
+	public init() throws {}
 
-	/// Creates a new instance from the given `representation` and `constrainedBy` the given `XSDConstrainingFacet`s.
+	/// Creates a new instance from the given `representation`.
 	public required convenience init(
-		_ representation: String,
-		constrainedBy facets: Set<XSDConstrainingFacet> = []
+		_ representation: String
 	) throws {
-		try self.init(facets: facets)
+		try self.init()
 	}
 
 	/// Hashes the instance.

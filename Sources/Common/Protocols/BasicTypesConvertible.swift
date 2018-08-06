@@ -4,6 +4,9 @@
 /// Their values will be `nil` if the conversion is not possible.
 public protocol BasicTypesConvertible {
 
+	/// The instance as a `Bool`, if possible.
+	var bool: Bool? { get }
+
 	/// The instance as a `Double`, if possible.
 	var double: Double? { get }
 

@@ -8,7 +8,19 @@ Extends `XSDValueList` to be `BasicTypeConvertible` and defines the methods need
 
 The actual `XSDValueLike` extension comes later because otherwise the compiler will warn us about having multiple very similar definitions for `≡`.
 */
-extension Array: BasicTypesConvertible where Element: XSDValue {
+extension Array: BasicTypesConvertible where Element == XSDValue {
+
+	/// The `Bool` representation, if possible.
+	///
+	/// + Returns: The `bool` property of the contained `XSDValue` if this is a singleton `Array`; otherwise, `nil`.
+	public var bool: Bool? {
+		if count == 1 {
+			return self[0].bool
+		} else {
+			return nil
+		}
+	}
+
 
 	/// The `Double` representation, if possible.
 	///
@@ -120,4 +132,4 @@ Extends `XSDValueList` to be `XSDValueLike`.
 extension Array:
 	Relatable,
 	XSDValueLike
-where Element: XSDValue {}
+where Element == XSDValue {}
