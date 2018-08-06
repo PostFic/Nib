@@ -8,7 +8,7 @@ open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 	/// Converts the value to a `Double`, if possible.
 	///
 	/// Needs to be overridden by subclasses for a non-`nil` result.
-	public var double: Double? {
+	open var double: Double? {
 		return nil
 	}
 
@@ -20,34 +20,29 @@ open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 	/// Converts the value to a `Float`, if possible.
 	///
 	/// Needs to be overridden by subclasses for a non-`nil` result.
-	public var float: Float? {
+	open var float: Float? {
 		return nil
 	}
 
 	/// Converts the value to a `Int`, if possible.
 	///
 	/// Needs to be overridden by subclasses for a non-`nil` result.
-	public var int: Int? {
+	open var int: Int? {
 		return nil
 	}
 
 	/// Converts the value to a `String`, if possible.
 	///
 	/// Needs to be overridden by subclasses for a non-`nil` result.
-	public var string: String? {
+	open var string: String? {
 		return nil
 	}
 
 	/// Converts the value to a `UInt`, if possible.
 	///
 	/// Needs to be overridden by subclasses for a non-`nil` result.
-	public var uInt: UInt? {
+	open var uInt: UInt? {
 		return nil
-	}
-
-	/// Simply returns `self`, as this is already an `XSDValue`.
-	public var value: XSDValue? {
-		return self
 	}
 
 	/// Creates a new instance.
@@ -57,7 +52,6 @@ open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 		facets: Set<XSDConstrainingFacet> = []
 	) throws {
 		self.facets = facets
-		try self✓
 	}
 
 	/// Creates a new instance from the given `representation` and `constrainedBy` the given `XSDConstrainingFacet`s.
@@ -71,35 +65,35 @@ open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 	/// Hashes the instance.
 	///
 	/// Needs to be overridden by subclasses for a hash other than `Float.nan`.
-	public func hash(into hasher: inout Hasher) {
+	open func hash(into hasher: inout Hasher) {
 		hasher.combine(Float.nan)
 	}
 
 	/// The equality relation, in the XSD sense.
 	///
 	/// Needs to be overridden by subclasses for a non-`false` value.
-	public func equal(to other: XSDValue) -> Bool {
+	open func equal(to other: XSDValue) -> Bool {
 		return false
 	}
 
 	/// The greater-than relation, in the XSD sense.
 	///
 	/// Needs to be overridden by subclasses for a non-`false` value.
-	public func greater(than other: XSDValue) -> Bool {
+	open func greater(than other: XSDValue) -> Bool {
 		return false
 	}
 
 	/// The identity relation, in the XSD sense.
 	///
 	/// Defaults to `===`; needs to be overridden by subclasses for any other value.
-	public func identical(to other: XSDValue) -> Bool {
+	open func identical(to other: XSDValue) -> Bool {
 		return self === other
 	}
 
 	/// The less-than relation, in the XSD sense.
 	///
 	/// Needs to be overridden by subclasses for a non-`false` value.
-	public func lesser(than other: XSDValue) -> Bool {
+	open func lesser(than other: XSDValue) -> Bool {
 		return false
 	}
 
@@ -152,10 +146,6 @@ open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 	/// `true` when the left-hand side is `greater(than:)` the right, and the right-hand side is `lesser(than:)` the left.
 	public static func ≻(lhs: XSDValue, rhs: XSDValue) -> Bool {
 		return lhs.greater(than: rhs) && rhs.lesser(than: lhs)
-	}
-
-	/// Validates the value according to its `facet`s.
-	static postfix func ✓(🈁: XSDValue) throws {
 	}
 
 }
