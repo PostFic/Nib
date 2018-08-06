@@ -12,6 +12,11 @@ open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 		return nil
 	}
 
+	/// The constraining facets which apply to the value.
+	///
+	/// Primarily used during initial validation.
+	let facets: Set<XSDConstrainingFacet>
+
 	/// Converts the value to a `Float`, if possible.
 	///
 	/// Needs to be overridden by subclasses for a non-`nil` result.
@@ -48,8 +53,19 @@ open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 	/// Creates a new instance.
 	///
 	/// This simply validates the instance with `` and throws any errors which result.
-	public init() throws {
+	public init(
+		facets: Set<XSDConstrainingFacet> = []
+	) throws {
+		self.facets = facets
 		try self✓
+	}
+
+	/// Creates a new instance from the given `representation` and `constrainedBy` the given `XSDConstrainingFacet`s.
+	public required convenience init(
+		_ representation: String,
+		constrainedBy facets: Set<XSDConstrainingFacet> = []
+	) throws {
+		try self.init(facets: facets)
 	}
 
 	/// Hashes the instance.
@@ -138,13 +154,8 @@ open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 		return lhs.greater(than: rhs) && rhs.lesser(than: lhs)
 	}
 
-	/// Validates and returns `self`.
-	///
-	/// Does nothing (always returns) for the base class, but should be overridden with validation constraints by subclasses.
-	/// Called during initialization—you shouldn't ever need to call this yourself.
-	@discardableResult
-	public static postfix func ✓(x: XSDValue) throws -> XSDValue {
-		return x
+	/// Validates the value according to its `facet`s.
+	static postfix func ✓(🈁: XSDValue) throws {
 	}
 
 }
