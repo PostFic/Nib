@@ -1,7 +1,7 @@
 public protocol XSDTypeDefinition: AnyObject {
 
 	/// `annotations` is not supported by Nib.
-	var annotations: Any? { get }
+	var annotations: [Annotation] { get }
 
 	/// The type's name.
 	var name: XSDLiteral { get }
