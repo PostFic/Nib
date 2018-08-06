@@ -17,7 +17,7 @@ final class FacetTests: XCTestCase {
 		}
 	}
 
-	/// Tests to ensure that the behaviour of `XSDFundamentalFacet`s in sets is as desired.
+	/// Tests to ensure that the behaviour of `XSDConstrainingFacet`s in sets is as desired.
 	func testConstrainingFacetSetInclusion() {
 		let patternFacet = XSDConstrainingFacet.pattern(
 			annotations: [],

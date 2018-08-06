@@ -12,11 +12,11 @@ final class XSDRegularExpressionTests: XCTestCase {
 
 	/// Tests to ensure that the regular expression propogates errors.
 	func testRegularExpressionErrorPropogation() {
-		XCTAssertThrowsError(try! XSDRegularExpression("("))
+		XCTAssertThrowsError(try XSDRegularExpression("("))
 	}
 
 	/// Tests to ensure only XML characters are allowed in regular expressions.
 	func textRegularExpressionOnlyHasXMLChars() {
-		XCTAssertThrowsError(try! XSDRegularExpression("\u{FFFF}"))
+		XCTAssertThrowsError(try XSDRegularExpression("\u{FFFF}"))
 	}
 }
