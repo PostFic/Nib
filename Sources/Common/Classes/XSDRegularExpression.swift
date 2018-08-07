@@ -1,5 +1,68 @@
 import Foundation
 
+fileprivate func replaceIn(string: inout String, _ pattern: String, _ template: String) {
+	string = try! NSRegularExpression(
+		pattern: pattern
+	).stringByReplacingMatches(
+		in: string,
+		range: NSMakeRange(0, string.count),
+		withTemplate: template
+	)
+}
+
+fileprivate let unescaped = "(?<!\\\\)(?:\\\\\\\\)*"
+
+fileprivate let anyChar = NSRegularExpression.escapedTemplate(
+	for: "\\x00-\\x{10FFFF}"
+)
+
+fileprivate let char = NSRegularExpression.escapedTemplate(
+	for: """
+		:A-Z_a-z\
+		\\xC0-\\xD6\
+		\\xD8-\\xF6\
+		\\xF8-\\x{2FF}\
+		\\x{370}-\\x{37D}\
+		\\x{37F}-\\x{1FFF}\
+		\\x{200C}-\\x{200D}\
+		\\x{2070}-\\x{218F}\
+		\\x{2C00}-\\x{2FEF}\
+		\\x{3001}-\\x{D7FF}\
+		\\x{F900}-\\x{FDCF}\
+		\\x{FDF0}-\\x{FFFD}\
+		\\x{10000}-\\x{EFFFF}\
+		\\-\\.0-9\\xB7\
+		\\x{0300}-\\x{036F}\
+		\\x{203F}-\\x{2040}
+		"""
+)
+fileprivate let lineChar = NSRegularExpression.escapedTemplate(
+	for: "\\n\\r"
+)
+fileprivate let spaceChar = NSRegularExpression.escapedTemplate(
+	for: "\\x20\\t\\n\\r"
+)
+fileprivate let startChar = NSRegularExpression.escapedTemplate(
+	for: """
+		:A-Z_a-z\
+		\\xC0-\\xD6\
+		\\xD8-\\xF6\
+		\\xF8-\\x{2FF}\
+		\\x{370}-\\x{37D}\
+		\\x{37F}-\\x{1FFF}\
+		\\x{200C}-\\x{200D}\
+		\\x{2070}-\\x{218F}\
+		\\x{2C00}-\\x{2FEF}\
+		\\x{3001}-\\x{D7FF}\
+		\\x{F900}-\\x{FDCF}\
+		\\x{FDF0}-\\x{FFFD}\
+		\\x{10000}-\\x{EFFFF}
+		"""
+)
+fileprivate let wordChar = NSRegularExpression.escapedTemplate(
+	for: "\\p{P}\\p{Z}\\p{C}"
+)
+
 /// An XSD regular expression.
 ///
 /// Inherits from `NSRegularExpression` and has all the same properties and methods.
@@ -10,6 +73,7 @@ public class XSDRegularExpression: NSRegularExpression {
 
 	/// Creates the regular expression.
 	public init(_ pattern: String) throws {
+
 		guard
 			try! NSRegularExpression(
 				pattern: "[^\\x{1}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{10FFFF}]"
@@ -20,7 +84,24 @@ public class XSDRegularExpression: NSRegularExpression {
 		else {
 			throw NibError.invalidCharacterInRegularExpression
 		}
-		try super.init(pattern: "^\(pattern)$")
+
+		var swiftPattern = pattern
+		replaceIn(string: &swiftPattern, "(\(unescaped)(?:[*+?]|\\{\\d+,\\d*\\}))([?+])", "$1\\\\$2")
+		replaceIn(string: &swiftPattern, "(\(unescaped)\\()\\?", "$1\\\\?")
+		replaceIn(string: &swiftPattern, "(\(unescaped)\\\\)([aAbBeEfGNQuUxXzZ0-9])", "$1\\\\$2")
+		replaceIn(string: &swiftPattern, "(\\A\\^|\\$\\z)", "\\\\$1")
+		replaceIn(string: &swiftPattern, "(\(unescaped))\\.", "$1[^\(lineChar)]")
+		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\s", "$1[\(spaceChar)]")
+		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\S", "$1[^\(spaceChar)]")
+		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\i", "$1[\(startChar)]")
+		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\I", "$1[^\(startChar)]")
+		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\c", "$1[\(char)]")
+		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\C", "$1[^\(char)]")
+		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\w", "$1(?:(?![\(wordChar)])[\(anyChar)])")
+		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\W", "$1[\(wordChar)]")
+		replaceIn(string: &swiftPattern, "(\(unescaped))\\[((?:[^\\]]|\(unescaped)\\\\])*\(unescaped))\\]-\\[((?:[^\\]]|\(unescaped)\\\\])*\(unescaped))\\]", "$1(?:(?![$3])[$2])")
+
+		try super.init(pattern: "^\(swiftPattern)$")
 	}
 
 	/// Required `NSCoder` initializer.
