@@ -38,4 +38,11 @@ public extension XSDDatatype {
 		return try definition.prelexicalTransform(representation)
 	}
 
+	/// A default implementation of the `⤱` operator.
+	///
+	/// `XSDDatatype` is not `StringCrossConvertible` by default, but this implementation means that protocol conformance comes free to any type that implements both.
+	static func ⤱(literal: String, datatype: Self) throws -> XSDLiteral {
+		return try datatype.makeLiteral(literal)
+	}
+
 }

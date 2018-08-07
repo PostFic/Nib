@@ -40,8 +40,8 @@ infix operator ⟡: ComparisonPrecedence
 /// Comparable.
 infix operator ⟡̸: ComparisonPrecedence
 
-/// Datatype declaration.
-infix operator ^^: CastingPrecedence
+/// Cross-converting.
+infix operator ⤱: CastingPrecedence
 
 /// Validation.
 postfix operator ✓
