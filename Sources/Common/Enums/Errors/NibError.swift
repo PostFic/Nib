@@ -1,6 +1,9 @@
 /// Common errors which aren't directly related to XSD processing.
 public enum NibError: Error {
 
+	/// For use when attempting to constrain a facet with another, non-applicable facet.
+	case facetConstraintMismatch
+
 	/// Only XML characters are allowed in `XSDRegularExpression`s.
 	case invalidCharacterInRegularExpression
 

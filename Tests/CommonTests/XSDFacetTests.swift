@@ -1,21 +1,12 @@
 import XCTest
 @testable import Common
 
-final class FacetTests: XCTestCase {
+final class XSDFacetTests: XCTestCase {
 
-	/// Tests to ensure that the behaviour of `XSDConstrainingFacet`s in sets is as desired.
-	func testXSDConstrainingFacetSetInclusion() {
-		let facet = XSDConstrainingFacet(📛: "aFacet")
-		let facetSet: XSDConstrainingFacets = [facet]
-		let selectedFacet = facetSet["aFacet"]
-		XCTAssertNotNil(selectedFacet)
-		XCTAssert(facet === selectedFacet)
-	}
-
-	/// Tests to ensure that the behaviour of `XSDFundamentalFacet`s in sets is as desired.
-	func testXSDFundamentalFacetSetInclusion() {
-		let facet = XSDFundamentalFacet(📛: "aFacet")
-		let facetSet: XSDFundamentalFacets = [facet]
+	/// Tests to ensure that the behaviour of `XSDFacet`s in sets is as desired.
+	func testXSDFacetSetInclusion() {
+		let facet = XSDFacet(📛: "aFacet")
+		let facetSet: Set<XSDFacet> = [facet]
 		let selectedFacet = facetSet["aFacet"]
 		XCTAssertNotNil(selectedFacet)
 		XCTAssert(facet === selectedFacet)
