@@ -30,7 +30,7 @@ final class XSDRegularExpressionTests: XCTestCase {
 		for char in ["aAbBeEfGNQuUxXzZ0123456789"] {
 			XCTAssertEqual(
 				try! XSDRegularExpression("\\\(char)"),
-				anchoredRegularExpression("\\\\\(char)")
+				anchoredRegularExpression("\(char)")
 			)
 		}
 	}
@@ -45,7 +45,7 @@ final class XSDRegularExpressionTests: XCTestCase {
 	func testRegularExpressionEscapesVeryUnescaped() {
 		XCTAssertEqual(
 			try! XSDRegularExpression("\\\\\\\\\\\\\\a"),
-			anchoredRegularExpression("\\\\\\\\\\\\\\\\a")
+			anchoredRegularExpression("\\\\\\\\\\\\a")
 		)
 	}
 
