@@ -26,27 +26,12 @@ final class XSDRegularExpressionTests: XCTestCase {
 		)
 	}
 
-	func testRegularExpressionEscapesUnsupportedEscapes() {
+	func testRegularExpressionThrowsUnsupportedEscapes() {
 		for char in ["aAbBeEfGNQuUxXzZ0123456789"] {
-			XCTAssertEqual(
-				try! XSDRegularExpression("\\\(char)"),
-				anchoredRegularExpression("\(char)")
+			XCTAssertThrowsError(
+				try XSDRegularExpression("\\\(char)")
 			)
 		}
-	}
-
-	func testRegularExpressionDoesntEscapeEscaped() {
-		XCTAssertEqual(
-			try! XSDRegularExpression("\\\\a"),
-			anchoredRegularExpression("\\\\a")
-		)
-	}
-
-	func testRegularExpressionEscapesVeryUnescaped() {
-		XCTAssertEqual(
-			try! XSDRegularExpression("\\\\\\\\\\\\\\a"),
-			anchoredRegularExpression("\\\\\\\\\\\\a")
-		)
 	}
 
 	func testRegularExpressionEscapesAnchors() {
@@ -60,6 +45,20 @@ final class XSDRegularExpressionTests: XCTestCase {
 		XCTAssertEqual(
 			try! XSDRegularExpression("."),
 			anchoredRegularExpression("[^\\n\\r]")
+		)
+	}
+
+	func testRegularExpressionDoesntHandleEscaped() {
+		XCTAssertEqual(
+			try! XSDRegularExpression("\\."),
+			anchoredRegularExpression("\\.")
+		)
+	}
+
+	func testRegularExpressionHandlesVeryUnescaped() {
+		XCTAssertEqual(
+			try! XSDRegularExpression("\\\\\\\\\\\\."),
+			anchoredRegularExpression("\\\\\\\\\\\\[^\\n\\r]")
 		)
 	}
 

@@ -9,13 +9,12 @@ extension FacetTests {
 
 extension XSDRegularExpressionTests {
     static let __allTests = [
-        ("testRegularExpressionDoesntEscapeEscaped", testRegularExpressionDoesntEscapeEscaped),
+        ("testRegularExpressionDoesntHandleEscaped", testRegularExpressionDoesntHandleEscaped),
         ("testRegularExpressionErrorPropogation", testRegularExpressionErrorPropogation),
         ("testRegularExpressionEscapesAnchors", testRegularExpressionEscapesAnchors),
         ("testRegularExpressionEscapesNonCapturingParens", testRegularExpressionEscapesNonCapturingParens),
         ("testRegularExpressionEscapesQuantifierModifiers", testRegularExpressionEscapesQuantifierModifiers),
-        ("testRegularExpressionEscapesUnsupportedEscapes", testRegularExpressionEscapesUnsupportedEscapes),
-        ("testRegularExpressionEscapesVeryUnescaped", testRegularExpressionEscapesVeryUnescaped),
+        ("testRegularExpressionHandlesVeryUnescaped", testRegularExpressionHandlesVeryUnescaped),
         ("testRegularExpressionReplacesDots", testRegularExpressionReplacesDots),
         ("testRegularExpressionReplacesLowercaseCEscape", testRegularExpressionReplacesLowercaseCEscape),
         ("testRegularExpressionReplacesLowercaseIEscape", testRegularExpressionReplacesLowercaseIEscape),
@@ -26,6 +25,7 @@ extension XSDRegularExpressionTests {
         ("testRegularExpressionReplacesUppercaseIEscape", testRegularExpressionReplacesUppercaseIEscape),
         ("testRegularExpressionReplacesUppercaseSEscape", testRegularExpressionReplacesUppercaseSEscape),
         ("testRegularExpressionReplacesUppercaseWEscape", testRegularExpressionReplacesUppercaseWEscape),
+        ("testRegularExpressionThrowsUnsupportedEscapes", testRegularExpressionThrowsUnsupportedEscapes),
     ]
 }
 

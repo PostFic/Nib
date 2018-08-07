@@ -85,6 +85,17 @@ public class XSDRegularExpression: NSRegularExpression {
 			throw NibError.invalidCharacterInRegularExpression
 		}
 
+		guard
+			try! NSRegularExpression(
+				pattern: "\(unescaped)\\\\[^nrt\\\\|.?*+(){}\\x2D\\x5B\\x5D\\x5EpPsSiIcCdDwW]"
+			).firstMatch(
+				in: pattern,
+				range: NSMakeRange(0, pattern.count)
+			) == nil
+		else {
+			throw NibError.invalidEscapeInRegularExpression
+		}
+
 		var swiftPattern = pattern
 		replaceIn(string: &swiftPattern, "(\(unescaped)(?:[*+?]|\\{\\d+,\\d*\\}))([?+])", "$1\\\\$2")
 		replaceIn(string: &swiftPattern, "(\(unescaped)\\()\\?", "$1\\\\?")
