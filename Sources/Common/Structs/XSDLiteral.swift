@@ -1,5 +1,10 @@
 /// A typed XSD literal.
-public struct XSDLiteral: CustomStringConvertible, Hashable, Relatable {
+public struct XSDLiteral: BasicTypesConvertible, CustomStringConvertible, Hashable, Relatable {
+
+	/// Returns the literal's `value` as a `Bool`, if possible.
+	public var bool: Bool? {
+		return value.bool
+	}
 
 	/// The `XSDDatatype` for the literal.
 	public let datatype: XSDDatatype
@@ -8,6 +13,76 @@ public struct XSDLiteral: CustomStringConvertible, Hashable, Relatable {
 	///
 	/// Calling `String(describing:)` is the preferred means of accessing this representation.
 	public let description: String
+
+	/// Returns the literal's `value` as a `Double`, if possible.
+	public var double: Double? {
+		return value.double
+	}
+
+	/// Returns the literal's `value` as a `Float`, if possible.
+	public var float: Float? {
+		return value.float
+	}
+
+	/// Returns the literal's `value` as a `Float80`, if possible.
+	public var float80: Float80? {
+		return value.float80
+	}
+
+	/// Returns the literal's `value` as an `Int`, if possible.
+	public var int: Int? {
+		return value.int
+	}
+
+	/// Returns the literal's `value` as an `Int8`, if possible.
+	public var int8: Int8? {
+		return value.int8
+	}
+
+	/// Returns the literal's `value` as an `Int16`, if possible.
+	public var int16: Int16? {
+		return value.int16
+	}
+
+	/// Returns the literal's `value` as an `Int32`, if possible.
+	public var int32: Int32? {
+		return value.int32
+	}
+
+	/// Returns the literal's `value` as an `Int64`, if possible.
+	public var int64: Int64? {
+		return value.int64
+	}
+
+	/// Returns the literal's `value` as a `String`, if possible.
+	public var string: String? {
+		return value.string
+	}
+
+	/// Returns the literal's `value` as a `UInt`, if possible.
+	public var uInt: UInt? {
+		return value.uInt
+	}
+
+	/// Returns the literal's `value` as a `UInt8`, if possible.
+	public var uInt8: UInt8? {
+		return value.uInt8
+	}
+
+	/// Returns the literal's `value` as a `UInt16`, if possible.
+	public var uInt16: UInt16? {
+		return value.uInt16
+	}
+
+	/// Returns the literal's `value` as a `UInt32`, if possible.
+	public var uInt32: UInt32? {
+		return value.uInt32
+	}
+
+	/// Returns the literal's `value` as a `UInt64`, if possible.
+	public var uInt64: UInt64? {
+		return value.uInt64
+	}
 
 	/// The value of the literal.
 	public let value: XSDValueList
