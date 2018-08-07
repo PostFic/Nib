@@ -44,12 +44,67 @@ extension Array: BasicTypesConvertible where Element == XSDValue {
 		}
 	}
 
+	/// The `Float80` representation, if possible.
+	///
+	/// + Returns: The `float80` property of the contained `XSDValue` if this is a singleton `Array`; otherwise, `nil`.
+	public var float80: Float80? {
+		if count == 1 {
+			return self[0].float80
+		} else {
+			return nil
+		}
+	}
+
 	/// The `Int` representation, if possible.
 	///
 	/// + Returns: The `int` property of the contained `XSDValue` if this is a singleton `Array`; otherwise, `nil`.
 	public var int: Int? {
 		if count == 1 {
 			return self[0].int
+		} else {
+			return nil
+		}
+	}
+
+	/// The `Int8` representation, if possible.
+	///
+	/// + Returns: The `int8` property of the contained `XSDValue` if this is a singleton `Array`; otherwise, `nil`.
+	public var int8: Int8? {
+		if count == 1 {
+			return self[0].int8
+		} else {
+			return nil
+		}
+	}
+
+	/// The `Int16` representation, if possible.
+	///
+	/// + Returns: The `int16` property of the contained `XSDValue` if this is a singleton `Array`; otherwise, `nil`.
+	public var int16: Int16? {
+		if count == 1 {
+			return self[0].int16
+		} else {
+			return nil
+		}
+	}
+
+	/// The `Int32` representation, if possible.
+	///
+	/// + Returns: The `int32` property of the contained `XSDValue` if this is a singleton `Array`; otherwise, `nil`.
+	public var int32: Int32? {
+		if count == 1 {
+			return self[0].int32
+		} else {
+			return nil
+		}
+	}
+
+	/// The `Int64` representation, if possible.
+	///
+	/// + Returns: The `int64` property of the contained `XSDValue` if this is a singleton `Array`; otherwise, `nil`.
+	public var int64: Int64? {
+		if count == 1 {
+			return self[0].int64
 		} else {
 			return nil
 		}
@@ -80,6 +135,50 @@ extension Array: BasicTypesConvertible where Element == XSDValue {
 	public var uInt: UInt? {
 		if count == 1 {
 			return self[0].uInt
+		} else {
+			return nil
+		}
+	}
+
+	/// The `UInt8` representation, if possible.
+	///
+	/// + Returns: The `uInt8` property of the contained `XSDValue` if this is a singleton `Array`; otherwise, `nil`.
+	public var uInt8: UInt8? {
+		if count == 1 {
+			return self[0].uInt8
+		} else {
+			return nil
+		}
+	}
+
+	/// The `UInt16` representation, if possible.
+	///
+	/// + Returns: The `uInt16` property of the contained `XSDValue` if this is a singleton `Array`; otherwise, `nil`.
+	public var uInt16: UInt16? {
+		if count == 1 {
+			return self[0].uInt16
+		} else {
+			return nil
+		}
+	}
+
+	/// The `UInt32` representation, if possible.
+	///
+	/// + Returns: The `uInt32` property of the contained `XSDValue` if this is a singleton `Array`; otherwise, `nil`.
+	public var uInt32: UInt32? {
+		if count == 1 {
+			return self[0].uInt32
+		} else {
+			return nil
+		}
+	}
+
+	/// The `UInt64` representation, if possible.
+	///
+	/// + Returns: The `uInt64` property of the contained `XSDValue` if this is a singleton `Array`; otherwise, `nil`.
+	public var uInt64: UInt64? {
+		if count == 1 {
+			return self[0].uInt64
 		} else {
 			return nil
 		}

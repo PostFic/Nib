@@ -21,7 +21,7 @@ public protocol XSDDatatype {
 
 }
 
-extension XSDDatatype {
+public extension XSDDatatype {
 
 	/// Defaults to just an alias for `definition.makeLiteral()`.
 	func makeLiteral(_ representation: String) throws -> XSDLiteral {

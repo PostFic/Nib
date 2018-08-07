@@ -12,7 +12,6 @@ open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 		return nil
 	}
 
-
 	/// Converts the value to a `Double`, if possible.
 	///
 	/// Needs to be overridden by subclasses for a non-`nil` result.
@@ -27,10 +26,45 @@ open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 		return nil
 	}
 
+	/// Converts the value to a `Float80`, if possible.
+	///
+	/// Needs to be overridden by subclasses for a non-`nil` result.
+	open var float80: Float80? {
+		return nil
+	}
+
 	/// Converts the value to a `Int`, if possible.
 	///
 	/// Needs to be overridden by subclasses for a non-`nil` result.
 	open var int: Int? {
+		return nil
+	}
+
+	/// Converts the value to a `Int8`, if possible.
+	///
+	/// Needs to be overridden by subclasses for a non-`nil` result.
+	open var int8: Int8? {
+		return nil
+	}
+
+	/// Converts the value to a `Int16`, if possible.
+	///
+	/// Needs to be overridden by subclasses for a non-`nil` result.
+	open var int16: Int16? {
+		return nil
+	}
+
+	/// Converts the value to a `Int32`, if possible.
+	///
+	/// Needs to be overridden by subclasses for a non-`nil` result.
+	open var int32: Int32? {
+		return nil
+	}
+
+	/// Converts the value to a `Int64`, if possible.
+	///
+	/// Needs to be overridden by subclasses for a non-`nil` result.
+	open var int64: Int64? {
 		return nil
 	}
 
@@ -45,6 +79,34 @@ open class XSDValue: BasicTypesConvertible, Hashable, Relatable {
 	///
 	/// Needs to be overridden by subclasses for a non-`nil` result.
 	open var uInt: UInt? {
+		return nil
+	}
+
+	/// Converts the value to a `UInt8`, if possible.
+	///
+	/// Needs to be overridden by subclasses for a non-`nil` result.
+	open var uInt8: UInt8? {
+		return nil
+	}
+
+	/// Converts the value to a `UInt16`, if possible.
+	///
+	/// Needs to be overridden by subclasses for a non-`nil` result.
+	open var uInt16: UInt16? {
+		return nil
+	}
+
+	/// Converts the value to a `UInt32`, if possible.
+	///
+	/// Needs to be overridden by subclasses for a non-`nil` result.
+	open var uInt32: UInt32? {
+		return nil
+	}
+
+	/// Converts the value to a `UInt64`, if possible.
+	///
+	/// Needs to be overridden by subclasses for a non-`nil` result.
+	open var uInt64: UInt64? {
 		return nil
 	}
 
