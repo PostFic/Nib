@@ -99,7 +99,6 @@ public class XSDRegularExpression: NSRegularExpression {
 		var swiftPattern = pattern
 		replaceIn(string: &swiftPattern, "(\(unescaped)(?:[*+?]|\\{\\d+,\\d*\\}))([?+])", "$1\\\\$2")
 		replaceIn(string: &swiftPattern, "(\(unescaped)\\()\\?", "$1\\\\?")
-		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\([aAbBeEfGNQuUxXzZ0-9])", "$1$2")
 		replaceIn(string: &swiftPattern, "(\\A\\^|\\$\\z)", "\\\\$1")
 		replaceIn(string: &swiftPattern, "(\(unescaped))\\.", "$1[^\(lineChar)]")
 		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\s", "$1[\(spaceChar)]")
