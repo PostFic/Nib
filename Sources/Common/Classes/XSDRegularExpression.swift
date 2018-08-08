@@ -166,4 +166,12 @@ public class XSDRegularExpression: NSRegularExpression {
 		}
 	}
 
+	/// Tests to see if the regular expression matches the `string`.
+	public func test(_ string: String) -> Bool {
+		return firstMatch(
+			in: string,
+			range: NSMakeRange(0, (string as NSString).length)
+		) != nil
+	}
+
 }
