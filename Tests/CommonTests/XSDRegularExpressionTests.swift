@@ -120,7 +120,7 @@ final class XSDRegularExpressionTests: XCTestCase {
 
 	func testRegularExpressionReplacesSubtractions() {
 		XCTAssertEqual(
-			try! XSDRegularExpression("[A-Z]-[QZ]"),
+			try! XSDRegularExpression("[[A-Z]-[QZ]]"),
 			anchoredRegularExpression("(?:(?![QZ])[A-Z])")
 		)
 	}

@@ -5,12 +5,32 @@ fileprivate func replaceIn(string: inout String, _ pattern: String, _ template: 
 		pattern: pattern
 	).stringByReplacingMatches(
 		in: string,
-		range: NSMakeRange(0, string.count),
+		range: NSMakeRange(0, (string as NSString).length),
 		withTemplate: template
 	)
 }
 
 fileprivate let unescaped = "(?<!\\\\)(?:\\\\\\\\)*"
+fileprivate let singleChar = """
+	\\\\[nrt\\\\|\\.?*+(){}\\x2D\\x5B\\x5D\\x5E]\
+	|\
+	[^\\x5B\\x5D]
+	"""
+fileprivate let charRange = "(?:\(singleChar))-(?:\(singleChar))"
+fileprivate let charClassEsc = """
+	(?:\
+	\\\\[sSiIcCdDwW]|\
+	\\\\[Pp]\\{(?:\
+	L[ultmo]?|\
+	M[nce]?|\
+	N[dlo]?|\
+	P[cdseifo]?|\
+	Z[slp]?|\
+	S[mcko]?|\
+	C[cfon]?|\
+	Is[a-zA-Z0-9\\x2D]+\
+	)})
+	"""
 
 fileprivate let anyChar = NSRegularExpression.escapedTemplate(
 	for: "\\x00-\\x{10FFFF}"
@@ -68,7 +88,19 @@ fileprivate let wordChar = NSRegularExpression.escapedTemplate(
 /// Inherits from `NSRegularExpression` and has all the same properties and methods.
 /// Unlike normal `NSRegularExpression`s, `XSDRegularExpression`s are implicitly anchored at the head and tail.
 ///
-/// + Note: `XSDRegularExpression` uses `Foundation`s regular expression language without modification, which is more expressive than the one defined in XSD.
+/// + Note:
+/// The syntax and supported escapes for XSD Regular Expressions differs somewhat from that used by Foundation.
+/// `XSDRegularExpression` does its best to bridge this divide, and is able to support all of the regular expressions used as `pattern`s for the XSD base datatypes.
+/// However, there is a chance that exceedingly complicated regular expressions might behave in an unexpected manner.
+///
+/// + Note:
+/// Foundation does not support XSD's `\p{Is…}` syntax, which will be passed through unmodified.
+/// Using this syntax will likely result in an error.
+///
+/// + Note:
+/// `XSDRegularExpression` is not sophisticated enough to completely parse the given pattern; this task is left to `NSRegularExpression` and Foundation.
+/// However, Foundation will likely accept some regular expressions which would be in error under XSD syntax, because its rules regarding atoms and metacharacters are less restrictive.
+/// Be sure to double-check that your regular expressions meet the syntax requirements of XSD.
 public class XSDRegularExpression: NSRegularExpression {
 
 	/// Creates the regular expression.
@@ -79,7 +111,7 @@ public class XSDRegularExpression: NSRegularExpression {
 				pattern: "[^\\x{1}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{10FFFF}]"
 			).firstMatch(
 				in: pattern,
-				range: NSMakeRange(0, pattern.count)
+				range: NSMakeRange(0, (pattern as NSString).length)
 			) == nil
 		else {
 			throw NibError.invalidCharacterInRegularExpression
@@ -87,18 +119,19 @@ public class XSDRegularExpression: NSRegularExpression {
 
 		guard
 			try! NSRegularExpression(
-				pattern: "\(unescaped)\\\\[^nrt\\\\|.?*+(){}\\x2D\\x5B\\x5D\\x5EpPsSiIcCdDwW]"
+				pattern: "\(unescaped)\\\\[^nrt\\\\|\\.?*+(){}\\x2D\\x5B\\x5D\\x5EpPsSiIcCdDwW]"
 			).firstMatch(
 				in: pattern,
-				range: NSMakeRange(0, pattern.count)
+				range: NSMakeRange(0, (pattern as NSString).length)
 			) == nil
 		else {
 			throw NibError.invalidEscapeInRegularExpression
 		}
 
 		var swiftPattern = pattern
-		replaceIn(string: &swiftPattern, "(\(unescaped)(?:[*+?]|\\{\\d+,\\d*\\}))([?+])", "$1\\\\$2")
 		replaceIn(string: &swiftPattern, "(\(unescaped)\\()\\?", "$1\\\\?")
+		replaceIn(string: &swiftPattern, "(\(unescaped))\\[(\\^?(?:\(singleChar)|\(charRange)|\(charClassEsc))+)-\\[(.+)]]", "$1(?:(?![$3])[$2])")
+		replaceIn(string: &swiftPattern, "(\(unescaped)(?:[*+?]|\\{\\d+,\\d*\\}))([?+])", "$1\\\\$2")
 		replaceIn(string: &swiftPattern, "(\\A\\^|\\$\\z)", "\\\\$1")
 		replaceIn(string: &swiftPattern, "(\(unescaped))\\.", "$1[^\(lineChar)]")
 		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\s", "$1[\(spaceChar)]")
@@ -109,7 +142,6 @@ public class XSDRegularExpression: NSRegularExpression {
 		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\C", "$1[^\(char)]")
 		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\w", "$1(?:(?![\(wordChar)])[\(anyChar)])")
 		replaceIn(string: &swiftPattern, "(\(unescaped))\\\\W", "$1[\(wordChar)]")
-		replaceIn(string: &swiftPattern, "(\(unescaped))\\[((?:[^\\]]|\(unescaped)\\\\])*\(unescaped))\\]-\\[((?:[^\\]]|\(unescaped)\\\\])*\(unescaped))\\]", "$1(?:(?![$3])[$2])")
 
 		try super.init(pattern: "^\(swiftPattern)$")
 	}
