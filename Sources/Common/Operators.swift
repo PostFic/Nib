@@ -42,6 +42,3 @@ infix operator ⟡̸: ComparisonPrecedence
 
 /// Cross-converting.
 infix operator ⤱: CastingPrecedence
-
-/// Validation.
-postfix operator ✓
