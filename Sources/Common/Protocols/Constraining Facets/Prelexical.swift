@@ -1,4 +1,4 @@
-public protocol Prelexical: Constraint {
+public protocol Prelexical {
 
 	func 🆗(_: String) throws -> String
 

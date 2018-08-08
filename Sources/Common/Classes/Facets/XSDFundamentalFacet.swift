@@ -1,1 +1,0 @@
-typealias XSDFundamentalFacet = XSDFacet & Fundamental

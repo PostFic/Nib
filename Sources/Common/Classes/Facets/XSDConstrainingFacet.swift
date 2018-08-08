@@ -1,1 +1,0 @@
-typealias XSDConstrainingFacet = XSDFacet & Constraint
