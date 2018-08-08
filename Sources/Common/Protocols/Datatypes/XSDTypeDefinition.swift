@@ -10,7 +10,7 @@ public protocol XSDTypeDefinition: AnyObject {
 	var targetNamespace: XSDLiteral? { get }
 
 	/// Prevents XSD derivations in the given ways.
-	var `final`: XSDConstructionMethods { get }
+	var `final`: Set<XSDConstructionMethod> { get }
 
 	/// For unnamed datatypes, parent datatype in relation to which the type was declared.
 	var context: XSDTypeDefinition? { get }

@@ -1,6 +1,6 @@
 public struct XSDFundamentalFacets: Hashable {
 
-	var contents: XSDFacets
+	var contents: Set<XSDFacet>
 
 	public var count: Int {
 		return contents.count
@@ -10,7 +10,7 @@ public struct XSDFundamentalFacets: Hashable {
 		return contents.isEmpty
 	}
 
-	public var members: XSDFacets {
+	public var members: Set<XSDFacet> {
 		return contents
 	}
 
@@ -19,7 +19,7 @@ public struct XSDFundamentalFacets: Hashable {
 	}
 
 	public init(minimumCapacity: Int) {
-		contents = XSDFacets(minimumCapacity: minimumCapacity)
+		contents = Set<XSDFacet>(minimumCapacity: minimumCapacity)
 	}
 
 	public init<Facet: XSDFundamentalFacet>(
@@ -29,7 +29,7 @@ public struct XSDFundamentalFacets: Hashable {
 		define(facets: facets)
 	}
 
-	private init(with contents: XSDFacets) {
+	private init(with contents: Set<XSDFacet>) {
 		self.contents = contents
 	}
 
@@ -81,7 +81,7 @@ extension XSDFundamentalFacets: Collection {
 
 	public typealias Element = XSDFundamentalFacet
 
-	public typealias Index = XSDFacets.Index
+	public typealias Index = Set<XSDFacet>.Index
 
 	public var endIndex: Index {
 		return contents.endIndex
