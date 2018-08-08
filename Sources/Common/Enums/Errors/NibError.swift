@@ -4,9 +4,6 @@ public enum NibError: Error {
 	/// For use when attempting to constrain a facet with another, non-applicable facet.
 	case facetConstraintMismatch
 
-	/// The classes `XSDConstrainingFacet` and `XSDFundamentalFacet` must not be used directly.
-	case facetMustBeSubclassed
-
 	/// Only XML characters are allowed in `XSDRegularExpression`s.
 	case invalidCharacterInRegularExpression
 
