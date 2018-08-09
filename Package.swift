@@ -7,7 +7,7 @@ let package = Package(
 	name: "Nib",
 
 	products: [
-		.library(name: "Nib", targets: ["Common"/*, "Datatypes"*/]),
+		.library(name: "Nib", targets: ["XSD"]),
 	],
 
 	dependencies: [
@@ -16,15 +16,9 @@ let package = Package(
 
 	targets: [
 		.target(name: "Common", dependencies: []),
-		/*
-		.target(name: "Values", dependencies: ["Common"]),
-		.target(name: "Datatypes", dependencies: ["Values"])
-		*/
+		.target(name: "XSD", dependencies: ["Common"]),
 		.testTarget(name: "CommonTests", dependencies: ["Common"]),
-		/*
-		.testTarget(name: "ValueTests", dependencies: ["Values"]),
-		.testTarget(name: "DatatypeTests", dependencies: ["Datatypes"]),
-		*/
+		//.testTarget(name: "XSDTests", dependencies: ["XSD"]),
 	],
 
 	swiftLanguageVersions: [.v4_2]
