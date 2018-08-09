@@ -1,5 +1,5 @@
 import XCTest
-@testable import Common
+import Common
 
 func anchoredRegularExpression(_ pattern: String) -> NSRegularExpression {
 	return try! NSRegularExpression(pattern: "^\(pattern)$")
@@ -120,7 +120,7 @@ final class XSDRegularExpressionTests: XCTestCase {
 
 	func testRegularExpressionReplacesSubtractions() {
 		XCTAssertEqual(
-			try! XSDRegularExpression("[[A-Z]-[QZ]]"),
+			try! XSDRegularExpression("[A-Z-[QZ]]"),
 			anchoredRegularExpression("(?:(?![QZ])[A-Z])")
 		)
 	}

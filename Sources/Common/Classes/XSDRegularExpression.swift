@@ -29,7 +29,7 @@ fileprivate let charClassEsc = """
 	S[mcko]?|\
 	C[cfon]?|\
 	Is[a-zA-Z0-9\\x2D]+\
-	)})
+	)\\})
 	"""
 
 fileprivate let anyChar = NSRegularExpression.escapedTemplate(
