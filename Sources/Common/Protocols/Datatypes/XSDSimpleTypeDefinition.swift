@@ -1,4 +1,4 @@
-public protocol XSDSimpleTypeDefinition: XSDDatatype, XSDTypeDefinition {
+public protocol XSDSimpleTypeDefinition: XSDTypeDefinition, XSDDatatype {
 
 	/// The base type which this type was derived from.
 	var baseTypeDefinition: XSDTypeDefinition { get }

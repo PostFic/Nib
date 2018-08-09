@@ -14,6 +14,18 @@ public struct XSDConstrainingFacets: Hashable {
 		return contents
 	}
 
+	public var prelexical: XSDConstrainingFacets {
+		return XSDConstrainingFacets(with: contents.filter { $0 is XSDPrelexicalFacet })
+	}
+
+	public var lexical: XSDConstrainingFacets {
+		return XSDConstrainingFacets(with: contents.filter { $0 is XSDLexicalFacet })
+	}
+
+	public var valuebased: XSDConstrainingFacets {
+		return XSDConstrainingFacets(with: contents.filter { $0 is XSDValuebasedFacet })
+	}
+
 	public init() {
 		contents = []
 	}

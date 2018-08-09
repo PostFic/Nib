@@ -10,7 +10,7 @@ public enum NibError: Error {
 	/// Undefined escape sequences are not allowed in XSD Regular Expressions.
 	case invalidEscapeInRegularExpression
 
-	/// The provided `representation` does not exist in the lexical space for the type.
+	/// The provided `literal` does not exist in the lexical space for the type.
 	case notInLexicalSpace
 
 }
