@@ -2,7 +2,7 @@ import Common
 
 /// An `xsd:NCName`.
 ///
-/// This instance is a "foggy" approximation of `🌉NCName`, made to get around the fact that `xsd:NCName`s are required inside of the definition for `🌉NCName` itself.=
+/// This instance is a "foggy" approximation of `🌉NCName`, made to get around the fact that `xsd:NCName`s are required inside of the definition for `🌉NCName` itself.
 let 🌁NCName = try! SimpleTypeDefinition.🌁🌟Ｓ<🌌String>(
 	approximating: .NCName,
 	name: "NCName",

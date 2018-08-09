@@ -192,87 +192,87 @@ public enum XSD: String, XSDDatatype, CrossConvertibleToLiteral, CrossConvertibl
 			return 🌉anySimpleType
 		/*
 		case .anyAtomicType:
-			return anyAtomicType
+			return 🌉anyAtomicType
 		case .string:
-			return string
+			return 🌉string
 		case .boolean:
-			return boolean
+			return 🌉boolean
 		case .float:
-			return float
+			return 🌉float
 		case .double:
-			return double
+			return 🌉double
 		case .decimal:
-			return decimal
+			return 🌉decimal
 		case .dateTime:
-			return dateTime
+			return 🌉dateTime
 		case .duration:
-			return duration
+			return 🌉duration
 		case .time:
-			return time
+			return 🌉time
 		case .date:
-			return date
+			return 🌉date
 		case .gMonth:
-			return gMonth
+			return 🌉gMonth
 		case .gMonthDay:
-			return gMonthDay
+			return 🌉gMonthDay
 		case .gDay:
-			return gDay
+			return 🌉gDay
 		case .gYear:
-			return gYear
+			return 🌉gYear
 		case .gYearMonth:
-			return gYearMonth
+			return 🌉gYearMonth
 		case .hexBinary:
-			return hexBinary
+			return 🌉hexBinary
 		case .base64Binary:
-			return base64Binary
+			return 🌉base64Binary
 		case .anyURI:
-			return anyURI
+			return 🌉anyURI
 		case .normalizedString:
-			return normalizedString
+			return 🌉normalizedString
 		case .token:
-			return token
+			return 🌉token
 		case .language:
-			return language
+			return 🌉language
 		case .NMTOKEN:
-			return NMTOKEN
+			return 🌉NMTOKEN
 		case .NMTOKENS:
-			return NMTOKENS
+			return 🌉NMTOKENS
 		case .Name:
-			return Name
+			return 🌉Name
 		case .NCName:
-			return NCName
+			return 🌉NCName
 		case .integer:
-			return integer
+			return 🌉integer
 		case .nonPositiveInteger:
-			return nonPositiveInteger
+			return 🌉nonPositiveInteger
 		case .negativeInteger:
-			return negativeInteger
+			return 🌉negativeInteger
 		case .long:
-			return long
+			return 🌉long
 		case .int:
-			return int
+			return 🌉int
 		case .short:
-			return short
+			return 🌉short
 		case .byte:
-			return byte
+			return 🌉byte
 		case .nonNegativeInteger:
-			return nonNegativeInteger
+			return 🌉nonNegativeInteger
 		case .unsignedLong:
-			return unsignedLong
+			return 🌉unsignedLong
 		case .unsignedInt:
-			return unsignedInt
+			return 🌉unsignedInt
 		case .unsignedShort:
-			return unsignedShort
+			return 🌉unsignedShort
 		case .unsignedByte:
-			return unsignedByte
+			return 🌉unsignedByte
 		case .positiveInteger:
-			return positiveInteger
+			return 🌉positiveInteger
 		case .yearMonthDuration:
-			return yearMonthDuration
+			return 🌉yearMonthDuration
 		case .dayTimeDuration:
-			return dayTimeDuration
+			return 🌉dayTimeDuration
 		case .dateTimeStamp:
-			return dateTimeStamp
+			return 🌉dateTimeStamp
 		*/default: return 🌉anySimpleType
 		}
 	}
@@ -284,8 +284,8 @@ public enum XSD: String, XSDDatatype, CrossConvertibleToLiteral, CrossConvertibl
 		switch self {
 		case
 			.string,
-		/*
 			.boolean,
+		/*
 			.float,
 			.double,
 			.decimal,
