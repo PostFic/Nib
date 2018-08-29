@@ -1,3 +1,5 @@
+import Foundation
+
 /// An *untyped* XSD atomic value.
 ///
 /// `XSDAtomicValue`s are "untyped" in the sense that they are not associated with any particular XSD datatype, but rather represent the set of value spaces, lexical spaces, functions, relations, and procedures which typed literals draw upon.
@@ -9,6 +11,13 @@ open class XSDAtomicValue: BasicTypesConvertible, Hashable, Relatable {
 	///
 	/// Needs to be overridden by subclasses for a non-`nil` result.
 	open var bool: Bool? {
+		return nil
+	}
+
+	/// Converts the value to a `Decimal`, if possible.
+	///
+	/// Needs to be overridden by subclasses for a non-`nil` result.
+	open var decimal: Decimal? {
 		return nil
 	}
 

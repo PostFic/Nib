@@ -11,6 +11,17 @@ Intended for use with RDF tools and libraries, but conceivably could be utilized
 
 Please see the [Docs](Docs/) directory for general and usage information.
 
+##  Requirements  ##
+
+Requires Foundation; in particular, the following classes:
+
++ `Decimal`
++ `NumberFormatter`
++ `NSDecimalNumber`
++ `NSRegularExpression`
+
+[`swift-corelibs-foundation`](https://github.com/apple/swift-corelibs-foundation) should provide sufficient compatibility for non-Apple platforms.
+
 ##  License  ##
 
 Copyright ©2018 Gô Shoemake.

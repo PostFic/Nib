@@ -1,3 +1,5 @@
+import Foundation
+
 /// An array of `XSDAtomicValue`s.
 public typealias XSDValue = [XSDAtomicValue]
 
@@ -20,6 +22,16 @@ where Element == XSDAtomicValue {
 		}
 	}
 
+	/// The `Decimal` representation, if possible.
+	///
+	/// + Returns: The `decimal` property of the contained `XSDAtomicValue` if this is a singleton `Array`; otherwise, `nil`.
+	public var decimal: Decimal? {
+		if count == 1 {
+			return self[0].decimal
+		} else {
+			return nil
+		}
+	}
 
 	/// The `Double` representation, if possible.
 	///

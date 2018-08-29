@@ -1,3 +1,5 @@
+import Foundation
+
 /// A typed XSD literal.
 public struct XSDLiteral: BasicTypesConvertible, CustomStringConvertible, Hashable, Relatable {
 
@@ -8,6 +10,11 @@ public struct XSDLiteral: BasicTypesConvertible, CustomStringConvertible, Hashab
 
 	/// The `XSDDatatype` for the literal.
 	public let datatype: XSDSimpleTypeDefinition
+
+	/// Returns the literal's `value` as a `Decimal`, if possible.
+	public var decimal: Decimal? {
+		return value?.decimal
+	}
 
 	/// The lexical representation of the literal.
 	///
