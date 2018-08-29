@@ -58,16 +58,17 @@ public struct XSDConstrainingFacets: Hashable {
 	public mutating func constrain(
 		with constraint: XSDConstrainingFacet
 	) throws {
-		try constraint.canConstrain(self)
-		contents.update(with: constraint as XSDFacet)
+		try unsafeConstrain(with: constraint)
+		try validate()
 	}
 
 	public mutating func constrain<Facets: Collection>(
 		with constraints: Facets
 	) throws where Facets.Element: XSDConstrainingFacet {
 		for constraint in constraints {
-			try constrain(with: constraint)
+			try unsafeConstrain(with: constraint)
 		}
+		try validate()
 	}
 
 	public func constrained(
@@ -82,14 +83,25 @@ public struct XSDConstrainingFacets: Hashable {
 		with constraints: Facets
 	) throws -> XSDConstrainingFacets where Facets.Element: XSDConstrainingFacet {
 		var result = XSDConstrainingFacets.init(with: contents)
-		for constraint in constraints {
-			try result.constrain(with: constraint)
-		}
+		try result.constrain(with: constraints)
 		return result
 	}
 
 	public mutating func reserveCapacity(_ cap: Int) {
 		contents.reserveCapacity(cap)
+	}
+
+	private mutating func unsafeConstrain(
+		with constraint: XSDConstrainingFacet
+	) throws {
+		try constraint.canConstrain(self)
+		contents.update(with: constraint as XSDFacet)
+	}
+
+	private func validate() throws {
+		for constraint in self {
+			try constraint.canConstrain(self)
+		}
 	}
 
 }
