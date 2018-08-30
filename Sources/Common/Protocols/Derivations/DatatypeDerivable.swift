@@ -1,4 +1,4 @@
-public protocol Fundamental {
+public protocol DatatypeDerivable {
 
 	init(
 		baseTypeDefinition: XSDSimpleTypeDefinition,

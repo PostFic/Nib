@@ -1,1 +1,1 @@
-public typealias XSDFundamentalFacet = XSDFacet & Fundamental
+public typealias XSDFundamentalFacet = XSDFacet & DatatypeDerivable
