@@ -120,13 +120,11 @@ open class XSDAtomicValue: BasicTypesConvertible, Hashable, Relatable {
 	}
 
 	/// Creates a new instance.
-	public init() throws {}
+	public init() {}
 
 	/// Creates a new instance from the given `representation`.
-	public required convenience init(
-		_ literal: String
-	) throws {
-		try self.init()
+	public required convenience init(_ literal: String) throws {
+		self.init()
 	}
 
 	/// Hashes the instance.
@@ -162,6 +160,11 @@ open class XSDAtomicValue: BasicTypesConvertible, Hashable, Relatable {
 	/// Needs to be overridden by subclasses for a non-`false` value.
 	open func lesser(than other: XSDAtomicValue) -> Bool {
 		return false
+	}
+
+	/// The fundamental facets for the value space of the atomic type.
+	open class var fundamentalFacets: XSDFundamentalFacets {
+		return []
 	}
 
 	/// The Swift less-than comparison.

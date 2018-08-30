@@ -66,6 +66,17 @@ where Element == XSDAtomicValue {
 		}
 	}
 
+	/// The fundamental facets for the value space of the contained `XSDAtomicValue` if this is a singleton `Array`; otherwise, `nil`.
+	///
+	/// + Note: This is not the same as the fundamental facets for the value's *type*.
+	public var fundamentalFacets: XSDFundamentalFacets? {
+		if count == 1 {
+			return type(of: self[0]).fundamentalFacets
+		} else {
+			return nil
+		}
+	}
+
 	/// The `Int` representation, if possible.
 	///
 	/// + Returns: The `int` property of the contained `XSDAtomicValue` if this is a singleton `Array`; otherwise, `nil`.

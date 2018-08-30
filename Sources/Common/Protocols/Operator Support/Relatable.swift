@@ -37,7 +37,7 @@ public protocol Relatable {
 	/// Greater-than, for the purposes of XSD.
 	///
 	/// This is not the same as Swift's `>`.
-	/// In particular, Swift's `<` typically implies ordering.
+	/// In particular, Swift's `>` typically implies ordering.
 	static func ≻(lhs: Self, rhs: Self) -> Bool
 
 
