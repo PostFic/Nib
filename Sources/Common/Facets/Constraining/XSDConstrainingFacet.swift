@@ -8,7 +8,7 @@ open class XSDConstrainingFacet: XSDFacet, Equatable {
 		guard let baseFacet = facets[name] else {
 			return
 		}
-		guard (baseFacet as? type(of: self)) != nil else {
+		guard baseFacet is type(of: self) else {
 			throw NibError.facetConstraintMismatch
 		}
 	}
