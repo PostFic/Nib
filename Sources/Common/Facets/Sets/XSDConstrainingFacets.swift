@@ -45,9 +45,9 @@ public struct XSDConstrainingFacets: Hashable {
 		self.contents = contents
 	}
 
-	public subscript(name: String) -> XSDConstrainingFacet? {
+	public subscript(_ 📛: String) -> XSDConstrainingFacet? {
 		if let index = contents.firstIndex(
-			of: XSDFacet(📛: name)
+			of: XSDFacet(📛: 📛)
 		) {
 			return (contents[index] as! XSDConstrainingFacet)
 		} else {

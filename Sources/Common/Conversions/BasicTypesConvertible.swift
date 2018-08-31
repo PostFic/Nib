@@ -8,6 +8,9 @@ public protocol BasicTypesConvertible {
 	/// The instance as a `Bool`, if possible.
 	var bool: Bool? { get }
 
+	/// The instance as `Data`, if possible.
+	var data: Data? { get }
+
 	/// The instance as a `Decimal`, if possible.
 	var decimal: Decimal? { get }
 
@@ -52,5 +55,107 @@ public protocol BasicTypesConvertible {
 
 	/// The instance as a `UInt64`, if possible.
 	var uInt64: UInt64? { get }
+
+}
+
+extension BasicTypesConvertible {
+
+	var decimal: Decimal? {
+		guard let double = self.double else {
+			return nil
+		}
+		return Decimal(double)
+	}
+
+	var double: Double? {
+		guard let int = self.int else {
+			return nil
+		}
+		return Double(int)
+	}
+
+	var float: Float? {
+		guard let double = self.double else {
+			return nil
+		}
+		return Float(exactly: double)
+	}
+
+	var float80: Float80? {
+		guard let double = self.double else {
+			return nil
+		}
+		return Float80(double)
+	}
+
+	var int: Int? {
+		guard let bool = self.bool else {
+			return nil
+		}
+		return bool ? 1 : 0
+	}
+
+	var int8: Int8? {
+		guard let int = self.int else {
+			return nil
+		}
+		return Int8(exactly: int)
+	}
+
+	var int16: Int16? {
+		guard let int = self.int else {
+			return nil
+		}
+		return Int16(exactly: int)
+	}
+
+	var int32: Int32? {
+		guard let int = self.int else {
+			return nil
+		}
+		return Int32(exactly: int)
+	}
+
+	var int64: Int64? {
+		guard let int = self.int else {
+			return nil
+		}
+		return Int64(exactly: int)
+	}
+
+	var uInt: UInt? {
+		guard let int = self.int else {
+			return nil
+		}
+		return UInt(exactly: int)
+	}
+
+	var uInt8: UInt8? {
+		guard let uInt = self.uInt else {
+			return nil
+		}
+		return UInt8(exactly: uInt)
+	}
+
+	var uInt16: UInt16? {
+		guard let uInt = self.uInt else {
+			return nil
+		}
+		return UInt16(exactly: uInt)
+	}
+
+	var uInt32: UInt32? {
+		guard let uInt = self.uInt else {
+			return nil
+		}
+		return UInt32(exactly: uInt)
+	}
+
+	var uInt64: UInt64? {
+		guard let uInt = self.uInt else {
+			return nil
+		}
+		return UInt64(exactly: uInt)
+	}
 
 }

@@ -1,9 +1,17 @@
-open class XSDFacet {
+open class XSDFacet: Equivocal {
 
 	public let name: String
 
 	public init(📛: String) {
 		name = 📛
+	}
+
+	open func equivalent(to other: XSDFacet) -> Bool {
+		return self === other
+	}
+
+	public static func ≍(lhs: XSDFacet, rhs: XSDFacet) -> Bool {
+		return lhs.equivalent(to: rhs) && rhs.equivalent(to: lhs)
 	}
 
 }

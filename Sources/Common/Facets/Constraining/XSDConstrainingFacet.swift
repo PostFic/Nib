@@ -1,24 +1,16 @@
-open class XSDConstrainingFacet: XSDFacet, Equatable {
+open class XSDConstrainingFacet: XSDFacet {
 
-	public init(📛: String) {
-		super.init(📛)
+	override public init(📛: String) {
+		super.init(📛: 📛)
 	}
 
 	open func canConstrain(_ facets: XSDConstrainingFacets) throws {
 		guard let baseFacet = facets[name] else {
 			return
 		}
-		guard baseFacet is type(of: self) else {
+		guard type(of: baseFacet) == type(of: self) else {
 			throw NibError.facetConstraintMismatch
 		}
-	}
-
-	open func equals(_ other: XSDConstrainingFacet) -> Bool {
-		return self === other
-	}
-
-	public static func ==(lhs: XSDConstrainingFacet, rhs: XSDConstrainingFacet) -> Bool {
-		return lhs.equals(rhs) && rhs.equals(lhs)
 	}
 
 }

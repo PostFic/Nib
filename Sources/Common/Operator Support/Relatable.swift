@@ -1,27 +1,7 @@
 /// Support for the set of relations defined by XSD.
-public protocol Relatable {
-
-	/// Identity, for the purposes of XSD.
-	///
-	/// This is not the same as Swift's `===`.
-	/// Instances may be different and yet still identical.
-	static func ≡(lhs: Self, rhs: Self) -> Bool
-
-	/// Not-identity, for the purposes of XSD.
-	///
-	/// This is not the same as Swift's `!==`.
-	static func ≢(lhs: Self, rhs: Self) -> Bool
-
-	/// Equality, for the purposes of XSD.
-	///
-	/// This is not the same as Swift's `==`.
-	/// Two different instances might have equal values (`≍`) but otherwise be inequal (`!=`).
-	static func ≍(lhs: Self, rhs: Self) -> Bool
-
-	/// Not-equality, for the purposes of XSD.
-	///
-	/// This is not the same as Swift's `!=`.
-	static func ≭(lhs: Self, rhs: Self) -> Bool
+///
+/// + Note: The relations defined here do not imply, and are not implied by, Swift's relational operators.
+public protocol Relatable: Identifiable, Equivocal {
 
 	/// Less-than, for the purposes of XSD.
 	///
@@ -86,20 +66,7 @@ public protocol Relatable {
 
 }
 
-/*
-Provides the default implementations for the XSD relations.
-*/
 public extension Relatable {
-
-	/// Inverses the result of the identity relation.
-	static func ≢(lhs: Self, rhs: Self) -> Bool {
-		return !(lhs ≡ rhs)
-	}
-
-	/// Inverses the result of the equality relation.
-	static func ≭(lhs: Self, rhs: Self) -> Bool {
-		return !(lhs ≍ rhs)
-	}
 
 	/// Inverses the result of the less-than relation.
 	static func ⊀(lhs: Self, rhs: Self) -> Bool {

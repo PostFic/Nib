@@ -8,6 +8,11 @@ public struct XSDLiteral: BasicTypesConvertible, CustomStringConvertible, Hashab
 		return value?.bool
 	}
 
+	/// Returns the literal's `value` as `Data`, if possible.
+	public var data: Data? {
+		return value?.data
+	}
+
 	/// The `XSDDatatype` for the literal.
 	public let datatype: XSDSimpleTypeDefinition
 

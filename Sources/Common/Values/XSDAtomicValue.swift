@@ -14,6 +14,13 @@ open class XSDAtomicValue: BasicTypesConvertible, Hashable, Relatable {
 		return nil
 	}
 
+	/// Converts the value to `Data`, if possible.
+	///
+	/// Needs to be overridden by subclasses for a non-`nil` result.
+	open var data: Data? {
+		return nil
+	}
+
 	/// Converts the value to a `Decimal`, if possible.
 	///
 	/// Needs to be overridden by subclasses for a non-`nil` result.
@@ -162,11 +169,6 @@ open class XSDAtomicValue: BasicTypesConvertible, Hashable, Relatable {
 		return false
 	}
 
-	/// The fundamental facets for the value space of the atomic type.
-	open class var fundamentalFacets: XSDFundamentalFacets {
-		return []
-	}
-
 	/// The Swift less-than comparison.
 	///
 	/// This is defined so that implementations which are `Comparable` can simply declare the protocol without having to do any extra work.
@@ -180,14 +182,6 @@ open class XSDAtomicValue: BasicTypesConvertible, Hashable, Relatable {
 	/// For `XSDValue`s, this is the same as the XSD equality relation.
 	public static func ==(lhs: XSDAtomicValue, rhs: XSDAtomicValue) -> Bool {
 		return lhs ≍ rhs
-	}
-
-	/// The Swift greater-than comparison.
-	///
-	/// This is defined so that implementations which are `Comparable` can simply declare the protocol without having to do any extra work.
-	/// However, it does not on its own imply a strict ordering.
-	public static func >(lhs: XSDAtomicValue, rhs: XSDAtomicValue) -> Bool {
-		return lhs ≻ rhs
 	}
 
 	/// The XSD identity relation.

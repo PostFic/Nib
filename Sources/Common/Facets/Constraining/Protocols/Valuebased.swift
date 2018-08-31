@@ -1,5 +1,5 @@
 public protocol Valuebased {
 
-	func 🆗(_: XSDValue) throws
+	func 🆗(_: XSDValue, as: XSDDatatype) throws
 
 }

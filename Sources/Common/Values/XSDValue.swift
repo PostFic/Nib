@@ -8,6 +8,8 @@ Extends `XSDValue` to be `BasicTypeConvertible` and `Relatable`.
 */
 extension Array:
 	BasicTypesConvertible,
+	Identifiable,
+	Equivocal,
 	Relatable
 where Element == XSDAtomicValue {
 
@@ -17,6 +19,17 @@ where Element == XSDAtomicValue {
 	public var bool: Bool? {
 		if count == 1 {
 			return self[0].bool
+		} else {
+			return nil
+		}
+	}
+
+	/// The `Data` representation, if possible.
+	///
+	/// + Returns: The `data` property of the contained `XSDAtomicValue` if this is a singleton `Array`; otherwise, `nil`.
+	public var data: Data? {
+		if count == 1 {
+			return self[0].data
 		} else {
 			return nil
 		}
@@ -61,17 +74,6 @@ where Element == XSDAtomicValue {
 	public var float80: Float80? {
 		if count == 1 {
 			return self[0].float80
-		} else {
-			return nil
-		}
-	}
-
-	/// The fundamental facets for the value space of the contained `XSDAtomicValue` if this is a singleton `Array`; otherwise, `nil`.
-	///
-	/// + Note: This is not the same as the fundamental facets for the value's *type*.
-	public var fundamentalFacets: XSDFundamentalFacets? {
-		if count == 1 {
-			return type(of: self[0]).fundamentalFacets
 		} else {
 			return nil
 		}

@@ -33,9 +33,9 @@ public struct XSDFundamentalFacets: Hashable {
 		self.contents = contents
 	}
 
-	public subscript(name: String) -> XSDFundamentalFacet? {
+	public subscript(_ 📛: String) -> XSDFundamentalFacet? {
 		if let index = contents.firstIndex(
-			of: XSDFacet(📛: name)
+			of: XSDFacet(📛: 📛)
 		) {
 			return (contents[index] as! XSDFundamentalFacet)
 		} else {
