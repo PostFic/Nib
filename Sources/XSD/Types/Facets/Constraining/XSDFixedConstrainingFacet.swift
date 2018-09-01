@@ -1,5 +1,3 @@
-import Common
-
 open class XSDFixedConstrainingFacet: XSDConstrainingFacet {
 
 	public let fixed: XSDValue

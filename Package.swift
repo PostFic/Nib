@@ -15,10 +15,8 @@ let package = Package(
 	],
 
 	targets: [
-		.target(name: "Common", dependencies: []),
-		.target(name: "XSD", dependencies: ["Common"]),
-		.testTarget(name: "CommonTests", dependencies: ["Common"]),
-		//.testTarget(name: "XSDTests", dependencies: ["XSD"]),
+		.target(name: "XSD", dependencies: []),
+		.testTarget(name: "XSDTests", dependencies: ["XSD"]),
 	],
 
 	swiftLanguageVersions: [.v4_2]

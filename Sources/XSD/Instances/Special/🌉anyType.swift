@@ -1,4 +1,1 @@
-let 🌉anyType = try! TypeDefinition(
-	name: "anyType",
-	targetNamespace: xsdTargetNamespace
-)
+let 🌉anyType = XSDTypeDefinition()

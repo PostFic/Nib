@@ -1,5 +1,3 @@
-import Common
-
 public extension XSD.ConstrainingFacet {
 
 	final class MinLength: XSDFixedValuebasedFacet, XSDAnnotated {

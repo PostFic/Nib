@@ -15,12 +15,24 @@ Please see the [Docs](Docs/) directory for general and usage information.
 
 Requires Foundation; in particular, the following classes:
 
++ `Data`
 + `Decimal`
-+ `NumberFormatter`
 + `NSDecimalNumber`
 + `NSRegularExpression`
++ `NumberFormatter`
 
 [`swift-corelibs-foundation`](https://github.com/apple/swift-corelibs-foundation) should provide sufficient compatibility for non-Apple platforms.
+
+##  Limitations  ##
+
+The following aspects of XSD are not fully supported:
+
++ The following datatypes:
++ The following properties:
+    + `annotations`
+    + `context`
++ The following facets:
+    + `Assertions`
 
 ##  License  ##
 

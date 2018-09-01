@@ -1,5 +1,3 @@
-import Common
-
 public extension XSD.FundamentalFacet {
 
 	final class Bounded: XSDFundamentalFacet, XSDAnnotated {

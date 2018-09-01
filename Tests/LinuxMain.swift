@@ -1,8 +1,8 @@
 import XCTest
 
-import CommonTests
+import XSDTests
 
 var tests = [XCTestCaseEntry]()
-tests += CommonTests.__allTests()
+tests += XSDTests.__allTests()
 
 XCTMain(tests)
