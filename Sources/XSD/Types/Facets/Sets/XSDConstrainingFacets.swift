@@ -149,10 +149,11 @@ extension XSDConstrainingFacets: Collection {
 
 extension XSDConstrainingFacets: ExpressibleByArrayLiteral {
 
-	public init(arrayLiteral facets: XSDConstrainingFacet...) {
-		self.init(minimumCapacity: facets.count)
-		for facet in facets {
-			try! constrain(with: facet)
+	public init(arrayLiteral constraints: XSDConstrainingFacet?...) {
+		let theConstraints = constraints.filter { $0 != nil }
+		self.init(minimumCapacity: theConstraints.count)
+		for constraint in theConstraints {
+			try! constrain(with: constraint!)
 		}
 	}
 

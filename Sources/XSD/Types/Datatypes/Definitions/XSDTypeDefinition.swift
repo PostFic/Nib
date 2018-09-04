@@ -45,7 +45,7 @@ open class XSDTypeDefinition: XSDAnnotated {
 		final: Set<ConstructionMethod> = []
 	) throws {
 		self.name = try name☆XSD.NCName
-		self.targetNamespace = try targetNamespace ?☆ XSD.anyURI
+		self.targetNamespace = try targetNamespace?☆XSD.anyURI
 		self.final = `final`
 	}
 

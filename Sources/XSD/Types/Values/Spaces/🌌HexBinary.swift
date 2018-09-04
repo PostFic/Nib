@@ -15,14 +15,17 @@ class 🌌HexBinary: 🌌Value, CustomStringConvertible {
 	}
 
 	/// Creates a new instance from the given `representation`.
-	required init(_ representation: String) throws {
+	required init<StringType: StringProtocol>(
+		_ representation: StringType
+	) throws {
+		description = String(representation)
 		guard
-			try! XSDRegularExpression("([0-9a-fA-F]{2})*").test(representation)
+			try! XSDRegularExpression("([0-9a-fA-F]{2})*").test(description)
 		else {
 			throw XSD.ValidationRuleError.datatypeValid
 		}
-		var value = Data(capacity: representation.count / 2)
-		var rest = Substring(representation)
+		var value = Data(capacity: description.count / 2)
+		var rest = Substring(description)
 		while rest.count > 0 {
 			let byteHex = rest.prefix(2)
 			guard let byte = UInt8(byteHex, radix: 16) else {
@@ -31,7 +34,6 @@ class 🌌HexBinary: 🌌Value, CustomStringConvertible {
 			value.append(byte)
 			rest = rest.suffix(from: byteHex.endIndex)
 		}
-		description = representation
 		self.value = value
 		super.init()
 	}

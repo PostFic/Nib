@@ -9,18 +9,20 @@ class 🌌String: 🌌Value, CustomStringConvertible {
 	}
 
 	/// Creates a new instance from the given `representation`.
-	required init(_ representation: String) throws {
+	required init<StringType: StringProtocol>(
+		_ representation: StringType
+	) throws {
+		description = String(representation)
 		guard
 			try! NSRegularExpression(
 				pattern: "[^\\x{1}-\\x{D7FF}\\x{E000}-\\x{FFFD}\\x{10FFFF}]"
 			).firstMatch(
-				in: representation,
-				range: NSMakeRange(0, representation.count)
+				in: description,
+				range: NSMakeRange(0, description.count)
 			) == nil
 		else {
 			throw XSD.ValidationRuleError.datatypeValid
 		}
-		description = representation
 		super.init()
 	}
 

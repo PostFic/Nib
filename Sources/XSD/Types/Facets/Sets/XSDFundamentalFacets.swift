@@ -109,10 +109,11 @@ extension XSDFundamentalFacets: Collection {
 
 extension XSDFundamentalFacets: ExpressibleByArrayLiteral {
 
-	public init(arrayLiteral facets: XSDFundamentalFacet...) {
-		self.init(minimumCapacity: facets.count)
-		for facet in facets {
-			define(facet: facet)
+	public init(arrayLiteral facets: XSDFundamentalFacet?...) {
+		let theFacets = facets.filter { $0 != nil }
+		self.init(minimumCapacity: theFacets.count)
+		for facet in theFacets {
+			define(facet: facet!)
 		}
 	}
 

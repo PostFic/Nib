@@ -130,7 +130,9 @@ open class XSDAtomicValue: BasicTypesConvertible, Hashable, Relatable {
 	public init() {}
 
 	/// Creates a new instance from the given `representation`.
-	public required convenience init(_ literal: String) throws {
+	public required convenience init<StringType: StringProtocol>(
+		_ representation: StringType
+	) throws {
 		self.init()
 	}
 

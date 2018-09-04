@@ -1,24 +1,34 @@
-public final class XSDAtomicTypeDefinition<ValueSpace: XSDAtomicValue>:
-	XSDSimpleTypeDefinition
-{
+final class XSDAtomicTypeDefinition<ValueSpace: XSDAtomicValue>: XSDSimpleTypeDefinition {
 
-	private init(
+	init(
 		name: XSDValue,
 		targetNamespace: XSDValue? = nil,
 		final: Set<ConstructionMethod> = [],
 		baseTypeDefinition: XSDSimpleTypeDefinition,
 		facets: XSDConstrainingFacets = [],
-		fundamentalFacets: XSDFundamentalFacets = [],
+		fundamentalFacets: XSDFundamentalFacets? = nil,
 		isPrimitive: Bool = false,
 		primitiveTypeDefinition: XSDSimpleTypeDefinition? = nil
 	) {
+		let derivedFacets: [XSDFacet]!
+		if isPrimitive {
+			derivedFacets = nil
+		} else {
+			derivedFacets = baseTypeDefinition.fundamentalFacets.members.compactMap {
+				try? type(of: $0 as! XSDFundamentalFacet).init(
+					baseTypeDefinition: baseTypeDefinition,
+					facets: facets,
+					primitiveTypeDefinition: primitiveTypeDefinition!
+				)
+			}
+		}
 		super.init(
 			name: name,
 			targetNamespace: targetNamespace,
 			final: `final`,
 			baseTypeDefinition: baseTypeDefinition,
 			facets: facets,
-			fundamentalFacets: fundamentalFacets,
+			fundamentalFacets: fundamentalFacets ?? Set(derivedFacets).fundamental,
 			variety: .atomic,
 			isPrimitive: isPrimitive,
 			primitiveTypeDefinition: primitiveTypeDefinition
@@ -30,7 +40,8 @@ public final class XSDAtomicTypeDefinition<ValueSpace: XSDAtomicValue>:
 		self.init(
 			name: [try! 🌌String("anyAtomicType")],
 			targetNamespace: [try! 🌌AnyURI(XSD.targetNamespace)],
-			baseTypeDefinition: 🌉anySimpleType
+			baseTypeDefinition: 🌉anySimpleType,
+			fundamentalFacets: []
 		)
 	}
 
@@ -49,28 +60,8 @@ public final class XSDAtomicTypeDefinition<ValueSpace: XSDAtomicValue>:
 		)
 	}
 
-	/// Creates a primitive type definition.
-	public convenience init(
-		name: String,
-		targetNamespace: String? = XSD.targetNamespace,
-		facets: XSDConstrainingFacets,
-		fundamentalFacets: XSDFundamentalFacets
-	) throws {
-		guard facets[.whiteSpace] != nil else {
-			throw XSD.ConstraintOnSchemasError.primitiveMustHaveWhiteSpaceFacet
-		}
-		self.init(
-			name: try name☆XSD.NCName,
-			targetNamespace: try targetNamespace ?☆ XSD.anyURI,
-			baseTypeDefinition: 🌉anyAtomicType,
-			facets: facets,
-			fundamentalFacets: fundamentalFacets,
-			isPrimitive: true
-		)
-	}
-
 	/// Creates an atomic type definition.
-	public convenience init(
+	convenience init(
 		_ name: String,
 		_ baseTypeDefinition: XSDAtomicTypeDefinition,
 		_ facets: XSDConstrainingFacets = []
@@ -81,74 +72,14 @@ public final class XSDAtomicTypeDefinition<ValueSpace: XSDAtomicValue>:
 			targetNamespace: [try! 🌌AnyURI(XSD.targetNamespace)],
 			baseTypeDefinition: baseTypeDefinition,
 			facets: facets,
-			fundamentalFacets: try! XSDAtomicTypeDefinition.makeFacets(
-				baseTypeDefinition: baseTypeDefinition,
-				facets: facets,
-				primitiveTypeDefinition: primitive
-			),
 			primitiveTypeDefinition: primitive
 		)
 	}
 
-	/// Creates an atomic type definition.
-	public convenience init(
-		targetNamespace: String? = nil,
-		final: Set<ConstructionMethod> = [],
-		name: String,
-		base: XSDDatatype,
-		_ additionalFacets: XSDConstrainingFacet...
-	) throws {
-		guard base.definition !== 🌉anyAtomicType else {
-			throw XSD.ConstraintOnSchemasError.ordinaryBaseTypeMustBeOrdinary
-		}
-		let primitive = base.definition.primitiveTypeDefinition!
-		let facets = try base.definition.facets.constrained(with: additionalFacets)
-		self.init(
-			name: try name☆XSD.NCName,
-			targetNamespace: try targetNamespace ?☆ XSD.anyURI,
-			final: `final`,
-			baseTypeDefinition: base.definition,
-			facets: facets,
-			fundamentalFacets: try XSDAtomicTypeDefinition.makeFacets(
-				baseTypeDefinition: base.definition,
-				facets: facets,
-				primitiveTypeDefinition: primitive
-			),
-			primitiveTypeDefinition: primitive
-		)
-	}
-
-	override func makeRawValue(_ representation: String) throws -> XSDValue {
+	override func makeRawValue<StringType: StringProtocol>(
+		_ representation: StringType
+	) throws -> XSDValue {
 		return [try ValueSpace(representation)]
-	}
-
-	fileprivate static func makeFacets(
-		baseTypeDefinition: XSDSimpleTypeDefinition,
-		facets: XSDConstrainingFacets,
-		primitiveTypeDefinition: XSDSimpleTypeDefinition
-	) throws -> XSDFundamentalFacets {
-		return [
-			try XSD.FundamentalFacet.Ordered(
-				baseTypeDefinition: baseTypeDefinition,
-				facets: facets,
-				primitiveTypeDefinition: primitiveTypeDefinition
-			),
-			try XSD.FundamentalFacet.Bounded(
-				baseTypeDefinition: baseTypeDefinition,
-				facets: facets,
-				primitiveTypeDefinition: primitiveTypeDefinition
-			),
-			try XSD.FundamentalFacet.Cardinality(
-				baseTypeDefinition: baseTypeDefinition,
-				facets: facets,
-				primitiveTypeDefinition: primitiveTypeDefinition
-			),
-			try XSD.FundamentalFacet.Numeric(
-				baseTypeDefinition: baseTypeDefinition,
-				facets: facets,
-				primitiveTypeDefinition: primitiveTypeDefinition
-			)
-		]
 	}
 
 }

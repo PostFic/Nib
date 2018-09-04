@@ -39,15 +39,3 @@ infix operator ⟡: ComparisonPrecedence
 
 /// Comparable.
 infix operator ⟡̸: ComparisonPrecedence
-
-/// Cross-converting-to-literal.
-infix operator ⤱: CastingPrecedence
-
-/// Optional-cross-converting-to-literal.
-infix operator ?⤱: CastingPrecedence
-
-/// Cross-converting-to-value.
-infix operator ☆: CastingPrecedence
-
-/// Optional-cross-converting-to-value.
-infix operator ?☆: CastingPrecedence

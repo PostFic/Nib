@@ -67,24 +67,27 @@ class 🌌Decimal: 🌌Value, CustomStringConvertible, Comparable {
 	let value: Decimal
 
 	/// Creates a new instance from the given `representation`.
-	required init(_ literal: String) throws {
+	required init<StringType: StringProtocol>(
+		_ representation: StringType
+	) throws {
+		let stringRepresentation = String(representation)
 		guard
 			try! XSDRegularExpression(
 				"(\\+|-)?([0-9]+(\\.[0-9]*)?|\\.[0-9]+)"
-			).test(literal)
+			).test(stringRepresentation)
 		else {
 			throw XSD.ValidationRuleError.datatypeValid
 		}
 		let formatter = 🌌Decimal.makeFormatter()
-		guard let value = formatter.number(from: literal) as? NSDecimalNumber else {
+		guard let value = formatter.number(from: stringRepresentation) as? NSDecimalNumber else {
 			throw XSD.ValidationRuleError.datatypeValid
 		}
-		self.description = formatter.string(from: value) ?? literal
+		self.description = formatter.string(from: value) ?? stringRepresentation
 		self.value = value as Decimal
 		super.init()
 	}
 
-	init?<Int_: BinaryInteger>(_ value: Int_) {
+	init?<Int_: BinaryInteger>(integer value: Int_) {
 		let formatter = 🌌Decimal.makeFormatter()
 		guard let decimalValue = Decimal(exactly: value) else {
 			return nil
@@ -94,6 +97,46 @@ class 🌌Decimal: 🌌Value, CustomStringConvertible, Comparable {
 		) ?? String(describing: value)
 		self.value = decimalValue
 		super.init()
+	}
+
+	convenience init?(_ value: Int) {
+		self.init(integer: value)
+	}
+
+	convenience init?(_ value: Int8) {
+		self.init(integer: value)
+	}
+
+	convenience init?(_ value: Int16) {
+		self.init(integer: value)
+	}
+
+	convenience init?(_ value: Int32) {
+		self.init(integer: value)
+	}
+
+	convenience init?(_ value: Int64) {
+		self.init(integer: value)
+	}
+
+	convenience init?(_ value: UInt) {
+		self.init(integer: value)
+	}
+
+	convenience init?(_ value: UInt8) {
+		self.init(integer: value)
+	}
+
+	convenience init?(_ value: UInt16) {
+		self.init(integer: value)
+	}
+
+	convenience init?(_ value: UInt32) {
+		self.init(integer: value)
+	}
+
+	convenience init?(_ value: UInt64) {
+		self.init(integer: value)
 	}
 
 	override func equal(to other: XSDAtomicValue) -> Bool {

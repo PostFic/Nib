@@ -17,6 +17,9 @@ public extension XSD {
 		/// The `itemTypeDefinition` must have the given facet.
 		case itemTypeMustHaveFacet(_: String)
 
+		/// List items must not be special.
+		case listItemMustNotBeSpecial
+
 		/// A type in the `memberTypeDefinitions` did not have the given facet.
 		case memberTypeMustHaveFacet(_: String)
 
@@ -25,6 +28,9 @@ public extension XSD {
 
 		/// Primitives must have a `whiteSpace` facet.
 		case primitiveMustHaveWhiteSpaceFacet
+
+		/// Members of unions must not be special.
+		case unionMembersMustNotBeSpecial
 
 	}
 

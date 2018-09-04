@@ -103,12 +103,16 @@ public class XSDSimpleTypeDefinition:
 		)
 	}
 
-	func makeRawValue(_ representation: String) throws -> XSDValue {
+	func makeRawValue<StringType: StringProtocol>(
+		_ representation: StringType
+	) throws -> XSDValue {
 		return [try 🌌Value(representation)]
 	}
 
-	public func makeValue(_ representation: String) throws -> XSDValue {
-		var normalizedRepresentation = representation
+	public func makeValue<StringType: StringProtocol>(
+		_ representation: StringType
+	) throws -> XSDValue {
+		var normalizedRepresentation = String(representation)
 		for facet in facets.prelexical {
 			try (facet as! XSDPrelexicalFacet).🆗(&normalizedRepresentation)
 		}
@@ -120,6 +124,117 @@ public class XSDSimpleTypeDefinition:
 			try (facet as! XSDValuebasedFacet).🆗(value, as: self)
 		}
 		return value
+	}
+
+	public static func makeList(
+		targetNamespace: String? = nil,
+		final: Set<ConstructionMethod> = [],
+		name: String,
+		itemType: XSDDatatype
+	) throws -> XSDSimpleTypeDefinition {
+		guard
+			itemType.definition !== 🌉anySimpleType,
+			itemType.definition !== 🌉anyAtomicType
+		else {
+			throw XSD.ConstraintOnSchemasError.listItemMustNotBeSpecial
+		}
+		return XSDListTypeDefinition(
+			name: try name☆XSD.NCName,
+			targetNamespace: try targetNamespace?☆XSD.anyURI,
+			final: `final`,
+			itemTypeDefinition: itemType.definition
+		)
+	}
+
+	public static func makePrimitive<ValueSpace: XSDAtomicValue>(
+		name: String,
+		targetNamespace: String? = XSD.targetNamespace,
+		facets: XSDConstrainingFacets,
+		fundamentalFacets: XSDFundamentalFacets = [],
+		valueSpace: ValueSpace.Type
+	) throws -> XSDSimpleTypeDefinition {
+		guard facets[.whiteSpace] != nil else {
+			throw XSD.ConstraintOnSchemasError.primitiveMustHaveWhiteSpaceFacet
+		}
+		return XSDAtomicTypeDefinition<ValueSpace>(
+			name: try name☆XSD.NCName,
+			targetNamespace: try targetNamespace?☆XSD.anyURI,
+			baseTypeDefinition: 🌉anyAtomicType,
+			facets: facets,
+			fundamentalFacets: fundamentalFacets,
+			isPrimitive: true
+		)
+	}
+
+	public static func makeRestriction(
+		targetNamespace: String? = nil,
+		final: Set<ConstructionMethod> = [],
+		name: String,
+		base: XSDDatatype,
+		_ additionalFacets: XSDConstrainingFacet...
+	) throws -> XSDSimpleTypeDefinition {
+		guard
+			base.definition !== 🌉anySimpleType,
+			base.definition !== 🌉anyAtomicType
+		else {
+			throw XSD.ConstraintOnSchemasError.ordinaryBaseTypeMustBeOrdinary
+		}
+		let facets = try base.definition.facets.constrained(with: additionalFacets)
+		switch base.definition.variety! {
+		case .atomic:
+			let primitive = base.definition.primitiveTypeDefinition!
+			return type(of: base as! XSDAtomicTypeDefinition).init(
+				name: try name☆XSD.NCName,
+				targetNamespace: try targetNamespace?☆XSD.anyURI,
+				final: `final`,
+				baseTypeDefinition: base.definition,
+				facets: facets,
+				primitiveTypeDefinition: primitive
+			)
+		case .list:
+			let item = base.definition.itemTypeDefinition!
+			return XSDListTypeDefinition(
+				name: try name☆XSD.NCName,
+				targetNamespace: try targetNamespace?☆XSD.anyURI,
+				final: `final`,
+				baseTypeDefinition: base.definition,
+				facets: facets,
+				itemTypeDefinition: item
+			)
+		case .union:
+			let members = base.definition.memberTypeDefinitions!
+			return XSDUnionTypeDefinition(
+				name: try name☆XSD.NCName,
+				targetNamespace: try targetNamespace?☆XSD.anyURI,
+				final: `final`,
+				baseTypeDefinition: base.definition,
+				facets: facets,
+				memberTypeDefinitions: members
+			)
+		}
+	}
+
+	public static func makeUnion(
+		targetNamespace: String? = nil,
+		final: Set<ConstructionMethod> = [],
+		name: String,
+		memberTypes: [XSDDatatype]
+	) throws -> XSDSimpleTypeDefinition {
+		let members = try memberTypes.map { memberType -> XSDSimpleTypeDefinition in
+			guard
+				memberType.definition !== 🌉anySimpleType,
+				memberType.definition !== 🌉anyAtomicType
+			else {
+				throw XSD.ConstraintOnSchemasError.unionMembersMustNotBeSpecial
+			}
+			return memberType.definition
+		}
+		return XSDUnionTypeDefinition(
+			name: try name☆XSD.NCName,
+			targetNamespace: try targetNamespace?☆XSD.anyURI,
+			final: `final`,
+			memberTypeDefinitions: members
+		)
 	}
 
 }

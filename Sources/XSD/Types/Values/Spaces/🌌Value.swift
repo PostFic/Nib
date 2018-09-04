@@ -5,7 +5,9 @@ class 🌌Value: XSDAtomicValue {
 	}
 
 	/// Creates a new instance from the given `representation`.
-	required convenience init(_ literal: String) throws {
+	required convenience init<StringType: StringProtocol>(
+		_ representation: StringType
+	) throws {
 		self.init()
 	}
 

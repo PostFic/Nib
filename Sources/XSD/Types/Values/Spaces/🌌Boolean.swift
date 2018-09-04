@@ -13,8 +13,10 @@ class 🌌Boolean: 🌌Value, CustomStringConvertible {
 	let value: Bool
 
 	/// Creates a new instance from the given `representation`.
-	required init(_ literal: String) throws {
-		switch literal {
+	required init<StringType: StringProtocol>(
+		_ representation: StringType
+	) throws {
+		switch representation {
 		case
 			"0",
 			"false"

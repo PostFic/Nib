@@ -97,15 +97,29 @@ public struct XSDLiteral: BasicTypesConvertible, CustomStringConvertible, Hashab
 	}
 
 	/// The value of the literal.
-	public let value: XSDValue?
+	public var value: XSDValue? {
+		return try? description☆datatype
+	}
 
 	/// Creates a new instance.
-	///
-	/// Throws if `representation` is not a valid lexical representation for `type`.
-	public init(_ representation: String, type: XSDDatatype) {
+	public init<StringType: StringProtocol>(
+		_ representation: StringType,
+		type: XSDDatatype
+	) {
 		datatype = type.definition
-		description = representation
-		value = try? type.makeValue(representation)
+		description = String(representation)
+	}
+
+	/// Creates a new instance if the given `representation` is valid in the given `type`.
+	public init?<StringType: StringProtocol>(
+		_ representation: StringType,
+		in type: XSDDatatype
+	) {
+		datatype = type.definition
+		description = String(representation)
+		if value == nil {
+			return nil
+		}
 	}
 
 	/// Checks for literal equality.
