@@ -1,1 +1,0 @@
-let 🌉anyAtomicType = XSDAtomicTypeDefinition<🌌Value>()
