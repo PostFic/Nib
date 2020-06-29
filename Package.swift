@@ -1,30 +1,22 @@
-// swift-tools-version:4.2
+// swift-tools-version:5.0
 import PackageDescription
 
 let package = Package(
-
 	/// ✒💦 A Swift implementation of XSD datatypes for RDF.
 	name: "Nib",
-
 	products: [
-		.library(name: "Nib", targets: ["XSDValues"]),
+		.library(name: "Nib", targets: ["XSDLiterals"])
 	],
-
 	dependencies: [
-
 	],
-
 	targets: [
 		.target(name: "XSD", dependencies: []),
-		.target(name: "XSDValues", dependencies: ["XSD"])//,
-		//.target(name: "XSDFunctions", dependencies: ["XSDValues"]),
-		//.target(name: "XSDStructures", dependencies: ["XSDFunctions"]),
-		//.target(name: "XSDDatatypes", dependencies: ["XSDStructures"]),
-		//.testTarget(name: "XSDFunctionTests", dependencies: ["XSDFunctions"]),
-		//.testTarget(name: "XSDStructureTests", dependencies: ["XSDStructures"])//,
+		.target(name: "XSDLiterals", dependencies: ["XSD"]),
+		//.target(name: "XSDValues", dependencies: ["XSDLiterals"]),
+		//.target(name: "XSDDatatypes", dependencies: ["XSDValues"]),
+		.testTarget(name: "XSDLiteralTests", dependencies: ["XSDLiterals"]),
+		//.testTarget(name: "XSDValueTests", dependencies: ["XSDValues"]),
 		//.testTarget(name: "XSDDatatypeTests", dependencies: ["XSDDatatypes"])
 	],
-
-	swiftLanguageVersions: [.v4_2]
-
+	swiftLanguageVersions: [.v5]
 )

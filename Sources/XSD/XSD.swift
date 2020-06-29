@@ -1,204 +1,383 @@
+import Foundation
+
 /// An enumeration representing the XSD namespace.
 ///
-/// Only those datatypes defined in XSD Part 2 are listed; notably, `anyType` is not included.
+/// Only those datatypes defined in XSD Part 2 are listed; notably,
+///   [xsd:anyType](http://www.w3.org/2001/XMLSchema#anyType) is not
+///   included.
 public enum XSD: String {
 
 	/*
-	## Special built-in datatypes.
+	###  Special builtin datatypes  ###
 	*/
 
-	/// `xsd:anySimpleType`.
+	/// [xsd:anySimpleType](http://www.w3.org/2001/XMLSchema#anySimpleType).
 	case anySimpleType
 
-	/// `xsd:anyAtomicType`.
+	/// [xsd:anyAtomicType](http://www.w3.org/2001/XMLSchema#anyAtomicType).
 	case anyAtomicType
 
 	/*
-	## Primitive datatypes.
+	###  Primitive datatypes  ###
 	*/
 
-	/// `xsd:string`.
+	/// [xsd:string](http://www.w3.org/2001/XMLSchema#string).
 	case string
 
-	/// `xsd:boolean`.
+	/// [xsd:boolean](http://www.w3.org/2001/XMLSchema#boolean).
 	case boolean
 
-	/// `xsd:float`.
+	/// [xsd:float](http://www.w3.org/2001/XMLSchema#float).
 	case float
 
-	/// `xsd:double`.
+	/// [xsd:double](http://www.w3.org/2001/XMLSchema#double).
 	case double
 
-	/// `xsd:decimal`.
+	/// [xsd:decimal](http://www.w3.org/2001/XMLSchema#decimal).
 	case decimal
 
-	/// `xsd:dateTime`.
+	/// [xsd:dateTime](http://www.w3.org/2001/XMLSchema#dateTime).
 	case dateTime
 
-	/// `xsd:duration`.
+	/// [xsd:duration](http://www.w3.org/2001/XMLSchema#duration).
 	case duration
 
-	/// `xsd:time`.
+	/// [xsd:time](http://www.w3.org/2001/XMLSchema#time).
 	case time
 
-	/// `xsd:date`.
+	/// [xsd:date](http://www.w3.org/2001/XMLSchema#date).
 	case date
 
-	/// `xsd:gMonth`.
+	/// [xsd:gMonth](http://www.w3.org/2001/XMLSchema#gMonth).
 	case gMonth
 
-	/// `xsd:gMonthDay`.
+	/// [xsd:gMonthDay](http://www.w3.org/2001/XMLSchema#gMonthDay).
 	case gMonthDay
 
-	/// `xsd:gDay`.
+	/// [xsd:gDay](http://www.w3.org/2001/XMLSchema#gDay).
 	case gDay
 
-	/// `xsd:gYear`.
+	/// [xsd:gYear](http://www.w3.org/2001/XMLSchema#gYear).
 	case gYear
 
-	/// `xsd:gYearMonth`.
+	/// [xsd:gYearMonth](http://www.w3.org/2001/XMLSchema#gYearMonth).
 	case gYearMonth
 
-	/// `xsd:hexBinary`.
+	/// [xsd:hexBinary](http://www.w3.org/2001/XMLSchema#hexBinary).
 	case hexBinary
 
-	/// `xsd:base64Binary`.
+	/// [xsd:base64Binary](http://www.w3.org/2001/XMLSchema#base64Binary).
 	case base64Binary
 
-	/// `xsd:anyURI`.
+	/// [xsd:anyURI](http://www.w3.org/2001/XMLSchema#anyURI).
 	case anyURI
 
-	/// `xsd:QName` (*not supported*).
+	/// [xsd:QName](http://www.w3.org/2001/XMLSchema#QName)
+	///   (*not supported*).
 	case QName
 
-	/// `xsd:NOTATION` (*not supported*).
+	/// [xsd:NOTATION](http://www.w3.org/2001/XMLSchema#NOTATION)
+	///   (*not supported*).
 	case NOTATION
 
 	/*
-	## Other built-in datatypes.
+	###  Other builtin datatypes  ###
 	*/
 
-	/// `xsd:normalizedString`.
+	/// [xsd:normalizedString](http://www.w3.org/2001/XMLSchema#normalizedString).
 	case normalizedString
 
-	/// `xsd:token`.
+	/// [xsd:token](http://www.w3.org/2001/XMLSchema#token).
 	case token
 
-	/// `xsd:language`.
+	/// [xsd:language](http://www.w3.org/2001/XMLSchema#language).
 	case language
 
-	/// `xsd:NMTOKEN`.
+	/// [xsd:NMTOKEN](http://www.w3.org/2001/XMLSchema#NMTOKEN).
 	case NMTOKEN
 
-	/// `xsd:NMTOKENS`.
+	/// [xsd:NMTOKENS](http://www.w3.org/2001/XMLSchema#NMTOKENS).
 	case NMTOKENS
 
-	/// `xsd:Name`.
+	/// [xsd:Name](http://www.w3.org/2001/XMLSchema#Name).
 	case Name
 
-	/// `xsd:NCName`.
+	/// [xsd:NCName](http://www.w3.org/2001/XMLSchema#NCName).
 	case NCName
 
-	/// `xsd:ID` (*not supported*).
+	/// [xsd:ID](http://www.w3.org/2001/XMLSchema#ID)
+	///   (*not supported*).
 	case ID
 
-	/// `xsd:IDREF` (*not supported*).
+	/// [xsd:IDREF](http://www.w3.org/2001/XMLSchema#IDREF)
+	///   (*not supported*).
 	case IDREF
 
-	/// `xsd:IDREFS` (*not supported*).
+	/// [xsd:IDREFS](http://www.w3.org/2001/XMLSchema#IDREFS)
+	///   (*not supported*).
 	case IDREFS
 
-	/// `xsd:ENTITY` (*not supported*).
+	/// [xsd:ENTITY](http://www.w3.org/2001/XMLSchema#ENTITY)
+	///   (*not supported*).
 	case ENTITY
 
-	/// `xsd:ENTITIES` (*not supported*).
+	/// [xsd:ENTITIES](http://www.w3.org/2001/XMLSchema#ENTITIES)
+	///   (*not supported*).
 	case ENTITIES
 
-	/// `xsd:integer`.
+	/// [xsd:integer](http://www.w3.org/2001/XMLSchema#integer).
 	case integer
 
-	/// `xsd:nonPositiveInteger`.
+	/// [xsd:nonPositiveInteger](http://www.w3.org/2001/XMLSchema#nonPositiveInteger).
 	case nonPositiveInteger
 
-	/// `xsd:negativeInteger`.
+	/// [xsd:negativeInteger](http://www.w3.org/2001/XMLSchema#negativeInteger).
 	case negativeInteger
 
-	/// `xsd:long`.
+	/// [xsd:long](http://www.w3.org/2001/XMLSchema#long).
 	case long
 
-	/// `xsd:int`.
+	/// [xsd:int](http://www.w3.org/2001/XMLSchema#int).
 	case int
 
-	/// `xsd:short`.
+	/// [xsd:short](http://www.w3.org/2001/XMLSchema#short).
 	case short
 
-	/// `xsd:byte`.
+	/// [xsd:byte](http://www.w3.org/2001/XMLSchema#byte).
 	case byte
 
-	/// `xsd:nonNegativeInteger`.
+	/// [xsd:nonNegativeInteger](http://www.w3.org/2001/XMLSchema#nonNegativeInteger).
 	case nonNegativeInteger
 
-	/// `xsd:unsignedLong`.
+	/// [xsd:unsignedLong](http://www.w3.org/2001/XMLSchema#unsignedLong).
 	case unsignedLong
 
-	/// `xsd:unsignedInt`.
+	/// [xsd:unsignedInt](http://www.w3.org/2001/XMLSchema#unsignedInt).
 	case unsignedInt
 
-	/// `xsd:unsignedShort`.
+	/// [xsd:unsignedShort](http://www.w3.org/2001/XMLSchema#unsignedShort).
 	case unsignedShort
 
-	/// `xsd:unsignedByte`.
+	/// [xsd:unsignedByte](http://www.w3.org/2001/XMLSchema#unsignedByte).
 	case unsignedByte
 
-	/// `xsd:positiveInteger`.
+	/// [xsd:positiveInteger](http://www.w3.org/2001/XMLSchema#positiveInteger).
 	case positiveInteger
 
-	/// `xsd:yearMonthDuration`.
+	/// [xsd:yearMonthDuration](http://www.w3.org/2001/XMLSchema#yearMonthDuration).
 	case yearMonthDuration
 
-	/// `xsd:dayTimeDuration`.
+	/// [xsd:dayTimeDuration](http://www.w3.org/2001/XMLSchema#dayTimeDuration).
 	case dayTimeDuration
 
-	/// `xsd:dateTimeStamp`.
+	/// [xsd:dateTimeStamp](http://www.w3.org/2001/XMLSchema#dateTimeStamp).
 	case dateTimeStamp
 
 	/*
-	## Types
+	##  Types  ##
 	*/
 
+	/// An enumeration representing the XSD‐defined constraining
+	///   facets.
 	public enum ConstrainingFacet: String {
 
+		/// [xsd:length](http://www.w3.org/2001/XMLSchema#length).
 		case length
+
+		/// [xsd:minLength](http://www.w3.org/2001/XMLSchema#minLength).
 		case minLength
+
+		/// [xsd:maxLength](http://www.w3.org/2001/XMLSchema#maxLength).
 		case maxLength
+
+		/// [xsd:pattern](http://www.w3.org/2001/XMLSchema#pattern).
 		case pattern
+
+		/// [xsd:enumeration](http://www.w3.org/2001/XMLSchema#enumeration).
 		case enumeration
+
+		/// [xsd:whiteSpace](http://www.w3.org/2001/XMLSchema#whiteSpace).
 		case whiteSpace
+
+		/// [xsd:maxInclusive](http://www.w3.org/2001/XMLSchema#maxInclusive).
 		case maxInclusive
+
+		/// [xsd:maxExclusive](http://www.w3.org/2001/XMLSchema#maxExclusive).
 		case maxExclusive
+
+		/// [xsd:minExclusive](http://www.w3.org/2001/XMLSchema#minExclusive).
 		case minExclusive
+
+		/// [xsd:minInclusive](http://www.w3.org/2001/XMLSchema#minInclusive).
 		case minInclusive
+
+		/// [xsd:totalDigits](http://www.w3.org/2001/XMLSchema#totalDigits).
 		case totalDigits
+
+		/// [xsd:fractionDigits](http://www.w3.org/2001/XMLSchema#fractionDigits).
 		case fractionDigits
+
+		/// [xsd:Assertions](http://www.w3.org/2001/XMLSchema#Assertions).
 		case Assertions
+
+		/// [xsd:explicitTimezone](http://www.w3.org/2001/XMLSchema#explicitTimezone).
 		case explicitTimezone
 
 	}
 
+	/// An untyped decimal number, as used by the various XSD
+	///   functions.
+	///
+	///  +  note:
+	///     XSD functions will sometimes add additional constraints to
+	///       the decimal numbers they take; no separate datatypes for
+	///       these are used.
+	public typealias DecimalNumber = Decimal
+
+	/// An enumeration representing the XSD‐defined fundamental facets.
 	public enum FundamentalFacet: String {
 
+		/// [xsd:ordered](http://www.w3.org/2001/XMLSchema#ordered).
 		case ordered
+
+		/// [xsd:bounded](http://www.w3.org/2001/XMLSchema#bounded).
 		case bounded
+
+		/// [xsd:cardinality](http://www.w3.org/2001/XMLSchema#cardinality).
 		case cardinality
+
+		/// [xsd:numeric](http://www.w3.org/2001/XMLSchema#numeric).
 		case numeric
 
 	}
 
+	/// An untyped integer, as used by the various XSD functions.
+	///
+	///  +  note:
+	///     XSD functions will sometimes add additional constraints to
+	///       the integers they take; no separate datatypes for these
+	///       are used.
+	public typealias Integer = Int64
+
+	/// A sequence of values, possibly infinite, as used by the various
+	///   XSD functions.
+	public typealias Sequence<T> = UnfoldSequence<T, Any>
+
+	/// A named value which is distinct from, and unequal to, all other
+	///   values.
+	public enum SpecialValue: String {
+
+		/// A `positiveInfinity` value.
+		case positiveInfinity
+
+		/// A `positiveZero` value.
+		case positiveZero
+
+		/// A `negativeInfinity` value.
+		case negativeInfinity
+
+		/// A `negativeZero` value.
+		case negativeZero
+
+		/// A `notANumber` value.
+		case notANumber
+
+	}
+
 	/*
-	## Properties and Methods
+	##  Properties and Methods  ##
 	*/
 
 	/// The XSD namespace.
-	public static let targetNamespace = "http://www.w3.org/2001/XMLSchema"
+	public static let targetNamespace =
+		"http://www.w3.org/2001/XMLSchema"
+
+	/// The greatest integer less than or equal to `m` / `n`.
+	///
+	///  +  parameters:
+	///      +  m:
+	///         A `XSD.DecimalNumber`.
+	///      +  n:
+	///         A `XSD.DecimalNumber`.
+	///
+	///  +  returns:
+	///     A `XSD.Integer`.
+	public static func div (
+		_ m: XSD.DecimalNumber,
+		_ n: XSD.DecimalNumber
+	) -> XSD.Integer {
+		XSD.Integer(
+			exactly: (m as NSDecimalNumber).dividing(
+				by: n as NSDecimalNumber,
+				withBehavior: NSDecimalNumberHandler(
+					roundingMode: .down,
+					scale: 0,
+					raiseOnExactness: false,
+					raiseOnOverflow: true,
+					raiseOnUnderflow: true,
+					raiseOnDivideByZero: true
+				)
+			)
+		)!
+	}
+
+	/// The greatest integer less than or equal to `m` / `n`.
+	///
+	///  +  parameters:
+	///      +  m:
+	///         An `XSD.Integer`.
+	///      +  n:
+	///         An `XSD.Integer`.
+	///
+	///  +  returns:
+	///     An `XSD.Integer`.
+	public static func div (
+		_ m: XSD.Integer,
+		_ n: XSD.Integer
+	) -> XSD.Integer { return m / n }
+
+	/// `m` − `n` × `XSD.div(m, n)`.
+	///
+	///  +  parameters:
+	///      +  m:
+	///         A `XSD.DecimalNumber`.
+	///      +  n:
+	///         A `XSD.DecimalNumber`.
+	///
+	///  +  returns:
+	///     A `XSD.DecimalNumber`.
+	public static func mod (
+		_ m: XSD.DecimalNumber,
+		_ n: XSD.DecimalNumber
+	) -> XSD.DecimalNumber {
+		m - n * (
+			(m as NSDecimalNumber).dividing(
+				by: n as NSDecimalNumber,
+				withBehavior: NSDecimalNumberHandler(
+					roundingMode: .down,
+					scale: 0,
+					raiseOnExactness: false,
+					raiseOnOverflow: true,
+					raiseOnUnderflow: true,
+					raiseOnDivideByZero: true
+				)
+			) as XSD.DecimalNumber
+		)
+	}
+
+	/// `m` − `n` × `XSD.div(m, n)`.
+	///
+	///  +  parameters:
+	///      +  m:
+	///         An `XSD.Integer`.
+	///      +  n:
+	///         An `XSD.Integer`.
+	///
+	///  +  returns:
+	///     An `XSD.Integer`.
+	public static func mod (
+		_ m: XSD.Integer,
+		_ n: XSD.Integer
+	) -> XSD.Integer { return m % n }
 
 }
