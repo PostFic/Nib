@@ -2,16 +2,6 @@ import XSD
 
 public protocol XSDBinaryDataConvertible {
 
-	static func ◊<BD: XSDBinaryData>(
-		lhs: Self,
-		rhs: BD.Type
-	) -> BD
-
-	static func ¿◊?<BD: XSDBinaryData>(
-		lhs: Self,
-		rhs: BD.Type
-	) -> BD?
-
 	static postfix func ◊<BD: XSDBinaryData>(
 		operand: Self
 	) -> BD
@@ -23,18 +13,6 @@ public protocol XSDBinaryDataConvertible {
 }
 
 public extension XSDBinaryDataConvertible {
-
-	@inlinable
-	static func ◊<BD: XSDBinaryData>(
-		lhs: Self,
-		rhs: BD.Type
-	) -> BD { lhs◊ }
-
-	@inlinable
-	static func ¿◊?<BD: XSDBinaryData>(
-		lhs: Self,
-		rhs: BD.Type
-	) -> BD? { lhs◊? }
 
 	@inlinable
 	static postfix func ◊<BD: XSDBinaryData>(

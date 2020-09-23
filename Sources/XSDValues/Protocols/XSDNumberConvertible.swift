@@ -2,16 +2,6 @@ import XSD
 
 public protocol XSDNumberConvertible {
 
-	static func ◊<N: XSDNumber>(
-		lhs: Self,
-		rhs: N.Type
-	) -> N
-
-	static func ¿◊?<N: XSDNumber>(
-		lhs: Self,
-		rhs: N.Type
-	) -> N?
-
 	static postfix func ◊<N: XSDNumber>(
 		operand: Self
 	) -> N
@@ -23,18 +13,6 @@ public protocol XSDNumberConvertible {
 }
 
 public extension XSDNumberConvertible {
-
-	@inlinable
-	static func ◊<N: XSDNumber>(
-		lhs: Self,
-		rhs: N.Type
-	) -> N { lhs◊ }
-
-	@inlinable
-	static func ¿◊?<N: XSDNumber>(
-		lhs: Self,
-		rhs: N.Type
-	) -> N? { lhs◊? }
 
 	@inlinable
 	static postfix func ◊<N: XSDNumber>(

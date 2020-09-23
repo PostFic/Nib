@@ -4,12 +4,6 @@ infix operator ⚔: CrossConversionPrecedence
 /// Cross‐converting‐to‐typed‐literal‐maybe.
 infix operator ¿⚔?: CrossConversionPrecedence
 
-/// Cross‐convert.
-infix operator ◊: CrossConversionPrecedence
-
-/// Cross‐convert.
-infix operator ¿◊?: CrossConversionPrecedence
-
 /// Identity.
 infix operator ≡: ComparisonPrecedence
 
@@ -52,10 +46,10 @@ infix operator ⟡: ComparisonPrecedence
 /// Comparable.
 infix operator ⟡̸: ComparisonPrecedence
 
-/// Implied‐cross‐convert.
+/// Implied‐convert.
 postfix operator ◊
 
-/// Implied‐cross‐convert‐maybe.
+/// Implied‐convert‐maybe.
 postfix operator ◊?
 
 /// Associated‐type.

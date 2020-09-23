@@ -7,7 +7,7 @@ let package = Package(
 	products: [
 		.library(
 			name: "Nib",
-			targets: ["XSDLiterals"]
+			targets: ["XSDValues"]
 		)
 	],
 	dependencies: [
@@ -18,12 +18,8 @@ let package = Package(
 			dependencies: []
 		),
 		.target(
-			name: "XSDRegularExpressions",
-			dependencies: ["XSD"]
-		),
-		.target(
 			name: "XSDLiterals",
-			dependencies: ["XSDRegularExpressions"]
+			dependencies: ["XSD"]
 		),
 		.target(
 			name: "XSDValues",
@@ -31,8 +27,8 @@ let package = Package(
 		),
 		//.target(name: "XSDDatatypes", dependencies: ["XSDValues"]),
 		.testTarget(
-			name: "XSDRegularExpressionTests",
-			dependencies: ["XSDRegularExpressions"]
+			name: "XSDTests",
+			dependencies: ["XSD"]
 		),
 		.testTarget(
 			name: "XSDLiteralTests",

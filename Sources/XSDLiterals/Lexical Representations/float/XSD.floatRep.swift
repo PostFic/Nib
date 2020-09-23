@@ -1,5 +1,4 @@
 import XSD
-import XSDRegularExpressions
 
 public extension XSD {
 

@@ -28,20 +28,6 @@ extension XSD {
 
 extension XSD.SpecialValue: XSDNumberConvertible {
 
-	public static func ◊<N: XSDNumber>(
-		lhs: XSD.SpecialValue,
-		rhs: N.Type
-	) -> N { N(exactly: lhs)! }
-
-	public static func ¿◊?<N: XSDNumber>(
-		lhs: XSD.SpecialValue,
-		rhs: N.Type
-	)-> N? { N(exactly: lhs) }
-
-	public static postfix func ◊<N: XSDNumber>(
-		operand: XSD.SpecialValue
-	) -> N { N(exactly: operand)! }
-
 	public static postfix func ◊?<N: XSDNumber>(
 		operand: XSD.SpecialValue
 	) -> N? { N(exactly: operand) }
