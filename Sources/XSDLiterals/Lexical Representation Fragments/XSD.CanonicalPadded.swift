@@ -1,4 +1,5 @@
 import XSD
+import XSDRegularExpressions
 
 public extension XSD {
 
@@ -16,9 +17,9 @@ public extension XSD {
 			[A-Za-z0-9+/][AQgw]==
 			"""
 
-		public class override var lexicalSpace: XSD.RegularExpression {
-			return $pattern
-		}
+		public class override var ·lexicalSpace·:
+			XSD.RegularExpression
+		{ return $pattern }
 
 	}
 

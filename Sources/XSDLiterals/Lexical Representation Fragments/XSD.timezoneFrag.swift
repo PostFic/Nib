@@ -1,4 +1,5 @@
 import XSD
+import XSDRegularExpressions
 
 public extension XSD {
 
@@ -13,9 +14,9 @@ public extension XSD {
 		private static var pattern =
 			#"Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)"#
 
-		public class override var lexicalSpace: XSD.RegularExpression {
-			return $pattern
-		}
+		public class override var ·lexicalSpace·:
+			XSD.RegularExpression
+		{ return $pattern }
 
 	}
 

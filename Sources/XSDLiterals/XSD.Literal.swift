@@ -8,42 +8,44 @@ public extension XSD {
 	/// The `XSD.Literal` class is used to assert that strings actually
 	///   belong to a given lexical space, as the initializer will fail
 	///   for strings which are out‐of‐bounds.
-	/// The underlying `value` property contains the actual string.
-	class Literal: ExpressibleByStringLiteral {
+	/// The underlying `description` property contains the actual
+	///   string.
+	class Literal: LosslessStringConvertible {
 
 		/// The string value of the literal.
-		public let value: String
+		public let description: String
 
-		/// Initializes the literal, ensuring that the provided `value`
-		///   is within its `lexicalSpace`.
+		/// Initializes the literal, ensuring that the provided
+		///   `description` is within its `·lexicalSpace·`.
 		/// Fails otherwise.
 		///
 		///  +  parameters:
-		///      +  value:
+		///      +  description:
 		///         The string value of the literal.
-		public required init?(_ value: String = "") {
-			if let lexicalSpace = Self.lexicalSpace {
-				guard lexicalSpace.matches(value) else { return nil }
+		public required init?(_ description: String = "") {
+			if let lexicalSpace = Self.·lexicalSpace· {
+				guard lexicalSpace.·matches·(description)
+				else { return nil }
 			}
-			self.value = value
+			self.description = description
 		}
 
-		/// Initializes the literal from a Swift string literal.
-		/// If the given string literal is not within the
-		///   `lexicalSpace`, this will cause a runtime error.
+		/// Initializes the literal, ensuring that the provided
+		///   `representation` is within its `·lexicalSpace·`.
+		/// Fails otherwise.
 		///
 		///  +  parameters:
-		///      +  value:
+		///      +  representation:
 		///         The string value of the literal.
-		public required convenience init(stringLiteral value: String) {
-			self.init(value)!
-		}
+		public convenience init?<S: StringProtocol>(
+			_ representation: S = ""
+		) { self.init(String(representation)) }
 
 		/// An (optional) `XSD.RegularExpression` which defines the
 		///   lexical space of the literal.
 		/// If `nil`, this literal does not have an associated lexical
 		///   space.
-		public class var lexicalSpace: XSD.RegularExpression? {
+		public class var ·lexicalSpace·: XSD.RegularExpression? {
 			return nil
 		}
 
@@ -58,7 +60,9 @@ public extension XSD {
 		///     A `XSD.Literal` subclass, or the `XSD.Literal` class
 		///       itself if no lexical space for the given index is
 		///       provided.
-		public static subscript(index: UInt) -> XSD.Literal.Type {
+		public static subscript(
+			index: UInt
+		) -> XSD.Literal.Type {
 			switch index {
 			case 1:
 				return XSD.stringRep.self
@@ -145,7 +149,7 @@ public extension XSD {
 			case 42:
 				return XSD.yearMonthDurationLexicalRep.self
 			case 43:
-				return XSD.dayTimeLexicalRep.self
+				return XSD.dayTimeDurationLexicalRep.self
 			case 44:
 				return XSD.dateTimeStampLexicalRep.self
 			case 45:
@@ -195,6 +199,29 @@ public extension XSD {
 
 }
 
+public extension XSD.Literal {
+	
+	final class func +(
+		lhs: XSD.Literal,
+		rhs: XSD.Literal
+	) -> String {
+		return String(describing: lhs) + String(describing: rhs)
+	}
+	
+	final class func +<S: StringProtocol>(
+		lhs: XSD.Literal,
+		rhs: S
+	) -> String { return String(describing: lhs) + rhs }
+	
+	final class func +<S: StringProtocol>(
+		lhs: S,
+		rhs: XSD.Literal
+	) -> String { return lhs + String(describing: rhs) }
+	
+}
+
+extension XSD.Literal: XSDLiteralConvertible {}
+
 extension XSD.Literal: Equatable {
 
 	/// Tests to see if two literals are equal.
@@ -209,11 +236,20 @@ extension XSD.Literal: Equatable {
 	///     `true` if the literals represent the same string; `false`
 	///       otherwise.
 	///
-	/// Equality is determined based on the `value` string of the
+	/// Equality is determined based on the `description` string of the
 	///   literal.
 	/// It does not test against lexical space.
-	public static func ==(lhs: XSD.Literal, rhs: XSD.Literal) -> Bool {
-		return lhs.value == rhs.value
+	public final class func ==(
+		lhs: XSD.Literal,
+		rhs: XSD.Literal
+	) -> Bool { return lhs.description == rhs.description }
+
+}
+
+extension XSD.Literal: Hashable {
+
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(description)
 	}
 
 }

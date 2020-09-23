@@ -234,6 +234,22 @@ public enum XSD: String {
 	///       these are used.
 	public typealias DecimalNumber = Decimal
 
+	public enum BinaryDigit: UInt8, Hashable {
+		case ０
+		case １
+	}
+
+	public typealias BinaryOctet = UInt8
+
+	/// An enumeration representing possible XSD errors.
+	public enum Error: Swift.Error {
+
+		/// The provided literal is not in the lexical space for the
+		///   value.
+		case notInLexicalSpace
+
+	}
+
 	/// An enumeration representing the XSD‐defined fundamental facets.
 	public enum FundamentalFacet: String {
 
@@ -263,33 +279,12 @@ public enum XSD: String {
 	///   XSD functions.
 	public typealias Sequence<T> = UnfoldSequence<T, Any>
 
-	/// A named value which is distinct from, and unequal to, all other
-	///   values.
-	public enum SpecialValue: String {
-
-		/// A `positiveInfinity` value.
-		case positiveInfinity
-
-		/// A `positiveZero` value.
-		case positiveZero
-
-		/// A `negativeInfinity` value.
-		case negativeInfinity
-
-		/// A `negativeZero` value.
-		case negativeZero
-
-		/// A `notANumber` value.
-		case notANumber
-
-	}
-
 	/*
 	##  Properties and Methods  ##
 	*/
 
 	/// The XSD namespace.
-	public static let targetNamespace =
+	public static let ·targetNamespace· =
 		"http://www.w3.org/2001/XMLSchema"
 
 	/// The greatest integer less than or equal to `m` / `n`.
@@ -302,7 +297,7 @@ public enum XSD: String {
 	///
 	///  +  returns:
 	///     A `XSD.Integer`.
-	public static func div (
+	public static func ·div· (
 		_ m: XSD.DecimalNumber,
 		_ n: XSD.DecimalNumber
 	) -> XSD.Integer {
@@ -331,12 +326,12 @@ public enum XSD: String {
 	///
 	///  +  returns:
 	///     An `XSD.Integer`.
-	public static func div (
+	public static func ·div· (
 		_ m: XSD.Integer,
 		_ n: XSD.Integer
 	) -> XSD.Integer { return m / n }
 
-	/// `m` − `n` × `XSD.div(m, n)`.
+	/// `m` − `n` × `XSD.·div·(m, n)`.
 	///
 	///  +  parameters:
 	///      +  m:
@@ -346,7 +341,7 @@ public enum XSD: String {
 	///
 	///  +  returns:
 	///     A `XSD.DecimalNumber`.
-	public static func mod (
+	public static func ·mod· (
 		_ m: XSD.DecimalNumber,
 		_ n: XSD.DecimalNumber
 	) -> XSD.DecimalNumber {
@@ -365,7 +360,7 @@ public enum XSD: String {
 		)
 	}
 
-	/// `m` − `n` × `XSD.div(m, n)`.
+	/// `m` − `n` × `XSD.·div·(m, n)`.
 	///
 	///  +  parameters:
 	///      +  m:
@@ -375,7 +370,7 @@ public enum XSD: String {
 	///
 	///  +  returns:
 	///     An `XSD.Integer`.
-	public static func mod (
+	public static func ·mod· (
 		_ m: XSD.Integer,
 		_ n: XSD.Integer
 	) -> XSD.Integer { return m % n }

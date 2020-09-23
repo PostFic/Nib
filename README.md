@@ -5,7 +5,7 @@ Intended for use with RDF tools and libraries, but conceivably could be utilized
 
 | XSD version | Package version | Swift version |
 | :-: | :-: | :-: |
-| 1.1 | _Not released._ | 5.2 |
+| 1.1 | _Not released._ | 5.3 |
 
 ##  About/Usage  ##
 
@@ -67,6 +67,6 @@ The following aspects of XSD are not fully supported:
 
 ##  License  ##
 
-Copyright © 2018, 2020 Gô Shoemake.
+Copyright © 2018, 2020 KIBI Gô.
 <cite>Nib</cite> is made available under the terms of the GNU GPL license, either version 3 or (at your option) any later version.
 For more information, see [COPYING](COPYING).

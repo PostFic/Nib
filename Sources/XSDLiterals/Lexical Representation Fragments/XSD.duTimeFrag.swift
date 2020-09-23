@@ -1,4 +1,5 @@
 import XSD
+import XSDRegularExpressions
 
 public extension XSD {
 
@@ -13,15 +14,15 @@ public extension XSD {
 		@XSD.RegularExpression.Wrapper
 		private static var pattern = """
 			T(\
-			[0-9]+H([0-9]+M)?([0-9]+S)?|\
-			[0-9]+M([0-9]+S)?|\
-			[0-9]+S\
+			[0-9]+H([0-9]+M)?([0-9]+(\\.[0-9]+)?S)?|\
+			[0-9]+M([0-9]+(\\.[0-9]+)?S)?|\
+			[0-9]+(\\.[0-9]+)?S\
 			)
 			"""
 
-		public class override var lexicalSpace: XSD.RegularExpression {
-			return $pattern
-		}
+		public class override var ·lexicalSpace·:
+			XSD.RegularExpression
+		{ return $pattern }
 
 	}
 
