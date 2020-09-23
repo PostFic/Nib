@@ -23,7 +23,7 @@ public extension XSD {
 				XSD.·noDecimalMap·(noDecimalPtNumeral)
 			)
 		} else { d = XSD.·decimalPtMap·(LEX◊) }
-		return d◊
+		return XSD.DecimalValue(exactly: d)!
 	}
 
 }

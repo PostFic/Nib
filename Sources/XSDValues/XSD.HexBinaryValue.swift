@@ -10,7 +10,7 @@ extension XSD {
 
 		public typealias LexicalRepresentation = XSD.hexBinaryRep
 
-		public var canonicalMapping:
+		public var ·canonicalMapping·:
 			XSD.HexBinaryValue.LexicalRepresentation
 		{ XSD.·hexBinaryCanonical·(self) }
 

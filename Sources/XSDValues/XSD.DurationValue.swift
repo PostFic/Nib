@@ -10,7 +10,7 @@ extension XSD {
 		
 		public typealias LexicalRepresentation = XSD.durationLexicalRep
 
-		public var canonicalMapping:
+		public var ·canonicalMapping·:
 			XSD.DurationValue.LexicalRepresentation
 		{ return XSD.·durationCanonicalMap·(self) }
 

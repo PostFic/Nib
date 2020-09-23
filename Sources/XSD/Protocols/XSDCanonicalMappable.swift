@@ -1,6 +1,3 @@
-import XSD
-import XSDLiterals
-
 public protocol XSDCanonicalMappable:
 	Codable,
 	ExpressibleByStringLiteral,
@@ -9,14 +6,14 @@ public protocol XSDCanonicalMappable:
 	XSDValue
 where Self.StringLiteralType == String {
 
-	var canonicalMapping: Self.LexicalRepresentation { get }
+	var ·canonicalMapping·: Self.LexicalRepresentation { get }
 
 }
 
 public extension XSDCanonicalMappable {
 
 	@inlinable
-	var description: String { String(describing: canonicalMapping) }
+	var description: String { String(describing: ·canonicalMapping·) }
 
 	@inlinable
 	init(

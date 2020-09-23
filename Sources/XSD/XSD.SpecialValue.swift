@@ -1,6 +1,3 @@
-import XSD
-import XSDLiterals
-
 extension XSD {
 
 	/// A named value which is distinct from, and unequal to, all other
@@ -23,13 +20,5 @@ extension XSD {
 		case notANumber
 
 	}
-
-}
-
-extension XSD.SpecialValue: XSDNumberConvertible {
-
-	public static postfix func ◊?<N: XSDNumber>(
-		operand: XSD.SpecialValue
-	) -> N? { N(exactly: operand) }
 
 }

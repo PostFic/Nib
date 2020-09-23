@@ -9,7 +9,7 @@ extension XSD {
 
 		public let string: String
 
-		public var canonicalMapping:
+		public var ·canonicalMapping·:
 			XSD.StringValue.LexicalRepresentation
 		{ return XSD.·stringCanonicalMap·(self) }
 

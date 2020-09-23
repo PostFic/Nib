@@ -37,35 +37,6 @@ public extension XSD {
 	///       the syntax requirements of XSD.
 	struct RegularExpression: CustomStringConvertible {
 
-		/// Wraps a string to associate it with a regular expression,
-		///   used for defining the static lexical spaces of literals.
-		///
-		/// Only use with strings which are known to be valid regular
-		///   expressions, or a runtime error may result.
-		@propertyWrapper
-		public struct Wrapper {
-
-			/// The wrapped string.
-			public let wrappedValue: String
-
-			/// The compiled regular expression represented by the
-			///   string.
-			public let projectedValue: XSD.RegularExpression
-
-			/// Forces a compilation of the wrapped string into its
-			///   projected regular expression.
-			///
-			///  +  parameters:
-			///      +  wrappedValue:
-			///         The string value to be wrap.
-			public init(wrappedValue: String) {
-				self.wrappedValue = wrappedValue
-				self.projectedValue =
-					XSD.RegularExpression(wrappedValue)!
-			}
-
-		}
-
 		/// The string representation of the regular expression.
 		public let description: String
 

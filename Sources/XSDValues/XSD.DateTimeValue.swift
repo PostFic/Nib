@@ -12,7 +12,7 @@ extension XSD {
 		
 		public typealias LexicalRepresentation = XSD.dateTimeLexicalRep
 
-		public var canonicalMapping:
+		public var ·canonicalMapping·:
 			XSD.DateTimeValue.LexicalRepresentation
 		{ return XSD.·dateTimeCanonicalMap·(self) }
 

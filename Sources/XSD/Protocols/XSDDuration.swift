@@ -1,5 +1,3 @@
-import XSD
-
 public protocol XSDDuration {
 
 	var ·months·: XSD.Integer { get }

@@ -13,7 +13,7 @@ extension XSD {
 		public typealias LexicalRepresentation =
 			XSD.gMonthDayLexicalRep
 
-		public var canonicalMapping:
+		public var ·canonicalMapping·:
 			XSD.GMonthDayValue.LexicalRepresentation
 		{ return XSD.·gMonthDayCanonicalMap·(self) }
 

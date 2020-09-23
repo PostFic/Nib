@@ -1,11 +1,9 @@
 import Foundation
-import XSD
 
 public protocol XSDNumber:
 	ExpressibleByFloatLiteral,
 	ExpressibleByIntegerLiteral,
-	Strideable,
-	XSDNumberConvertible
+	Strideable
 where Stride == XSD.DecimalNumber {
 
 	var decimalNumber: XSD.DecimalNumber? { get }
@@ -170,10 +168,5 @@ public extension XSDNumber {
 			else { return false }
 		} else { return false }
 	}
-
-	@inlinable
-	static postfix func ◊?<N: XSDNumber>(
-		operand: Self
-	) -> N? { N(exactly: operand) }
 
 }

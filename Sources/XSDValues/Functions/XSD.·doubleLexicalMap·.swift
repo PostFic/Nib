@@ -18,7 +18,9 @@ public extension XSD {
 		_ LEX: XSD.doubleRep
 	) -> XSD.DoubleValue {
 		if let numericalSpecialRep: XSD.numericalSpecialRep = LEX◊? {
-			return XSD.·specialRepValue·(numericalSpecialRep)◊
+			return XSD.DoubleValue(
+				exactly: XSD.·specialRepValue·(numericalSpecialRep)
+			)!
 		} else {
 			let nV: XSD.DecimalNumber
 			if let noDecimalPtNumeral: XSD.noDecimalPtNumeral = LEX◊? {

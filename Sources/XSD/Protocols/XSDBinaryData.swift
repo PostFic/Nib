@@ -1,5 +1,4 @@
 import Foundation
-import XSD
 
 public protocol XSDBinaryData:
 	Hashable,

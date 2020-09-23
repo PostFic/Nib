@@ -13,7 +13,7 @@ extension XSD {
 
 		public var bool: Bool { return self == .true }
 
-		public var canonicalMapping:
+		public var ·canonicalMapping·:
 			XSD.BooleanValue.LexicalRepresentation
 		{ return XSD.·booleanCanonicalMap·(self) }
 

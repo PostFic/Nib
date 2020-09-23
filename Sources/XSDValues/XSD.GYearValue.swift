@@ -12,7 +12,7 @@ extension XSD {
 		
 		public typealias LexicalRepresentation = XSD.gYearLexicalRep
 
-		public var canonicalMapping:
+		public var ·canonicalMapping·:
 			XSD.GYearValue.LexicalRepresentation
 		{ return XSD.·gYearCanonicalMap·(self) }
 

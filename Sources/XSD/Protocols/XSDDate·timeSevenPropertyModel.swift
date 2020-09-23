@@ -1,9 +1,5 @@
-import Foundation
-import XSD
-
 public protocol XSDDate·timeSevenPropertyModel:
-	Strideable,
-	XSDDate·timeConvertible
+	Strideable
 where Stride == XSD.DecimalNumber {
 
 	var ·day·: XSD.Integer? { get }
@@ -16,6 +12,8 @@ where Stride == XSD.DecimalNumber {
 
 	var ·second·: XSD.DecimalNumber? { get }
 
+	var ·timeOnTimeline·: XSD.DecimalNumber { get }
+
 	var ·timezoneOffset·: XSD.Integer? { get }
 
 	var ·year·: XSD.Integer? { get }
@@ -26,10 +24,6 @@ where Stride == XSD.DecimalNumber {
 
 	init(
 		from timeOnTimeline: XSD.DecimalNumber
-	)
-
-	init<N: XSDDate·timeConvertible>(
-		from dt: N
 	)
 
 	init?(
@@ -51,10 +45,6 @@ where Stride == XSD.DecimalNumber {
 
 public extension XSDDate·timeSevenPropertyModel {
 
-	var ·timeOnTimeline·: XSD.DecimalNumber {
-		return XSD.·timeOnTimeline·(self)
-	}
-
 	@inlinable
 	init?<D7M: XSDDate·timeSevenPropertyModel>(
 		_ d7m: D7M
@@ -69,22 +59,6 @@ public extension XSDDate·timeSevenPropertyModel {
 			timezoneOffset: d7m.·timezoneOffset·
 		)
 	}
-
-	init(from timeOnTimeline: XSD.DecimalNumber) {
-		var yr: XSD.Integer = 0
-		var mo: XSD.Integer = 0
-		var da: XSD.Integer = 0
-		var hr: XSD.Integer = 0
-		var mi: XSD.Integer = 0
-		var se = timeOnTimeline
-		XSD.·normalizeSecond·(&yr, &mo, &da, &hr, &mi, &se)
-		self = XSD.·newDateTime·(yr, mo, da, hr, mi, se, nil)
-	}
-
-	@inlinable
-	init<N: XSDDate·timeConvertible>(
-		from dt: N
-	) { self.init(from: dt.·timeOnTimeline·) }
 
 	@inlinable
 	func advanced(
@@ -107,20 +81,5 @@ public extension XSDDate·timeSevenPropertyModel {
 		lhs: Self,
 		rhs: D7M
 	) -> Bool { lhs.·timeOnTimeline· < rhs.·timeOnTimeline· }
-
-	static func +(
-		lhs: Self,
-		rhs: XSD.DurationValue
-	) -> Self { XSD.·dateTimePlusDuration·(rhs, lhs) }
-
-	static func +<Duration: XSDDuration>(
-		lhs: Self,
-		rhs: Duration
-	) -> Self {
-		return XSD.·dateTimePlusDuration·(
-			XSD.DurationValue(rhs.·months·, rhs.·seconds·),
-			lhs
-		)
-	}
 
 }

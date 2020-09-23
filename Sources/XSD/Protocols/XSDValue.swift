@@ -1,6 +1,3 @@
-import XSD
-import XSDLiterals
-
 public protocol XSDValue: Hashable {
 
 	associatedtype

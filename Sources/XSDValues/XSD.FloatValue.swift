@@ -11,7 +11,7 @@ extension XSD {
 
 		public typealias LexicalRepresentation = XSD.floatRep
 
-		public var canonicalMapping:
+		public var ·canonicalMapping·:
 			XSD.FloatValue.LexicalRepresentation
 		{ return XSD.·floatCanonicalMap·(self) }
 

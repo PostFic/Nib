@@ -11,7 +11,7 @@ extension XSD {
 
 		public typealias LexicalRepresentation = XSD.Base64Binary
 
-		public var canonicalMapping:
+		public var ·canonicalMapping·:
 			XSD.Base64BinaryValue.LexicalRepresentation
 		{ data.base64EncodedString()◊ }
 
