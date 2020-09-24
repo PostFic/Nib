@@ -28,7 +28,10 @@ public extension XSD {
 			maxSplits: 3,
 			omittingEmptySubsequences: false
 		) { (char: Character) -> Bool in
-			char == "-" || char == ":" || char == "Z" || char == "+"
+			return char == "-"
+				|| char == ":"
+				|| char == "Z"
+				|| char == "+"
 		}
 		let tz: XSD.Integer?
 		if Array·H，M，S，T.count == 4 {

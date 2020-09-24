@@ -25,9 +25,7 @@ public extension XSD {
 		let Array·Y，M，T = string.split(
 			maxSplits: 2,
 			omittingEmptySubsequences: false
-		) { (char: Character) -> Bool in
-			char == "-" || char == "T" || char == "Z" || char == "+"
-		}
+		) { $0 == "-" || $0 == "Z" || $0 == "+" }
 		let tz: XSD.Integer?
 		if Array·Y，M，T.count == 3 {
 			tz = XSD.·timezoneFragValue·(

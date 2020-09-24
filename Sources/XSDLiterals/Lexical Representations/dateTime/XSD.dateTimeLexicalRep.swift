@@ -73,6 +73,39 @@ public extension XSD {
 			(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?
 			"""
 
+		/// Initializes the literal, ensuring that the provided
+		///   `description` is within its `·lexicalSpace·`, including
+		///   the appropriate constraints.
+		/// Fails otherwise.
+		///
+		///  +  parameters:
+		///      +  description:
+		///         The string value of the literal.
+		public required init?(_ description: String = "") {
+			let Array·Y，M，D，T = description.dropFirst().split(
+				maxSplits: 3,
+				omittingEmptySubsequences: false
+			) { $0 == "-" || $0 == "T" }
+			guard
+				let Y = XSD.Integer(
+					description[
+						description.startIndex..<Array·Y，M，D，T[
+							0
+						].endIndex
+					]),
+				let M = XSD.Integer(Array·Y，M，D，T[1]),
+				let D = XSD.Integer(Array·Y，M，D，T[2])
+			else { return nil }
+			if
+				D > 30 && (M == 4 || M == 6 || M == 9 || M == 11)
+					|| D > 28 && M == 2
+					&& (Y % 4 != 0 || Y % 100 == 0 && Y % 400 != 0)
+					|| D > 29 && M == 2
+					&& (Y % 400 == 0 || Y % 4 == 0 && Y % 100 != 0)
+			{ return nil }
+			super.init(description)
+		}
+
 		public class override var ·lexicalSpace·:
 			XSD.RegularExpression
 		{ return $pattern }

@@ -22,12 +22,10 @@ public extension XSD {
 		_ LEX: XSD.gMonthDayLexicalRep
 	) -> XSD.GMonthDayValue {
 		let string = String(describing: LEX)
-		let Array·M，D，T = string.split(
+		let Array·M，D，T = string.dropFirst(2).split(
 			maxSplits: 2,
 			omittingEmptySubsequences: false
-		) { (char: Character) -> Bool in
-			char == "-" || char == "T" || char == "Z" || char == "+"
-		}
+		) { $0 == "-" || $0 == "Z" || $0 == "+" }
 		let tz: XSD.Integer?
 		if Array·M，D，T.count == 3 {
 			tz = XSD.·timezoneFragValue·(

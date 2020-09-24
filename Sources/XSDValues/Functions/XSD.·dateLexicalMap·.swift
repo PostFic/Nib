@@ -23,12 +23,10 @@ public extension XSD {
 		_ LEX: XSD.dateLexicalRep
 	) -> XSD.DateValue {
 		let string = String(describing: LEX)
-		let Array·Y，M，D，T = string.split(
+		let Array·Y，M，D，T = string.dropFirst().split(
 			maxSplits: 3,
 			omittingEmptySubsequences: false
-		) { (char: Character) -> Bool in
-			char == "-" || char == "T" || char == "Z" || char == "+"
-		}
+		) { $0 == "-" || $0 == "Z" || $0 == "+" }
 		let tz: XSD.Integer?
 		if Array·Y，M，D，T.count == 4 {
 			tz = XSD.·timezoneFragValue·(
@@ -37,7 +35,9 @@ public extension XSD {
 				]◊
 			)
 		} else { tz = nil }
-		let Y = Array·Y，M，D，T[0]
+		let Y = string[
+			string.startIndex..<Array·Y，M，D，T[0].endIndex
+		]
 		let M = Array·Y，M，D，T[1]
 		let D = Array·Y，M，D，T[2]
 		return XSD.·newDateTime·(

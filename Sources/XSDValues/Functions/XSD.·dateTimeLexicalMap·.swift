@@ -31,7 +31,7 @@ public extension XSD {
 		_ LEX: XSD.dateTimeLexicalRep
 	) -> XSD.DateTimeValue {
 		let string = String(describing: LEX)
-		let Array·Y，MO，D，H，MI，S，T = string.split(
+		let Array·Y，MO，D，H，MI，S，T = string.dropFirst().split(
 			maxSplits: 6,
 			omittingEmptySubsequences: false
 		) { (char: Character) -> Bool in
@@ -51,7 +51,9 @@ public extension XSD {
 				]◊
 			)
 		} else { tz = nil }
-		let Y = Array·Y，MO，D，H，MI，S，T[0]
+		let Y = string[
+			string.startIndex..<Array·Y，MO，D，H，MI，S，T[0].endIndex
+		]
 		let MO = Array·Y，MO，D，H，MI，S，T[1]
 		let D = Array·Y，MO，D，H，MI，S，T[2]
 		if Array·Y，MO，D，H，MI，S，T[3] == "24" {

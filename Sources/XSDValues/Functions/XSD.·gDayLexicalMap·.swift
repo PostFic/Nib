@@ -21,12 +21,10 @@ public extension XSD {
 		_ LEX: XSD.gDayLexicalRep
 	) -> XSD.GDayValue {
 		let string = String(describing: LEX)
-		let Array·D，T = string.split(
+		let Array·D，T = string.dropFirst(3).split(
 			maxSplits: 1,
 			omittingEmptySubsequences: false
-		) { (char: Character) -> Bool in
-			char == "-" || char == "T" || char == "Z" || char == "+"
-		}
+		) { $0 == "-" || $0 == "Z" || $0 == "+" }
 		let tz: XSD.Integer?
 		if Array·D，T.count == 2 {
 			tz = XSD.·timezoneFragValue·(

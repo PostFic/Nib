@@ -2,105 +2,6 @@ import XCTest
 import XSD
 import XSDLiterals
 
-/*
-case 16:
-return XSD.dateTimeLexicalRep.self
-case 17:
-return XSD.timeLexicalRep.self
-case 18:
-return XSD.dateLexicalRep.self
-case 19:
-return XSD.gYearMonthLexicalRep.self
-case 20:
-return XSD.gYearLexicalRep.self
-case 21:
-return XSD.gMonthDayLexicalRep.self
-case 22:
-return XSD.gDayLexicalRep.self
-case 23:
-return XSD.gMonthLexicalRep.self
-case 24:
-return XSD.hexDigit.self
-case 25:
-return XSD.hexOctet.self
-case 26:
-return XSD.hexBinaryRep.self
-case 27:
-return XSD.Base64Binary.self
-case 28:
-return XSD.B64quad.self
-case 29:
-return XSD.B64final.self
-case 30:
-return XSD.B64finalquad.self
-case 31:
-return XSD.Padded16.self
-case 32:
-return XSD.Padded8.self
-case 33:
-return XSD.B64.self
-case 34:
-return XSD.B64char.self
-case 35:
-return XSD.B16.self
-case 36:
-return XSD.B16char.self
-case 37:
-return XSD.B04.self
-case 38:
-return XSD.B04char.self
-case 39:
-return XSD.Canonical·base64Binary.self
-case 40:
-return XSD.CanonicalQuad.self
-case 41:
-return XSD.CanonicalPadded.self
-case 42:
-return XSD.yearMonthDurationLexicalRep.self
-case 43:
-return XSD.dayTimeLexicalRep.self
-case 44:
-return XSD.dateTimeStampLexicalRep.self
-case 45:
-return XSD.digit.self
-case 46:
-return XSD.unsignedNoDecimalPtNumeral.self
-case 47:
-return XSD.noDecimalPtNumeral.self
-case 48:
-return XSD.fracFrag.self
-case 49:
-return XSD.unsignedDecimalPtNumeral.self
-case 50:
-return XSD.unsignedFullDecimalPtNumeral.self
-case 51:
-return XSD.decimalPtNumeral.self
-case 52:
-return XSD.unsignedScientificNotationNumeral.self
-case 53:
-return XSD.scientificNotationNumeral.self
-case 54:
-return XSD.minimalNumericalSpecialRep.self
-case 55:
-return XSD.numericalSpecialRep.self
-case 56:
-return XSD.yearFrag.self
-case 57:
-return XSD.monthFrag.self
-case 58:
-return XSD.dayFrag.self
-case 59:
-return XSD.hourFrag.self
-case 60:
-return XSD.minuteFrag.self
-case 61:
-return XSD.secondFrag.self
-case 62:
-return XSD.endOfDayFrag.self
-case 63:
-return XSD.timezoneFrag.self
-*/
-
 final class XSDTestLexicalSpaces: XCTestCase {
 
 	func testStringRep() {
@@ -223,7 +124,9 @@ final class XSDTestLexicalSpaces: XCTestCase {
 	}
 
 	func testDurationLexicalRep() {
-		XCTAssertNotNil(XSD.durationLexicalRep("-P00Y00M00DT00H00M00.00S"))
+		XCTAssertNotNil(
+			XSD.durationLexicalRep("-P00Y00M00DT00H00M00.00S")
+		)
 		XCTAssertNotNil(XSD.durationLexicalRep("PT.0S"))
 		XCTAssertNotNil(XSD.durationLexicalRep("-P0D"))
 		XCTAssertNotNil(XSD.durationLexicalRep("P0M"))
@@ -235,6 +138,323 @@ final class XSDTestLexicalSpaces: XCTestCase {
 		XCTAssertNil(XSD.durationLexicalRep("+P0S"))
 		XCTAssertNil(XSD.durationLexicalRep("P0MT"))
 		XCTAssertNil(XSD.durationLexicalRep("PT0S0M"))
+	}
+
+	func testDateTimeLexicalRep() {
+		XCTAssertNotNil(XSD.dateTimeLexicalRep("1972-12-31T00:00:00Z"))
+		XCTAssertNotNil(XSD.dateTimeLexicalRep("0000-01-01T24:00:00Z"))
+		XCTAssertNotNil(XSD.dateTimeLexicalRep("-0000-01-01T23:59:59"))
+		XCTAssertNotNil(XSD.dateTimeLexicalRep("19720-02-29T00:00:00"))
+		XCTAssertNotNil(
+			XSD.dateTimeLexicalRep("1972-12-31T00:00:00.00Z")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeLexicalRep("1972-12-31T00:00:00+00:00")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeLexicalRep("1972-12-31T00:00:00-00:00")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeLexicalRep("1972-12-31T00:00:00+13:59")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeLexicalRep("1972-12-31T00:00:00-14:00")
+		)
+		XCTAssertNil(XSD.dateTimeLexicalRep("+1972-12-31T00:00:00"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("01972-12-31T00:00:00"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("1972-12-31T00:00:00."))
+		XCTAssertNil(XSD.dateTimeLexicalRep("0000-00-00T00:00:00"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("9999-99-99T99:99:99"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("0000-04-31T00:00:00"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("0000-02-30T00:00:00"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("0001-02-29T00:00:00"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("1972-12-31T00:00:00z"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("1972-12-31T00:00:00+14"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("1972-12-31"))
+	}
+
+	func testTimeLexicalRep() {
+		XCTAssertNotNil(XSD.timeLexicalRep("24:00:00Z"))
+		XCTAssertNotNil(XSD.timeLexicalRep("23:59:59"))
+		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00"))
+		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00.00"))
+		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00.00+00:00"))
+		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00.00-00:00"))
+		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00+13:59"))
+		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00-13:59"))
+		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00+14:00"))
+		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00-14:00"))
+		XCTAssertNil(XSD.timeLexicalRep("24:00:01"))
+		XCTAssertNil(XSD.timeLexicalRep("99:99:99"))
+		XCTAssertNil(XSD.timeLexicalRep("0:00:00"))
+		XCTAssertNil(XSD.timeLexicalRep("00:00:00."))
+		XCTAssertNil(XSD.timeLexicalRep("00:00:00z"))
+		XCTAssertNil(XSD.timeLexicalRep("00:00:00+14"))
+		XCTAssertNil(XSD.timeLexicalRep("00:00"))
+	}
+
+	func testDateLexicalRep() {
+		XCTAssertNotNil(XSD.dateLexicalRep("1972-12-31Z"))
+		XCTAssertNotNil(XSD.dateLexicalRep("0000-01-01Z"))
+		XCTAssertNotNil(XSD.dateLexicalRep("-0000-01-01"))
+		XCTAssertNotNil(XSD.dateLexicalRep("19720-02-29"))
+		XCTAssertNotNil(XSD.dateLexicalRep("1972-12-31+00:00"))
+		XCTAssertNotNil(XSD.dateLexicalRep("1972-12-31-00:00"))
+		XCTAssertNotNil(XSD.dateLexicalRep("1972-12-31+13:59"))
+		XCTAssertNotNil(XSD.dateLexicalRep("1972-12-31-14:00"))
+		XCTAssertNil(XSD.dateLexicalRep("+1972-12-31"))
+		XCTAssertNil(XSD.dateLexicalRep("01972-12-31"))
+		XCTAssertNil(XSD.dateLexicalRep("0000-00-00"))
+		XCTAssertNil(XSD.dateLexicalRep("9999-99-99"))
+		XCTAssertNil(XSD.dateLexicalRep("0000-04-31"))
+		XCTAssertNil(XSD.dateLexicalRep("0000-02-30"))
+		XCTAssertNil(XSD.dateLexicalRep("0001-02-29"))
+		XCTAssertNil(XSD.dateLexicalRep("1972-12-31z"))
+		XCTAssertNil(XSD.dateLexicalRep("1972-12-31+14"))
+	}
+
+	func testGYearMonthLexicalRep() {
+		XCTAssertNotNil(XSD.gYearMonthLexicalRep("1972-12Z"))
+		XCTAssertNotNil(XSD.gYearMonthLexicalRep("0000-01Z"))
+		XCTAssertNotNil(XSD.gYearMonthLexicalRep("-0000-01"))
+		XCTAssertNotNil(XSD.gYearMonthLexicalRep("19720-02"))
+		XCTAssertNotNil(XSD.gYearMonthLexicalRep("1972-12+00:00"))
+		XCTAssertNotNil(XSD.gYearMonthLexicalRep("1972-12-00:00"))
+		XCTAssertNotNil(XSD.gYearMonthLexicalRep("1972-12+13:59"))
+		XCTAssertNotNil(XSD.gYearMonthLexicalRep("1972-12-14:00"))
+		XCTAssertNil(XSD.gYearMonthLexicalRep("+1972-12"))
+		XCTAssertNil(XSD.gYearMonthLexicalRep("01972-12"))
+		XCTAssertNil(XSD.gYearMonthLexicalRep("0000-00"))
+		XCTAssertNil(XSD.gYearMonthLexicalRep("9999-99"))
+		XCTAssertNil(XSD.gYearMonthLexicalRep("1972-12z"))
+		XCTAssertNil(XSD.gYearMonthLexicalRep("1972-12+14"))
+	}
+
+	func testGYearLexicalRep() {
+		XCTAssertNotNil(XSD.gYearLexicalRep("1972Z"))
+		XCTAssertNotNil(XSD.gYearLexicalRep("0000Z"))
+		XCTAssertNotNil(XSD.gYearLexicalRep("-0000"))
+		XCTAssertNotNil(XSD.gYearLexicalRep("19720"))
+		XCTAssertNotNil(XSD.gYearLexicalRep("1972+00:00"))
+		XCTAssertNotNil(XSD.gYearLexicalRep("1972-00:00"))
+		XCTAssertNotNil(XSD.gYearLexicalRep("1972+13:59"))
+		XCTAssertNotNil(XSD.gYearLexicalRep("1972-14:00"))
+		XCTAssertNil(XSD.gYearLexicalRep("+1972"))
+		XCTAssertNil(XSD.gYearLexicalRep("01972"))
+		XCTAssertNil(XSD.gYearLexicalRep("1972z"))
+		XCTAssertNil(XSD.gYearLexicalRep("1972+14"))
+	}
+
+	func testGMonthDayLexicalRep() {
+		XCTAssertNotNil(XSD.gMonthDayLexicalRep("--12-31Z"))
+		XCTAssertNotNil(XSD.gMonthDayLexicalRep("--01-01Z"))
+		XCTAssertNotNil(XSD.gMonthDayLexicalRep("--01-01"))
+		XCTAssertNotNil(XSD.gMonthDayLexicalRep("--02-29"))
+		XCTAssertNotNil(XSD.gMonthDayLexicalRep("--12-31+00:00"))
+		XCTAssertNotNil(XSD.gMonthDayLexicalRep("--12-31-00:00"))
+		XCTAssertNotNil(XSD.gMonthDayLexicalRep("--12-31+13:59"))
+		XCTAssertNotNil(XSD.gMonthDayLexicalRep("--12-31-14:00"))
+		XCTAssertNil(XSD.gMonthDayLexicalRep("-00-00"))
+		XCTAssertNil(XSD.gMonthDayLexicalRep("-99-99"))
+		XCTAssertNil(XSD.gMonthDayLexicalRep("-04-31"))
+		XCTAssertNil(XSD.gMonthDayLexicalRep("-02-30"))
+		XCTAssertNil(XSD.gMonthDayLexicalRep("02-29"))
+		XCTAssertNil(XSD.gMonthDayLexicalRep("-12-31z"))
+		XCTAssertNil(XSD.gMonthDayLexicalRep("-12-31+14"))
+	}
+
+	func testGDayLexicalRep() {
+		XCTAssertNotNil(XSD.gDayLexicalRep("---31Z"))
+		XCTAssertNotNil(XSD.gDayLexicalRep("---01Z"))
+		XCTAssertNotNil(XSD.gDayLexicalRep("---01"))
+		XCTAssertNotNil(XSD.gDayLexicalRep("---31+00:00"))
+		XCTAssertNotNil(XSD.gDayLexicalRep("---31-00:00"))
+		XCTAssertNotNil(XSD.gDayLexicalRep("---31+13:59"))
+		XCTAssertNotNil(XSD.gDayLexicalRep("---31-14:00"))
+		XCTAssertNil(XSD.gDayLexicalRep("---00"))
+		XCTAssertNil(XSD.gDayLexicalRep("---99"))
+		XCTAssertNil(XSD.gDayLexicalRep("---31z"))
+		XCTAssertNil(XSD.gDayLexicalRep("---31+14"))
+	}
+
+	func testGMonthLexicalRep() {
+		XCTAssertNotNil(XSD.gMonthLexicalRep("--12Z"))
+		XCTAssertNotNil(XSD.gMonthLexicalRep("--01Z"))
+		XCTAssertNotNil(XSD.gMonthLexicalRep("--01"))
+		XCTAssertNotNil(XSD.gMonthLexicalRep("--12+00:00"))
+		XCTAssertNotNil(XSD.gMonthLexicalRep("--12-00:00"))
+		XCTAssertNotNil(XSD.gMonthLexicalRep("--12+13:59"))
+		XCTAssertNotNil(XSD.gMonthLexicalRep("--12-14:00"))
+		XCTAssertNil(XSD.gMonthLexicalRep("-00"))
+		XCTAssertNil(XSD.gMonthLexicalRep("-99"))
+		XCTAssertNil(XSD.gMonthLexicalRep("-12z"))
+		XCTAssertNil(XSD.gMonthLexicalRep("-12+14"))
+	}
+
+	func testHexDigit() {}
+
+	func testHexOctet() {}
+
+	func testHexBinaryRep() {}
+
+	func test·Base64Binary() {}
+
+	func test·B64quad() {}
+
+	func test·B64final() {}
+
+	func test·B64finalquad() {}
+
+	func test·Padded16() {}
+
+	func test·Padded8() {}
+
+	func test·B64() {}
+
+	func test·B64char() {}
+
+	func test·B16() {}
+
+	func test·B16char() {}
+
+	func test·B04() {}
+
+	func test·B04char() {}
+
+	func test·Canonical·base64Binary() {}
+
+	func test·CanonicalQuad() {}
+
+	func test·CanonicalPadded() {}
+
+	func testYearMonthDurationLexicalRep() {}
+
+	func testDayTimeLexicalRep() {}
+
+	func testDateTimeStampLexicalRep() {}
+
+	func testDigit() {}
+
+	func testUnsignedNoDecimalPtNumeral() {}
+
+	func testNoDecimalPtNumeral() {}
+
+	func testFracFrag() {}
+
+	func testUnsignedDecimalPtNumeral() {}
+
+	func testUnsignedFullDecimalPtNumeral() {}
+
+	func testDecimalPtNumeral() {}
+
+	func testUnsignedScientificNotationNumeral() {}
+
+	func testScientificNotationNumeral() {}
+
+	func testMinimalNumericalSpecialRep() {}
+
+	func testNumericalSpecialRep() {}
+
+	func testYearFrag() {
+		XCTAssertNotNil(XSD.yearFrag("0000"))
+		XCTAssertNotNil(XSD.yearFrag("0001"))
+		XCTAssertNotNil(XSD.yearFrag("-0000"))
+		XCTAssertNotNil(XSD.yearFrag("-0001"))
+		XCTAssertNotNil(XSD.yearFrag("-10000"))
+		XCTAssertNotNil(XSD.yearFrag("99999"))
+		XCTAssertNil(XSD.yearFrag("00000"))
+		XCTAssertNil(XSD.yearFrag("+0001"))
+		XCTAssertNil(XSD.yearFrag("1"))
+		XCTAssertNil(XSD.yearFrag("-00001"))
+		XCTAssertNil(XSD.yearFrag("00001"))
+	}
+
+	func testMonthFrag() {
+		XCTAssertNotNil(XSD.monthFrag("01"))
+		XCTAssertNotNil(XSD.monthFrag("10"))
+		XCTAssertNotNil(XSD.monthFrag("12"))
+		XCTAssertNil(XSD.monthFrag("00"))
+		XCTAssertNil(XSD.monthFrag("010"))
+		XCTAssertNil(XSD.monthFrag("1"))
+		XCTAssertNil(XSD.monthFrag("13"))
+		XCTAssertNil(XSD.monthFrag("20"))
+	}
+
+	func testDayFrag() {
+		XCTAssertNotNil(XSD.dayFrag("01"))
+		XCTAssertNotNil(XSD.dayFrag("10"))
+		XCTAssertNotNil(XSD.dayFrag("22"))
+		XCTAssertNotNil(XSD.dayFrag("31"))
+		XCTAssertNil(XSD.dayFrag("00"))
+		XCTAssertNil(XSD.dayFrag("010"))
+		XCTAssertNil(XSD.dayFrag("1"))
+		XCTAssertNil(XSD.dayFrag("32"))
+		XCTAssertNil(XSD.dayFrag("40"))
+	}
+
+	func testHourFrag() {
+		XCTAssertNotNil(XSD.hourFrag("00"))
+		XCTAssertNotNil(XSD.hourFrag("01"))
+		XCTAssertNotNil(XSD.hourFrag("10"))
+		XCTAssertNotNil(XSD.hourFrag("23"))
+		XCTAssertNil(XSD.hourFrag("010"))
+		XCTAssertNil(XSD.hourFrag("1"))
+		XCTAssertNil(XSD.hourFrag("24"))
+		XCTAssertNil(XSD.hourFrag("32"))
+	}
+
+	func testMinuteFrag() {
+		XCTAssertNotNil(XSD.minuteFrag("00"))
+		XCTAssertNotNil(XSD.minuteFrag("01"))
+		XCTAssertNotNil(XSD.minuteFrag("10"))
+		XCTAssertNotNil(XSD.minuteFrag("22"))
+		XCTAssertNotNil(XSD.minuteFrag("59"))
+		XCTAssertNil(XSD.minuteFrag("010"))
+		XCTAssertNil(XSD.minuteFrag("1"))
+		XCTAssertNil(XSD.minuteFrag("60"))
+		XCTAssertNil(XSD.minuteFrag("72"))
+	}
+
+	func testSecondFrag() {
+		XCTAssertNotNil(XSD.secondFrag("00"))
+		XCTAssertNotNil(XSD.secondFrag("01"))
+		XCTAssertNotNil(XSD.secondFrag("10"))
+		XCTAssertNotNil(XSD.secondFrag("22"))
+		XCTAssertNotNil(XSD.secondFrag("59"))
+		XCTAssertNotNil(XSD.secondFrag("00.00"))
+		XCTAssertNotNil(XSD.secondFrag("59.95"))
+		XCTAssertNil(XSD.secondFrag("00."))
+		XCTAssertNil(XSD.secondFrag("010"))
+		XCTAssertNil(XSD.secondFrag("1"))
+		XCTAssertNil(XSD.secondFrag("60"))
+		XCTAssertNil(XSD.secondFrag("72"))
+	}
+
+	func testEndOfDayFrag() {
+		XCTAssertNotNil(XSD.endOfDayFrag("24:00:00"))
+		XCTAssertNotNil(XSD.endOfDayFrag("24:00:00.00"))
+		XCTAssertNil(XSD.endOfDayFrag("24:00:00."))
+		XCTAssertNil(XSD.endOfDayFrag("24:00:00.01"))
+	}
+
+	func testTimezoneFrag() {
+		XCTAssertNotNil(XSD.timezoneFrag("Z"))
+		XCTAssertNotNil(XSD.timezoneFrag("+00:00"))
+		XCTAssertNotNil(XSD.timezoneFrag("-00:00"))
+		XCTAssertNotNil(XSD.timezoneFrag("+10:00"))
+		XCTAssertNotNil(XSD.timezoneFrag("+13:59"))
+		XCTAssertNotNil(XSD.timezoneFrag("+14:00"))
+		XCTAssertNotNil(XSD.timezoneFrag("-14:00"))
+		XCTAssertNil(XSD.timezoneFrag("z"))
+		XCTAssertNil(XSD.timezoneFrag("00:00"))
+		XCTAssertNil(XSD.timezoneFrag("14:00"))
+		XCTAssertNil(XSD.timezoneFrag("+00"))
+		XCTAssertNil(XSD.timezoneFrag("+00:00:00"))
+		XCTAssertNil(XSD.timezoneFrag("+12:60"))
+		XCTAssertNil(XSD.timezoneFrag("+12:72"))
+		XCTAssertNil(XSD.timezoneFrag("+14:01"))
+		XCTAssertNil(XSD.timezoneFrag("+15:00"))
+		XCTAssertNil(XSD.timezoneFrag("+22:00"))
 	}
 
 }
