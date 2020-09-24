@@ -26,35 +26,63 @@ final class XSDTestLexicalSpaces: XCTestCase {
 	}
 
 	func testFloatRep() {
+		XCTAssertNotNil(XSD.floatRep("00"))
 		XCTAssertNotNil(XSD.floatRep("+00"))
-		XCTAssertNotNil(XSD.floatRep("-.00"))
+		XCTAssertNotNil(XSD.floatRep("-00"))
+		XCTAssertNotNil(XSD.floatRep("00."))
+		XCTAssertNotNil(XSD.floatRep("00.00"))
+		XCTAssertNotNil(XSD.floatRep(".00"))
 		XCTAssertNotNil(XSD.floatRep("+00.00"))
-		XCTAssertNotNil(XSD.floatRep("-00e00"))
-		XCTAssertNotNil(XSD.floatRep("+.00E00"))
+		XCTAssertNotNil(XSD.floatRep("-00.00"))
+		XCTAssertNotNil(XSD.floatRep("00e00"))
+		XCTAssertNotNil(XSD.floatRep(".00E00"))
+		XCTAssertNotNil(XSD.floatRep("00.00e00"))
+		XCTAssertNotNil(XSD.floatRep("+00.00e00"))
 		XCTAssertNotNil(XSD.floatRep("-00.00e00"))
+		XCTAssertNotNil(XSD.floatRep("INF"))
 		XCTAssertNotNil(XSD.floatRep("+INF"))
+		XCTAssertNotNil(XSD.floatRep("-INF"))
 		XCTAssertNotNil(XSD.floatRep("NaN"))
-		XCTAssertNil(XSD.floatRep("+"))
 		XCTAssertNil(XSD.floatRep("."))
+		XCTAssertNil(XSD.floatRep("+"))
+		XCTAssertNil(XSD.floatRep("-"))
 		XCTAssertNil(XSD.floatRep("E"))
+		XCTAssertNil(XSD.floatRep("e"))
 		XCTAssertNil(XSD.floatRep("00.00e00.00"))
+		XCTAssertNil(XSD.floatRep("inf"))
+		XCTAssertNil(XSD.floatRep("NAN"))
 		XCTAssertNil(XSD.floatRep("+NaN"))
+		XCTAssertNil(XSD.floatRep("-NaN"))
 	}
 
 	func testDoubleRep() {
+		XCTAssertNotNil(XSD.doubleRep("00"))
 		XCTAssertNotNil(XSD.doubleRep("+00"))
-		XCTAssertNotNil(XSD.doubleRep("-.00"))
+		XCTAssertNotNil(XSD.doubleRep("-00"))
+		XCTAssertNotNil(XSD.doubleRep("00."))
+		XCTAssertNotNil(XSD.doubleRep("00.00"))
+		XCTAssertNotNil(XSD.doubleRep(".00"))
 		XCTAssertNotNil(XSD.doubleRep("+00.00"))
-		XCTAssertNotNil(XSD.doubleRep("-00e00"))
-		XCTAssertNotNil(XSD.doubleRep("+.00E00"))
+		XCTAssertNotNil(XSD.doubleRep("-00.00"))
+		XCTAssertNotNil(XSD.doubleRep("00e00"))
+		XCTAssertNotNil(XSD.doubleRep(".00E00"))
+		XCTAssertNotNil(XSD.doubleRep("00.00e00"))
+		XCTAssertNotNil(XSD.doubleRep("+00.00e00"))
 		XCTAssertNotNil(XSD.doubleRep("-00.00e00"))
+		XCTAssertNotNil(XSD.doubleRep("INF"))
 		XCTAssertNotNil(XSD.doubleRep("+INF"))
+		XCTAssertNotNil(XSD.doubleRep("-INF"))
 		XCTAssertNotNil(XSD.doubleRep("NaN"))
-		XCTAssertNil(XSD.doubleRep("+"))
 		XCTAssertNil(XSD.doubleRep("."))
+		XCTAssertNil(XSD.doubleRep("+"))
+		XCTAssertNil(XSD.doubleRep("-"))
 		XCTAssertNil(XSD.doubleRep("E"))
+		XCTAssertNil(XSD.doubleRep("e"))
 		XCTAssertNil(XSD.doubleRep("00.00e00.00"))
+		XCTAssertNil(XSD.doubleRep("inf"))
+		XCTAssertNil(XSD.doubleRep("NAN"))
 		XCTAssertNil(XSD.doubleRep("+NaN"))
+		XCTAssertNil(XSD.doubleRep("-NaN"))
 	}
 
 	func testDuYearFrag() {
@@ -577,27 +605,176 @@ final class XSDTestLexicalSpaces: XCTestCase {
 		XCTAssertNil(XSD.dateTimeLexicalRep("1972-12-31Z"))
 	}
 
-	func testDigit() {}
+	func testDigit() {
+		XCTAssertNotNil(XSD.digit("0"))
+		XCTAssertNotNil(XSD.digit("1"))
+		XCTAssertNotNil(XSD.digit("2"))
+		XCTAssertNotNil(XSD.digit("3"))
+		XCTAssertNotNil(XSD.digit("4"))
+		XCTAssertNotNil(XSD.digit("5"))
+		XCTAssertNotNil(XSD.digit("6"))
+		XCTAssertNotNil(XSD.digit("7"))
+		XCTAssertNotNil(XSD.digit("8"))
+		XCTAssertNotNil(XSD.digit("9"))
+		XCTAssertNil(XSD.digit("↊"))
+		XCTAssertNil(XSD.digit("↋"))
+		XCTAssertNil(XSD.digit(""))
+	}
 
-	func testUnsignedNoDecimalPtNumeral() {}
+	func testUnsignedNoDecimalPtNumeral() {
+		XCTAssertNotNil(XSD.unsignedNoDecimalPtNumeral("00"))
+		XCTAssertNotNil(XSD.unsignedNoDecimalPtNumeral("0123456789"))
+		XCTAssertNil(XSD.unsignedNoDecimalPtNumeral("+0"))
+		XCTAssertNil(XSD.unsignedNoDecimalPtNumeral("-0"))
+		XCTAssertNil(XSD.unsignedNoDecimalPtNumeral("0.0"))
+		XCTAssertNil(XSD.unsignedNoDecimalPtNumeral(""))
+	}
 
-	func testNoDecimalPtNumeral() {}
+	func testNoDecimalPtNumeral() {
+		XCTAssertNotNil(XSD.noDecimalPtNumeral("00"))
+		XCTAssertNotNil(XSD.noDecimalPtNumeral("0123456789"))
+		XCTAssertNotNil(XSD.noDecimalPtNumeral("+0"))
+		XCTAssertNotNil(XSD.noDecimalPtNumeral("-0"))
+		XCTAssertNil(XSD.noDecimalPtNumeral("0.0"))
+		XCTAssertNil(XSD.noDecimalPtNumeral("+0.0"))
+		XCTAssertNil(XSD.noDecimalPtNumeral("-0.0"))
+		XCTAssertNil(XSD.noDecimalPtNumeral(""))
+		XCTAssertNil(XSD.decimalPtNumeral("+"))
+		XCTAssertNil(XSD.decimalPtNumeral("-"))
+	}
 
-	func testFracFrag() {}
+	func testFracFrag() {
+		XCTAssertNotNil(XSD.fracFrag("00"))
+		XCTAssertNotNil(XSD.fracFrag("0123456789"))
+		XCTAssertNil(XSD.fracFrag("+0"))
+		XCTAssertNil(XSD.fracFrag("-0"))
+		XCTAssertNil(XSD.fracFrag("0.0"))
+		XCTAssertNil(XSD.fracFrag(""))
+	}
 
-	func testUnsignedDecimalPtNumeral() {}
+	func testUnsignedDecimalPtNumeral() {
+		XCTAssertNotNil(XSD.unsignedDecimalPtNumeral("00."))
+		XCTAssertNotNil(XSD.unsignedDecimalPtNumeral("00.00"))
+		XCTAssertNotNil(XSD.unsignedDecimalPtNumeral(".00"))
+		XCTAssertNotNil(
+			XSD.unsignedDecimalPtNumeral("0123456789.0123456789")
+		)
+		XCTAssertNil(XSD.unsignedDecimalPtNumeral("0"))
+		XCTAssertNil(XSD.unsignedDecimalPtNumeral("+0."))
+		XCTAssertNil(XSD.unsignedDecimalPtNumeral("-0."))
+		XCTAssertNil(XSD.unsignedDecimalPtNumeral(""))
+		XCTAssertNil(XSD.unsignedDecimalPtNumeral("."))
+	}
 
-	func testUnsignedFullDecimalPtNumeral() {}
+	func testUnsignedFullDecimalPtNumeral() {
+		XCTAssertNotNil(XSD.unsignedFullDecimalPtNumeral("00.00"))
+		XCTAssertNotNil(
+			XSD.unsignedFullDecimalPtNumeral("0123456789.0123456789")
+		)
+		XCTAssertNil(XSD.unsignedFullDecimalPtNumeral("00"))
+		XCTAssertNil(XSD.unsignedFullDecimalPtNumeral("00."))
+		XCTAssertNil(XSD.unsignedFullDecimalPtNumeral(".00"))
+		XCTAssertNil(XSD.unsignedFullDecimalPtNumeral("+00.00"))
+		XCTAssertNil(XSD.unsignedFullDecimalPtNumeral("-00.00"))
+		XCTAssertNil(XSD.unsignedFullDecimalPtNumeral("."))
+	}
 
-	func testDecimalPtNumeral() {}
+	func testDecimalPtNumeral() {
+		XCTAssertNotNil(XSD.decimalPtNumeral("00."))
+		XCTAssertNotNil(XSD.decimalPtNumeral("+00."))
+		XCTAssertNotNil(XSD.decimalPtNumeral("-00."))
+		XCTAssertNotNil(XSD.decimalPtNumeral("00.00"))
+		XCTAssertNotNil(XSD.decimalPtNumeral("+00.00"))
+		XCTAssertNotNil(XSD.decimalPtNumeral("-00.00"))
+		XCTAssertNotNil(XSD.decimalPtNumeral(".00"))
+		XCTAssertNotNil(XSD.decimalPtNumeral("+.00"))
+		XCTAssertNotNil(XSD.decimalPtNumeral("-.00"))
+		XCTAssertNotNil(XSD.decimalPtNumeral("0123456789.0123456789"))
+		XCTAssertNotNil(XSD.decimalPtNumeral("+0123456789.0123456789"))
+		XCTAssertNotNil(XSD.decimalPtNumeral("-0123456789.0123456789"))
+		XCTAssertNil(XSD.decimalPtNumeral("00"))
+		XCTAssertNil(XSD.decimalPtNumeral("+00"))
+		XCTAssertNil(XSD.decimalPtNumeral("-00"))
+		XCTAssertNil(XSD.decimalPtNumeral(""))
+		XCTAssertNil(XSD.decimalPtNumeral("."))
+		XCTAssertNil(XSD.decimalPtNumeral("+"))
+		XCTAssertNil(XSD.decimalPtNumeral("-"))
+	}
 
-	func testUnsignedScientificNotationNumeral() {}
+	func testUnsignedScientificNotationNumeral() {
+		XCTAssertNotNil(XSD.unsignedScientificNotationNumeral("00e00"))
+		XCTAssertNotNil(
+			XSD.unsignedScientificNotationNumeral(".00E00")
+		)
+		XCTAssertNotNil(
+			XSD.unsignedScientificNotationNumeral("00.00e00")
+		)
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral("00"))
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral("00."))
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral("00.00"))
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral(".00"))
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral("+00"))
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral("-00"))
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral("+00.00"))
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral("-00.00"))
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral("+00.00e00"))
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral("-00.00e00"))
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral("."))
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral("E"))
+		XCTAssertNil(XSD.unsignedScientificNotationNumeral("e"))
+		XCTAssertNil(
+			XSD.unsignedScientificNotationNumeral("00.00e00.00")
+		)
+	}
 
-	func testScientificNotationNumeral() {}
+	func testScientificNotationNumeral() {
+		XCTAssertNotNil(XSD.scientificNotationNumeral("00e00"))
+		XCTAssertNotNil(XSD.scientificNotationNumeral(".00E00"))
+		XCTAssertNotNil(XSD.scientificNotationNumeral("00.00e00"))
+		XCTAssertNotNil(XSD.scientificNotationNumeral("+00.00e00"))
+		XCTAssertNotNil(XSD.scientificNotationNumeral("-00.00e00"))
+		XCTAssertNil(XSD.scientificNotationNumeral("00"))
+		XCTAssertNil(XSD.scientificNotationNumeral("+00"))
+		XCTAssertNil(XSD.scientificNotationNumeral("-00"))
+		XCTAssertNil(XSD.scientificNotationNumeral("00."))
+		XCTAssertNil(XSD.scientificNotationNumeral("00.00"))
+		XCTAssertNil(XSD.scientificNotationNumeral(".00"))
+		XCTAssertNil(XSD.scientificNotationNumeral("+00.00"))
+		XCTAssertNil(XSD.scientificNotationNumeral("-00.00"))
+		XCTAssertNil(XSD.scientificNotationNumeral("."))
+		XCTAssertNil(XSD.scientificNotationNumeral("+"))
+		XCTAssertNil(XSD.scientificNotationNumeral("-"))
+		XCTAssertNil(XSD.scientificNotationNumeral("E"))
+		XCTAssertNil(XSD.scientificNotationNumeral("e"))
+		XCTAssertNil(XSD.scientificNotationNumeral("00.00e00.00"))
+	}
 
-	func testMinimalNumericalSpecialRep() {}
+	func testMinimalNumericalSpecialRep() {
+		XCTAssertNotNil(XSD.minimalNumericalSpecialRep("INF"))
+		XCTAssertNotNil(XSD.minimalNumericalSpecialRep("-INF"))
+		XCTAssertNotNil(XSD.minimalNumericalSpecialRep("NaN"))
+		XCTAssertNil(XSD.minimalNumericalSpecialRep("+INF"))
+		XCTAssertNil(XSD.minimalNumericalSpecialRep("inf"))
+		XCTAssertNil(XSD.minimalNumericalSpecialRep("-inf"))
+		XCTAssertNil(XSD.minimalNumericalSpecialRep("NAN"))
+		XCTAssertNil(XSD.minimalNumericalSpecialRep("nan"))
+		XCTAssertNil(XSD.minimalNumericalSpecialRep("+NaN"))
+		XCTAssertNil(XSD.minimalNumericalSpecialRep("-NaN"))
+	}
 
-	func testNumericalSpecialRep() {}
+	func testNumericalSpecialRep() {
+		XCTAssertNotNil(XSD.numericalSpecialRep("INF"))
+		XCTAssertNotNil(XSD.numericalSpecialRep("-INF"))
+		XCTAssertNotNil(XSD.numericalSpecialRep("NaN"))
+		XCTAssertNotNil(XSD.numericalSpecialRep("+INF"))
+		XCTAssertNil(XSD.numericalSpecialRep("inf"))
+		XCTAssertNil(XSD.numericalSpecialRep("-inf"))
+		XCTAssertNil(XSD.numericalSpecialRep("+inf"))
+		XCTAssertNil(XSD.numericalSpecialRep("NAN"))
+		XCTAssertNil(XSD.numericalSpecialRep("nan"))
+		XCTAssertNil(XSD.numericalSpecialRep("+NaN"))
+		XCTAssertNil(XSD.numericalSpecialRep("-NaN"))
+	}
 
 	func testYearFrag() {
 		XCTAssertNotNil(XSD.yearFrag("0000"))
