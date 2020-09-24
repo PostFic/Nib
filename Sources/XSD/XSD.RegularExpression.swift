@@ -79,7 +79,12 @@ public extension XSD {
 			XSD.RegularExpression.replaceIn(  //  escape `?` in `(?`
 				string: &swiftPattern,
 				"(\(XSD.RegularExpression.unescaped)\\()\\?",
-				"$1\\\\?"
+				#"$1\\?"#
+			)
+			XSD.RegularExpression.replaceIn(  //  group with `(?:`
+				string: &swiftPattern,
+				"(\(XSD.RegularExpression.unescaped)\\()",
+				#"$1\?:"#
 			)
 			XSD.RegularExpression.replaceIn(  //  character groups
 				string: &swiftPattern,
@@ -89,7 +94,7 @@ public extension XSD {
 					\(XSD.RegularExpression.charRange)|\
 					\(XSD.RegularExpression.charClassEsc))+)-\\[(.+)]]
 					""",
-				"$1(?:(?![$3])[$2])"
+				#"$1(?:(?![$3])[$2])"#
 			)
 			XSD.RegularExpression.replaceIn(  //  escape second `?`/`+`
 				string: &swiftPattern,
@@ -97,11 +102,12 @@ public extension XSD {
 					(\(XSD.RegularExpression.unescaped)\
 					(?:[*+?]|\\{\\d+,\\d*\\}))([?+])
 					""",
-				"$1\\\\$2"
+				#"$1\\$2"#
 			)
 			XSD.RegularExpression.replaceIn(  //  escape `^`/`$`/etc.
 				string: &swiftPattern,
-				"(\\A\\^|\\$\\z)", "\\\\$1"
+				#"(\A\^|\$\z)"#,
+				#"\\$1"#
 			)
 			XSD.RegularExpression.replaceIn(  //  `.`
 				string: &swiftPattern,
@@ -150,7 +156,7 @@ public extension XSD {
 			)
 			guard  //  make regexp
 				let nsRegularExpression = try? NSRegularExpression(
-					pattern: "^\(swiftPattern)$"
+					pattern: "^(?:\(swiftPattern))$"
 				)
 			else { return nil }
 			self.nsRegularExpression = nsRegularExpression
@@ -177,7 +183,7 @@ public extension XSD {
 		}
 
 		/// Ensures that the following character is unescaped.
-		private static let unescaped = "(?<!\\\\)(?:\\\\\\\\)*"
+		private static let unescaped = #"(?<!\\)(?:\\\\)*"#
 
 		/// A single character.
 		///
@@ -215,7 +221,7 @@ public extension XSD {
 		/// Any Unicode character.
 		private static let anyChar =
 			NSRegularExpression.escapedTemplate(
-				for: "\\x00-\\x{10FFFF}"
+				for: #"\x00-\x{10FFFF}"#
 			)
 
 		/// The set of name characters, those matched by
@@ -246,13 +252,13 @@ public extension XSD {
 		/// Line break characters.
 		private static let lineChar =
 			NSRegularExpression.escapedTemplate(
-				for: "\\n\\r"
+				for: #"\n\r"#
 			)
 
 		/// Space characters.
 		private static let spaceChar =
 			NSRegularExpression.escapedTemplate(
-				for: "\\x20\\t\\n\\r"
+				for: #"\x20\t\n\r"#
 			)
 
 		/// The set of initial name characters, those matched by
@@ -282,7 +288,7 @@ public extension XSD {
 		/// Word characters.
 		private static let wordChar =
 			NSRegularExpression.escapedTemplate(
-				for: "\\p{P}\\p{Z}\\p{C}"
+				for: #"\p{P}\p{Z}\p{C}"#
 			)
 
 		/// Replaces within a string, used internally to modify the

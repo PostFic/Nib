@@ -3,7 +3,7 @@ import XSD
 
 func anchoredRegularExpression(_ pattern: String)
 	-> NSRegularExpression
-{ return try! NSRegularExpression(pattern: "^\(pattern)$") }
+{ return try! NSRegularExpression(pattern: "^(?:\(pattern))$") }
 
 final class XSDTestRegularExpressions: XCTestCase {
 
@@ -14,14 +14,21 @@ final class XSDTestRegularExpressions: XCTestCase {
 	func testRegularExpressionEscapesQuantifierModifiers() {
 		XCTAssertEqual(
 			XSD.RegularExpression("X*?X*+")!.nsRegularExpression,
-			anchoredRegularExpression("X*\\?X*\\+")
+			anchoredRegularExpression(#"X*\?X*\+"#)
 		)
 	}
 
 	func testRegularExpressionEscapesNonCapturingParens() {
 		XCTAssertEqual(
 			XSD.RegularExpression("(?:)")!.nsRegularExpression,
-			anchoredRegularExpression("(\\?:)")
+			anchoredRegularExpression(#"(?:\?:)"#)
+		)
+	}
+
+	func testRegularExpressionDoesntCaptureGroups() {
+		XCTAssertEqual(
+			XSD.RegularExpression("(X)")!.nsRegularExpression,
+			anchoredRegularExpression("(?:X)")
 		)
 	}
 

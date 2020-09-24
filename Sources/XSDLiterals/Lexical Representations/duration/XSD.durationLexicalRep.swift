@@ -10,6 +10,13 @@ public extension XSD {
 	/// ````
 	/// [15]   durationLexicalRep ::= '-'? 'P' ((duYearMonthFrag duDayTimeFrag?) | duDayTimeFrag)
 	/// ````
+	///
+	///  +  note:
+	///     The XSD specification gives an incorrect regex: The seconds
+	///       component is allowed to have a leading decimal.
+	///     Nib provides the correct implementation (but note that
+	///       durations with a leading decimal in their seconds value
+	///       may not be interoperable).
 	class durationLexicalRep: XSD.Literal {
 
 		@XSD.RegularExpression.Wrapper
@@ -18,15 +25,17 @@ public extension XSD {
 			|([0-9]+M)([0-9]+D)?\
 			|([0-9]+D)\
 			)\
-			(T(([0-9]+H)([0-9]+M)?([0-9]+(\\.[0-9]+)?S)?\
-			|([0-9]+M)([0-9]+(\\.[0-9]+)?S)?\
-			|([0-9]+(\\.[0-9]+)?S)\
+			(T(([0-9]+H)([0-9]+M)?\
+			(([0-9]+|[0-9]+\\.[0-9]*|\\.[0-9]+)S)?\
+			|([0-9]+M)(([0-9]+|[0-9]+\\.[0-9]*|\\.[0-9]+)S)?\
+			|(([0-9]+|[0-9]+\\.[0-9]*|\\.[0-9]+)S)\
 			)\
 			)?\
 			)\
-			|(T(([0-9]+H)([0-9]+M)?([0-9]+(\\.[0-9]+)?S)?\
-			|([0-9]+M)([0-9]+(\\.[0-9]+)?S)?\
-			|([0-9]+(\\.[0-9]+)?S)\
+			|(T(([0-9]+H)([0-9]+M)?\
+			(([0-9]+|[0-9]+\\.[0-9]*|\\.[0-9]+)S)?\
+			|([0-9]+M)(([0-9]+|[0-9]+\\.[0-9]*|\\.[0-9]+)S)?\
+			|(([0-9]+|[0-9]+\\.[0-9]*|\\.[0-9]+)S)\
 			)\
 			)\
 			)
