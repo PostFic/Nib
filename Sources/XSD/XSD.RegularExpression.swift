@@ -328,6 +328,7 @@ extension XSD.RegularExpression: Equatable {
 	///
 	/// Equality is determined based on the `description` string of the
 	///   regular expression.
+	@inlinable
 	public static func ==(
 		lhs: XSD.RegularExpression,
 		rhs: XSD.RegularExpression
@@ -345,6 +346,7 @@ extension XSD.RegularExpression: Hashable {
 	///
 	/// Hashing is done using the `description` string of the regular
 	///   expression.
+	@inlinable
 	public func hash(
 		into hasher: inout Hasher
 	) { hasher.combine(description) }

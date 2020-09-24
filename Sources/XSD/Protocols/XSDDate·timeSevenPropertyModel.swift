@@ -72,11 +72,13 @@ public extension XSDDate·timeSevenPropertyModel {
 		return ·timeOnTimeline·.distance(to: other.·timeOnTimeline·)
 	}
 
+	@inlinable
 	static func ==<D7M: XSDDate·timeSevenPropertyModel>(
 		lhs: Self,
 		rhs: D7M
 	) -> Bool { lhs.·timeOnTimeline· == rhs.·timeOnTimeline· }
 
+	@inlinable
 	static func <<D7M: XSDDate·timeSevenPropertyModel>(
 		lhs: Self,
 		rhs: D7M

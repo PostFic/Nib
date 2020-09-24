@@ -156,6 +156,7 @@ public protocol XSDValue: Hashable {
 
 public extension XSDValue {
 
+	@inlinable
 	init?(
 		_ description: String
 	) {

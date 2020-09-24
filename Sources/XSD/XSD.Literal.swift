@@ -34,6 +34,7 @@ extension XSD {
 		///  +  parameters:
 		///      +  representation:
 		///         The string value of the literal.
+		@inlinable
 		public convenience init?<S: StringProtocol>(
 			_ representation: S = ""
 		) { self.init(String(representation)) }
@@ -52,6 +53,7 @@ extension XSD {
 
 public extension XSD.Literal {
 
+	@inlinable
 	final class func +(
 		lhs: XSD.Literal,
 		rhs: XSD.Literal
@@ -59,11 +61,13 @@ public extension XSD.Literal {
 		return String(describing: lhs) + String(describing: rhs)
 	}
 
+	@inlinable
 	final class func +<S: StringProtocol>(
 		lhs: XSD.Literal,
 		rhs: S
 	) -> String { return String(describing: lhs) + rhs }
 
+	@inlinable
 	final class func +<S: StringProtocol>(
 		lhs: S,
 		rhs: XSD.Literal
@@ -90,6 +94,7 @@ extension XSD.Literal: Equatable {
 	/// Equality is determined based on the `description` string of the
 	///   literal.
 	/// It does not test against lexical space.
+	@inlinable
 	public final class func ==(
 		lhs: XSD.Literal,
 		rhs: XSD.Literal

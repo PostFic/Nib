@@ -1,8 +1,8 @@
-extension XSD {
+public extension XSD {
 
 	/// A named value which is distinct from, and unequal to, all other
 	///   values.
-	public enum SpecialValue: String {
+	enum SpecialValue: String {
 
 		/// A `positiveInfinity` value.
 		case positiveInfinity

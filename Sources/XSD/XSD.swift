@@ -174,112 +174,6 @@ public enum XSD: String {
 	case dateTimeStamp
 
 	/*
-	##  Types  ##
-	*/
-
-	/// An enumeration representing the XSD‐defined constraining
-	///   facets.
-	public enum ConstrainingFacet: String {
-
-		/// [xsd:length](http://www.w3.org/2001/XMLSchema#length).
-		case length
-
-		/// [xsd:minLength](http://www.w3.org/2001/XMLSchema#minLength).
-		case minLength
-
-		/// [xsd:maxLength](http://www.w3.org/2001/XMLSchema#maxLength).
-		case maxLength
-
-		/// [xsd:pattern](http://www.w3.org/2001/XMLSchema#pattern).
-		case pattern
-
-		/// [xsd:enumeration](http://www.w3.org/2001/XMLSchema#enumeration).
-		case enumeration
-
-		/// [xsd:whiteSpace](http://www.w3.org/2001/XMLSchema#whiteSpace).
-		case whiteSpace
-
-		/// [xsd:maxInclusive](http://www.w3.org/2001/XMLSchema#maxInclusive).
-		case maxInclusive
-
-		/// [xsd:maxExclusive](http://www.w3.org/2001/XMLSchema#maxExclusive).
-		case maxExclusive
-
-		/// [xsd:minExclusive](http://www.w3.org/2001/XMLSchema#minExclusive).
-		case minExclusive
-
-		/// [xsd:minInclusive](http://www.w3.org/2001/XMLSchema#minInclusive).
-		case minInclusive
-
-		/// [xsd:totalDigits](http://www.w3.org/2001/XMLSchema#totalDigits).
-		case totalDigits
-
-		/// [xsd:fractionDigits](http://www.w3.org/2001/XMLSchema#fractionDigits).
-		case fractionDigits
-
-		/// [xsd:Assertions](http://www.w3.org/2001/XMLSchema#Assertions).
-		case Assertions
-
-		/// [xsd:explicitTimezone](http://www.w3.org/2001/XMLSchema#explicitTimezone).
-		case explicitTimezone
-
-	}
-
-	/// An untyped decimal number, as used by the various XSD
-	///   functions.
-	///
-	///  +  note:
-	///     XSD functions will sometimes add additional constraints to
-	///       the decimal numbers they take; no separate datatypes for
-	///       these are used.
-	public typealias DecimalNumber = Decimal
-
-	public enum BinaryDigit: UInt8, Hashable {
-		case ０
-		case １
-	}
-
-	public typealias BinaryOctet = UInt8
-
-	/// An enumeration representing possible XSD errors.
-	public enum Error: Swift.Error {
-
-		/// The provided literal is not in the lexical space for the
-		///   value.
-		case notInLexicalSpace
-
-	}
-
-	/// An enumeration representing the XSD‐defined fundamental facets.
-	public enum FundamentalFacet: String {
-
-		/// [xsd:ordered](http://www.w3.org/2001/XMLSchema#ordered).
-		case ordered
-
-		/// [xsd:bounded](http://www.w3.org/2001/XMLSchema#bounded).
-		case bounded
-
-		/// [xsd:cardinality](http://www.w3.org/2001/XMLSchema#cardinality).
-		case cardinality
-
-		/// [xsd:numeric](http://www.w3.org/2001/XMLSchema#numeric).
-		case numeric
-
-	}
-
-	/// An untyped integer, as used by the various XSD functions.
-	///
-	///  +  note:
-	///     XSD functions will sometimes add additional constraints to
-	///       the integers they take; no separate datatypes for these
-	///       are used.
-	public typealias Integer = Int64
-
-	/// A sequence of values, possibly infinite, as used by the various
-	///   XSD functions.
-	public typealias Sequence<T> = UnfoldSequence<T, Any>
-
-	/*
 	##  Properties and Methods  ##
 	*/
 
@@ -297,6 +191,7 @@ public enum XSD: String {
 	///
 	///  +  returns:
 	///     A `XSD.Integer`.
+	@inlinable
 	public static func ·div· (
 		_ m: XSD.DecimalNumber,
 		_ n: XSD.DecimalNumber
@@ -326,6 +221,7 @@ public enum XSD: String {
 	///
 	///  +  returns:
 	///     An `XSD.Integer`.
+	@inlinable
 	public static func ·div· (
 		_ m: XSD.Integer,
 		_ n: XSD.Integer
@@ -341,6 +237,7 @@ public enum XSD: String {
 	///
 	///  +  returns:
 	///     A `XSD.DecimalNumber`.
+	@inlinable
 	public static func ·mod· (
 		_ m: XSD.DecimalNumber,
 		_ n: XSD.DecimalNumber
@@ -370,6 +267,7 @@ public enum XSD: String {
 	///
 	///  +  returns:
 	///     An `XSD.Integer`.
+	@inlinable
 	public static func ·mod· (
 		_ m: XSD.Integer,
 		_ n: XSD.Integer
