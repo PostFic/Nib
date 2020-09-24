@@ -291,47 +291,291 @@ final class XSDTestLexicalSpaces: XCTestCase {
 		XCTAssertNil(XSD.gMonthLexicalRep("-12+14"))
 	}
 
-	func testHexDigit() {}
+	func testHexDigit() {
+		XCTAssertNotNil(XSD.hexDigit("0"))
+		XCTAssertNotNil(XSD.hexDigit("e"))
+		XCTAssertNotNil(XSD.hexDigit("F"))
+		XCTAssertNil(XSD.hexDigit("G"))
+	}
 
-	func testHexOctet() {}
+	func testHexOctet() {
+		XCTAssertNotNil(XSD.hexOctet("00"))
+		XCTAssertNotNil(XSD.hexOctet("ee"))
+		XCTAssertNotNil(XSD.hexOctet("FF"))
+		XCTAssertNil(XSD.hexOctet("G0"))
+	}
 
-	func testHexBinaryRep() {}
+	func testHexBinaryRep() {
+		XCTAssertNotNil(XSD.hexBinaryRep("0FB7"))
+		XCTAssertNotNil(XSD.hexBinaryRep("800bea"))
+		XCTAssertNil(XSD.hexBinaryRep("F"))
+		XCTAssertNil(XSD.hexBinaryRep("0F B7"))
+		XCTAssertNil(XSD.hexBinaryRep("LEAF"))
+	}
 
-	func test·Base64Binary() {}
+	func test·Base64Binary() {
+		XCTAssertNotNil(XSD.Base64Binary("KiBi1024"))
+		XCTAssertNotNil(XSD.Base64Binary("KiBiBAo="))
+		XCTAssertNotNil(XSD.Base64Binary("KiBiBA=="))
+		XCTAssertNotNil(XSD.Base64Binary("K iBi"))
+		XCTAssertNotNil(XSD.Base64Binary("Ki Bi"))
+		XCTAssertNotNil(XSD.Base64Binary("KiB i"))
+		XCTAssertNil(XSD.Base64Binary(" KiBi1024"))
+		XCTAssertNil(XSD.Base64Binary("KiBi1024 "))
+		XCTAssertNil(XSD.Base64Binary("BAo=1024"))
+		XCTAssertNil(XSD.Base64Binary("BA==1024"))
+	}
 
-	func test·B64quad() {}
+	func test·B64quad() {
+		XCTAssertNotNil(XSD.B64quad("KiBi"))
+		XCTAssertNotNil(XSD.B64quad("K iBi"))
+		XCTAssertNotNil(XSD.B64quad("Ki Bi"))
+		XCTAssertNotNil(XSD.B64quad("KiB i"))
+		XCTAssertNotNil(XSD.B64quad("KiB i "))
+		XCTAssertNotNil(XSD.B64quad("K i B i "))
+		XCTAssertNil(XSD.B64quad(" KiBi"))
+	}
 
-	func test·B64final() {}
+	func test·B64final() {
+		XCTAssertNotNil(XSD.B64final("KiBi"))
+		XCTAssertNotNil(XSD.B64final("BAo="))
+		XCTAssertNotNil(XSD.B64final("BA=="))
+		XCTAssertNotNil(XSD.B64final("K iBi"))
+		XCTAssertNotNil(XSD.B64final("Ki Bi"))
+		XCTAssertNotNil(XSD.B64final("KiB i"))
+		XCTAssertNotNil(XSD.B64final("K i B i"))
+		XCTAssertNil(XSD.B64final("===="))
+		XCTAssertNil(XSD.B64final("A==="))
+		XCTAssertNil(XSD.B64final(" KiBi"))
+		XCTAssertNil(XSD.B64final("KiBi "))
+	}
 
-	func test·B64finalquad() {}
+	func test·B64finalquad() {
+		XCTAssertNotNil(XSD.B64finalquad("KiBi"))
+		XCTAssertNotNil(XSD.B64finalquad("K iBi"))
+		XCTAssertNotNil(XSD.B64finalquad("Ki Bi"))
+		XCTAssertNotNil(XSD.B64finalquad("KiB i"))
+		XCTAssertNotNil(XSD.B64finalquad("K i B i"))
+		XCTAssertNil(XSD.B64finalquad(" KiBi"))
+		XCTAssertNil(XSD.B64finalquad("KiBi "))
+	}
 
-	func test·Padded16() {}
+	func test·Padded16() {
+		XCTAssertNotNil(XSD.Padded16("BAo="))
+		XCTAssertNotNil(XSD.Padded16("B Ao="))
+		XCTAssertNotNil(XSD.Padded16("BA o="))
+		XCTAssertNotNil(XSD.Padded16("BAo ="))
+		XCTAssertNotNil(XSD.Padded16("B A o ="))
+		XCTAssertNil(XSD.Padded16(" BAo="))
+		XCTAssertNil(XSD.Padded16("BAo=="))
+		XCTAssertNil(XSD.Padded16("BAo= "))
+		XCTAssertNil(XSD.Padded16("BAo"))
+		XCTAssertNil(XSD.Padded16("BAD="))
+	}
 
-	func test·Padded8() {}
+	func test·Padded8() {
+		XCTAssertNotNil(XSD.Padded8("BA=="))
+		XCTAssertNotNil(XSD.Padded8("B A=="))
+		XCTAssertNotNil(XSD.Padded8("BA =="))
+		XCTAssertNotNil(XSD.Padded8("BA= ="))
+		XCTAssertNotNil(XSD.Padded8("B A = ="))
+		XCTAssertNil(XSD.Padded8(" BA=="))
+		XCTAssertNil(XSD.Padded8("BA==="))
+		XCTAssertNil(XSD.Padded8("BA== "))
+		XCTAssertNil(XSD.Padded8("BA="))
+		XCTAssertNil(XSD.Padded8("BG=="))
+	}
 
-	func test·B64() {}
+	func test·B64() {
+		XCTAssertNotNil(XSD.B64("B"))
+		XCTAssertNotNil(XSD.B64("0 "))
+		XCTAssertNotNil(XSD.B64("+"))
+		XCTAssertNotNil(XSD.B64("/ "))
+		XCTAssertNil(XSD.B64(" B"))
+		XCTAssertNil(XSD.B64("B  "))
+		XCTAssertNil(XSD.B64("-"))
+		XCTAssertNil(XSD.B64(#"\"#))
+	}
 
-	func test·B64char() {}
+	func test·B64char() {
+		XCTAssertNotNil(XSD.B64char("B"))
+		XCTAssertNotNil(XSD.B64char("0"))
+		XCTAssertNotNil(XSD.B64char("+"))
+		XCTAssertNotNil(XSD.B64char("/"))
+		XCTAssertNil(XSD.B64char("B "))
+		XCTAssertNil(XSD.B64char("-"))
+		XCTAssertNil(XSD.B64char(#"\"#))
+	}
 
-	func test·B16() {}
+	func test·B16() {
+		XCTAssertNotNil(XSD.B16("E"))
+		XCTAssertNotNil(XSD.B16("Y "))
+		XCTAssertNotNil(XSD.B16("k"))
+		XCTAssertNotNil(XSD.B16("o "))
+		XCTAssertNil(XSD.B16(" E"))
+		XCTAssertNil(XSD.B16("E  "))
+		XCTAssertNil(XSD.B16("e"))
+		XCTAssertNil(XSD.B16("B"))
+	}
 
-	func test·B16char() {}
+	func test·B16char() {
+		XCTAssertNotNil(XSD.B16char("E"))
+		XCTAssertNotNil(XSD.B16char("Y"))
+		XCTAssertNotNil(XSD.B16char("k"))
+		XCTAssertNotNil(XSD.B16char("o"))
+		XCTAssertNil(XSD.B16char("E "))
+		XCTAssertNil(XSD.B16char("e"))
+		XCTAssertNil(XSD.B16char("B"))
+	}
 
-	func test·B04() {}
+	func test·B04() {
+		XCTAssertNotNil(XSD.B04("A"))
+		XCTAssertNotNil(XSD.B04("Q "))
+		XCTAssertNotNil(XSD.B04("g"))
+		XCTAssertNotNil(XSD.B04("w "))
+		XCTAssertNil(XSD.B04(" A"))
+		XCTAssertNil(XSD.B04("A  "))
+		XCTAssertNil(XSD.B04("a"))
+		XCTAssertNil(XSD.B04("E"))
+	}
 
-	func test·B04char() {}
+	func test·B04char() {
+		XCTAssertNotNil(XSD.B04char("A"))
+		XCTAssertNotNil(XSD.B04char("Q"))
+		XCTAssertNotNil(XSD.B04char("g"))
+		XCTAssertNotNil(XSD.B04char("w"))
+		XCTAssertNil(XSD.B04char("A "))
+		XCTAssertNil(XSD.B04char("a"))
+		XCTAssertNil(XSD.B04char("E"))
+	}
 
-	func test·Canonical·base64Binary() {}
+	func test·Canonical·base64Binary() {
+		XCTAssertNotNil(XSD.Canonical·base64Binary("KiBi1024"))
+		XCTAssertNotNil(XSD.Canonical·base64Binary("KiBiBAo="))
+		XCTAssertNotNil(XSD.Canonical·base64Binary("KiBiBA=="))
+		XCTAssertNil(XSD.Canonical·base64Binary("K iBi"))
+		XCTAssertNil(XSD.Canonical·base64Binary("Ki Bi"))
+		XCTAssertNil(XSD.Canonical·base64Binary("KiB i"))
+		XCTAssertNil(XSD.Canonical·base64Binary(" KiBi1024"))
+		XCTAssertNil(XSD.Canonical·base64Binary("KiBi1024 "))
+		XCTAssertNil(XSD.Canonical·base64Binary("BAo=1024"))
+		XCTAssertNil(XSD.Canonical·base64Binary("BA==1024"))
+	}
 
-	func test·CanonicalQuad() {}
+	func test·CanonicalQuad() {
+		XCTAssertNotNil(XSD.CanonicalQuad("KiBi"))
+		XCTAssertNil(XSD.CanonicalQuad("K iBi"))
+		XCTAssertNil(XSD.CanonicalQuad("Ki Bi"))
+		XCTAssertNil(XSD.CanonicalQuad("KiB i"))
+		XCTAssertNil(XSD.CanonicalQuad("KiB i "))
+		XCTAssertNil(XSD.CanonicalQuad("K i B i "))
+		XCTAssertNil(XSD.CanonicalQuad(" KiBi"))
+	}
 
-	func test·CanonicalPadded() {}
+	func test·CanonicalPadded() {
+		XCTAssertNotNil(XSD.CanonicalPadded("BAo="))
+		XCTAssertNotNil(XSD.CanonicalPadded("BA=="))
+		XCTAssertNil(XSD.CanonicalPadded("B Ao="))
+		XCTAssertNil(XSD.CanonicalPadded("BA o="))
+		XCTAssertNil(XSD.CanonicalPadded("BAo ="))
+		XCTAssertNil(XSD.CanonicalPadded("B A o ="))
+		XCTAssertNil(XSD.CanonicalPadded(" BAo="))
+		XCTAssertNil(XSD.CanonicalPadded("BAo=="))
+		XCTAssertNil(XSD.CanonicalPadded("BAo= "))
+		XCTAssertNil(XSD.CanonicalPadded("BAo"))
+		XCTAssertNil(XSD.CanonicalPadded("BAD="))
+		XCTAssertNil(XSD.CanonicalPadded("B A=="))
+		XCTAssertNil(XSD.CanonicalPadded("BA =="))
+		XCTAssertNil(XSD.CanonicalPadded("BA= ="))
+		XCTAssertNil(XSD.CanonicalPadded("B A = ="))
+		XCTAssertNil(XSD.CanonicalPadded(" BA=="))
+		XCTAssertNil(XSD.CanonicalPadded("BA==="))
+		XCTAssertNil(XSD.CanonicalPadded("BA== "))
+		XCTAssertNil(XSD.CanonicalPadded("BA="))
+		XCTAssertNil(XSD.CanonicalPadded("BG=="))
+	}
 
-	func testYearMonthDurationLexicalRep() {}
+	func testYearMonthDurationLexicalRep() {
+		XCTAssertNotNil(XSD.yearMonthDurationLexicalRep("-P00Y00M"))
+		XCTAssertNotNil(XSD.yearMonthDurationLexicalRep("P0M"))
+		XCTAssertNil(XSD.yearMonthDurationLexicalRep("PT.0S"))
+		XCTAssertNil(XSD.yearMonthDurationLexicalRep("-P0D"))
+		XCTAssertNil(XSD.yearMonthDurationLexicalRep("-"))
+		XCTAssertNil(XSD.yearMonthDurationLexicalRep("P"))
+		XCTAssertNil(XSD.yearMonthDurationLexicalRep("0"))
+		XCTAssertNil(XSD.yearMonthDurationLexicalRep("PY"))
+		XCTAssertNil(XSD.yearMonthDurationLexicalRep("PTS"))
+		XCTAssertNil(XSD.yearMonthDurationLexicalRep("+P0S"))
+		XCTAssertNil(XSD.yearMonthDurationLexicalRep("P0MT"))
+		XCTAssertNil(XSD.yearMonthDurationLexicalRep("PT0S0M"))
+	}
 
-	func testDayTimeLexicalRep() {}
+	func testDayTimeDurationLexicalRep() {
+		XCTAssertNotNil(
+			XSD.dayTimeDurationLexicalRep("-P00DT00H00M00.00S")
+		)
+		XCTAssertNotNil(XSD.dayTimeDurationLexicalRep("PT.0S"))
+		XCTAssertNotNil(XSD.dayTimeDurationLexicalRep("-P0D"))
+		XCTAssertNil(XSD.dayTimeDurationLexicalRep("P0M"))
+		XCTAssertNil(XSD.dayTimeDurationLexicalRep("-"))
+		XCTAssertNil(XSD.dayTimeDurationLexicalRep("P"))
+		XCTAssertNil(XSD.dayTimeDurationLexicalRep("0"))
+		XCTAssertNil(XSD.dayTimeDurationLexicalRep("PY"))
+		XCTAssertNil(XSD.dayTimeDurationLexicalRep("PTS"))
+		XCTAssertNil(XSD.dayTimeDurationLexicalRep("+P0S"))
+		XCTAssertNil(XSD.dayTimeDurationLexicalRep("P0MT"))
+		XCTAssertNil(XSD.dayTimeDurationLexicalRep("PT0S0M"))
+	}
 
-	func testDateTimeStampLexicalRep() {}
+	func testDateTimeStampLexicalRep() {
+		XCTAssertNotNil(
+			XSD.dateTimeStampLexicalRep("1972-12-31T00:00:00Z")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeStampLexicalRep("0000-01-01T24:00:00Z")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeStampLexicalRep("-0000-01-01T23:59:59Z")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeStampLexicalRep("19720-02-29T00:00:00Z")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeLexicalRep("1972-12-31T00:00:00.00Z")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeLexicalRep("1972-12-31T00:00:00+00:00")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeLexicalRep("1972-12-31T00:00:00-00:00")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeLexicalRep("1972-12-31T00:00:00+13:59")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeLexicalRep("1972-12-31T00:00:00-14:00")
+		)
+		XCTAssertNil(
+			XSD.dateTimeStampLexicalRep("1972-12-31T00:00:00")
+		)
+		XCTAssertNil(
+			XSD.dateTimeStampLexicalRep("-0000-01-01T23:59:59")
+		)
+		XCTAssertNil(
+			XSD.dateTimeStampLexicalRep("19720-02-29T00:00:00")
+		)
+		XCTAssertNil(XSD.dateTimeLexicalRep("+1972-12-31T00:00:00Z"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("01972-12-31T00:00:00Z"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("1972-12-31T00:00:00.Z"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("0000-00-00T00:00:00Z"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("9999-99-99T99:99:99Z"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("0000-04-31T00:00:00Z"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("0000-02-30T00:00:00Z"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("0001-02-29T00:00:00Z"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("1972-12-31T00:00:00z"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("1972-12-31T00:00:00+14"))
+		XCTAssertNil(XSD.dateTimeLexicalRep("1972-12-31Z"))
+	}
 
 	func testDigit() {}
 

@@ -20,7 +20,7 @@ public extension XSD {
 
 		@XSD.RegularExpression.Wrapper
 		private static var pattern = """
-			(([A-Za-z0-9+/]{4})*\
+			(([A-Za-z0-9+/]{4})*(\
 			[A-Za-z0-9+/]{3}[A-Za-z0-9+/]|\
 			[A-Za-z0-9+/]{2}[AEIMQUYcgkosw048]=|\
 			[A-Za-z0-9+/][AQgw]==))?
