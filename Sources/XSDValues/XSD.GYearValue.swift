@@ -6,8 +6,8 @@ extension XSD {
 	/// A structure representing the XSD Date/time Seven‐property
 	///   Model.
 	public struct GYearValue:
-		XSDDate·timeSevenPropertyModel,
-		XSDCanonicalMappable
+		XSDCanonicalMappable,
+		XSDDate·timeSevenPropertyModel
 	{
 		
 		public typealias LexicalRepresentation = XSD.gYearLexicalRep

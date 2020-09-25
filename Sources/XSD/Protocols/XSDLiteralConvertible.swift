@@ -15,7 +15,7 @@ public extension XSDLiteralConvertible {
 	@inlinable
 	static postfix func ◊<L: XSD.Literal>(
 		operand: Self
-	) -> L { return (operand◊?)! }
+	) -> L { (operand◊?)! }
 
 }
 
@@ -26,6 +26,6 @@ public extension XSDLiteralConvertible
 	@inlinable
 	static postfix func ◊?<L: XSD.Literal>(
 		operand: Self
-	) -> L? { return L(String(describing: operand)) }
+	) -> L? { L(String(describing: operand)) }
 
 }

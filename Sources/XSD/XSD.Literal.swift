@@ -7,7 +7,10 @@ extension XSD {
 	///   for strings which are out‐of‐bounds.
 	/// The underlying `description` property contains the actual
 	///   string.
-	open class Literal: LosslessStringConvertible {
+	open class Literal:
+		Codable,
+		LosslessStringConvertible
+	{
 
 		/// The string value of the literal.
 		public let description: String
@@ -38,6 +41,16 @@ extension XSD {
 		public convenience init?<S: StringProtocol>(
 			_ representation: S = ""
 		) { self.init(String(representation)) }
+
+		@inlinable
+		public required convenience init(
+			from decoder: Decoder
+		) throws { try self.init(String(from: decoder))! }
+
+		@inlinable
+		public final func encode(
+			to encoder: Encoder
+		) throws { try String(describing: self).encode(to: encoder) }
 
 		/// An (optional) `XSD.RegularExpression` which defines the
 		///   lexical space of the literal.
@@ -107,5 +120,14 @@ extension XSD.Literal: Hashable {
 	public func hash(into hasher: inout Hasher) {
 		hasher.combine(description)
 	}
+
+}
+
+extension XSD.Literal: TextOutputStreamable {
+
+	@inlinable
+	public func write<Target: TextOutputStream>(
+		to target: inout Target
+	) { target.write(String(describing: self)) }
 
 }

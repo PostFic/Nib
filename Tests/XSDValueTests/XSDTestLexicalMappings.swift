@@ -15,10 +15,10 @@ func testRepresentation<V: XSDValue>(
 	XCTAssertEqual(mapping!, value)
 }
 
-func testRepresentation<V: XSDValue>(
+func testRepresentation<V: XSDNumber>(
 	_ representation: String,
 	_ value: V
-) where V: XSDNumber {
+) {
 	let mapping = V.LexicalRepresentation(
 		representation
 	)?.·lexicalMapping·

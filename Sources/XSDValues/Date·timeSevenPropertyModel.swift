@@ -7,21 +7,34 @@ internal struct Date·timeSevenPropertyModel:
 	XSDDate·timeSevenPropertyModel
 {
 
-	public let ·day·: XSD.Integer?
+	@usableFromInline
+	internal let ·day·: XSD.Integer?
 
-	public let ·hour·: XSD.Integer?
+	@usableFromInline
+	internal let ·hour·: XSD.Integer?
 
-	public let ·minute·: XSD.Integer?
+	@usableFromInline
+	internal let ·minute·: XSD.Integer?
 
-	public let ·month·: XSD.Integer?
+	@usableFromInline
+	internal let ·month·: XSD.Integer?
 
-	public let ·second·: XSD.DecimalNumber?
+	@usableFromInline
+	internal let ·second·: XSD.DecimalNumber?
 
-	public let ·timezoneOffset·: XSD.Integer?
+	@usableFromInline
+	internal let ·timezoneOffset·: XSD.Integer?
 
-	public let ·year·: XSD.Integer?
+	@usableFromInline
+	internal let ·year·: XSD.Integer?
 
-	public init(
+	@usableFromInline
+	internal init(
+		mapping literal: Date·timeSevenPropertyModel.LexicalRepresentation
+	) { self.init(XSD.·dateTimeLexicalMap·(literal◊))! }
+
+	@usableFromInline
+	internal init(
 		_ Yr: XSD.Integer?,
 		_ Mo: XSD.Integer?,
 		_ Da: XSD.Integer?,
@@ -95,7 +108,8 @@ internal struct Date·timeSevenPropertyModel:
 		·timezoneOffset· = Tz == nil ? nil : tz
 	}
 
-	public init?(
+	@usableFromInline
+	internal init?(
 		year: XSD.Integer?,
 		month: XSD.Integer?,
 		day: XSD.Integer?,
@@ -137,6 +151,17 @@ internal struct Date·timeSevenPropertyModel:
 			second,
 			timezoneOffset
 		)
+	}
+
+	@usableFromInline
+	internal class LexicalRepresentation:
+		XSD.Literal,
+		XSDLexicalRepresentation
+	{
+
+		@usableFromInline
+		internal typealias Value = Date·timeSevenPropertyModel
+
 	}
 
 }

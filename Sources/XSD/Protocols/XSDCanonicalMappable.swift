@@ -17,21 +17,17 @@ public extension XSDCanonicalMappable {
 	@inlinable
 	init(
 		from decoder: Decoder
-	) throws {
-		if let result = try Self(String(from: decoder)) {
-			self = result
-		} else { throw XSD.Error.notInLexicalSpace }
-	}
+	) throws { try self = Self.LexicalRepresentation(from: decoder).·lexicalMapping· }
 
 	@inlinable
 	func encode(
 		to encoder: Encoder
-	) throws { try String(describing: self).encode(to: encoder) }
+	) throws { try ·canonicalMapping·.encode(to: encoder) }
 
 	@inlinable
 	func write<Target: TextOutputStream>(
 		to target: inout Target
-	) { target.write(String(describing: self)) }
+	) { ·canonicalMapping·.write(to: &target) }
 
 }
 

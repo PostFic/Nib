@@ -12,142 +12,142 @@ public protocol XSDValue: Hashable {
 		_ description: String
 	)
 
-	static func ≡<N: XSDValue>(
+	static func ===<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ≡(
+	static func ===(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ≢<N: XSDValue>(
+	static func !==<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ≢(
+	static func !==(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ≍<N: XSDValue>(
+	static func ~=<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ≍(
+	static func ~=(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ≭<N: XSDValue>(
+	static func !~=<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ≭(
+	static func !~=(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ≺<N: XSDValue>(
+	static func »<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ≺(
+	static func »(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ⊀<N: XSDValue>(
+	static func !»<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ⊀(
+	static func !»(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ≻<N: XSDValue>(
+	static func «<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ≻(
+	static func «(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ⊁<N: XSDValue>(
+	static func !«<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ⊁(
+	static func !«(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ≼<N: XSDValue>(
+	static func ›<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ≼(
+	static func ›(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ⋠<N: XSDValue>(
+	static func !›<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ⋠(
+	static func !›(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ≽<N: XSDValue>(
+	static func ‹<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ≽(
+	static func ‹(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ⋡<N: XSDValue>(
+	static func !‹<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ⋡(
+	static func !‹(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ⟡<N: XSDValue>(
+	static func »«<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ⟡(
+	static func »«(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
 
-	static func ⟡̸<N: XSDValue>(
+	static func !»«<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool
 
-	static func ⟡̸(
+	static func !»«(
 		lhs: Self,
 		rhs: Self
 	) -> Bool
@@ -166,147 +166,161 @@ public extension XSDValue {
 	}
 
 	@inlinable
-	static func ≡<N: XSDValue>(
+	static func ===<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { false }
 
 	@inlinable
-	static func ≢<N: XSDValue>(
+	static func !==<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { true }
 
 	@inlinable
-	static func ≢(
+	static func !==(
 		lhs: Self,
 		rhs: Self
-	) -> Bool { !(lhs ≡ rhs) }
+	) -> Bool { !(lhs === rhs) }
 
 	@inlinable
-	static func ≍<N: XSDValue>(
+	static func ~=<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { false }
 
 	@inlinable
-	static func ≭<N: XSDValue>(
+	static func !~=<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { true }
 
 	@inlinable
-	static func ≭(
+	static func !~=(
 		lhs: Self,
 		rhs: Self
-	) -> Bool { !(lhs ≍ rhs) }
+	) -> Bool { !(lhs ~= rhs) }
 
 	@inlinable
-	static func ≺<N: XSDValue>(
+	static func »<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { false }
 
 	@inlinable
-	static func ⊀<N: XSDValue>(
+	static func !»<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { true }
 
 	@inlinable
-	static func ⊀(
+	static func !»(
 		lhs: Self,
 		rhs: Self
-	) -> Bool { !(lhs ≺ rhs) }
+	) -> Bool { !(lhs » rhs) }
 
 	@inlinable
-	static func ≻<N: XSDValue>(
+	static func «<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { false }
 
 	@inlinable
-	static func ⊁<N: XSDValue>(
+	static func !«<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { true }
 
 	@inlinable
-	static func ⊁(
+	static func !«(
 		lhs: Self,
 		rhs: Self
-	) -> Bool { !(lhs ≻ rhs) }
+	) -> Bool { !(lhs « rhs) }
 
 	@inlinable
-	static func ≼<N: XSDValue>(
+	static func ›<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { false }
 
 	@inlinable
-	static func ≼(
+	static func ›(
 		lhs: Self,
 		rhs: Self
-	) -> Bool { lhs ≺ rhs || lhs ≍ rhs }
+	) -> Bool { lhs » rhs || lhs ~= rhs }
 
 	@inlinable
-	static func ⋠<N: XSDValue>(
+	static func !›<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { true }
 
 	@inlinable
-	static func ⋠(
+	static func !›(
 		lhs: Self,
 		rhs: Self
-	) -> Bool { !(lhs ≼ rhs) }
+	) -> Bool { !(lhs › rhs) }
 
 	@inlinable
-	static func ≽<N: XSDValue>(
+	static func ‹<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { false }
 
 	@inlinable
-	static func ≽(
+	static func ‹(
 		lhs: Self,
 		rhs: Self
-	) -> Bool { lhs ≻ rhs || lhs ≍ rhs }
+	) -> Bool { lhs « rhs || lhs ~= rhs }
 
 	@inlinable
-	static func ⋡<N: XSDValue>(
+	static func !‹<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { true }
 
 	@inlinable
-	static func ⋡(
+	static func !‹(
 		lhs: Self,
 		rhs: Self
-	) -> Bool { !(lhs ≽ rhs) }
+	) -> Bool { !(lhs ‹ rhs) }
 
 	@inlinable
-	static func ⟡<N: XSDValue>(
+	static func »«<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { true }
 
 	@inlinable
-	static func ⟡(
+	static func »«(
 		lhs: Self,
 		rhs: Self
-	) -> Bool { !(lhs ≺ rhs || lhs ≻ rhs || lhs ≍ rhs) }
+	) -> Bool { !(lhs » rhs || lhs « rhs || lhs ~= rhs) }
 
 	@inlinable
-	static func ⟡̸<N: XSDValue>(
+	static func !»«<N: XSDValue>(
 		lhs: Self,
 		rhs: N
 	) -> Bool { false }
 
 	@inlinable
-	static func ⟡̸(
+	static func !»«(
 		lhs: Self,
 		rhs: Self
-	) -> Bool { !(lhs ⟡ rhs) }
+	) -> Bool { !(lhs »« rhs) }
+
+}
+
+extension XSDValue where Self: Comparable {
+
+	static func »(
+		lhs: Self,
+		rhs: Self
+	) -> Bool { lhs < rhs }
+
+	static func «(
+		lhs: Self,
+		rhs: Self
+	) -> Bool { lhs > rhs }
 
 }

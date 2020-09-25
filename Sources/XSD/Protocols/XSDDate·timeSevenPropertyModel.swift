@@ -1,5 +1,6 @@
 public protocol XSDDate·timeSevenPropertyModel:
-	Strideable
+	Strideable,
+	XSDValue
 where Stride == XSD.DecimalNumber {
 
 	var ·day·: XSD.Integer? { get }
@@ -35,6 +36,36 @@ where Stride == XSD.DecimalNumber {
 		second: XSD.DecimalNumber?,
 		timezoneOffset: XSD.Integer?
 	)
+
+	static func ==<D7M: XSDDate·timeSevenPropertyModel>(
+		lhs: Self,
+		rhs: D7M
+	) -> Bool
+
+	static func !=<D7M: XSDDate·timeSevenPropertyModel>(
+		lhs: Self,
+		rhs: D7M
+	) -> Bool
+
+	static func <<D7M: XSDDate·timeSevenPropertyModel>(
+		lhs: Self,
+		rhs: D7M
+	) -> Bool
+
+	static func <=<D7M: XSDDate·timeSevenPropertyModel>(
+		lhs: Self,
+		rhs: D7M
+	) -> Bool
+
+	static func ><D7M: XSDDate·timeSevenPropertyModel>(
+		lhs: Self,
+		rhs: D7M
+	) -> Bool
+
+	static func >=<D7M: XSDDate·timeSevenPropertyModel>(
+		lhs: Self,
+		rhs: D7M
+	) -> Bool
 
 	static func +<Duration: XSDDuration>(
 		lhs: Self,
@@ -72,16 +103,122 @@ public extension XSDDate·timeSevenPropertyModel {
 		return ·timeOnTimeline·.distance(to: other.·timeOnTimeline·)
 	}
 
-	@inlinable
+	func hash(
+		into hasher: inout Hasher
+	) {
+		hasher.combine(·year·)
+		hasher.combine(·month·)
+		hasher.combine(·day·)
+		hasher.combine(·hour·)
+		hasher.combine(·minute·)
+		hasher.combine(·second·)
+		hasher.combine(·timezoneOffset·)
+	}
+
+	static func ===(
+		lhs: Self,
+		rhs: Self
+	) -> Bool {
+		guard
+			lhs.·year· == rhs.·year·,
+			lhs.·month· == rhs.·month·,
+			lhs.·day· == rhs.·day·,
+			lhs.·hour· == rhs.·hour·,
+			lhs.·minute· == rhs.·minute·,
+			lhs.·second· == rhs.·second·,
+			lhs.·timezoneOffset· == rhs.·timezoneOffset·
+		else { return false }
+		return true
+	}
+
 	static func ==<D7M: XSDDate·timeSevenPropertyModel>(
 		lhs: Self,
 		rhs: D7M
 	) -> Bool { lhs.·timeOnTimeline· == rhs.·timeOnTimeline· }
+
+	static func ~=(
+		lhs: Self,
+		rhs: Self
+	) -> Bool {
+		return (
+			lhs.·timezoneOffset· == nil ? rhs.·timezoneOffset· == nil : rhs.·timezoneOffset· != nil
+		) && lhs.·timeOnTimeline· == rhs.·timeOnTimeline·
+	}
+
+	@inlinable
+	static func !=<D7M: XSDDate·timeSevenPropertyModel>(
+		lhs: Self,
+		rhs: D7M
+	) -> Bool { !(lhs == rhs) }
 
 	@inlinable
 	static func <<D7M: XSDDate·timeSevenPropertyModel>(
 		lhs: Self,
 		rhs: D7M
 	) -> Bool { lhs.·timeOnTimeline· < rhs.·timeOnTimeline· }
+
+	@inlinable
+	static func <=<D7M: XSDDate·timeSevenPropertyModel>(
+		lhs: Self,
+		rhs: D7M
+	) -> Bool { lhs < rhs || lhs == rhs }
+
+	@inlinable
+	static func ><D7M: XSDDate·timeSevenPropertyModel>(
+		lhs: Self,
+		rhs: D7M
+	) -> Bool { !(lhs < rhs || lhs == rhs) }
+
+	@inlinable
+	static func >=<D7M: XSDDate·timeSevenPropertyModel>(
+		lhs: Self,
+		rhs: D7M
+	) -> Bool { !(lhs < rhs) }
+
+	static func »(
+		lhs: Self,
+		rhs: Self
+	) -> Bool {
+		if lhs.·timezoneOffset· == nil {
+			guard
+				let max = Self(
+					year: lhs.·year·,
+					month: lhs.·month·,
+					day: lhs.·day·,
+					hour: lhs.·hour·,
+					minute: lhs.·minute·,
+					second: lhs.·second·,
+					timezoneOffset: 840
+				)
+			else { return false }
+			if rhs.·timezoneOffset· == nil {
+				guard
+					let otherMin = Self(
+						year: lhs.·year·,
+						month: lhs.·month·,
+						day: lhs.·day·,
+						hour: lhs.·hour·,
+						minute: lhs.·minute·,
+						second: lhs.·second·,
+						timezoneOffset: -840
+					)
+				else { return false }
+				return max.·timeOnTimeline· < otherMin.·timeOnTimeline·
+			} else { return max.·timeOnTimeline· < rhs.·timeOnTimeline· }
+		} else if rhs.·timezoneOffset· == nil {
+			guard
+				let otherMin = Self(
+					year: lhs.·year·,
+					month: lhs.·month·,
+					day: lhs.·day·,
+					hour: lhs.·hour·,
+					minute: lhs.·minute·,
+					second: lhs.·second·,
+					timezoneOffset: -840
+				)
+			else { return false }
+			return lhs.·timeOnTimeline· < otherMin.·timeOnTimeline·
+		} else { return lhs.·timeOnTimeline· < rhs.·timeOnTimeline· }
+	}
 
 }

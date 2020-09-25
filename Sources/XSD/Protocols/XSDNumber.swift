@@ -3,7 +3,8 @@ import Foundation
 public protocol XSDNumber:
 	ExpressibleByFloatLiteral,
 	ExpressibleByIntegerLiteral,
-	Strideable
+	Strideable,
+	XSDValue
 where
 	Self.FloatLiteralType == Double,
 	Self.IntegerLiteralType == Int,
@@ -43,6 +44,36 @@ where
 	init(
 		truncating value: XSD.SpecialValue
 	)
+
+	static func ==<N: XSDNumber>(
+		lhs: Self,
+		rhs: N
+	) -> Bool
+
+	static func !=<N: XSDNumber>(
+		lhs: Self,
+		rhs: N
+	) -> Bool
+
+	static func <<N: XSDNumber>(
+		lhs: Self,
+		rhs: N
+	) -> Bool
+
+	static func <=<N: XSDNumber>(
+		lhs: Self,
+		rhs: N
+	) -> Bool
+
+	static func ><N: XSDNumber>(
+		lhs: Self,
+		rhs: N
+	) -> Bool
+
+	static func >=<N: XSDNumber>(
+		lhs: Self,
+		rhs: N
+	) -> Bool
 	
 }
 
@@ -153,46 +184,123 @@ public extension XSDNumber {
 		else { return XSD.DecimalNumber.greatestFiniteMagnitude }
 	}
 
-	static func ==(
-		lhs: Self,
-		rhs: Self
-	) -> Bool {
-		return lhs.decimalNumber == rhs.decimalNumber && (
-				lhs.specialValue == rhs.specialValue ||
-					lhs.specialValue == .positiveZero &&
-					rhs.specialValue == .negativeZero ||
-					lhs.specialValue == .negativeZero &&
-					rhs.specialValue == .positiveZero
-			) && lhs.specialValue != .notANumber
+	func hash(
+		into hasher: inout Hasher
+	) {
+		if let specialValue = self.specialValue {
+			if
+				specialValue == .positiveZero
+					|| specialValue == .negativeZero
+			{ hasher.combine(0 as XSD.Integer) }
+			else { hasher.combine(specialValue) }
+		} else if let integer = self.integer {
+			hasher.combine(integer)
+		} else if let decimalNumber = self.decimalNumber {
+			hasher.combine(decimalNumber)
+		}
 	}
 
-	static func <(
+	static func ===(
 		lhs: Self,
 		rhs: Self
 	) -> Bool {
-		if let lhdn = lhs.decimalNumber {
-			if let rhdn = rhs.decimalNumber { return lhdn < rhdn }
-			else if
-				rhs.specialValue == .positiveZero ||
-					rhs.specialValue == .negativeZero
-			{ return lhdn < 0 }
-			else if rhs.specialValue == .positiveInfinity {
+		if let specialValue = lhs.specialValue
+		{ return specialValue == rhs.specialValue }
+		else if let decimalNumber = lhs.decimalNumber
+		{ return decimalNumber == rhs.decimalNumber }
+		else if let integer = lhs.integer
+		{ return integer == rhs.integer }
+		else { return false }
+	}
+
+	static func ==<N: XSDNumber>(
+		lhs: Self,
+		rhs: N
+	) -> Bool {
+		if let specialValue = lhs.specialValue {
+			guard
+				specialValue != .notANumber,
+				let otherSpecialValue = rhs.specialValue
+			else { return false }
+			if specialValue == .positiveZero || specialValue == .negativeZero
+			{ return otherSpecialValue == .positiveZero || otherSpecialValue == .negativeZero }
+			else { return specialValue == otherSpecialValue }
+		} else if let decimalNumber = lhs.decimalNumber
+		{ return decimalNumber == rhs.decimalNumber }
+		else if let integer = lhs.integer
+		{ return integer == rhs.integer }
+		else { return false }
+	}
+
+	@inlinable
+	static func !=<N: XSDNumber>(
+		lhs: Self,
+		rhs: N
+	) -> Bool { !(lhs == rhs) }
+
+	static func <<N: XSDNumber>(
+		lhs: Self,
+		rhs: N
+	) -> Bool {
+		if let specialValue = lhs.specialValue {
+			switch specialValue {
+			case .notANumber, .positiveInfinity:
+				return false
+			case .positiveZero, .negativeZero:
+				if let otherSpecialValue = rhs.specialValue
+				{ return otherSpecialValue == .positiveInfinity }
+				else if let otherDecimalNumber = rhs.decimalNumber
+				{ return 0 < otherDecimalNumber }
+				else if let otherInteger = rhs.integer
+				{ return 0 < otherInteger }
+				else { return false }
+			case .negativeInfinity:
 				return true
-			} else { return false }
-		} else if
-			lhs.specialValue == .positiveZero ||
-				lhs.specialValue == .negativeZero
-		{
-			if let rhdn = rhs.decimalNumber { return 0 < rhdn }
-			else if rhs.specialValue == .positiveInfinity {
+			}
+		} else if let otherSpecialValue = rhs.specialValue {
+			switch otherSpecialValue {
+			case .notANumber, .negativeInfinity:
+				return false
+			case .positiveZero, .negativeZero:
+				if let decimalNumber = lhs.decimalNumber
+				{ return decimalNumber < 0 }
+				else if let integer = lhs.integer
+				{ return integer < 0 }
+				else { return false }
+			case .positiveInfinity:
 				return true
-			} else { return false }
-		} else if lhs.specialValue == .negativeInfinity {
-			if rhs.decimalNumber != nil ||
-				rhs.specialValue == .positiveInfinity
-			{ return true }
+			}
+		} else if let decimalNumber = lhs.decimalNumber {
+			if let otherDecimalNumber = rhs.decimalNumber
+			{ return decimalNumber < otherDecimalNumber }
+			else if let otherInteger = rhs.integer
+			{ return decimalNumber < XSD.DecimalNumber(otherInteger) }
+			else { return false }
+		} else if let integer = lhs.integer {
+			if let otherDecimalNumber = rhs.decimalNumber
+			{ return XSD.DecimalNumber(integer) < otherDecimalNumber }
+			else if let otherInteger = rhs.integer
+			{ return integer < otherInteger }
 			else { return false }
 		} else { return false }
 	}
+
+	@inlinable
+	static func <=<N: XSDNumber>(
+		lhs: Self,
+		rhs: N
+	) -> Bool { lhs < rhs || lhs == rhs }
+
+	@inlinable
+	static func ><N: XSDNumber>(
+		lhs: Self,
+		rhs: N
+	) -> Bool { !(lhs < rhs || lhs == rhs) }
+
+	@inlinable
+	static func >=<N: XSDNumber>(
+		lhs: Self,
+		rhs: N
+	) -> Bool { !(lhs < rhs) }
 
 }
