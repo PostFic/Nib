@@ -3,21 +3,29 @@ public protocol XSDDate·timeSevenPropertyModelValue:
 	XSDValue
 where Stride == XSD.DecimalNumber {
 
-	var ·day·: XSD.Integer? { get }
+	var ·day·: XSD.Integer?
+	{ get }
 
-	var ·hour·: XSD.Integer? { get }
+	var ·hour·: XSD.Integer?
+	{ get }
 
-	var ·minute·: XSD.Integer? { get }
+	var ·minute·: XSD.Integer?
+	{ get }
 
-	var ·month·: XSD.Integer? { get }
+	var ·month·: XSD.Integer?
+	{ get }
 
-	var ·second·: XSD.DecimalNumber? { get }
+	var ·second·: XSD.DecimalNumber?
+	{ get }
 
-	var ·timeOnTimeline·: XSD.DecimalNumber { get }
+	var ·timeOnTimeline·: XSD.DecimalNumber
+	{ get }
 
-	var ·timezoneOffset·: XSD.Integer? { get }
+	var ·timezoneOffset·: XSD.Integer?
+	{ get }
 
-	var ·year·: XSD.Integer? { get }
+	var ·year·: XSD.Integer?
+	{ get }
 
 	init? <D7M> (
 		_ d7m: D7M

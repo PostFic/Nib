@@ -13,7 +13,7 @@ public extension XSD.Literal {
 	///     A `XSD.Literal` subclass, or the `XSD.Literal` class
 	///       itself if no lexical space for the given index is
 	///       provided.
-	static subscript(
+	static subscript (
 		index: UInt
 	) -> XSD.Literal.Type {
 		switch index {

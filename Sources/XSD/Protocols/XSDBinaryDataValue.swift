@@ -9,9 +9,11 @@ where
 	Self.Iterator == XSD.Sequence<XSD.BinaryOctet>.Iterator
 {
 
-	var data: Data { get }
+	var data: Data
+	{ get }
 
-	var octets: XSD.Sequence<XSD.BinaryOctet> { get }
+	var octets: XSD.Sequence <XSD.BinaryOctet>
+	{ get }
 
 	init <S> (
 		_ data: S
@@ -36,7 +38,8 @@ where
 public extension XSDBinaryDataValue {
 
 	@inlinable
-	var data: Data { Data(octets) }
+	var data: Data
+	{ Data(octets) }
 
 	init (
 		arrayLiteral elements: Self.ArrayLiteralElement...

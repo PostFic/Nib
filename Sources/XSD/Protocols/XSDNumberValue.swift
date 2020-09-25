@@ -11,11 +11,14 @@ where
 	Stride == XSD.DecimalNumber
 {
 
-	var decimalNumber: XSD.DecimalNumber? { get }
+	var decimalNumber: XSD.DecimalNumber?
+	{ get }
 
-	var integer: XSD.Integer? { get }
+	var integer: XSD.Integer?
+	{ get }
 
-	var specialValue: XSD.SpecialValue? { get }
+	var specialValue: XSD.SpecialValue?
+	{ get }
 
 	init? <N> (
 		exactly value: N
@@ -283,7 +286,8 @@ public extension XSDNumberValue {
 		lhs: Self,
 		rhs: N
 	) -> Bool
-	where N: XSDNumberValue { !(lhs == rhs) }
+	where N: XSDNumberValue
+	{ !(lhs == rhs) }
 
 	static func < <N> (
 		lhs: Self,
@@ -338,20 +342,23 @@ public extension XSDNumberValue {
 		lhs: Self,
 		rhs: N
 	) -> Bool
-	where N: XSDNumberValue { lhs < rhs || lhs == rhs }
+	where N: XSDNumberValue
+	{ lhs < rhs || lhs == rhs }
 
 	@inlinable
 	static func > <N> (
 		lhs: Self,
 		rhs: N
 	) -> Bool
-	where N: XSDNumberValue { !(lhs < rhs || lhs == rhs) }
+	where N: XSDNumberValue
+	{ !(lhs < rhs || lhs == rhs) }
 
 	@inlinable
 	static func >= <N> (
 		lhs: Self,
 		rhs: N
 	) -> Bool
-	where N: XSDNumberValue { !(lhs < rhs) }
+	where N: XSDNumberValue
+	{ !(lhs < rhs) }
 
 }

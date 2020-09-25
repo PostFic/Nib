@@ -5,7 +5,8 @@ public protocol XSDCanonicalMappable:
 	XSDValue
 {
 
-	var ·canonicalMapping·: Self.LexicalRepresentation { get }
+	var ·canonicalMapping·: Self.LexicalRepresentation
+	{ get }
 
 }
 

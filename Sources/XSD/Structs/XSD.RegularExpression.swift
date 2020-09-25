@@ -50,7 +50,7 @@ public extension XSD {
 		///  +  parameters:
 		///      +  description:
 		///         The XSD regular expression source.
-		public init?(
+		public init? (
 			_ description: String
 		) {
 			guard  //  only XML characters
@@ -159,7 +159,7 @@ public extension XSD {
 		///  +  returns:
 		///     `true` or `false` depending on whether the regular
 		///       expression matches the entire string.
-		public func ·matches·(
+		public func ·matches· (
 			_ string: String
 		) -> Bool {
 			nsRegularExpression.firstMatch(
@@ -233,7 +233,7 @@ public extension XSD {
 		///         The pattern to match within the string.
 		///      +  template:
 		///         The template to use when replacing matches.
-		private static func replaceIn(
+		private static func replaceIn (
 			string: inout String,
 			pattern: String,
 			template: String

@@ -18,16 +18,9 @@ public extension XSD {
 	final class duTimeFrag: XSD.Literal {
 
 		@XSD.RegularExpression.Wrapper
-		private static var pattern = """
-			T(\
-			[0-9]+H([0-9]+M)?(([0-9]+|[0-9]+\\.[0-9]*|\\.[0-9]+)S)?|\
-			[0-9]+M(([0-9]+|[0-9]+\\.[0-9]*|\\.[0-9]+)S)?|\
-			([0-9]+|[0-9]+\\.[0-9]*|\\.[0-9]+)S\
-			)
-			"""
+		private static var pattern = #"T([0-9]+H([0-9]+M)?(([0-9]+|[0-9]+\.[0-9]*|\.[0-9]+)S)?|[0-9]+M(([0-9]+|[0-9]+\.[0-9]*|\.[0-9]+)S)?|([0-9]+|[0-9]+\.[0-9]*|\.[0-9]+)S)"#
 
-		public class override var ·lexicalSpace·:
-			XSD.RegularExpression
+		public class override var ·lexicalSpace·: XSD.RegularExpression
 		{ return $pattern }
 
 	}

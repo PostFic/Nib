@@ -2,9 +2,11 @@ public protocol XSDDurationValue:
 	XSDValue
 {
 
-	var ·months·: XSD.Integer { get }
+	var ·months·: XSD.Integer
+	{ get }
 
-	var ·seconds·: XSD.DecimalNumber { get }
+	var ·seconds·: XSD.DecimalNumber
+	{ get }
 
 	init? (
 		months: XSD.Integer,

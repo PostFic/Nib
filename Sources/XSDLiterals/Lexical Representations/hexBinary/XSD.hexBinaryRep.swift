@@ -20,8 +20,7 @@ public extension XSD {
 		@XSD.RegularExpression.Wrapper
 		private static var pattern = "([0-9a-fA-F]{2})*"
 
-		public class override var ·lexicalSpace·:
-			XSD.RegularExpression
+		public class override var ·lexicalSpace·: XSD.RegularExpression
 		{ return $pattern }
 
 	}

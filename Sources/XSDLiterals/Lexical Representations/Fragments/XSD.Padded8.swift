@@ -12,8 +12,7 @@ public extension XSD {
 		@XSD.RegularExpression.Wrapper
 		private static var pattern = "[A-Za-z0-9+/] ?[AQgw] ?= ?="
 
-		public class override var ·lexicalSpace·:
-			XSD.RegularExpression
+		public class override var ·lexicalSpace·: XSD.RegularExpression
 		{ return $pattern }
 
 	}

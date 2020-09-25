@@ -12,14 +12,9 @@ public extension XSD {
 	class doubleRep: XSD.Literal {
 
 		@XSD.RegularExpression.Wrapper
-		private static var pattern = """
-			(\\+|-)?([0-9]+(\\.[0-9]*)?|\
-			\\.[0-9]+)([Ee](\\+|-)?[0-9]+)?|\
-			(\\+|-)?INF|NaN
-			"""
+		private static var pattern = #"(\+|-)?([0-9]+(\.[0-9]*)?|\.[0-9]+)([Ee](\+|-)?[0-9]+)?|(\+|-)?INF|NaN"#
 
-		public class override var ·lexicalSpace·:
-			XSD.RegularExpression
+		public class override var ·lexicalSpace·: XSD.RegularExpression
 		{ return $pattern }
 
 	}

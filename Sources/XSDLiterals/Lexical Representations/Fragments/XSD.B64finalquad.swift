@@ -10,11 +10,9 @@ public extension XSD {
 	final class B64finalquad: XSD.Literal {
 
 		@XSD.RegularExpression.Wrapper
-		private static var pattern =
-			"([A-Za-z0-9+/] ?){3}[A-Za-z0-9+/]"
+		private static var pattern = "([A-Za-z0-9+/] ?){3}[A-Za-z0-9+/]"
 
-		public class override var ·lexicalSpace·:
-			XSD.RegularExpression
+		public class override var ·lexicalSpace·: XSD.RegularExpression
 		{ return $pattern }
 
 	}

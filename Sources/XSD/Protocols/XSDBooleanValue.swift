@@ -3,7 +3,8 @@ public protocol XSDBooleanValue:
 	XSDValue
 where Self.BooleanLiteralType == Bool {
 
-	var bool: Bool { get }
+	var bool: Bool
+	{ get }
 
 	init <B> (
 		_ value: B

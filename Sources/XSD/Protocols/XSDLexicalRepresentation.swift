@@ -5,7 +5,8 @@ public protocol XSDLexicalRepresentation:
 	associatedtype Value: XSDValue
 	where Value.LexicalRepresentation == Self
 
-	var ·lexicalMapping·: Self.Value { get }
+	var ·lexicalMapping·: Self.Value
+	{ get }
 
 }
 

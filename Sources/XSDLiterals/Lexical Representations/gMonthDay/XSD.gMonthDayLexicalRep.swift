@@ -27,10 +27,7 @@ public extension XSD {
 	class gMonthDayLexicalRep: XSD.Literal {
 
 		@XSD.RegularExpression.Wrapper
-		private static var pattern = """
-			--(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\
-			(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?
-			"""
+		private static var pattern = #"--(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])(Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?"#
 
 		/// Initializes the literal, ensuring that the provided
 		///   `description` is within its `·lexicalSpace·`, including
@@ -40,7 +37,9 @@ public extension XSD {
 		///  +  parameters:
 		///      +  description:
 		///         The string value of the literal.
-		public required init?(_ description: String = "") {
+		public required init? (
+			_ description: String = ""
+		) {
 			let Array·M，D，T = description.dropFirst(2).split(
 				maxSplits: 2,
 				omittingEmptySubsequences: false
@@ -49,15 +48,12 @@ public extension XSD {
 				let M = XSD.Integer(Array·M，D，T[0]),
 				let D = XSD.Integer(Array·M，D，T[1])
 			else { return nil }
-			if
-				D > 30 && (M == 4 || M == 6 || M == 9 || M == 11)
-					|| D > 29 && M == 2
+			if D > 30 && (M == 4 || M == 6 || M == 9 || M == 11) || D > 29 && M == 2
 			{ return nil }
 			super.init(description)
 		}
 
-		public class override var ·lexicalSpace·:
-			XSD.RegularExpression
+		public class override var ·lexicalSpace·: XSD.RegularExpression
 		{ return $pattern }
 
 	}

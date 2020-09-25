@@ -10,11 +10,9 @@ public extension XSD {
 	final class timezoneFrag: XSD.Literal {
 
 		@XSD.RegularExpression.Wrapper
-		private static var pattern =
-			#"Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)"#
+		private static var pattern = #"Z|(\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00)"#
 
-		public class override var ·lexicalSpace·:
-			XSD.RegularExpression
+		public class override var ·lexicalSpace·: XSD.RegularExpression
 		{ return $pattern }
 
 	}

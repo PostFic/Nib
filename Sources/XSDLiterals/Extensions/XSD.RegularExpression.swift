@@ -23,10 +23,11 @@ internal extension XSD.RegularExpression {
 		///  +  parameters:
 		///      +  wrappedValue:
 		///         The string value to be wrap.
-		internal init(wrappedValue: String) {
+		internal init(
+			wrappedValue: String
+		) {
 			self.wrappedValue = wrappedValue
-			self.projectedValue =
-				XSD.RegularExpression(wrappedValue)!
+			self.projectedValue = XSD.RegularExpression(wrappedValue)!
 		}
 
 	}

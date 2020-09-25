@@ -13,8 +13,7 @@ public extension XSD {
 		@XSD.RegularExpression.Wrapper
 		private static var pattern = "true|false|1|0"
 
-		public class override var ·lexicalSpace·:
-			XSD.RegularExpression
+		public class override var ·lexicalSpace·: XSD.RegularExpression
 		{ return $pattern }
 
 	}

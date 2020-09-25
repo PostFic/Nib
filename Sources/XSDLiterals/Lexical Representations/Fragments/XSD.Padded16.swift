@@ -10,11 +10,9 @@ public extension XSD {
 	final class Padded16: XSD.Literal {
 
 		@XSD.RegularExpression.Wrapper
-		private static var pattern =
-		"([A-Za-z0-9+/] ?){2}[AEIMQUYcgkosw048] ?="
+		private static var pattern = "([A-Za-z0-9+/] ?){2}[AEIMQUYcgkosw048] ?="
 
-		public class override var ·lexicalSpace·:
-			XSD.RegularExpression
+		public class override var ·lexicalSpace·: XSD.RegularExpression
 		{ return $pattern }
 
 	}
