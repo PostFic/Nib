@@ -43,9 +43,7 @@ extension XSD {
 		///   lexical space of the literal.
 		/// If `nil`, this literal does not have an associated lexical
 		///   space.
-		open class var ·lexicalSpace·: XSD.RegularExpression? {
-			return nil
-		}
+		open class var ·lexicalSpace·: XSD.RegularExpression? { nil }
 
 	}
 
@@ -57,21 +55,23 @@ public extension XSD.Literal {
 	final class func +(
 		lhs: XSD.Literal,
 		rhs: XSD.Literal
-	) -> String {
-		return String(describing: lhs) + String(describing: rhs)
+	) -> XSD.Literal {
+		return XSD.Literal(
+			String(describing: lhs) + String(describing: rhs)
+		)!
 	}
 
 	@inlinable
 	final class func +<S: StringProtocol>(
 		lhs: XSD.Literal,
 		rhs: S
-	) -> String { return String(describing: lhs) + rhs }
+	) -> XSD.Literal { XSD.Literal(String(describing: lhs) + rhs)! }
 
 	@inlinable
 	final class func +<S: StringProtocol>(
 		lhs: S,
 		rhs: XSD.Literal
-	) -> String { return lhs + String(describing: rhs) }
+	) -> XSD.Literal { XSD.Literal(lhs + String(describing: rhs))! }
 	
 }
 
@@ -98,7 +98,7 @@ extension XSD.Literal: Equatable {
 	public final class func ==(
 		lhs: XSD.Literal,
 		rhs: XSD.Literal
-	) -> Bool { return lhs.description == rhs.description }
+	) -> Bool { lhs.description == rhs.description }
 
 }
 
