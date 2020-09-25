@@ -1,8 +1,11 @@
 public extension XSD {
 
-	enum BinaryDigit: UInt8, Hashable {
+	enum BinaryDigit: UInt8 {
+
 		case ０
+
 		case １
+
 	}
 
 }

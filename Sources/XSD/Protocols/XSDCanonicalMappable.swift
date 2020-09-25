@@ -12,22 +12,39 @@ public protocol XSDCanonicalMappable:
 public extension XSDCanonicalMappable {
 
 	@inlinable
-	var description: String { String(describing: ·canonicalMapping·) }
+	var description: String {
+		return String(
+			describing: ·canonicalMapping·
+		)
+	}
 
 	@inlinable
-	init(
+	init (
 		from decoder: Decoder
-	) throws { try self = Self.LexicalRepresentation(from: decoder).·lexicalMapping· }
+	) throws {
+		try self = Self.LexicalRepresentation(
+			from: decoder
+		).·lexicalMapping·
+	}
 
 	@inlinable
-	func encode(
+	func encode (
 		to encoder: Encoder
-	) throws { try ·canonicalMapping·.encode(to: encoder) }
+	) throws {
+		try ·canonicalMapping·.encode(
+			to: encoder
+		)
+	}
 
 	@inlinable
-	func write<Target: TextOutputStream>(
+	func write <Target> (
 		to target: inout Target
-	) { ·canonicalMapping·.write(to: &target) }
+	)
+	where Target: TextOutputStream {
+		·canonicalMapping·.write(
+			to: &target
+		)
+	}
 
 }
 

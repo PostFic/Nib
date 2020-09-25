@@ -5,7 +5,7 @@ import XSDLiterals
 extension XSD {
 
 	public struct Base64BinaryValue:
-		XSDBinaryData,
+		XSDBinaryDataValue,
 		XSDCanonicalMappable
 	{
 

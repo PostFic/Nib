@@ -7,19 +7,11 @@ import Foundation
 ///   included.
 public enum XSD: String {
 
-	/*
-	###  Special builtin datatypes  ###
-	*/
-
 	/// [xsd:anySimpleType](http://www.w3.org/2001/XMLSchema#anySimpleType).
 	case anySimpleType
 
 	/// [xsd:anyAtomicType](http://www.w3.org/2001/XMLSchema#anyAtomicType).
 	case anyAtomicType
-
-	/*
-	###  Primitive datatypes  ###
-	*/
 
 	/// [xsd:string](http://www.w3.org/2001/XMLSchema#string).
 	case string
@@ -79,10 +71,6 @@ public enum XSD: String {
 	/// [xsd:NOTATION](http://www.w3.org/2001/XMLSchema#NOTATION)
 	///   (*not supported*).
 	case NOTATION
-
-	/*
-	###  Other builtin datatypes  ###
-	*/
 
 	/// [xsd:normalizedString](http://www.w3.org/2001/XMLSchema#normalizedString).
 	case normalizedString
@@ -173,13 +161,8 @@ public enum XSD: String {
 	/// [xsd:dateTimeStamp](http://www.w3.org/2001/XMLSchema#dateTimeStamp).
 	case dateTimeStamp
 
-	/*
-	##  Properties and Methods  ##
-	*/
-
 	/// The XSD namespace.
-	public static let ·targetNamespace· =
-		"http://www.w3.org/2001/XMLSchema"
+	public static let ·targetNamespace· = "http://www.w3.org/2001/XMLSchema"
 
 	/// The greatest integer less than or equal to `m` / `n`.
 	///
@@ -196,7 +179,7 @@ public enum XSD: String {
 		_ m: XSD.DecimalNumber,
 		_ n: XSD.DecimalNumber
 	) -> XSD.Integer {
-		XSD.Integer(
+		return XSD.Integer(
 			exactly: (m as NSDecimalNumber).dividing(
 				by: n as NSDecimalNumber,
 				withBehavior: NSDecimalNumberHandler(
@@ -225,7 +208,8 @@ public enum XSD: String {
 	public static func ·div· (
 		_ m: XSD.Integer,
 		_ n: XSD.Integer
-	) -> XSD.Integer { return m / n }
+	) -> XSD.Integer
+	{ m / n }
 
 	/// `m` − `n` × `XSD.·div·(m, n)`.
 	///
@@ -242,7 +226,7 @@ public enum XSD: String {
 		_ m: XSD.DecimalNumber,
 		_ n: XSD.DecimalNumber
 	) -> XSD.DecimalNumber {
-		m - n * (
+		return m - n * (
 			(m as NSDecimalNumber).dividing(
 				by: n as NSDecimalNumber,
 				withBehavior: NSDecimalNumberHandler(
@@ -271,6 +255,7 @@ public enum XSD: String {
 	public static func ·mod· (
 		_ m: XSD.Integer,
 		_ n: XSD.Integer
-	) -> XSD.Integer { return m % n }
+	) -> XSD.Integer
+	{ m % n }
 
 }

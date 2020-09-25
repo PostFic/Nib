@@ -1,4 +1,4 @@
-public protocol XSDDate·timeSevenPropertyModel:
+public protocol XSDDate·timeSevenPropertyModelValue:
 	Strideable,
 	XSDValue
 where Stride == XSD.DecimalNumber {
@@ -19,15 +19,15 @@ where Stride == XSD.DecimalNumber {
 
 	var ·year·: XSD.Integer? { get }
 
-	init?<D7M: XSDDate·timeSevenPropertyModel>(
+	init? <D7M> (
 		_ d7m: D7M
-	)
+	) where D7M: XSDDate·timeSevenPropertyModelValue
 
-	init(
+	init (
 		from timeOnTimeline: XSD.DecimalNumber
 	)
 
-	init?(
+	init? (
 		year: XSD.Integer?,
 		month: XSD.Integer?,
 		day: XSD.Integer?,
@@ -37,49 +37,56 @@ where Stride == XSD.DecimalNumber {
 		timezoneOffset: XSD.Integer?
 	)
 
-	static func ==<D7M: XSDDate·timeSevenPropertyModel>(
+	static func == <D7M> (
 		lhs: Self,
 		rhs: D7M
 	) -> Bool
+	where D7M: XSDDate·timeSevenPropertyModelValue
 
-	static func !=<D7M: XSDDate·timeSevenPropertyModel>(
+	static func != <D7M> (
 		lhs: Self,
 		rhs: D7M
 	) -> Bool
+	where D7M: XSDDate·timeSevenPropertyModelValue
 
-	static func <<D7M: XSDDate·timeSevenPropertyModel>(
+	static func < <D7M> (
 		lhs: Self,
 		rhs: D7M
 	) -> Bool
+	where D7M: XSDDate·timeSevenPropertyModelValue
 
-	static func <=<D7M: XSDDate·timeSevenPropertyModel>(
+	static func <= <D7M> (
 		lhs: Self,
 		rhs: D7M
 	) -> Bool
+	where D7M: XSDDate·timeSevenPropertyModelValue
 
-	static func ><D7M: XSDDate·timeSevenPropertyModel>(
+	static func > <D7M> (
 		lhs: Self,
 		rhs: D7M
 	) -> Bool
+	where D7M: XSDDate·timeSevenPropertyModelValue
 
-	static func >=<D7M: XSDDate·timeSevenPropertyModel>(
+	static func >= <D7M> (
 		lhs: Self,
 		rhs: D7M
 	) -> Bool
+	where D7M: XSDDate·timeSevenPropertyModelValue
 
-	static func +<Duration: XSDDuration>(
+	static func + <D> (
 		lhs: Self,
-		rhs: Duration
+		rhs: D
 	) -> Self
+	where D: XSDDurationValue
 
 }
 
-public extension XSDDate·timeSevenPropertyModel {
+public extension XSDDate·timeSevenPropertyModelValue {
 
 	@inlinable
-	init?<D7M: XSDDate·timeSevenPropertyModel>(
+	init? <D7M> (
 		_ d7m: D7M
-	) {
+	) where D7M: XSDDate·timeSevenPropertyModelValue {
 		self.init(
 			year: d7m.·year·,
 			month: d7m.·month·,
@@ -92,18 +99,24 @@ public extension XSDDate·timeSevenPropertyModel {
 	}
 
 	@inlinable
-	func advanced(
+	func advanced (
 		by n: XSD.DecimalNumber
-	) -> Self { Self(from: ·timeOnTimeline·.advanced(by: n)) }
-
-	@inlinable
-	func distance(
-		to other: Self
-	) -> XSD.DecimalNumber {
-		return ·timeOnTimeline·.distance(to: other.·timeOnTimeline·)
+	) -> Self {
+		return Self(
+			from: ·timeOnTimeline·.advanced(by: n)
+		)
 	}
 
-	func hash(
+	@inlinable
+	func distance (
+		to other: Self
+	) -> XSD.DecimalNumber {
+		return ·timeOnTimeline·.distance(
+			to: other.·timeOnTimeline·
+		)
+	}
+
+	func hash (
 		into hasher: inout Hasher
 	) {
 		hasher.combine(·year·)
@@ -115,7 +128,7 @@ public extension XSDDate·timeSevenPropertyModel {
 		hasher.combine(·timezoneOffset·)
 	}
 
-	static func ===(
+	static func === (
 		lhs: Self,
 		rhs: Self
 	) -> Bool {
@@ -131,51 +144,60 @@ public extension XSDDate·timeSevenPropertyModel {
 		return true
 	}
 
-	static func ==<D7M: XSDDate·timeSevenPropertyModel>(
+	static func == <D7M> (
 		lhs: Self,
 		rhs: D7M
-	) -> Bool { lhs.·timeOnTimeline· == rhs.·timeOnTimeline· }
+	) -> Bool
+	where D7M: XSDDate·timeSevenPropertyModelValue
+	{ lhs.·timeOnTimeline· == rhs.·timeOnTimeline· }
 
-	static func ~=(
+	static func ~= (
 		lhs: Self,
 		rhs: Self
-	) -> Bool {
-		return (
-			lhs.·timezoneOffset· == nil ? rhs.·timezoneOffset· == nil : rhs.·timezoneOffset· != nil
-		) && lhs.·timeOnTimeline· == rhs.·timeOnTimeline·
-	}
+	) -> Bool
+	{ (lhs.·timezoneOffset· == nil ? rhs.·timezoneOffset· == nil : rhs.·timezoneOffset· != nil) && lhs.·timeOnTimeline· == rhs.·timeOnTimeline· }
 
 	@inlinable
-	static func !=<D7M: XSDDate·timeSevenPropertyModel>(
+	static func != <D7M> (
 		lhs: Self,
 		rhs: D7M
-	) -> Bool { !(lhs == rhs) }
+	) -> Bool
+	where D7M: XSDDate·timeSevenPropertyModelValue
+	{ !(lhs == rhs) }
 
 	@inlinable
-	static func <<D7M: XSDDate·timeSevenPropertyModel>(
+	static func < <D7M> (
 		lhs: Self,
 		rhs: D7M
-	) -> Bool { lhs.·timeOnTimeline· < rhs.·timeOnTimeline· }
+	) -> Bool
+	where D7M: XSDDate·timeSevenPropertyModelValue
+	{ lhs.·timeOnTimeline· < rhs.·timeOnTimeline· }
 
 	@inlinable
-	static func <=<D7M: XSDDate·timeSevenPropertyModel>(
+	static func <= <D7M> (
 		lhs: Self,
 		rhs: D7M
-	) -> Bool { lhs < rhs || lhs == rhs }
+	) -> Bool
+	where D7M: XSDDate·timeSevenPropertyModelValue
+	{ lhs < rhs || lhs == rhs }
 
 	@inlinable
-	static func ><D7M: XSDDate·timeSevenPropertyModel>(
+	static func > <D7M> (
 		lhs: Self,
 		rhs: D7M
-	) -> Bool { !(lhs < rhs || lhs == rhs) }
+	) -> Bool
+	where D7M: XSDDate·timeSevenPropertyModelValue
+	{ !(lhs < rhs || lhs == rhs) }
 
 	@inlinable
-	static func >=<D7M: XSDDate·timeSevenPropertyModel>(
+	static func >= <D7M> (
 		lhs: Self,
 		rhs: D7M
-	) -> Bool { !(lhs < rhs) }
+	) -> Bool
+	where D7M: XSDDate·timeSevenPropertyModelValue
+	{ !(lhs < rhs) }
 
-	static func »(
+	static func » (
 		lhs: Self,
 		rhs: Self
 	) -> Bool {

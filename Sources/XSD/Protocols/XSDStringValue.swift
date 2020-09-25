@@ -1,64 +1,73 @@
-public protocol XSDString:
+public protocol XSDStringValue:
 	ExpressibleByStringLiteral,
 	LosslessStringConvertible,
 	XSDValue
 where Self.StringLiteralType == String {
 
-	static func ==<S: XSDString>(
+	static func == <S> (
 		lhs: Self,
 		rhs: S
 	) -> Bool
+	where S: XSDStringValue
 
-	static func !=<S: XSDString>(
+	static func != <S> (
 		lhs: Self,
 		rhs: S
 	) -> Bool
+	where S: XSDStringValue
 
-	init?(
+	init? (
 		_ value: String
 	)
 
 }
 
-public extension XSDString {
+public extension XSDStringValue {
 
-	func hash(
+	func hash (
 		into hasher: inout Hasher
 	) { hasher.combine(description) }
 
 	@inlinable
-	init(
+	init (
 		stringLiteral value: Self.StringLiteralType
 	) { self.init(value)! }
 
 	@inlinable
-	static func ===(
+	static func === (
 		lhs: Self,
 		rhs: Self
-	) -> Bool { lhs == rhs }
+	) -> Bool
+	{ lhs == rhs }
 
 	@inlinable
-	static func ==<S: XSDString>(
+	static func == <S> (
 		lhs: Self,
 		rhs: S
-	) -> Bool { lhs.description == rhs.description }
+	) -> Bool
+	where S: XSDStringValue
+	{ lhs.description == rhs.description }
 
 	@inlinable
-	static func !=<S: XSDString>(
+	static func != <S> (
 		lhs: Self,
 		rhs: S
-	) -> Bool { !(lhs == rhs) }
+	) -> Bool
+	where S: XSDStringValue
+	{ !(lhs == rhs) }
 
 	@inlinable
-	static func »(
+	static func » (
 		lhs: Self,
 		rhs: Self
-	) -> Bool { false }
+	) -> Bool
+	{ false }
 
 	@inlinable
-	static func «(
+	static func « (
 		lhs: Self,
 		rhs: Self
-	) -> Bool { false }
+	) -> Bool
+	{ false }
 
 }

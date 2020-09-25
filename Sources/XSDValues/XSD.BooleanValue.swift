@@ -5,7 +5,7 @@ extension XSD {
 
 	public enum BooleanValue:
 		String,
-		XSDBoolean,
+		XSDBooleanValue,
 		XSDCanonicalMappable
 	{
 

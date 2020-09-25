@@ -18,7 +18,7 @@ public extension XSD {
 	/// <https://www.w3.org/TR/xmlschema11-2/#vp-dt-dateTimePlusDuration>
 	@inlinable
 	static func ·dateTimePlusDuration·<
-		D7M: XSDDate·timeSevenPropertyModel
+		D7M: XSDDate·timeSevenPropertyModelValue
 	>(
 		_ du: XSD.DurationValue,
 		_ dt: D7M

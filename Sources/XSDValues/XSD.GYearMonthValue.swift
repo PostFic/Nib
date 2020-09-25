@@ -7,7 +7,7 @@ extension XSD {
 	///   Model.
 	public struct GYearMonthValue:
 		XSDCanonicalMappable,
-		XSDDate·timeSevenPropertyModel
+		XSDDate·timeSevenPropertyModelValue
 	{
 		
 		public typealias LexicalRepresentation =

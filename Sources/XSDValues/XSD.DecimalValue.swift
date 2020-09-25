@@ -6,7 +6,7 @@ extension XSD {
 
 	public struct DecimalValue:
 		XSDCanonicalMappable,
-		XSDNumber
+		XSDNumberValue
 	{
 
 		public typealias LexicalRepresentation = XSD.decimalLexicalRep

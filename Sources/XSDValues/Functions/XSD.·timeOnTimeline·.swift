@@ -15,7 +15,7 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#vp-dt-timeOnTimeline>
 	@inlinable
-	static func ·timeOnTimeline·<D7M: XSDDate·timeSevenPropertyModel>(
+	static func ·timeOnTimeline·<D7M: XSDDate·timeSevenPropertyModelValue>(
 		_ dt: D7M
 	) -> XSD.DecimalNumber {
 		let yr = (dt.·year· ?? 1972) - 1

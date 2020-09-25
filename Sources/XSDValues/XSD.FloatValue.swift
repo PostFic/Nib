@@ -6,7 +6,7 @@ extension XSD {
 
 	public struct FloatValue:
 		XSDCanonicalMappable,
-		XSDNumber
+		XSDNumberValue
 	{
 
 		public typealias LexicalRepresentation = XSD.floatRep

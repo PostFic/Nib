@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol XSDNumber:
+public protocol XSDNumberValue:
 	ExpressibleByFloatLiteral,
 	ExpressibleByIntegerLiteral,
 	Strideable,
@@ -17,67 +17,73 @@ where
 
 	var specialValue: XSD.SpecialValue? { get }
 
-	init?<N: BinaryInteger>(
+	init? <N> (
 		exactly value: N
-	)
+	) where N: BinaryInteger
 
-	init?<N: XSDNumber>(
+	init? <N> (
 		exactly value: N
-	)
+	) where N: XSDNumberValue
 
-	init?(
+	init? (
 		exactly value: XSD.DecimalNumber
 	)
 
-	init?(
+	init? (
 		exactly value: XSD.SpecialValue
 	)
 
-	init<N: XSDNumber>(
+	init <N>(
 		truncating value: N
-	)
+	) where N: XSDNumberValue
 
-	init(
+	init (
 		truncating value: XSD.DecimalNumber
 	)
 
-	init(
+	init (
 		truncating value: XSD.SpecialValue
 	)
 
-	static func ==<N: XSDNumber>(
+	static func == <N> (
 		lhs: Self,
 		rhs: N
 	) -> Bool
+	where N: XSDNumberValue
 
-	static func !=<N: XSDNumber>(
+	static func != <N> (
 		lhs: Self,
 		rhs: N
 	) -> Bool
+	where N: XSDNumberValue
 
-	static func <<N: XSDNumber>(
+	static func < <N> (
 		lhs: Self,
 		rhs: N
 	) -> Bool
+	where N: XSDNumberValue
 
-	static func <=<N: XSDNumber>(
+	static func <= <N> (
 		lhs: Self,
 		rhs: N
 	) -> Bool
+	where N: XSDNumberValue
 
-	static func ><N: XSDNumber>(
+	static func > <N> (
 		lhs: Self,
 		rhs: N
 	) -> Bool
+	where N: XSDNumberValue
 
-	static func >=<N: XSDNumber>(
+	static func >= <N> (
 		lhs: Self,
 		rhs: N
 	) -> Bool
+	where N: XSDNumberValue
 	
 }
 
-public extension XSDNumber {
+public extension XSDNumberValue {
 
 	var integer: XSD.Integer? {
 		if let decimalNumber = self.decimalNumber {
@@ -87,10 +93,14 @@ public extension XSDNumber {
 		} else { return nil }
 	}
 
-	init?<N: BinaryInteger>(
+	init? <N> (
 		exactly value: N
-	) {
-		if let mantissa = UInt64(exactly: value.magnitude) {
+	) where N: BinaryInteger {
+		if
+			let mantissa = UInt64(
+				exactly: value.magnitude
+			)
+		{
 			self.init(
 				exactly: NSDecimalNumber(
 					mantissa: mantissa,
@@ -101,96 +111,131 @@ public extension XSDNumber {
 		} else { return nil }
 	}
 
-	init?<N: XSDNumber>(
+	init? <N> (
 		exactly value: N
-	) {
-		if let decimalNumber = value.decimalNumber {
-			self.init(exactly: decimalNumber)
-		} else if let specialValue = value.specialValue {
-			self.init(exactly: specialValue)
+	) where N: XSDNumberValue {
+		if let specialValue = value.specialValue {
+			self.init(
+				exactly: specialValue
+			)
+		} else if let decimalNumber = value.decimalNumber {
+			self.init(
+				exactly: decimalNumber
+			)
 		} else { return nil }
 	}
 
-	init<N: XSDNumber>(
+	init <N> (
 		truncating value: N
-	) {
-		if let decimalNumber = value.decimalNumber {
-			self.init(truncating: decimalNumber)
-		} else if let specialValue = value.specialValue {
-			self.init(truncating: specialValue)
-		} else { self.init(truncating: .notANumber) }
+	) where N: XSDNumberValue {
+		if let specialValue = value.specialValue {
+			self.init(
+				truncating: specialValue
+			)
+		} else if let decimalNumber = value.decimalNumber {
+			self.init(
+				truncating: decimalNumber
+			)
+		} else {
+			self.init(
+				truncating: .notANumber
+			)
+		}
 	}
 
 	@inlinable
-	init(
+	init (
 		floatLiteral value: Self.FloatLiteralType
 	) {
-		if value.isNaN { self.init(exactly: .notANumber)! }
+		if value.isNaN {
+			self.init(
+				exactly: .notANumber
+			)!
+		}
 		else {
 			switch value.floatingPointClass {
 			case .negativeInfinity:
-				self.init(exactly: .negativeInfinity)!
+				self.init(
+					exactly: .negativeInfinity
+				)!
 			case .negativeZero:
-				self.init(exactly: .negativeZero)!
+				self.init(
+					exactly: .negativeZero
+				)!
 			case .positiveInfinity:
-				self.init(exactly: .positiveInfinity)!
+				self.init(
+					exactly: .positiveInfinity
+				)!
 			case .positiveZero:
-				self.init(exactly: .positiveZero)!
+				self.init(
+					exactly: .positiveZero
+				)!
 			default:
-				self.init(exactly: XSD.DecimalNumber(value))!
+				self.init(
+					exactly: XSD.DecimalNumber(value)
+				)!
 			}
 		}
 	}
 
 	@inlinable
-	init(
+	init (
 		integerLiteral value: Self.IntegerLiteralType
-	) { self.init(exactly: value)! }
-
-	func advanced(
-		by n: XSD.DecimalNumber
-	) -> Self {
-		if let decimalNumber = self.decimalNumber {
-			return Self(truncating: decimalNumber.advanced(by: n))
-		} else if let specialValue = self.specialValue {
-			return Self(truncating: specialValue)
-		} else { return Self(truncating: .notANumber) }
+	) {
+		self.init(
+			exactly: value
+		)!
 	}
 
-	func distance(
+	func advanced (
+		by n: XSD.DecimalNumber
+	) -> Self {
+		if let specialValue = self.specialValue {
+			return Self(
+				truncating: specialValue
+			)
+		} else if let decimalNumber = self.decimalNumber {
+			return Self(
+				truncating: decimalNumber.advanced(
+					by: n
+				)
+			)
+		} else {
+			return Self(
+				truncating: .notANumber
+			)
+		}
+	}
+
+	func distance (
 		to other: Self
 	) -> XSD.DecimalNumber {
 		if
 			let decimalNumber = self.decimalNumber,
 			let otherDecimalNumber = other.decimalNumber
-		{ return decimalNumber.distance(to: otherDecimalNumber) }
+		{
+			return decimalNumber.distance(
+				to: otherDecimalNumber
+			)
+		}
 		else if
 			let decimalNumber = self.decimalNumber,
-			other.specialValue == .positiveZero
-				|| other.specialValue == .negativeZero
+			other.specialValue == .positiveZero || other.specialValue == .negativeZero
 		{ return decimalNumber }
 		else if
 			let otherDecimalNumber = other.decimalNumber,
-			self.specialValue == .positiveZero
-				|| self.specialValue == .negativeZero
+			self.specialValue == .positiveZero || self.specialValue == .negativeZero
 		{ return otherDecimalNumber }
-		else if
-			self.specialValue == nil ||
-				self.specialValue == .notANumber ||
-				other.specialValue == nil ||
-				other.specialValue == .notANumber ||
-				self.specialValue == other.specialValue
+		else if self.specialValue == nil || self.specialValue == .notANumber || other.specialValue == nil || other.specialValue == .notANumber || self.specialValue == other.specialValue
 		{ return 0 }
 		else { return XSD.DecimalNumber.greatestFiniteMagnitude }
 	}
 
-	func hash(
+	func hash (
 		into hasher: inout Hasher
 	) {
 		if let specialValue = self.specialValue {
-			if
-				specialValue == .positiveZero
-					|| specialValue == .negativeZero
+			if specialValue == .positiveZero || specialValue == .negativeZero
 			{ hasher.combine(0 as XSD.Integer) }
 			else { hasher.combine(specialValue) }
 		} else if let integer = self.integer {
@@ -200,7 +245,7 @@ public extension XSDNumber {
 		}
 	}
 
-	static func ===(
+	static func === (
 		lhs: Self,
 		rhs: Self
 	) -> Bool {
@@ -213,10 +258,11 @@ public extension XSDNumber {
 		else { return false }
 	}
 
-	static func ==<N: XSDNumber>(
+	static func == <N> (
 		lhs: Self,
 		rhs: N
-	) -> Bool {
+	) -> Bool
+	where N: XSDNumberValue {
 		if let specialValue = lhs.specialValue {
 			guard
 				specialValue != .notANumber,
@@ -233,15 +279,17 @@ public extension XSDNumber {
 	}
 
 	@inlinable
-	static func !=<N: XSDNumber>(
+	static func != <N> (
 		lhs: Self,
 		rhs: N
-	) -> Bool { !(lhs == rhs) }
+	) -> Bool
+	where N: XSDNumberValue { !(lhs == rhs) }
 
-	static func <<N: XSDNumber>(
+	static func < <N> (
 		lhs: Self,
 		rhs: N
-	) -> Bool {
+	) -> Bool
+	where N: XSDNumberValue {
 		if let specialValue = lhs.specialValue {
 			switch specialValue {
 			case .notANumber, .positiveInfinity:
@@ -286,21 +334,24 @@ public extension XSDNumber {
 	}
 
 	@inlinable
-	static func <=<N: XSDNumber>(
+	static func <= <N> (
 		lhs: Self,
 		rhs: N
-	) -> Bool { lhs < rhs || lhs == rhs }
+	) -> Bool
+	where N: XSDNumberValue { lhs < rhs || lhs == rhs }
 
 	@inlinable
-	static func ><N: XSDNumber>(
+	static func > <N> (
 		lhs: Self,
 		rhs: N
-	) -> Bool { !(lhs < rhs || lhs == rhs) }
+	) -> Bool
+	where N: XSDNumberValue { !(lhs < rhs || lhs == rhs) }
 
 	@inlinable
-	static func >=<N: XSDNumber>(
+	static func >= <N> (
 		lhs: Self,
 		rhs: N
-	) -> Bool { !(lhs < rhs) }
+	) -> Bool
+	where N: XSDNumberValue { !(lhs < rhs) }
 
 }

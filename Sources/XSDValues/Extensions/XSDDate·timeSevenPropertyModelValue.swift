@@ -1,6 +1,6 @@
 import XSD
 
-public extension XSDDate·timeSevenPropertyModel {
+public extension XSDDate·timeSevenPropertyModelValue {
 
 	var ·timeOnTimeline·: XSD.DecimalNumber {
 		return XSD.·timeOnTimeline·(self)
@@ -22,7 +22,7 @@ public extension XSDDate·timeSevenPropertyModel {
 		rhs: XSD.DurationValue
 	) -> Self { XSD.·dateTimePlusDuration·(rhs, lhs) }
 
-	static func +<Duration: XSDDuration>(
+	static func +<Duration: XSDDurationValue>(
 		lhs: Self,
 		rhs: Duration
 	) -> Self {

@@ -5,7 +5,7 @@ fileprivate let value2 = XSD.DateTimeValue(mapping: "1697-02-01T00:00:00Z"◊)
 fileprivate let value3 = XSD.DateTimeValue(mapping: "1903-03-01T00:00:00Z"◊)
 fileprivate let value4 = XSD.DateTimeValue(mapping: "1903-07-01T00:00:00Z"◊)
 
-public extension XSDDuration {
+public extension XSDDurationValue {
 
 	static func »(
 		lhs: Self,

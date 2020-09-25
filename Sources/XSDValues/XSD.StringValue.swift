@@ -5,7 +5,7 @@ extension XSD {
 
 	public struct StringValue:
 		XSDCanonicalMappable,
-		XSDString
+		XSDStringValue
 	{
 
 		public typealias LexicalRepresentation = XSD.stringRep

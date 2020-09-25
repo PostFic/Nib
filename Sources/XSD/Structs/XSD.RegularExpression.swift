@@ -50,14 +50,12 @@ public extension XSD {
 		///  +  parameters:
 		///      +  description:
 		///         The XSD regular expression source.
-		public init?(_ description: String) {
+		public init?(
+			_ description: String
+		) {
 			guard  //  only XML characters
 				try! NSRegularExpression(
-					pattern: """
-						[^\\x{1}-\\x{D7FF}\
-						\\x{E000}-\\x{FFFD}\
-						\\x{10000}-\\x{10FFFF}]
-						"""
+					pattern: #"[^\x{1}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]"#
 				).firstMatch(
 					in: description,
 					range: NSMakeRange(0, (description as NSString).length)
@@ -65,11 +63,7 @@ public extension XSD {
 			else { return nil }
 			guard  //  no unsupported escape sequences
 				try! NSRegularExpression(
-					pattern: """
-						\(XSD.RegularExpression.unescaped)\
-						\\\\[^nrt\\\\|\
-						\\.?*+(){}\\x2D\\x5B\\x5D\\x5EpPsSiIcCdDwW]
-						"""
+					pattern: "\(XSD.RegularExpression.unescaped)\\\\[^nrt\\\\|\\.?*+(){}\\x2D\\x5B\\x5D\\x5EpPsSiIcCdDwW]"
 				).firstMatch(
 					in: description,
 					range: NSMakeRange(0, (description as NSString).length)
@@ -78,81 +72,73 @@ public extension XSD {
 			var swiftPattern = description
 			XSD.RegularExpression.replaceIn(  //  escape `?` in `(?`
 				string: &swiftPattern,
-				"(\(XSD.RegularExpression.unescaped)\\()\\?",
-				#"$1\\?"#
+				pattern: "(\(XSD.RegularExpression.unescaped)\\()\\?",
+				template: #"$1\\?"#
 			)
 			XSD.RegularExpression.replaceIn(  //  group with `(?:`
 				string: &swiftPattern,
-				"(\(XSD.RegularExpression.unescaped)\\()",
-				#"$1\?:"#
+				pattern: "(\(XSD.RegularExpression.unescaped)\\()",
+				template: #"$1\?:"#
 			)
 			XSD.RegularExpression.replaceIn(  //  character groups
 				string: &swiftPattern,
-				"""
-					(\(XSD.RegularExpression.unescaped))\
-					\\[(\\^?(?:\(XSD.RegularExpression.singleChar)|\
-					\(XSD.RegularExpression.charRange)|\
-					\(XSD.RegularExpression.charClassEsc))+)-\\[(.+)]]
-					""",
-				#"$1(?:(?![$3])[$2])"#
+				pattern: "(\(XSD.RegularExpression.unescaped))\\[(\\^?(?:\(XSD.RegularExpression.singleChar)|\(XSD.RegularExpression.charRange)|\(XSD.RegularExpression.charClassEsc))+)-\\[(.+)]]",
+				template: #"$1(?:(?![$3])[$2])"#
 			)
 			XSD.RegularExpression.replaceIn(  //  escape second `?`/`+`
 				string: &swiftPattern,
-				"""
-					(\(XSD.RegularExpression.unescaped)\
-					(?:[*+?]|\\{\\d+,\\d*\\}))([?+])
-					""",
-				#"$1\\$2"#
+				pattern: "(\(XSD.RegularExpression.unescaped)(?:[*+?]|\\{\\d+,\\d*\\}))([?+])",
+				template: #"$1\\$2"#
 			)
 			XSD.RegularExpression.replaceIn(  //  escape `^`/`$`/etc.
 				string: &swiftPattern,
-				#"(\A\^|\$\z)"#,
-				#"\\$1"#
+				pattern: #"(\A\^|\$\z)"#,
+				template: #"\\$1"#
 			)
 			XSD.RegularExpression.replaceIn(  //  `.`
 				string: &swiftPattern,
-				"(\(XSD.RegularExpression.unescaped))\\.",
-				"$1[^\(XSD.RegularExpression.lineChar)]"
+				pattern: "(\(XSD.RegularExpression.unescaped))\\.",
+				template: "$1[^\(XSD.RegularExpression.lineChar)]"
 			)
 			XSD.RegularExpression.replaceIn(  //  `\s`
 				string: &swiftPattern,
-				"(\(XSD.RegularExpression.unescaped))\\\\s",
-				"$1[\(XSD.RegularExpression.spaceChar)]"
+				pattern: "(\(XSD.RegularExpression.unescaped))\\\\s",
+				template: "$1[\(XSD.RegularExpression.spaceChar)]"
 			)
 			XSD.RegularExpression.replaceIn(  //  `\S`
 				string: &swiftPattern,
-				"(\(XSD.RegularExpression.unescaped))\\\\S",
-				"$1[^\(XSD.RegularExpression.spaceChar)]"
+				pattern: "(\(XSD.RegularExpression.unescaped))\\\\S",
+				template: "$1[^\(XSD.RegularExpression.spaceChar)]"
 			)
 			XSD.RegularExpression.replaceIn(  //  `\i`
 				string: &swiftPattern,
-				"(\(XSD.RegularExpression.unescaped))\\\\i",
-				"$1[\(XSD.RegularExpression.startChar)]"
+				pattern: "(\(XSD.RegularExpression.unescaped))\\\\i",
+				template: "$1[\(XSD.RegularExpression.startChar)]"
 			)
 			XSD.RegularExpression.replaceIn(  //  `\I`
 				string: &swiftPattern,
-				"(\(XSD.RegularExpression.unescaped))\\\\I",
-				"$1[^\(XSD.RegularExpression.startChar)]"
+				pattern: "(\(XSD.RegularExpression.unescaped))\\\\I",
+				template: "$1[^\(XSD.RegularExpression.startChar)]"
 			)
 			XSD.RegularExpression.replaceIn(  //  `\c`
 				string: &swiftPattern,
-				"(\(XSD.RegularExpression.unescaped))\\\\c",
-				"$1[\(XSD.RegularExpression.char)]"
+				pattern: "(\(XSD.RegularExpression.unescaped))\\\\c",
+				template: "$1[\(XSD.RegularExpression.char)]"
 			)
 			XSD.RegularExpression.replaceIn(  //  `\C`
 				string: &swiftPattern,
-				"(\(XSD.RegularExpression.unescaped))\\\\C",
-				"$1[^\(XSD.RegularExpression.char)]"
+				pattern: "(\(XSD.RegularExpression.unescaped))\\\\C",
+				template: "$1[^\(XSD.RegularExpression.char)]"
 			)
 			XSD.RegularExpression.replaceIn(  //  `\w`
 				string: &swiftPattern,
-				"(\(XSD.RegularExpression.unescaped))\\\\w",
-				"$1(?:(?![\(XSD.RegularExpression.wordChar)])[\(XSD.RegularExpression.anyChar)])"
+				pattern: "(\(XSD.RegularExpression.unescaped))\\\\w",
+				template: "$1(?:(?![\(XSD.RegularExpression.wordChar)])[\(XSD.RegularExpression.anyChar)])"
 			)
 			XSD.RegularExpression.replaceIn(  //  `\W`
 				string: &swiftPattern,
-				"(\(XSD.RegularExpression.unescaped))\\\\W",
-				"$1[\(XSD.RegularExpression.wordChar)]"
+				pattern: "(\(XSD.RegularExpression.unescaped))\\\\W",
+				template: "$1[\(XSD.RegularExpression.wordChar)]"
 			)
 			guard  //  make regexp
 				let nsRegularExpression = try? NSRegularExpression(
@@ -176,7 +162,7 @@ public extension XSD {
 		public func ·matches·(
 			_ string: String
 		) -> Bool {
-			return nsRegularExpression.firstMatch(
+			nsRegularExpression.firstMatch(
 				in: string,
 				range: NSMakeRange(0, (string as NSString).length)
 			) != nil
@@ -188,108 +174,54 @@ public extension XSD {
 		/// A single character.
 		///
 		///     [80]   singleChar   ::=   SingleCharEsc | SingleCharNoEsc
-		private static let singleChar = """
-			\\\\[nrt\\\\|\\.?*+(){}\\x2D\\x5B\\x5D\\x5E]\
-			|\
-			[^\\x5B\\x5D]
-			"""
+		private static let singleChar = #"\\[nrt\\|\.?*+(){}\x2D\x5B\x5D\x5E]|[^\x5B\x5D]"#
 
 		/// A character range.
 		///
 		///     [81]   charRange   ::=   singleChar '-' singleChar
-		private static let charRange =
-			"(?:\(singleChar))-(?:\(singleChar))"
+		private static let charRange = "(?:\(singleChar))-(?:\(singleChar))"
 
 		/// A character class escape.
 		///
 		///     [83]   charClassEsc   ::=   ( MultiCharEsc | catEsc | complEsc )
-		private static let charClassEsc = """
-			(?:\
-			\\\\[sSiIcCdDwW]|\
-			\\\\[Pp]\\{(?:\
-			L[ultmo]?|\
-			M[nce]?|\
-			N[dlo]?|\
-			P[cdseifo]?|\
-			Z[slp]?|\
-			S[mcko]?|\
-			C[cfon]?|\
-			Is[a-zA-Z0-9\\x2D]+\
-			)\\})
-			"""
+		private static let charClassEsc = #"(?:\\[sSiIcCdDwW]|\\[Pp]\{(?:L[ultmo]?|M[nce]?|N[dlo]?|P[cdseifo]?|Z[slp]?|S[mcko]?|C[cfon]?|Is[a-zA-Z0-9\\x2D]+)\})"#
 
 		/// Any Unicode character.
-		private static let anyChar =
-			NSRegularExpression.escapedTemplate(
-				for: #"\x00-\x{10FFFF}"#
-			)
+		private static let anyChar = NSRegularExpression.escapedTemplate(
+			for: #"\x00-\x{10FFFF}"#
+		)
 
 		/// The set of name characters, those matched by
 		///   [NameChar].
 		///
 		/// [NameChar]: https://www.w3.org/TR/xml11/#NT-NameChar
 		private static let char = NSRegularExpression.escapedTemplate(
-			for: """
-				:A-Z_a-z\
-				\\xC0-\\xD6\
-				\\xD8-\\xF6\
-				\\xF8-\\x{2FF}\
-				\\x{370}-\\x{37D}\
-				\\x{37F}-\\x{1FFF}\
-				\\x{200C}-\\x{200D}\
-				\\x{2070}-\\x{218F}\
-				\\x{2C00}-\\x{2FEF}\
-				\\x{3001}-\\x{D7FF}\
-				\\x{F900}-\\x{FDCF}\
-				\\x{FDF0}-\\x{FFFD}\
-				\\x{10000}-\\x{EFFFF}\
-				\\-\\.0-9\\xB7\
-				\\x{0300}-\\x{036F}\
-				\\x{203F}-\\x{2040}
-				"""
+			for: #":A-Z_a-z\xC0-\xD6\xD8-\xF6\xF8-\x{2FF}\x{370}-\x{37D}\x{37F}-\x{1FFF}\x{200C}-\x{200D}\x{2070}-\x{218F}\x{2C00}-\x{2FEF}\x{3001}-\x{D7FF}\x{F900}-\x{FDCF}\x{FDF0}-\x{FFFD}\x{10000}-\x{EFFFF}\-\.0-9\xB7\x{0300}-\x{036F}\x{203F}-\x{2040}"#
 		)
 
 		/// Line break characters.
-		private static let lineChar =
-			NSRegularExpression.escapedTemplate(
-				for: #"\n\r"#
-			)
+		private static let lineChar = NSRegularExpression.escapedTemplate(
+			for: #"\n\r"#
+		)
 
 		/// Space characters.
-		private static let spaceChar =
-			NSRegularExpression.escapedTemplate(
-				for: #"\x20\t\n\r"#
-			)
+		private static let spaceChar = NSRegularExpression.escapedTemplate(
+			for: #"\x20\t\n\r"#
+		)
 
 		/// The set of initial name characters, those matched by
 		///   [NameStartChar].
 		///
 		/// [NameStartChar]:
 		///   https://www.w3.org/TR/xml11/#NT-NameStartChar
-		private static let startChar =
-			NSRegularExpression.escapedTemplate(
-				for: """
-					:A-Z_a-z\
-					\\xC0-\\xD6\
-					\\xD8-\\xF6\
-					\\xF8-\\x{2FF}\
-					\\x{370}-\\x{37D}\
-					\\x{37F}-\\x{1FFF}\
-					\\x{200C}-\\x{200D}\
-					\\x{2070}-\\x{218F}\
-					\\x{2C00}-\\x{2FEF}\
-					\\x{3001}-\\x{D7FF}\
-					\\x{F900}-\\x{FDCF}\
-					\\x{FDF0}-\\x{FFFD}\
-					\\x{10000}-\\x{EFFFF}
-					"""
-			)
+		private static let startChar = NSRegularExpression.escapedTemplate(
+			for: #":A-Z_a-z\xC0-\xD6\xD8-\xF6\xF8-\x{2FF}\x{370}-\x{37D}\x{37F}-\x{1FFF}\x{200C}-\x{200D}\x{2070}-\x{218F}\x{2C00}-\x{2FEF}\x{3001}-\x{D7FF}\x{F900}-\x{FDCF}\x{FDF0}-\x{FFFD}\x{10000}-\x{EFFFF}"#
+		)
 
 		/// Word characters.
-		private static let wordChar =
-			NSRegularExpression.escapedTemplate(
-				for: #"\p{P}\p{Z}\p{C}"#
-			)
+		private static let wordChar = NSRegularExpression.escapedTemplate(
+			for: #"\p{P}\p{Z}\p{C}"#
+		)
 
 		/// Replaces within a string, used internally to modify the
 		///   input string.
@@ -303,8 +235,8 @@ public extension XSD {
 		///         The template to use when replacing matches.
 		private static func replaceIn(
 			string: inout String,
-			_ pattern: String,
-			_ template: String
+			pattern: String,
+			template: String
 		) {
 			string = try! NSRegularExpression(
 				pattern: pattern
@@ -338,7 +270,8 @@ extension XSD.RegularExpression: Equatable {
 	public static func ==(
 		lhs: XSD.RegularExpression,
 		rhs: XSD.RegularExpression
-	) -> Bool { return lhs.description == rhs.description }
+	) -> Bool
+	{ lhs.description == rhs.description }
 
 }
 
@@ -353,7 +286,7 @@ extension XSD.RegularExpression: Hashable {
 	/// Hashing is done using the `description` string of the regular
 	///   expression.
 	@inlinable
-	public func hash(
+	public func hash (
 		into hasher: inout Hasher
 	) { hasher.combine(description) }
 

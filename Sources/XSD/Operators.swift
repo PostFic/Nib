@@ -32,10 +32,10 @@ infix operator ‹: ComparisonPrecedence
 infix operator !‹: ComparisonPrecedence
 
 /// Incomperable.
-infix operator »«: ComparisonPrecedence
+infix operator «»: ComparisonPrecedence
 
 /// Comparable.
-infix operator !»«: ComparisonPrecedence
+infix operator !«»: ComparisonPrecedence
 
 /// Implied·convert.
 postfix operator ◊

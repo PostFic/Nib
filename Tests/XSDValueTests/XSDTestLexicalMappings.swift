@@ -15,7 +15,7 @@ func testRepresentation<V: XSDValue>(
 	XCTAssertEqual(mapping!, value)
 }
 
-func testRepresentation<V: XSDNumber>(
+func testRepresentation<V: XSDNumberValue>(
 	_ representation: String,
 	_ value: V
 ) {

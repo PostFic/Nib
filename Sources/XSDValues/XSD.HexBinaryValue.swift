@@ -4,7 +4,7 @@ import XSDLiterals
 extension XSD {
 
 	public struct HexBinaryValue:
-		XSDBinaryData,
+		XSDBinaryDataValue,
 		XSDCanonicalMappable
 	{
 

@@ -4,7 +4,7 @@ import XSD
 ///   handle date/time construction and normalization.
 @usableFromInline
 internal struct Date·timeSevenPropertyModel:
-	XSDDate·timeSevenPropertyModel
+	XSDDate·timeSevenPropertyModelValue
 {
 
 	@usableFromInline

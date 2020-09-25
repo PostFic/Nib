@@ -1,40 +1,43 @@
-public protocol XSDBoolean:
+public protocol XSDBooleanValue:
 	ExpressibleByBooleanLiteral,
 	XSDValue
 where Self.BooleanLiteralType == Bool {
 
 	var bool: Bool { get }
 
-	init<B: XSDBoolean>(
+	init <B> (
 		_ value: B
-	)
+	) where B: XSDBooleanValue
 
 	init(
 		_ value: Bool
 	)
 
-	static func ==<B: XSDBoolean>(
+	static func == <B> (
 		lhs: Self,
 		rhs: B
 	) -> Bool
+	where B: XSDBooleanValue
 
-	static func !=<B: XSDBoolean>(
+	static func != <B> (
 		lhs: Self,
 		rhs: B
 	) -> Bool
+	where B: XSDBooleanValue
 
 }
 
-public extension XSDBoolean {
+public extension XSDBooleanValue {
 
-	func hash(
+	func hash (
 		into hasher: inout Hasher
 	) { hasher.combine(bool) }
 
 	@inlinable
-	init<B: XSDBoolean>(
+	init<B>(
 		_ value: B
-	) { self.init(value.bool) }
+	) where B: XSDBooleanValue
+	{ self.init(value.bool) }
 
 	@inlinable
 	init(
@@ -42,33 +45,40 @@ public extension XSDBoolean {
 	) { self.init(value) }
 
 	@inlinable
-	static func ===(
+	static func === (
 		lhs: Self,
 		rhs: Self
-	) -> Bool { lhs == rhs }
+	) -> Bool
+	{ lhs == rhs }
 
 	@inlinable
-	static func ==<B: XSDBoolean>(
+	static func == <B> (
 		lhs: Self,
 		rhs: B
-	) -> Bool { lhs.bool == rhs.bool }
+	) -> Bool
+	where B: XSDBooleanValue
+	{ lhs.bool == rhs.bool }
 
 	@inlinable
-	static func !=<B: XSDBoolean>(
+	static func != <B> (
 		lhs: Self,
 		rhs: B
-	) -> Bool { !(lhs == rhs) }
+	) -> Bool
+	where B: XSDBooleanValue
+	{ !(lhs == rhs) }
 
 	@inlinable
-	static func »(
+	static func » (
 		lhs: Self,
 		rhs: Self
-	) -> Bool { false }
+	) -> Bool
+	{ false }
 
 	@inlinable
-	static func «(
+	static func « (
 		lhs: Self,
 		rhs: Self
-	) -> Bool { false }
+	) -> Bool
+	{ false }
 
 }

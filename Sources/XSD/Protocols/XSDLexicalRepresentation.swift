@@ -1,7 +1,9 @@
-public protocol XSDLexicalRepresentation: XSD.Literal {
+public protocol XSDLexicalRepresentation:
+	XSD.Literal
+{
 
-	associatedtype Value: XSDValue where
-		Value.LexicalRepresentation == Self
+	associatedtype Value: XSDValue
+	where Value.LexicalRepresentation == Self
 
 	var ·lexicalMapping·: Self.Value { get }
 
@@ -10,6 +12,10 @@ public protocol XSDLexicalRepresentation: XSD.Literal {
 public extension XSDLexicalRepresentation {
 
 	@inlinable
-	var ·lexicalMapping·: Self.Value { Self.Value(mapping: self) }
+	var ·lexicalMapping·: Self.Value {
+		return Self.Value(
+			mapping: self
+		)
+	}
 
 }

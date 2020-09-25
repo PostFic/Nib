@@ -22,7 +22,9 @@ extension XSD {
 		///  +  parameters:
 		///      +  description:
 		///         The string value of the literal.
-		public required init?(_ description: String = "") {
+		public required init? (
+			_ description: String = ""
+		) {
 			if let lexicalSpace = Self.·lexicalSpace· {
 				guard lexicalSpace.·matches·(description)
 				else { return nil }
@@ -38,24 +40,38 @@ extension XSD {
 		///      +  representation:
 		///         The string value of the literal.
 		@inlinable
-		public convenience init?<S: StringProtocol>(
+		public convenience init? <S> (
 			_ representation: S = ""
-		) { self.init(String(representation)) }
+		) where S: StringProtocol
+		{ self.init(String(representation)) }
 
 		@inlinable
-		public required convenience init(
+		public required convenience init (
 			from decoder: Decoder
-		) throws { try self.init(String(from: decoder))! }
+		) throws {
+			try self.init(
+				String(
+					from: decoder
+				)
+			)!
+		}
 
 		@inlinable
-		public final func encode(
+		public final func encode (
 			to encoder: Encoder
-		) throws { try String(describing: self).encode(to: encoder) }
+		) throws {
+			try String(
+				describing: self
+			).encode(
+				to: encoder
+			)
+		}
 
 		/// An (optional) `XSD.RegularExpression` which defines the
 		///   lexical space of the literal.
 		/// If `nil`, this literal does not have an associated lexical
 		///   space.
+		@inlinable
 		open class var ·lexicalSpace·: XSD.RegularExpression? { nil }
 
 	}
@@ -65,26 +81,27 @@ extension XSD {
 public extension XSD.Literal {
 
 	@inlinable
-	final class func +(
+	final class func + (
 		lhs: XSD.Literal,
 		rhs: XSD.Literal
-	) -> XSD.Literal {
-		return XSD.Literal(
-			String(describing: lhs) + String(describing: rhs)
-		)!
-	}
+	) -> XSD.Literal
+	{ XSD.Literal(lhs.description + rhs.description)! }
 
 	@inlinable
-	final class func +<S: StringProtocol>(
+	final class func + <S> (
 		lhs: XSD.Literal,
 		rhs: S
-	) -> XSD.Literal { XSD.Literal(String(describing: lhs) + rhs)! }
+	) -> XSD.Literal
+	where S: StringProtocol
+	{ XSD.Literal(lhs.description + rhs)! }
 
 	@inlinable
-	final class func +<S: StringProtocol>(
+	final class func + <S> (
 		lhs: S,
 		rhs: XSD.Literal
-	) -> XSD.Literal { XSD.Literal(lhs + String(describing: rhs))! }
+	) -> XSD.Literal
+	where S: StringProtocol
+	{ XSD.Literal(lhs + rhs.description)! }
 	
 }
 
@@ -108,26 +125,28 @@ extension XSD.Literal: Equatable {
 	///   literal.
 	/// It does not test against lexical space.
 	@inlinable
-	public final class func ==(
+	public final class func == (
 		lhs: XSD.Literal,
 		rhs: XSD.Literal
-	) -> Bool { lhs.description == rhs.description }
+	) -> Bool
+	{ lhs.description == rhs.description }
 
 }
 
 extension XSD.Literal: Hashable {
 
-	public func hash(into hasher: inout Hasher) {
-		hasher.combine(description)
-	}
+	public func hash (
+		into hasher: inout Hasher
+	) { hasher.combine(description) }
 
 }
 
 extension XSD.Literal: TextOutputStreamable {
 
 	@inlinable
-	public func write<Target: TextOutputStream>(
+	public func write <Target> (
 		to target: inout Target
-	) { target.write(String(describing: self)) }
+	) where Target: TextOutputStream
+	{ target.write(self.description) }
 
 }

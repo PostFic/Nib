@@ -1,31 +1,36 @@
 public protocol XSDLiteralConvertible {
 
-	static postfix func ◊<L: XSD.Literal>(
+	static postfix func ◊<L>(
 		operand: Self
 	) -> L
+	where L: XSD.Literal
 
-	static postfix func ◊?<L: XSD.Literal>(
+	static postfix func ◊?<L>(
 		operand: Self
 	) -> L?
+	where L: XSD.Literal
 
 }
 
 public extension XSDLiteralConvertible {
 
 	@inlinable
-	static postfix func ◊<L: XSD.Literal>(
+	static postfix func ◊<L>(
 		operand: Self
-	) -> L { (operand◊?)! }
+	) -> L
+	where L: XSD.Literal
+	{ (operand◊?)! }
 
 }
 
 public extension XSDLiteralConvertible
-	where Self: CustomStringConvertible
-{
+where Self: CustomStringConvertible {
 
 	@inlinable
-	static postfix func ◊?<L: XSD.Literal>(
+	static postfix func ◊? <L> (
 		operand: Self
-	) -> L? { L(String(describing: operand)) }
+	) -> L?
+	where L: XSD.Literal
+	{ L(String(describing: operand)) }
 
 }

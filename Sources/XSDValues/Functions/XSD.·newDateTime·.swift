@@ -28,7 +28,7 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#p-setDTFromRaw>
 	@inlinable
-	static func ·newDateTime·<D7M: XSDDate·timeSevenPropertyModel>(
+	static func ·newDateTime·<D7M: XSDDate·timeSevenPropertyModelValue>(
 		_ Yr: XSD.Integer?,
 		_ Mo: XSD.Integer?,
 		_ Da: XSD.Integer?,

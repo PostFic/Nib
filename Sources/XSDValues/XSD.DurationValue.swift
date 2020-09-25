@@ -5,7 +5,7 @@ extension XSD {
 
 	public struct DurationValue:
 		XSDCanonicalMappable,
-		XSDDuration
+		XSDDurationValue
 	{
 		
 		public typealias LexicalRepresentation = XSD.durationLexicalRep
