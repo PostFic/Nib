@@ -25,14 +25,18 @@ public extension XSD {
 	static func ·fractionDigitSequenceValue·(
 		_ S: XSD.Sequence<XSD.digit>
 	) -> XSD.DecimalNumber {
-		return S.reduce(
+		return S.reversed().reduce(
 			into: 0 as XSD.DecimalNumber
 		) { result, S_i in
 			result = result * XSD.DecimalNumber(
 				sign: .plus,
 				exponent: -1,
 				significand: 1
-			) + XSD.DecimalNumber(XSD.·digitValue·(S_i))
+			) + XSD.DecimalNumber(
+				sign: .plus,
+				exponent: -1,
+				significand: XSD.DecimalNumber(XSD.·digitValue·(S_i))
+			)
 		}
 	}
 

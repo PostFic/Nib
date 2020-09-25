@@ -3,11 +3,14 @@ import XSDLiterals
 
 extension XSD {
 
-	public struct StringValue: XSDCanonicalMappable {
+	public struct StringValue:
+		XSDCanonicalMappable,
+		XSDString
+	{
 
 		public typealias LexicalRepresentation = XSD.stringRep
 
-		public let string: String
+		public let description: String
 
 		public var ·canonicalMapping·:
 			XSD.StringValue.LexicalRepresentation
@@ -19,7 +22,7 @@ extension XSD {
 
 		public init(
 			_ literal: XSD.StringValue.LexicalRepresentation
-		) { string = String(describing: literal) }
+		) { description = String(describing: literal) }
 
 	}
 

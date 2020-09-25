@@ -18,11 +18,31 @@ final class XSDTestLexicalSpaces: XCTestCase {
 	}
 
 	func testDecimalLexicalRep() {
+		XCTAssertNotNil(XSD.decimalLexicalRep("00"))
 		XCTAssertNotNil(XSD.decimalLexicalRep("+00"))
-		XCTAssertNotNil(XSD.decimalLexicalRep("-.00"))
+		XCTAssertNotNil(XSD.decimalLexicalRep("-00"))
+		XCTAssertNotNil(XSD.decimalLexicalRep("00."))
+		XCTAssertNotNil(XSD.decimalLexicalRep("+00."))
+		XCTAssertNotNil(XSD.decimalLexicalRep("-00."))
+		XCTAssertNotNil(XSD.decimalLexicalRep("00.00"))
 		XCTAssertNotNil(XSD.decimalLexicalRep("+00.00"))
-		XCTAssertNil(XSD.decimalLexicalRep("+"))
+		XCTAssertNotNil(XSD.decimalLexicalRep("-00.00"))
+		XCTAssertNotNil(XSD.decimalLexicalRep(".00"))
+		XCTAssertNotNil(XSD.decimalLexicalRep("+.00"))
+		XCTAssertNotNil(XSD.decimalLexicalRep("-.00"))
+		XCTAssertNotNil(
+			XSD.decimalLexicalRep("0123456789.9876543210")
+		)
+		XCTAssertNotNil(
+			XSD.decimalLexicalRep("+0123456789.9876543210")
+		)
+		XCTAssertNotNil(
+			XSD.decimalLexicalRep("-0123456789.9876543210")
+		)
+		XCTAssertNil(XSD.decimalLexicalRep(""))
 		XCTAssertNil(XSD.decimalLexicalRep("."))
+		XCTAssertNil(XSD.decimalLexicalRep("+"))
+		XCTAssertNil(XSD.decimalLexicalRep("-"))
 	}
 
 	func testFloatRep() {
@@ -39,6 +59,9 @@ final class XSDTestLexicalSpaces: XCTestCase {
 		XCTAssertNotNil(XSD.floatRep("00.00e00"))
 		XCTAssertNotNil(XSD.floatRep("+00.00e00"))
 		XCTAssertNotNil(XSD.floatRep("-00.00e00"))
+		XCTAssertNotNil(XSD.floatRep("012.340e050"))
+		XCTAssertNotNil(XSD.floatRep("+012.340e050"))
+		XCTAssertNotNil(XSD.floatRep("-012.340e050"))
 		XCTAssertNotNil(XSD.floatRep("INF"))
 		XCTAssertNotNil(XSD.floatRep("+INF"))
 		XCTAssertNotNil(XSD.floatRep("-INF"))
@@ -69,6 +92,9 @@ final class XSDTestLexicalSpaces: XCTestCase {
 		XCTAssertNotNil(XSD.doubleRep("00.00e00"))
 		XCTAssertNotNil(XSD.doubleRep("+00.00e00"))
 		XCTAssertNotNil(XSD.doubleRep("-00.00e00"))
+		XCTAssertNotNil(XSD.doubleRep("012.340e050"))
+		XCTAssertNotNil(XSD.doubleRep("+012.340e050"))
+		XCTAssertNotNil(XSD.doubleRep("-012.340e050"))
 		XCTAssertNotNil(XSD.doubleRep("INF"))
 		XCTAssertNotNil(XSD.doubleRep("+INF"))
 		XCTAssertNotNil(XSD.doubleRep("-INF"))
@@ -155,6 +181,7 @@ final class XSDTestLexicalSpaces: XCTestCase {
 		XCTAssertNotNil(
 			XSD.durationLexicalRep("-P00Y00M00DT00H00M00.00S")
 		)
+		XCTAssertNotNil(XSD.durationLexicalRep("-P9Y9M9DT9H9M9.99S"))
 		XCTAssertNotNil(XSD.durationLexicalRep("PT.0S"))
 		XCTAssertNotNil(XSD.durationLexicalRep("-P0D"))
 		XCTAssertNotNil(XSD.durationLexicalRep("P0M"))
@@ -175,6 +202,9 @@ final class XSDTestLexicalSpaces: XCTestCase {
 		XCTAssertNotNil(XSD.dateTimeLexicalRep("19720-02-29T00:00:00"))
 		XCTAssertNotNil(
 			XSD.dateTimeLexicalRep("1972-12-31T00:00:00.00Z")
+		)
+		XCTAssertNotNil(
+			XSD.dateTimeLexicalRep("1972-12-31T00:00:00.01Z")
 		)
 		XCTAssertNotNil(
 			XSD.dateTimeLexicalRep("1972-12-31T00:00:00+00:00")
@@ -206,6 +236,7 @@ final class XSDTestLexicalSpaces: XCTestCase {
 		XCTAssertNotNil(XSD.timeLexicalRep("23:59:59"))
 		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00"))
 		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00.00"))
+		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00.01"))
 		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00.00+00:00"))
 		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00.00-00:00"))
 		XCTAssertNotNil(XSD.timeLexicalRep("00:00:00+13:59"))
@@ -709,6 +740,9 @@ final class XSDTestLexicalSpaces: XCTestCase {
 		XCTAssertNotNil(
 			XSD.unsignedScientificNotationNumeral("00.00e00")
 		)
+		XCTAssertNotNil(
+			XSD.unsignedScientificNotationNumeral("012.340e050")
+		)
 		XCTAssertNil(XSD.unsignedScientificNotationNumeral("00"))
 		XCTAssertNil(XSD.unsignedScientificNotationNumeral("00."))
 		XCTAssertNil(XSD.unsignedScientificNotationNumeral("00.00"))
@@ -717,8 +751,12 @@ final class XSDTestLexicalSpaces: XCTestCase {
 		XCTAssertNil(XSD.unsignedScientificNotationNumeral("-00"))
 		XCTAssertNil(XSD.unsignedScientificNotationNumeral("+00.00"))
 		XCTAssertNil(XSD.unsignedScientificNotationNumeral("-00.00"))
-		XCTAssertNil(XSD.unsignedScientificNotationNumeral("+00.00e00"))
-		XCTAssertNil(XSD.unsignedScientificNotationNumeral("-00.00e00"))
+		XCTAssertNil(
+			XSD.unsignedScientificNotationNumeral("+00.00e00")
+		)
+		XCTAssertNil(
+			XSD.unsignedScientificNotationNumeral("-00.00e00")
+		)
 		XCTAssertNil(XSD.unsignedScientificNotationNumeral("."))
 		XCTAssertNil(XSD.unsignedScientificNotationNumeral("E"))
 		XCTAssertNil(XSD.unsignedScientificNotationNumeral("e"))
@@ -733,6 +771,9 @@ final class XSDTestLexicalSpaces: XCTestCase {
 		XCTAssertNotNil(XSD.scientificNotationNumeral("00.00e00"))
 		XCTAssertNotNil(XSD.scientificNotationNumeral("+00.00e00"))
 		XCTAssertNotNil(XSD.scientificNotationNumeral("-00.00e00"))
+		XCTAssertNotNil(XSD.scientificNotationNumeral("012.340e050"))
+		XCTAssertNotNil(XSD.scientificNotationNumeral("+012.340e050"))
+		XCTAssertNotNil(XSD.scientificNotationNumeral("-012.340e050"))
 		XCTAssertNil(XSD.scientificNotationNumeral("00"))
 		XCTAssertNil(XSD.scientificNotationNumeral("+00"))
 		XCTAssertNil(XSD.scientificNotationNumeral("-00"))

@@ -4,7 +4,11 @@ public protocol XSDNumber:
 	ExpressibleByFloatLiteral,
 	ExpressibleByIntegerLiteral,
 	Strideable
-where Stride == XSD.DecimalNumber {
+where
+	Self.FloatLiteralType == Double,
+	Self.IntegerLiteralType == Int,
+	Stride == XSD.DecimalNumber
+{
 
 	var decimalNumber: XSD.DecimalNumber? { get }
 
@@ -55,8 +59,14 @@ public extension XSDNumber {
 	init?<N: BinaryInteger>(
 		exactly value: N
 	) {
-		if let decimalValue = XSD.DecimalNumber(exactly: value) {
-			self.init(exactly: decimalValue)
+		if let mantissa = UInt64(exactly: value.magnitude) {
+			self.init(
+				exactly: NSDecimalNumber(
+					mantissa: mantissa,
+					exponent: 0,
+					isNegative: value.signum() < 0
+				) as Decimal
+			)
 		} else { return nil }
 	}
 
@@ -82,12 +92,28 @@ public extension XSDNumber {
 
 	@inlinable
 	init(
-		floatLiteral value: Double
-	) { self.init(exactly: XSD.DecimalNumber(value))! }
+		floatLiteral value: Self.FloatLiteralType
+	) {
+		if value.isNaN { self.init(exactly: .notANumber)! }
+		else {
+			switch value.floatingPointClass {
+			case .negativeInfinity:
+				self.init(exactly: .negativeInfinity)!
+			case .negativeZero:
+				self.init(exactly: .negativeZero)!
+			case .positiveInfinity:
+				self.init(exactly: .positiveInfinity)!
+			case .positiveZero:
+				self.init(exactly: .positiveZero)!
+			default:
+				self.init(exactly: XSD.DecimalNumber(value))!
+			}
+		}
+	}
 
 	@inlinable
 	init(
-		integerLiteral value: Int
+		integerLiteral value: Self.IntegerLiteralType
 	) { self.init(exactly: value)! }
 
 	func advanced(

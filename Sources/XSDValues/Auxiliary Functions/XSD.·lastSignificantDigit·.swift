@@ -18,7 +18,7 @@ public extension XSD {
 		_ s: XSD.Sequence<XSD.Integer>
 	) -> XSD.Integer {
 		let j = s.enumerated().first { $0.1 == 0 }?.0 ?? .max
-		return XSD.Integer(j - 1)
+		return XSD.Integer(j == 0 ? j : j - 1)
 	}
 
 	/// Maps a `XSD.Sequence` of `XSD.DecimalNumber`s to the zero‐based
@@ -42,7 +42,7 @@ public extension XSD {
 		_ s: XSD.Sequence<XSD.DecimalNumber>
 	) -> XSD.Integer {
 		let j = s.enumerated().first { $0.1 == 0 }?.0 ?? .max
-		return XSD.Integer(j - 1)
+		return XSD.Integer(j == 0 ? j : j - 1)
 	}
 
 }

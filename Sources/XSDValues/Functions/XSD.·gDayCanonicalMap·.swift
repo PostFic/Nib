@@ -19,10 +19,12 @@ public extension XSD {
 	) -> XSD.gDayLexicalRep {
 		if let tz = gD.·timezoneOffset· {
 			return (
-				XSD.·dayCanonicalFragmentMap·(gD.·day·!)
+				"---" + XSD.·dayCanonicalFragmentMap·(gD.·day·!)
 					+ XSD.·timezoneCanonicalFragmentMap·(tz)
 			)◊
-		} else { return XSD.·dayCanonicalFragmentMap·(gD.·day·!)◊ }
+		} else {
+			return ("---" + XSD.·dayCanonicalFragmentMap·(gD.·day·!))◊
+		}
 	}
 
 }

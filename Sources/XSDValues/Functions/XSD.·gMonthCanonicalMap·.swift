@@ -19,10 +19,14 @@ public extension XSD {
 	) -> XSD.gMonthLexicalRep {
 		if let tz = gM.·timezoneOffset· {
 			return (
-				XSD.·monthCanonicalFragmentMap·(gM.·month·!)
+				"--" + XSD.·monthCanonicalFragmentMap·(gM.·month·!)
 					+ XSD.·timezoneCanonicalFragmentMap·(tz)
 			)◊
-		} else { return XSD.·monthCanonicalFragmentMap·(gM.·month·!)◊ }
+		} else {
+			return (
+				"--" + XSD.·monthCanonicalFragmentMap·(gM.·month·!)
+			)◊
+		}
 	}
 
 }

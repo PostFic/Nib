@@ -3,7 +3,10 @@ import XSDLiterals
 
 extension XSD {
 
-	public enum BooleanValue: XSDCanonicalMappable {
+	public enum BooleanValue:
+		XSDBoolean,
+		XSDCanonicalMappable
+	{
 
 		case `true`
 
@@ -16,6 +19,10 @@ extension XSD {
 		public var ·canonicalMapping·:
 			XSD.BooleanValue.LexicalRepresentation
 		{ return XSD.·booleanCanonicalMap·(self) }
+
+		public init(
+			_ value: Bool
+		) { self = value ? .true : .false }
 
 		public init(
 			mapping literal: XSD.BooleanValue.LexicalRepresentation

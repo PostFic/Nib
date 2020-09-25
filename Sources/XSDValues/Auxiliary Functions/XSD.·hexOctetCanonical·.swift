@@ -22,14 +22,16 @@ public extension XSD {
 		) { state in
 			let nextState = state as! UInt8 + 1
 			guard nextState < 5 else { return nil }
-			return (1 << 4 - nextState) & o == 0 ? .０ : .１
+			state = nextState
+			return (1 << (4 - nextState)) & o == 0 ? .０ : .１
 		}
 		let hi: XSD.Sequence<XSD.BinaryDigit> = sequence(
 			state: 0 as UInt8
 		) { state in
 			let nextState = state as! UInt8 + 1
 			guard nextState < 5 else { return nil }
-			return (1 << 8 - nextState) & o == 0 ? .０ : .１
+			state = nextState
+			return (1 << (8 - nextState)) & o == 0 ? .０ : .１
 		}
 		return (
 			XSD.·hexDigitCanonical·(hi) + XSD.·hexDigitCanonical·(lo)

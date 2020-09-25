@@ -16,6 +16,6 @@ public extension XSD {
 	@inlinable
 	static func ·stringCanonicalMap·(
 		_ s: XSD.StringValue
-	) -> XSD.stringRep { return s.string◊ }
+	) -> XSD.stringRep { return String(describing: s)◊ }
 
 }

@@ -1,7 +1,7 @@
 import XSD
 
-/// A named value which is distinct from, and unequal to, all other
-///   values.
+/// A generic `XSDDate·timeSevenPropertyModel` used internally to
+///   handle date/time construction and normalization.
 @usableFromInline
 internal struct Date·timeSevenPropertyModel:
 	XSDDate·timeSevenPropertyModel

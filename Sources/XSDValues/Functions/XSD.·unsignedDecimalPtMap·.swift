@@ -26,7 +26,7 @@ public extension XSD {
 			maxSplits: 1,
 			omittingEmptySubsequences: false
 		)
-		if parts.count == 1 {
+		if parts.count == 1 || parts[1] == "" {
 			let N = XSD.unsignedNoDecimalPtNumeral(parts[0])!
 			return XSD.DecimalNumber(XSD.·unsignedNoDecimalMap·(N))
 		} else if parts[0] == "" {

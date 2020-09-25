@@ -30,12 +30,23 @@ public extension XSD {
 				)
 			)◊
 		} else {
-			return (
-				XSD.·unsTwoDigitCanonicalFragmentMap·(XSD.·div·(t, 60))
-					+ ":" + XSD.·unsTwoDigitCanonicalFragmentMap·(
+			if t < 0 {
+				return (
+					"-" + XSD.·unsTwoDigitCanonicalFragmentMap·(
+						XSD.·div·(t, 60)
+					) + ":" + XSD.·unsTwoDigitCanonicalFragmentMap·(
 						XSD.·mod·(t, 60)
 					)
-			)◊
+				)◊
+			} else {
+				return (
+					"+" + XSD.·unsTwoDigitCanonicalFragmentMap·(
+						XSD.·div·(t, 60)
+					) + ":" + XSD.·unsTwoDigitCanonicalFragmentMap·(
+						XSD.·mod·(t, 60)
+					)
+				)◊
+			}
 		}
 	}
 

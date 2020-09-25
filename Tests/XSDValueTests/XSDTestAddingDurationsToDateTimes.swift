@@ -7,42 +7,46 @@ final class XSDTestAddingDurationsToDateTimes: XCTestCase {
 	func testForExampleRow1() {
 		XCTAssertEqual(
 			XSD.·dateTimePlusDuration·(
-				"P1Y3M5DT7H10M3.3S",
-				"2000-01-12T12:13:14Z" as XSD.DateTimeValue
+				XSD.DurationValue("P1Y3M5DT7H10M3.3S")!,
+				XSD.DateTimeValue("2000-01-12T12:13:14Z")!
 			),
-			"2001-04-17T19:23:17.3Z"
+			XSD.DateTimeValue("2001-04-17T19:23:17.3Z")!
 		)
 	}
 
 	func testForExampleRow2() {
 		XCTAssertEqual(
 			XSD.·dateTimePlusDuration·(
-				"-P3M",
-				"2000-01" as XSD.GYearMonthValue
+				XSD.DurationValue("-P3M")!,
+				XSD.GYearMonthValue("2000-01")!
 			),
-			"1999-10"
+			XSD.GYearMonthValue("1999-10")!
 		)
 	}
 
 	func testForExampleRow3() {
 		XCTAssertEqual(
 			XSD.·dateTimePlusDuration·(
-				"PT33H",
-				"2000-01-12" as XSD.DateValue
+				XSD.DurationValue("PT33H")!,
+				XSD.DateValue("2000-01-12")!
 			),
-			"2000-01-13"
+			XSD.DateValue("2000-01-13")!
 		)
 	}
 
 	func testForExamplePoint1() {
-		let lhs = "2000-03-30" as XSD.DateValue + "P1D" + "P1M"
-		let rhs: XSD.DateValue = "2000-04-30"
+		let lhs = XSD.DateValue("2000-03-30")!
+			+ XSD.DurationValue("P1D")!
+			+ XSD.DurationValue("P1M")!
+		let rhs = XSD.DateValue("2000-04-30")!
 		XCTAssertEqual(lhs, rhs)
 	}
 
 	func testForExamplePoint2() {
-		let lhs = "2000-03-30" as XSD.DateValue + "P1M" + "P1D"
-		let rhs: XSD.DateValue = "2000-05-01"
+		let lhs = XSD.DateValue("2000-03-30")!
+			+ XSD.DurationValue("P1M")!
+			+ XSD.DurationValue("P1D")!
+		let rhs: XSD.DateValue = XSD.DateValue("2000-05-01")!
 		XCTAssertEqual(lhs, rhs)
 	}
 

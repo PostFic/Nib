@@ -1,10 +1,9 @@
 public protocol XSDCanonicalMappable:
 	Codable,
-	ExpressibleByStringLiteral,
 	LosslessStringConvertible,
 	TextOutputStreamable,
 	XSDValue
-where Self.StringLiteralType == String {
+{
 
 	var ·canonicalMapping·: Self.LexicalRepresentation { get }
 
@@ -23,11 +22,6 @@ public extension XSDCanonicalMappable {
 			self = result
 		} else { throw XSD.Error.notInLexicalSpace }
 	}
-
-	@inlinable
-	init(
-		stringLiteral: Self.StringLiteralType
-	) { self.init(mapping: stringLiteral◊) }
 
 	@inlinable
 	func encode(

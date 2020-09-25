@@ -22,7 +22,7 @@ public extension XSD {
 		_ LEX: XSD.gYearMonthLexicalRep
 	) -> XSD.GYearMonthValue {
 		let string = String(describing: LEX)
-		let Array·Y，M，T = string.split(
+		let Array·Y，M，T = string.dropFirst().split(
 			maxSplits: 2,
 			omittingEmptySubsequences: false
 		) { $0 == "-" || $0 == "Z" || $0 == "+" }
@@ -34,7 +34,9 @@ public extension XSD {
 				]◊
 			)
 		} else { tz = nil }
-		let Y = Array·Y，M，T[0]
+		let Y = string[
+			string.startIndex..<Array·Y，M，T[0].endIndex
+		]
 		let M = Array·Y，M，T[1]
 		return XSD.·newDateTime·(
 			XSD.·yearFragValue·(Y◊),

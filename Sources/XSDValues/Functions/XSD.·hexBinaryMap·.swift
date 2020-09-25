@@ -26,10 +26,10 @@ public extension XSD {
 		let o: UnfoldSequence<XSD.BinaryOctet, Substring> = sequence(
 			state: octets[octets.startIndex..<octets.endIndex]
 		) { state in
-			let octet = octets.prefix(2)
+			let octet = state.prefix(2)
 			guard octet.count == 2 else { return nil }
 			state = octets[octet.endIndex..<octets.endIndex]
-			return XSD.·hexOctetMap·(octets.prefix(2)◊)
+			return XSD.·hexOctetMap·(octet◊)
 		}
 		return XSD.HexBinaryValue(o)
 	}

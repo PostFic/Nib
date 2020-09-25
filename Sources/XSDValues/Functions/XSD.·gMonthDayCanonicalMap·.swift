@@ -17,7 +17,7 @@ public extension XSD {
 	static func ·gMonthDayCanonicalMap·(
 		_ md: XSD.GMonthDayValue
 	) -> XSD.gMonthDayLexicalRep {
-		let MD = String(
+		let MD = "--" + String(
 			describing: XSD.·monthCanonicalFragmentMap·(md.·month·!)
 		) + "-" + String(
 			describing: XSD.·dayCanonicalFragmentMap·(md.·day·!)
