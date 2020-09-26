@@ -17,12 +17,11 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#vp-dt-dateTimePlusDuration>
 	@inlinable
-	static func ·dateTimePlusDuration·<
-		D7M: XSDDate·timeSevenPropertyModelValue
-	>(
+	static func ·dateTimePlusDuration· <D7M> (
 		_ du: XSD.DurationValue,
 		_ dt: D7M
-	) -> D7M {
+	) -> D7M
+	where D7M: XSDDate·timeSevenPropertyModelValue {
 		var yr = dt.·year· ?? 1
 		var mo = dt.·month· ?? 1
 		var da = dt.·day· ?? 1
@@ -32,18 +31,11 @@ public extension XSD {
 		mo += du.·months·
 		XSD.·normalizeMonth·(&yr, &mo)
 		let ·daysInMonth·yr，mo = XSD.·daysInMonth·(yr, mo)
-		if da > ·daysInMonth·yr，mo { da = ·daysInMonth·yr，mo }
+		if da > ·daysInMonth·yr，mo
+		{ da = ·daysInMonth·yr，mo }
 		se += du.·seconds·
 		XSD.·normalizeSecond·(&yr, &mo, &da, &hr, &mi, &se)
-		return XSD.·newDateTime·(
-			dt.·year· == nil ? nil : yr,
-			dt.·month· == nil ? nil : mo,
-			dt.·day· == nil ? nil : da,
-			dt.·hour· == nil ? nil : hr,
-			dt.·minute· == nil ? nil : mi,
-			dt.·second· == nil ? nil : se,
-			dt.·timezoneOffset·
-		)
+		return XSD.·newDateTime·(dt.·year· == nil ? nil : yr, dt.·month· == nil ? nil : mo, dt.·day· == nil ? nil : da, dt.·hour· == nil ? nil : hr, dt.·minute· == nil ? nil : mi, dt.·second· == nil ? nil : se, dt.·timezoneOffset·)
 	}
 
 }

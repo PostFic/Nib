@@ -30,12 +30,16 @@ public extension XSD {
 	///       and the return value is the requested floating‐point
 	///       type, not a `XSD.DecimalNumber`.
 	@inlinable
-	static func ·floatingPointRound·(
+	static func ·floatingPointRound· (
 		_ nV: XSD.DecimalNumber,
 		_ cWidth: XSD.Integer = 0,
 		_ eMin: XSD.Integer = 0,
 		_ eMax: XSD.Integer = 0
-	) -> Float32! { return Float32(truncating: nV as NSDecimalNumber) }
+	) -> Float32! {
+		return Float32(
+			truncating: nV as NSDecimalNumber
+		)
+	}
 
 	/// Rounds a `XSD.DecimalNumber` to the nearest floating‐point
 	///   value.
@@ -64,11 +68,15 @@ public extension XSD {
 	///       and the return value is the requested floating‐point
 	///       type, not a `XSD.DecimalNumber`.
 	@inlinable
-	static func ·floatingPointRound·(
+	static func ·floatingPointRound· (
 		_ nV: XSD.DecimalNumber,
 		_ cWidth: XSD.Integer = 0,
 		_ eMin: XSD.Integer = 0,
 		_ eMax: XSD.Integer = 0
-	) -> Float64! { return Float64(truncating: nV as NSDecimalNumber) }
+	) -> Float64! {
+		return Float64(
+			truncating: nV as NSDecimalNumber
+		)
+	}
 
 }

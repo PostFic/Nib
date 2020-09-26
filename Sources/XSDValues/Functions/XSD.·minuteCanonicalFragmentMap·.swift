@@ -17,10 +17,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-miCanFragMap>
 	@inlinable
-	static func ·minuteCanonicalFragmentMap·(
+	static func ·minuteCanonicalFragmentMap· (
 		_ m: XSD.Integer
-	) -> XSD.minuteFrag {
-		return XSD.·unsTwoDigitCanonicalFragmentMap·(m)◊
-	}
+	) -> XSD.minuteFrag
+	{ XSD.minuteFrag(XSD.·unsTwoDigitCanonicalFragmentMap·(m))! }
 
 }

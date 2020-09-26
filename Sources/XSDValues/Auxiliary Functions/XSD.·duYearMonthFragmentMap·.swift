@@ -18,23 +18,22 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-duYMMap>
 	@inlinable
-	static func ·duYearMonthFragmentMap·(
+	static func ·duYearMonthFragmentMap· (
 		_ YM: XSD.duYearMonthFrag
 	) -> XSD.Integer {
 		let y: XSD.Integer
 		let m: XSD.Integer
-		let Array·Y，M = String(describing: YM).split(
+		let Array·Y，M = String(YM).split(
 			separator: "Y",
 			maxSplits: 1,
 			omittingEmptySubsequences: false
 		)
 		if Array·Y，M.count == 2 {
-			y = XSD.·duYearFragmentMap·((Array·Y，M[0] + "Y")◊)
-			m = Array·Y，M[1] == "" ? 0
-				: XSD.·duMonthFragmentMap·(Array·Y，M[1]◊)
+			y = XSD.·duYearFragmentMap·(XSD.duYearFrag(Array·Y，M[0] + "Y")!)
+			m = Array·Y，M[1] == "" ? 0 : XSD.·duMonthFragmentMap·(XSD.duMonthFrag(Array·Y，M[1])!)
 		} else {
 			y = 0
-			m = XSD.·duMonthFragmentMap·(YM◊)
+			m = XSD.·duMonthFragmentMap·(XSD.duMonthFrag(YM)!)
 		}
 		return 12 * y + m
 	}

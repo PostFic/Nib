@@ -173,8 +173,9 @@ public extension XSDValue {
 	init? (
 		_ description: String
 	) {
-		guard let literal: Self.LexicalRepresentation = description◊?
-		else { return nil }
+		guard let literal = Self.LexicalRepresentation(description)
+		else
+		{ return nil }
 		self.init(
 			mapping: literal
 		)

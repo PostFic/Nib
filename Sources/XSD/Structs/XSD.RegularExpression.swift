@@ -60,7 +60,8 @@ public extension XSD {
 					in: description,
 					range: NSMakeRange(0, (description as NSString).length)
 				) == nil
-			else { return nil }
+			else
+			{ return nil }
 			guard  //  no unsupported escape sequences
 				try! NSRegularExpression(
 					pattern: "\(XSD.RegularExpression.unescaped)\\\\[^nrt\\\\|\\.?*+(){}\\x2D\\x5B\\x5D\\x5EpPsSiIcCdDwW]"
@@ -68,7 +69,8 @@ public extension XSD {
 					in: description,
 					range: NSMakeRange(0, (description as NSString).length)
 				) == nil
-			else { return nil }
+			else
+			{ return nil }
 			var swiftPattern = description
 			XSD.RegularExpression.replaceIn(  //  escape `?` in `(?`
 				string: &swiftPattern,
@@ -144,7 +146,8 @@ public extension XSD {
 				let nsRegularExpression = try? NSRegularExpression(
 					pattern: "^(?:\(swiftPattern))$"
 				)
-			else { return nil }
+			else
+			{ return nil }
 			self.nsRegularExpression = nsRegularExpression
 			self.description = description
 		}
@@ -250,7 +253,9 @@ public extension XSD {
 	}
 }
 
-extension XSD.RegularExpression: Equatable {
+extension XSD.RegularExpression:
+	Equatable
+{
 
 	/// Tests to see if two XSD regular expressions are equal.
 	///
@@ -275,7 +280,9 @@ extension XSD.RegularExpression: Equatable {
 
 }
 
-extension XSD.RegularExpression: Hashable {
+extension XSD.RegularExpression:
+	Hashable
+{
 
 	/// Hashes the regular expression.
 	///

@@ -1,7 +1,9 @@
 import XSD
 import XSDLiterals
 
-extension XSD.gYearMonthLexicalRep: XSDLexicalRepresentation {
+extension XSD.gYearMonthLexicalRep:
+	XSDLexicalRepresentation
+{
 
 	public typealias Value = XSD.GYearMonthValue
 

@@ -28,7 +28,7 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#p-setDTFromRaw>
 	@inlinable
-	static func ·newDateTime·<D7M: XSDDate·timeSevenPropertyModelValue>(
+	static func ·newDateTime· <D7M> (
 		_ Yr: XSD.Integer?,
 		_ Mo: XSD.Integer?,
 		_ Da: XSD.Integer?,
@@ -36,18 +36,8 @@ public extension XSD {
 		_ Mi: XSD.Integer?,
 		_ Se: XSD.DecimalNumber?,
 		_ Tz: XSD.Integer?
-	) -> D7M {
-		return D7M(
-			Date·timeSevenPropertyModel(
-				Yr,
-				Mo,
-				Da,
-				Hr,
-				Mi,
-				Se,
-				Tz
-			)
-		)!
-	}
+	) -> D7M
+	where D7M: XSDDate·timeSevenPropertyModelValue
+	{ D7M(Date·timeSevenPropertyModel(Yr, Mo, Da, Hr, Mi, Se, Tz))! }
 
 }

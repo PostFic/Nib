@@ -18,14 +18,12 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-yearMonthDurationCanMap>
 	@inlinable
-	static func ·yearMonthDurationCanonicalMap·(
+	static func ·yearMonthDurationCanonicalMap· (
 		_ ym: XSD.DurationValue
 	) -> XSD.yearMonthDurationLexicalRep {
 		let m = ym.·months·
 		let sgn = m < 0 ? "-" : ""
-		return (
-			sgn + "P" + XSD.·duYearMonthCanonicalFragmentMap·(abs(m))
-		)◊
+		return XSD.yearMonthDurationLexicalRep(sgn + "P" + String(XSD.·duYearMonthCanonicalFragmentMap·(abs(m))))!
 	}
 
 }

@@ -24,12 +24,14 @@ public extension XSD {
 	///       preceding.
 	///     Nib provides the correct implementation.
 	@inlinable
-	static func ·duSecondFragmentMap·(
+	static func ·duSecondFragmentMap· (
 		_ S: XSD.duSecondFrag
 	) -> XSD.DecimalNumber {
-		let N = String(describing: S).dropLast()
-		if N.contains(".") { return XSD.·decimalPtMap·(N◊) }
-		else { return XSD.DecimalNumber(XSD.·noDecimalMap·(N◊)) }
+		let N = String(S).dropLast()
+		if N.contains(".")
+		{ return XSD.·decimalPtMap·(XSD.decimalPtNumeral(N)!) }
+		else
+		{ return XSD.DecimalNumber(XSD.·noDecimalMap·(XSD.noDecimalPtNumeral(N)!)) }
 	}
 
 }

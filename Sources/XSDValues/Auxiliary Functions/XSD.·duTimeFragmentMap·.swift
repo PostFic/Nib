@@ -19,20 +19,20 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-duTMap>
 	@inlinable
-	static func ·duTimeFragmentMap·(
+	static func ·duTimeFragmentMap· (
 		_ T: XSD.duTimeFrag
 	) -> XSD.DecimalNumber {
 		let MS: String.SubSequence
 		let h: XSD.Integer
 		let m: XSD.Integer
 		let s: XSD.DecimalNumber
-		let Array·H，MS = String(describing: T).dropFirst().split(
+		let Array·H，MS = String(T).dropFirst().split(
 			separator: "H",
 			maxSplits: 1,
 			omittingEmptySubsequences: false
 		)
 		if Array·H，MS.count == 2 {
-			h = XSD.·duHourFragmentMap·((Array·H，MS[0] + "H")◊)
+			h = XSD.·duHourFragmentMap·(XSD.duHourFrag(Array·H，MS[0] + "H")!)
 			MS = Array·H，MS[1]
 		} else {
 			h = 0
@@ -44,16 +44,13 @@ public extension XSD {
 			omittingEmptySubsequences: false
 		)
 		if Array·M，S.count == 2 {
-			m = XSD.·duMinuteFragmentMap·((Array·M，S[0] + "M")◊)
-			s = Array·M，S[1] == "" ? 0
-				: XSD.·duSecondFragmentMap·(Array·M，S[1]◊)
+			m = XSD.·duMinuteFragmentMap·(XSD.duMinuteFrag(Array·M，S[0] + "M")!)
+			s = Array·M，S[1] == "" ? 0 : XSD.·duSecondFragmentMap·(XSD.duSecondFrag(Array·M，S[1])!)
 		} else {
 			m = 0
-			s = MS == "" ? 0 : XSD.·duSecondFragmentMap·(MS◊)
+			s = MS == "" ? 0 : XSD.·duSecondFragmentMap·(XSD.duSecondFrag(MS)!)
 		}
-		return 3600 * XSD.DecimalNumber(h)
-			+ 60 * XSD.DecimalNumber(m)
-			+ s
+		return 3600 * XSD.DecimalNumber(h) + 60 * XSD.DecimalNumber(m) + s
 	}
 
 }

@@ -17,21 +17,17 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-duYMCan>
 	@inlinable
-	static func ·duYearMonthCanonicalFragmentMap·(
+	static func ·duYearMonthCanonicalFragmentMap· (
 		_ ym: XSD.Integer
 	) -> XSD.duYearMonthFrag {
 		let y = XSD.·div·(ym, 12)
 		let m = XSD.·mod·(ym, 12)
-		if y != 0 && m != 0 {
-			return (
-				XSD.·unsignedNoDecimalPtCanonicalMap·(y) + "Y"
-					+ XSD.·unsignedNoDecimalPtCanonicalMap·(m) + "M"
-			)◊
-		} else if y != 0 && m == 0 {
-			return (XSD.·unsignedNoDecimalPtCanonicalMap·(y) + "Y")◊
-		} else {
-			return (XSD.·unsignedNoDecimalPtCanonicalMap·(m) + "M")◊
-		}
+		if y != 0 && m != 0
+		{ return XSD.duYearMonthFrag(String(XSD.·unsignedNoDecimalPtCanonicalMap·(y)) + "Y" + String(XSD.·unsignedNoDecimalPtCanonicalMap·(m)) + "M")! }
+		else if y != 0 && m == 0
+		{ return XSD.duYearMonthFrag(String(XSD.·unsignedNoDecimalPtCanonicalMap·(y)) + "Y")! }
+		else
+		{ return XSD.duYearMonthFrag(String(XSD.·unsignedNoDecimalPtCanonicalMap·(m)) + "M")! }
 	}
 
 }

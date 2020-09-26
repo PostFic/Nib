@@ -17,8 +17,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-dt-yrMap>
 	@inlinable
-	static func ·yearFragValue·(
+	static func ·yearFragValue· (
 		_ YR: XSD.yearFrag
-	) -> XSD.Integer { return XSD.·noDecimalMap·(YR◊) }
+	) -> XSD.Integer
+	{ XSD.·noDecimalMap·(XSD.noDecimalPtNumeral(YR)!) }
 
 }

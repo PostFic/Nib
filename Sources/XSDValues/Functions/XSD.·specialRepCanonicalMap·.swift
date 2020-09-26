@@ -15,20 +15,20 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-specValCanMap>
 	@inlinable
-	static func ·specialRepCanonicalMap·(
+	static func ·specialRepCanonicalMap· (
 		_ c: XSD.SpecialValue
 	) -> XSD.numericalSpecialRep {
 		switch c {
 		case .negativeInfinity:
-			return "-INF"◊
+			return XSD.numericalSpecialRep("-INF")!
 		case .positiveInfinity:
-			return "INF"◊
+			return XSD.numericalSpecialRep("INF")!
 		case .notANumber:
-			return "NaN"◊
+			return XSD.numericalSpecialRep("NaN")!
 		case .positiveZero:  //  not specified by XSD
-			return "0.0E0"◊
+			return XSD.numericalSpecialRep("0.0E0")!
 		case .negativeZero:  //  not specified by XSD
-			return "-0.0E0"◊
+			return XSD.numericalSpecialRep("-0.0E0")!
 		}
 	}
 

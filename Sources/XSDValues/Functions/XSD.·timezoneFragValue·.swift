@@ -28,28 +28,21 @@ public extension XSD {
 	///       `M`, instead of `XSD.·unsignedNoDecimalMap·`.
 	///     Nib provides the correct implementation.
 	@inlinable
-	static func ·timezoneFragValue·(
+	static func ·timezoneFragValue· (
 		_ TZ: XSD.timezoneFrag
 	) -> XSD.Integer {
-		if String(describing: TZ) == "Z" { return 0 }
+		if String(TZ) == "Z"
+		{ return 0 }
 		else {
-			let sign = String(describing: TZ).first
-			let Array·H，M = String(describing: TZ).dropFirst().split(
+			let sign = String(TZ).first
+			let Array·H，M = String(TZ).dropFirst().split(
 				separator: ":",
 				maxSplits: 1,
 				omittingEmptySubsequences: false
 			)
 			let H = Array·H，M[0]
 			let M = Array·H，M[1]
-			if sign == "-" {
-				return -(
-					XSD.·unsignedNoDecimalMap·(H◊) * 60
-						+ XSD.·unsignedNoDecimalMap·(M◊)
-				)
-			} else {
-				return XSD.·unsignedNoDecimalMap·(H◊) * 60
-					+ XSD.·unsignedNoDecimalMap·(M◊)
-			}
+			return sign == "-" ? -(XSD.·unsignedNoDecimalMap·(XSD.unsignedNoDecimalPtNumeral(H)!) * 60 + XSD.·unsignedNoDecimalMap·(XSD.unsignedNoDecimalPtNumeral(M)!)) : XSD.·unsignedNoDecimalMap·(XSD.unsignedNoDecimalPtNumeral(H)!) * 60 + XSD.·unsignedNoDecimalMap·(XSD.unsignedNoDecimalPtNumeral(M)!)
 		}
 	}
 

@@ -1,1 +1,3 @@
-extension Substring: XSDLiteralConvertible {}
+extension Substring:
+	XSDLiteralConvertible
+{}

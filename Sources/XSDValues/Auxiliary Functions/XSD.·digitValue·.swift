@@ -14,10 +14,12 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-digitVal>
 	@inlinable
-	static func ·digitValue·(
+	static func ·digitValue· (
 		_ d: XSD.digit
 	) -> XSD.Integer {
-		switch String(describing: d) {
+		switch String(
+			describing: d
+		) {
 		case "0":
 			return 0
 		case "1":

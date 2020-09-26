@@ -14,10 +14,11 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-lastSigDigit>
 	@inlinable
-	static func ·lastSignificantDigit·(
-		_ s: XSD.Sequence<XSD.Integer>
+	static func ·lastSignificantDigit· (
+		_ s: XSD.Sequence <XSD.Integer>
 	) -> XSD.Integer {
-		let j = s.enumerated().first { $0.1 == 0 }?.0 ?? .max
+		let j = s.enumerated().first
+		{ $0.1 == 0 }?.0 ?? .max
 		return XSD.Integer(j == 0 ? j : j - 1)
 	}
 
@@ -38,10 +39,11 @@ public extension XSD {
 	///       integers, but it clearly makes use of the function with
 	///       decimal numbers as well.
 	@inlinable
-	static func ·lastSignificantDigit·(
-		_ s: XSD.Sequence<XSD.DecimalNumber>
+	static func ·lastSignificantDigit· (
+		_ s: XSD.Sequence <XSD.DecimalNumber>
 	) -> XSD.Integer {
-		let j = s.enumerated().first { $0.1 == 0 }?.0 ?? .max
+		let j = s.enumerated().first
+		{ $0.1 == 0 }?.0 ?? .max
 		return XSD.Integer(j == 0 ? j : j - 1)
 	}
 

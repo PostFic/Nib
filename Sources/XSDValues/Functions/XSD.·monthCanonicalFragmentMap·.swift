@@ -17,10 +17,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-moCanFragMap>
 	@inlinable
-	static func ·monthCanonicalFragmentMap·(
+	static func ·monthCanonicalFragmentMap· (
 		_ m: XSD.Integer
-	) -> XSD.monthFrag {
-		return XSD.·unsTwoDigitCanonicalFragmentMap·(m)◊
-	}
+	) -> XSD.monthFrag
+	{ XSD.monthFrag(XSD.·unsTwoDigitCanonicalFragmentMap·(m))! }
 
 }

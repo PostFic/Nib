@@ -11,46 +11,49 @@ extension XSD {
 
 		public typealias LexicalRepresentation = XSD.decimalLexicalRep
 
-		public var ·canonicalMapping·:
-			XSD.DecimalValue.LexicalRepresentation
-		{ return XSD.·decimalCanonicalMap·(self) }
+		public var ·canonicalMapping·: XSD.DecimalValue.LexicalRepresentation
+		{ XSD.·decimalCanonicalMap·(self) }
 
-		public var decimalNumber: XSD.DecimalNumber? { return value }
+		public var decimalNumber: XSD.DecimalNumber?
+		{ value }
 
-		public var specialValue: XSD.SpecialValue? { return nil }
+		public var specialValue: XSD.SpecialValue?
+		{ nil }
 
-		let value: XSD.DecimalNumber
+		private let value: XSD.DecimalNumber
 
-		public init?(
+		public init? (
 			exactly value: XSD.DecimalNumber
 		) {
-			if (value.isFinite) {
-				self.value = value
-			} else { return nil }
+			if value.isFinite
+			{ self.value = value }
+			else
+			{ return nil }
 		}
 
-		public init?(
+		public init? (
 			exactly value: XSD.SpecialValue
 		) {
-			if value == .positiveZero || value == .negativeZero {
-				self.value = 0
-			}
-			else { return nil }
+			if value == .positiveZero || value == .negativeZero
+			{ self.value = 0 }
+			else
+			{ return nil }
 		}
 
-		public init(
+		public init (
 			mapping literal: XSD.DecimalValue.LexicalRepresentation
 		) { self = XSD.·decimalLexicalMap·(literal) }
 
-		public init(
+		public init (
 			truncating value: XSD.DecimalNumber
 		) {
-			if (value.isFinite) {
-				self.value = value
-			} else { self.value = 0 }
+			if value.isFinite
+			{ self.value = value }
+			else
+			{ self.value = 0 }
 		}
 
-		public init(
+		public init (
 			truncating value: XSD.SpecialValue
 		) {
 			switch value {

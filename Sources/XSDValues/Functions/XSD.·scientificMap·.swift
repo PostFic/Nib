@@ -25,10 +25,10 @@ public extension XSD {
 	///       calculate exponents, rather than `XSD.·noDecimalMap·`.
 	///     Nib provides the correct implementation.
 	@inlinable
-	static func ·scientificMap·(
+	static func ·scientificMap· (
 		_ N: XSD.scientificNotationNumeral
 	) -> XSD.DecimalNumber {
-		let parts = String(describing: N).split(
+		let parts = String(N).split(
 			maxSplits: 1,
 			omittingEmptySubsequences: false
 		) { $0 == "e" || $0 == "E" }
@@ -47,9 +47,7 @@ public extension XSD {
 			return XSD.DecimalNumber(
 				sign: ·noDecimalMap·C < 0 ? .minus : .plus,
 				exponent: Int(XSD.·noDecimalMap·(E)),
-				significand: XSD.DecimalNumber(
-					·noDecimalMap·C.magnitude
-				)
+				significand: XSD.DecimalNumber(·noDecimalMap·C.magnitude)
 			)
 		}
 	}

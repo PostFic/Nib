@@ -16,12 +16,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-duDCan>
 	@inlinable
-	static func ·duDayCanonicalFragmentMap·(
+	static func ·duDayCanonicalFragmentMap· (
 		_ d: XSD.Integer
-	) -> XSD.duDayFrag {
-		if d != 0 {
-			return (XSD.·unsignedNoDecimalPtCanonicalMap·(d) + "D")◊
-		} else { return ""◊ }
-	}
+	) -> XSD.duDayFrag
+	{ XSD.duDayFrag(d != 0 ? String(XSD.·unsignedNoDecimalPtCanonicalMap·(d)) + "D" : "")! }
 
 }

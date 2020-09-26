@@ -30,11 +30,11 @@ public extension XSD {
 	///     This has no impact on the underlying algorithm, which
 	///       properly assumes a `XSD.duMonthFrag` instead.
 	@inlinable
-	static func ·duMonthFragmentMap·(
+	static func ·duMonthFragmentMap· (
 		_ M: XSD.duMonthFrag
 	) -> XSD.Integer {
-		let N = String(describing: M).dropLast()
-		return XSD.·noDecimalMap·(N◊)
+		let N = String(M).dropLast()
+		return XSD.·noDecimalMap·(XSD.noDecimalPtNumeral(N)!)
 	}
 
 }

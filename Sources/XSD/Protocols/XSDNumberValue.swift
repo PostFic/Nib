@@ -93,7 +93,8 @@ public extension XSDNumberValue {
 			return XSD.Integer(
 				exactly: decimalNumber as NSDecimalNumber
 			)
-		} else { return nil }
+		} else
+		{ return nil }
 	}
 
 	init? <N> (
@@ -111,7 +112,8 @@ public extension XSDNumberValue {
 					isNegative: value.signum() < 0
 				) as Decimal
 			)
-		} else { return nil }
+		} else
+		{ return nil }
 	}
 
 	init? <N> (
@@ -125,7 +127,8 @@ public extension XSDNumberValue {
 			self.init(
 				exactly: decimalNumber
 			)
-		} else { return nil }
+		} else
+		{ return nil }
 	}
 
 	init <N> (
@@ -231,7 +234,8 @@ public extension XSDNumberValue {
 		{ return otherDecimalNumber }
 		else if self.specialValue == nil || self.specialValue == .notANumber || other.specialValue == nil || other.specialValue == .notANumber || self.specialValue == other.specialValue
 		{ return 0 }
-		else { return XSD.DecimalNumber.greatestFiniteMagnitude }
+		else
+		{ return XSD.DecimalNumber.greatestFiniteMagnitude }
 	}
 
 	func hash (
@@ -258,7 +262,8 @@ public extension XSDNumberValue {
 		{ return decimalNumber == rhs.decimalNumber }
 		else if let integer = lhs.integer
 		{ return integer == rhs.integer }
-		else { return false }
+		else
+		{ return false }
 	}
 
 	static func == <N> (
@@ -270,15 +275,18 @@ public extension XSDNumberValue {
 			guard
 				specialValue != .notANumber,
 				let otherSpecialValue = rhs.specialValue
-			else { return false }
+			else
+			{ return false }
 			if specialValue == .positiveZero || specialValue == .negativeZero
 			{ return otherSpecialValue == .positiveZero || otherSpecialValue == .negativeZero }
-			else { return specialValue == otherSpecialValue }
+			else
+			{ return specialValue == otherSpecialValue }
 		} else if let decimalNumber = lhs.decimalNumber
 		{ return decimalNumber == rhs.decimalNumber }
 		else if let integer = lhs.integer
 		{ return integer == rhs.integer }
-		else { return false }
+		else
+		{ return false }
 	}
 
 	@inlinable
@@ -305,7 +313,8 @@ public extension XSDNumberValue {
 				{ return 0 < otherDecimalNumber }
 				else if let otherInteger = rhs.integer
 				{ return 0 < otherInteger }
-				else { return false }
+				else
+				{ return false }
 			case .negativeInfinity:
 				return true
 			}
@@ -318,7 +327,8 @@ public extension XSDNumberValue {
 				{ return decimalNumber < 0 }
 				else if let integer = lhs.integer
 				{ return integer < 0 }
-				else { return false }
+				else
+				{ return false }
 			case .positiveInfinity:
 				return true
 			}
@@ -327,13 +337,15 @@ public extension XSDNumberValue {
 			{ return decimalNumber < otherDecimalNumber }
 			else if let otherInteger = rhs.integer
 			{ return decimalNumber < XSD.DecimalNumber(otherInteger) }
-			else { return false }
+			else
+			{ return false }
 		} else if let integer = lhs.integer {
 			if let otherDecimalNumber = rhs.decimalNumber
 			{ return XSD.DecimalNumber(integer) < otherDecimalNumber }
 			else if let otherInteger = rhs.integer
 			{ return integer < otherInteger }
-			else { return false }
+			else
+			{ return false }
 		} else { return false }
 	}
 

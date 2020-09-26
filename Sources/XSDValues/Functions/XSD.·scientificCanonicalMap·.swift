@@ -16,12 +16,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-sciCanFragMap>
 	@inlinable
-	static func ·scientificCanonicalMap·(
+	static func ·scientificCanonicalMap· (
 		_ i: XSD.DecimalNumber
-	) -> XSD.scientificNotationNumeral {
-		if i < 0 {
-			return ("-" + XSD.·unsignedScientificCanonicalMap·(-i))◊
-		} else { return XSD.·unsignedScientificCanonicalMap·(i)◊ }
-	}
+	) -> XSD.scientificNotationNumeral
+	{ XSD.scientificNotationNumeral(i < 0 ? "-" + String(XSD.·unsignedScientificCanonicalMap·(-i)) : String(XSD.·unsignedScientificCanonicalMap·(i)))! }
 
 }

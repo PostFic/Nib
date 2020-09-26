@@ -20,7 +20,7 @@ public extension XSD {
 	///       the proper float approximation in its conversion to a
 	///       `XSD.DecimalNumber`.
 	@inlinable
-	static func ·doubleCanonicalMap·(
+	static func ·doubleCanonicalMap· (
 		_ f: XSD.DoubleValue
 	) -> XSD.doubleRep {
 		if let specialValue = f.specialValue {
@@ -28,13 +28,12 @@ public extension XSD {
 			case .positiveInfinity, .negativeInfinity, .notANumber:
 				return XSD.·specialRepCanonicalMap·(specialValue)◊
 			case .positiveZero:
-				return "0.0E0"◊
+				return XSD.doubleRep("0.0E0")!
 			case .negativeZero:
-				return "-0.0E0"◊
+				return XSD.doubleRep("-0.0E0")!
 			}
-		} else {
-			return XSD.·scientificCanonicalMap·(f.decimalNumber!)◊
-		}
+		} else
+		{ return XSD.doubleRep(XSD.·scientificCanonicalMap·(f.decimalNumber!))! }
 	}
 
 }

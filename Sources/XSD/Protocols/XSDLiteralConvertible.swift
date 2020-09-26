@@ -30,7 +30,12 @@ where Self: CustomStringConvertible {
 	static postfix func ◊? <L> (
 		operand: Self
 	) -> L?
-	where L: XSD.Literal
-	{ L(String(describing: operand)) }
+	where L: XSD.Literal {
+		return L(
+			String(
+				describing: operand
+			)
+		)
+	}
 
 }

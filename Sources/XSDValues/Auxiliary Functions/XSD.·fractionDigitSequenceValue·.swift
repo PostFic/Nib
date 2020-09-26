@@ -22,8 +22,8 @@ public extension XSD {
 	///       should return a decimal number.
 	///     Nib provides the correct implementation.       
 	@inlinable
-	static func ·fractionDigitSequenceValue·(
-		_ S: XSD.Sequence<XSD.digit>
+	static func ·fractionDigitSequenceValue· (
+		_ S: XSD.Sequence <XSD.digit>
 	) -> XSD.DecimalNumber {
 		return S.reversed().reduce(
 			into: 0 as XSD.DecimalNumber

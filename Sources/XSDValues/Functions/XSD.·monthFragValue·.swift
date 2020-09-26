@@ -17,8 +17,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-dt-moMap>
 	@inlinable
-	static func ·monthFragValue·(
+	static func ·monthFragValue· (
 		_ MO: XSD.monthFrag
-	) -> XSD.Integer { return XSD.·unsignedNoDecimalMap·(MO◊) }
+	) -> XSD.Integer
+	{ XSD.·unsignedNoDecimalMap·(XSD.unsignedNoDecimalPtNumeral(MO)!) }
 
 }

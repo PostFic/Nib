@@ -18,16 +18,17 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-fracFragVal>
 	@inlinable
-	static func ·fractionFragValue·(
+	static func ·fractionFragValue· (
 		_ N: XSD.fracFrag
 	) -> XSD.DecimalNumber {
 		return XSD.·fractionDigitSequenceValue·(
 			sequence(
-				state: String(describing: N).makeIterator()
+				state: String(N).makeIterator()
 			) { state in
 				var nextState = state as! String.Iterator
 				guard let S_i = nextState.next()
-				else { return nil }
+				else
+				{ return nil }
 				state = nextState
 				return XSD.digit(String(S_i))!
 			}

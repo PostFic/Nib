@@ -18,7 +18,7 @@ public extension XSD {
 	///       nonpositive values.
 	///     Nib provides the correct implementation.
 	@inlinable
-	static func ·normalizeMonth·(
+	static func ·normalizeMonth· (
 		_ yr: inout XSD.Integer,
 		_ mo: inout XSD.Integer
 	) {

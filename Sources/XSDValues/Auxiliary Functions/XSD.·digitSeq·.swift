@@ -16,11 +16,13 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-digitSeq>
 	@inlinable
-	static func ·digitSeq·(
+	static func ·digitSeq· (
 		_ i: XSD.Integer
-	) -> XSD.Sequence<XSD.Integer> {
-		return sequence(state: XSD.·digitRemainderSeq·(i)) { state in
-			var nextState = state as! XSD.Sequence<XSD.Integer>
+	) -> XSD.Sequence <XSD.Integer> {
+		return sequence(
+			state: XSD.·digitRemainderSeq·(i)
+		) { state in
+			var nextState = state as! XSD.Sequence <XSD.Integer>
 			let ·digitRemainderSeq·i_j = nextState.next()!
 			state = nextState
 			return XSD.·mod·(·digitRemainderSeq·i_j, 10)

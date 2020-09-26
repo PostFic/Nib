@@ -12,17 +12,20 @@ extension XSD {
 
 		public let description: String
 
-		public var ·canonicalMapping·:
-			XSD.StringValue.LexicalRepresentation
-		{ return XSD.·stringCanonicalMap·(self) }
+		public var ·canonicalMapping·: XSD.StringValue.LexicalRepresentation
+		{ XSD.·stringCanonicalMap·(self) }
 
-		public init(
+		public init (
 			mapping literal: XSD.StringValue.LexicalRepresentation
 		) { self = XSD.·stringLexicalMap·(literal) }
 
-		public init(
+		public init (
 			_ literal: XSD.StringValue.LexicalRepresentation
-		) { description = String(describing: literal) }
+		) {
+			description = String(
+				describing: literal
+			)
+		}
 
 	}
 

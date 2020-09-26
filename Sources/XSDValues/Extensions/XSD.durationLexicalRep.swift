@@ -1,7 +1,9 @@
 import XSD
 import XSDLiterals
 
-extension XSD.durationLexicalRep: XSDLexicalRepresentation {
+extension XSD.durationLexicalRep:
+	XSDLexicalRepresentation
+{
 
 	public typealias Value = XSD.DurationValue
 

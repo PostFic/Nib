@@ -27,58 +27,36 @@ public extension XSD {
 	///       as `Y` instead of `H`.
 	///     Nib provides the correct implementation.
 	@inlinable
-	static func ·dateTimeLexicalMap·(
+	static func ·dateTimeLexicalMap· (
 		_ LEX: XSD.dateTimeLexicalRep
 	) -> XSD.DateTimeValue {
-		let string = String(describing: LEX)
+		let string = String(LEX)
 		let Array·Y，MO，D，H，MI，S，T = string.dropFirst().split(
 			maxSplits: 6,
 			omittingEmptySubsequences: false
-		) { (char: Character) -> Bool in
-			char == "-"
-				|| char == "T"
-				|| char == ":"
-				|| char == "Z"
-				|| char == "+"
+		) { char in
+			switch char {
+			case "-", "T", ":", "Z", "+":
+				return true
+			default:
+				return false
+			}
 		}
 		let tz: XSD.Integer?
-		if Array·Y，MO，D，H，MI，S，T.count == 7 {
-			tz = XSD.·timezoneFragValue·(
-				string[
-					Array·Y，MO，D，H，MI，S，T[
-						5
-					].endIndex..<string.endIndex
-				]◊
-			)
-		} else { tz = nil }
-		let Y = string[
-			string.startIndex..<Array·Y，MO，D，H，MI，S，T[0].endIndex
-		]
+		if Array·Y，MO，D，H，MI，S，T.count == 7
+		{ tz = XSD.·timezoneFragValue·(XSD.timezoneFrag(string[Array·Y，MO，D，H，MI，S，T[5].endIndex..<string.endIndex])!) }
+		else
+		{ tz = nil }
+		let Y = string[string.startIndex..<Array·Y，MO，D，H，MI，S，T[0].endIndex]
 		let MO = Array·Y，MO，D，H，MI，S，T[1]
 		let D = Array·Y，MO，D，H，MI，S，T[2]
-		if Array·Y，MO，D，H，MI，S，T[3] == "24" {
-			return XSD.·newDateTime·(
-				XSD.·yearFragValue·(Y◊),
-				XSD.·monthFragValue·(MO◊),
-				XSD.·dayFragValue·(D◊),
-				24,
-				0,
-				0,
-				tz
-			)
-		} else {
+		if Array·Y，MO，D，H，MI，S，T[3] == "24"
+		{ return XSD.·newDateTime·(XSD.·yearFragValue·(XSD.yearFrag(Y)!), XSD.·monthFragValue·(XSD.monthFrag(MO)!), XSD.·dayFragValue·(XSD.dayFrag(D)!), 24, 0, 0, tz) }
+		else {
 			let H = Array·Y，MO，D，H，MI，S，T[3]
 			let MI = Array·Y，MO，D，H，MI，S，T[4]
 			let S = Array·Y，MO，D，H，MI，S，T[5]
-			return XSD.·newDateTime·(
-				XSD.·yearFragValue·(Y◊),
-				XSD.·monthFragValue·(MO◊),
-				XSD.·dayFragValue·(D◊),
-				XSD.·hourFragValue·(H◊),
-				XSD.·minuteFragValue·(MI◊),
-				XSD.·secondFragValue·(S◊),
-				tz
-			)
+			return XSD.·newDateTime·(XSD.·yearFragValue·(XSD.yearFrag(Y)!), XSD.·monthFragValue·(XSD.monthFrag(MO)!), XSD.·dayFragValue·(XSD.dayFrag(D)!), XSD.·hourFragValue·(XSD.hourFrag(H)!), XSD.·minuteFragValue·(XSD.minuteFrag(MI)!), XSD.·secondFragValue·(XSD.secondFrag(S)!), tz)
 		}
 	}
 

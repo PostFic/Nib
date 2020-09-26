@@ -14,19 +14,14 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#vp-dateCanRep>
 	@inlinable
-	static func ·dateCanonicalMap·(
+	static func ·dateCanonicalMap· (
 		_ da: XSD.DateValue
 	) -> XSD.dateLexicalRep {
-		let D = String(
-			describing: XSD.·yearCanonicalFragmentMap·(da.·year·!)
-		) + "-" + String(
-			describing: XSD.·monthCanonicalFragmentMap·(da.·month·!)
-		) + "-" + String(
-			describing: XSD.·dayCanonicalFragmentMap·(da.·day·!)
-		)
-		if let tz = da.·timezoneOffset· {
-			return (D + XSD.·timezoneCanonicalFragmentMap·(tz))◊
-		} else { return D◊ }
+		let D = String(XSD.·yearCanonicalFragmentMap·(da.·year·.unsafelyUnwrapped)) + "-" + String(XSD.·monthCanonicalFragmentMap·(da.·month·.unsafelyUnwrapped)) + "-" + String(XSD.·dayCanonicalFragmentMap·(da.·day·.unsafelyUnwrapped))
+		if let tz = da.·timezoneOffset·
+		{ return XSD.dateLexicalRep(D + String(XSD.·timezoneCanonicalFragmentMap·(tz)))! }
+		else
+		{ return XSD.dateLexicalRep(D)! }
 	}
 
 }

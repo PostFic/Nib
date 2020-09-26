@@ -12,9 +12,8 @@ extension XSD {
 		
 		public typealias LexicalRepresentation = XSD.timeLexicalRep
 
-		public var ·canonicalMapping·:
-			XSD.TimeValue.LexicalRepresentation
-		{ return XSD.·timeCanonicalMap·(self) }
+		public var ·canonicalMapping·: XSD.TimeValue.LexicalRepresentation
+		{ XSD.·timeCanonicalMap·(self) }
 
 		public let ·day·: XSD.Integer? = nil
 
@@ -30,7 +29,7 @@ extension XSD {
 
 		public let ·year·: XSD.Integer? = nil
 
-		public init(
+		public init (
 			mapping literal: XSD.TimeValue.LexicalRepresentation
 		) {
 			let T = XSD.·timeLexicalMap·(literal)
@@ -40,7 +39,7 @@ extension XSD {
 			·timezoneOffset· = T.·timezoneOffset·
 		}
 		
-		public init?(
+		public init? (
 			year: XSD.Integer? = nil,
 			month: XSD.Integer? = nil,
 			day: XSD.Integer? = nil,
@@ -65,7 +64,8 @@ extension XSD {
 					second: second,
 					timezoneOffset: timezoneOffset
 				)
-			else { return nil }
+			else
+			{ return nil }
 			·hour· = d7m.·hour·
 			·minute· = d7m.·minute·
 			·second· = d7m.·second·

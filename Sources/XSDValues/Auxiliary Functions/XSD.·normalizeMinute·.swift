@@ -24,7 +24,7 @@ public extension XSD {
 	///       negative values.
 	///     Nib provides the correct implementation.
 	@inlinable
-	static func ·normalizeMinute·(
+	static func ·normalizeMinute· (
 		_ yr: inout XSD.Integer,
 		_ mo: inout XSD.Integer,
 		_ da: inout XSD.Integer,

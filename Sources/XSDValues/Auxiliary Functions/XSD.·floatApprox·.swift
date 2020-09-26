@@ -18,7 +18,7 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-floatApprox>
 	@inlinable
-	static func ·floatApprox·(
+	static func ·floatApprox· (
 		_ c: XSD.Integer,
 		_ e: XSD.Integer,
 		_ j: XSD.Integer

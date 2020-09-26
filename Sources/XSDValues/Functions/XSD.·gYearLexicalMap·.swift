@@ -17,34 +17,21 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#vp-gYearLexRep>
 	@inlinable
-	static func ·gYearLexicalMap·(
+	static func ·gYearLexicalMap· (
 		_ LEX: XSD.gYearLexicalRep
 	) -> XSD.GYearValue {
-		let string = String(describing: LEX)
+		let string = String(LEX)
 		let Array·Y，T = string.dropFirst().split(
 			maxSplits: 1,
 			omittingEmptySubsequences: false
 		) { $0 == "-" || $0 == "Z" || $0 == "+" }
 		let tz: XSD.Integer?
-		if Array·Y，T.count == 2 {
-			tz = XSD.·timezoneFragValue·(
-				string[
-					Array·Y，T[0].endIndex..<string.endIndex
-				]◊
-			)
-		} else { tz = nil }
-		let Y = string[
-			string.startIndex..<Array·Y，T[0].endIndex
-		]
-		return XSD.·newDateTime·(
-			XSD.·yearFragValue·(Y◊),
-			nil,
-			nil,
-			nil,
-			nil,
-			nil,
-			tz
-		)
+		if Array·Y，T.count == 2
+		{ tz = XSD.·timezoneFragValue·(XSD.timezoneFrag(string[Array·Y，T[0].endIndex..<string.endIndex])!) }
+		else
+		{ tz = nil }
+		let Y = string[string.startIndex..<Array·Y，T[0].endIndex]
+		return XSD.·newDateTime·(XSD.·yearFragValue·(XSD.yearFrag(Y)!), nil, nil, nil, nil, nil, tz)
 	}
 
 }

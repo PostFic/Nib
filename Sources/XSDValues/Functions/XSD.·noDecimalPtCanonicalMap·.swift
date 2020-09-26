@@ -15,12 +15,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-noDecCanMap>
 	@inlinable
-	static func ·noDecimalPtCanonicalMap·(
+	static func ·noDecimalPtCanonicalMap· (
 		_ i: XSD.Integer
-	) -> XSD.noDecimalPtNumeral {
-		if i < 0 {
-			return ( "-" + XSD.·unsignedNoDecimalPtCanonicalMap·(-i))◊
-		} else { return XSD.·unsignedNoDecimalPtCanonicalMap·(i)◊ }
-	}
+	) -> XSD.noDecimalPtNumeral
+	{ XSD.noDecimalPtNumeral(i < 0 ? "-" + String(XSD.·unsignedNoDecimalPtCanonicalMap·(-i)) : String(XSD.·unsignedNoDecimalPtCanonicalMap·(i)))! }
 
 }

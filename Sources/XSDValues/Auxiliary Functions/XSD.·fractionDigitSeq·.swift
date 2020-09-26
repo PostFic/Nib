@@ -18,13 +18,13 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-fracDigitSeq>
 	@inlinable
-	static func ·fractionDigitSeq·(
+	static func ·fractionDigitSeq· (
 		_ f: XSD.DecimalNumber
-	) -> XSD.Sequence<XSD.Integer> {
+	) -> XSD.Sequence <XSD.Integer> {
 		return sequence(
 			state: XSD.·FractionDigitRemainderSeq·(f)
 		) { state in
-			var nextState = state as! XSD.Sequence<XSD.DecimalNumber>
+			var nextState = state as! XSD.Sequence <XSD.DecimalNumber>
 			let ·FractionDigitRemainderSeq·f_j = nextState.next()!
 			state = nextState
 			return XSD.·div·(·FractionDigitRemainderSeq·f_j, 1)

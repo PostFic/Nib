@@ -14,17 +14,13 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#vp-gDayCanRep>
 	@inlinable
-	static func ·gDayCanonicalMap·(
+	static func ·gDayCanonicalMap· (
 		_ gD: XSD.GDayValue
 	) -> XSD.gDayLexicalRep {
-		if let tz = gD.·timezoneOffset· {
-			return (
-				"---" + XSD.·dayCanonicalFragmentMap·(gD.·day·!)
-					+ XSD.·timezoneCanonicalFragmentMap·(tz)
-			)◊
-		} else {
-			return ("---" + XSD.·dayCanonicalFragmentMap·(gD.·day·!))◊
-		}
+		if let tz = gD.·timezoneOffset·
+		{ return XSD.gDayLexicalRep("---" + String(XSD.·dayCanonicalFragmentMap·(gD.·day·.unsafelyUnwrapped)) + String(XSD.·timezoneCanonicalFragmentMap·(tz)))! }
+		else
+		{ return XSD.gDayLexicalRep("---" + String(XSD.·dayCanonicalFragmentMap·(gD.·day·.unsafelyUnwrapped)))! }
 	}
 
 }

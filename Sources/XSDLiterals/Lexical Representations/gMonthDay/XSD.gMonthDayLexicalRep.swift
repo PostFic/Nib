@@ -47,7 +47,8 @@ public extension XSD {
 			guard
 				let M = XSD.Integer(Array·M，D，T[0]),
 				let D = XSD.Integer(Array·M，D，T[1])
-			else { return nil }
+			else
+			{ return nil }
 			if D > 30 && (M == 4 || M == 6 || M == 9 || M == 11) || D > 29 && M == 2
 			{ return nil }
 			super.init(description)

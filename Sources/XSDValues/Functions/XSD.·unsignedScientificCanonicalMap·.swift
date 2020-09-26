@@ -26,21 +26,19 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-unsSciCanFragMap>
 	@inlinable
-	static func ·unsignedScientificCanonicalMap·(
+	static func ·unsignedScientificCanonicalMap· (
 		_ n: XSD.DecimalNumber
 	) -> XSD.unsignedScientificNotationNumeral {
-		let ·div·（log·n），1 = Int16(
-			String(describing: n.significand).count + n.exponent - 1
-		)
-		return (
-			XSD.·unsignedDecimalPtCanonicalMap·(
-				(abs(n) as NSDecimalNumber).multiplying(
-					byPowerOf10: -·div·（log·n），1
-				) as XSD.DecimalNumber
-			) + "E" + XSD.·noDecimalPtCanonicalMap·(
-				XSD.Integer(·div·（log·n），1)
-			)
-		)◊
+		let ·div·（log·n），1 = Int16(String(describing: n.significand).count + n.exponent - 1)
+		return XSD.unsignedScientificNotationNumeral(
+			String(
+				XSD.·unsignedDecimalPtCanonicalMap·(
+					(abs(n) as NSDecimalNumber).multiplying(
+						byPowerOf10: -·div·（log·n），1
+					) as XSD.DecimalNumber
+				)
+			) + "E" + String(XSD.·noDecimalPtCanonicalMap·(XSD.Integer(·div·（log·n），1)))
+		)!
 	}
 
 }

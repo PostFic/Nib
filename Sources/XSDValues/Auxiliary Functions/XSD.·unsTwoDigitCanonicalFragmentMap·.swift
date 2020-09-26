@@ -15,13 +15,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-unsTwoDigCanFragMap>
 	@inlinable
-	static func ·unsTwoDigitCanonicalFragmentMap·(
+	static func ·unsTwoDigitCanonicalFragmentMap· (
 		_ i: XSD.Integer
-	) -> XSD.unsignedNoDecimalPtNumeral {
-		return (
-			XSD.·digit·(XSD.·div·(i, 10))
-				+ XSD.·digit·(XSD.·mod·(i, 10))
-		)◊
-	}
+	) -> XSD.unsignedNoDecimalPtNumeral
+	{ XSD.unsignedNoDecimalPtNumeral(String(XSD.·digit·(XSD.·div·(i, 10))) + String(XSD.·digit·(XSD.·mod·(i, 10))))! }
 
 }

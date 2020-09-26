@@ -17,11 +17,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-yrCanFragMap>
 	@inlinable
-	static func ·yearCanonicalFragmentMap·(
+	static func ·yearCanonicalFragmentMap· (
 		_ y: XSD.Integer
-	) -> XSD.yearFrag {
-		if abs(y) > 9999 { return XSD.·noDecimalPtCanonicalMap·(y)◊ }
-		else { return XSD.·fourDigitCanonicalFragmentMap·(y)◊ }
-	}
+	) -> XSD.yearFrag
+	{ abs(y) > 9999 ? XSD.yearFrag(XSD.·noDecimalPtCanonicalMap·(y))! : XSD.yearFrag(XSD.·fourDigitCanonicalFragmentMap·(y))! }
 
 }

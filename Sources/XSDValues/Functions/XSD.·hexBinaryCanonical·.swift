@@ -14,11 +14,12 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-hexBinaryCanonical>
 	@inlinable
-	static func ·hexBinaryCanonical·(
+	static func ·hexBinaryCanonical· (
 		_ o: XSD.HexBinaryValue
 	) -> XSD.hexBinaryRep {
-		let h = o.octets.map { XSD.·hexOctetCanonical·($0) }
-		return h.map { String(describing: $0) }.joined()◊
+		let h = o.octets.map
+		{ String(XSD.·hexOctetCanonical·($0)) }
+		return XSD.hexBinaryRep(h.joined())!
 	}
 
 }

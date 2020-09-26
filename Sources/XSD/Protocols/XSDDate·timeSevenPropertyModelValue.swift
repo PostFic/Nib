@@ -32,7 +32,8 @@ where Stride == XSD.DecimalNumber {
 	) where D7M: XSDDate·timeSevenPropertyModelValue
 
 	init (
-		from timeOnTimeline: XSD.DecimalNumber
+		from timeOnTimeline: XSD.DecimalNumber,
+		timezoneOffset tz: XSD.Integer?
 	)
 
 	init? (
@@ -111,7 +112,8 @@ public extension XSDDate·timeSevenPropertyModelValue {
 		by n: XSD.DecimalNumber
 	) -> Self {
 		return Self(
-			from: ·timeOnTimeline·.advanced(by: n)
+			from: ·timeOnTimeline·.advanced(by: n),
+			timezoneOffset: self.·timezoneOffset·
 		)
 	}
 
@@ -140,7 +142,7 @@ public extension XSDDate·timeSevenPropertyModelValue {
 		lhs: Self,
 		rhs: Self
 	) -> Bool {
-		guard
+		if
 			lhs.·year· == rhs.·year·,
 			lhs.·month· == rhs.·month·,
 			lhs.·day· == rhs.·day·,
@@ -148,8 +150,9 @@ public extension XSDDate·timeSevenPropertyModelValue {
 			lhs.·minute· == rhs.·minute·,
 			lhs.·second· == rhs.·second·,
 			lhs.·timezoneOffset· == rhs.·timezoneOffset·
-		else { return false }
-		return true
+		{ return true }
+		else
+		{ return false }
 	}
 
 	static func == <D7M> (
@@ -210,20 +213,17 @@ public extension XSDDate·timeSevenPropertyModelValue {
 		rhs: Self
 	) -> Bool {
 		if lhs.·timezoneOffset· == nil {
-			guard
-				let max = Self(
-					year: lhs.·year·,
-					month: lhs.·month·,
-					day: lhs.·day·,
-					hour: lhs.·hour·,
-					minute: lhs.·minute·,
-					second: lhs.·second·,
-					timezoneOffset: 840
-				)
-			else { return false }
-			if rhs.·timezoneOffset· == nil {
-				guard
-					let otherMin = Self(
+			if let max = Self(
+				year: lhs.·year·,
+				month: lhs.·month·,
+				day: lhs.·day·,
+				hour: lhs.·hour·,
+				minute: lhs.·minute·,
+				second: lhs.·second·,
+				timezoneOffset: 840
+			) {
+				if rhs.·timezoneOffset· == nil {
+					if let otherMin = Self(
 						year: lhs.·year·,
 						month: lhs.·month·,
 						day: lhs.·day·,
@@ -232,23 +232,28 @@ public extension XSDDate·timeSevenPropertyModelValue {
 						second: lhs.·second·,
 						timezoneOffset: -840
 					)
-				else { return false }
-				return max.·timeOnTimeline· < otherMin.·timeOnTimeline·
-			} else { return max.·timeOnTimeline· < rhs.·timeOnTimeline· }
+					{ return max.·timeOnTimeline· < otherMin.·timeOnTimeline· }
+					else
+					{ return false }
+				} else
+				{ return max.·timeOnTimeline· < rhs.·timeOnTimeline· }
+			} else
+			{ return false }
 		} else if rhs.·timezoneOffset· == nil {
-			guard
-				let otherMin = Self(
-					year: lhs.·year·,
-					month: lhs.·month·,
-					day: lhs.·day·,
-					hour: lhs.·hour·,
-					minute: lhs.·minute·,
-					second: lhs.·second·,
-					timezoneOffset: -840
-				)
-			else { return false }
-			return lhs.·timeOnTimeline· < otherMin.·timeOnTimeline·
-		} else { return lhs.·timeOnTimeline· < rhs.·timeOnTimeline· }
+			if let otherMin = Self(
+				year: lhs.·year·,
+				month: lhs.·month·,
+				day: lhs.·day·,
+				hour: lhs.·hour·,
+				minute: lhs.·minute·,
+				second: lhs.·second·,
+				timezoneOffset: -840
+			)
+			{ return lhs.·timeOnTimeline· < otherMin.·timeOnTimeline· }
+			else
+			{ return false }
+		} else
+		{ return lhs.·timeOnTimeline· < rhs.·timeOnTimeline· }
 	}
 
 }

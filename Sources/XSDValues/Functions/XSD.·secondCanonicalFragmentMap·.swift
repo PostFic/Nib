@@ -22,19 +22,14 @@ public extension XSD {
 	///     The XSD specification incorrectly specifies `s` as being
 	///       less than 70; only values less than 60 should be used.
 	@inlinable
-	static func ·secondCanonicalFragmentMap·(
+	static func ·secondCanonicalFragmentMap· (
 		_ s: XSD.DecimalNumber
 	) -> XSD.secondFrag {
-		if let integer = XSD.Integer(exactly: s as NSDecimalNumber) {
-			return XSD.·unsTwoDigitCanonicalFragmentMap·(integer)◊
-		} else {
-			return (
-				XSD.·unsTwoDigitCanonicalFragmentMap·(XSD.·div·(s, 1))
-					+ "." + XSD.·fractionDigitsCanonicalFragmentMap·(
-						XSD.·mod·(s, 1)
-					)
-			)◊
-		}
+		if let integer = XSD.Integer(
+			exactly: s as NSDecimalNumber
+		) { return XSD.secondFrag(XSD.·unsTwoDigitCanonicalFragmentMap·(integer))! }
+		else
+		{ return XSD.secondFrag(String(XSD.·unsTwoDigitCanonicalFragmentMap·(XSD.·div·(s, 1))) + "." + String(XSD.·fractionDigitsCanonicalFragmentMap·(XSD.·mod·(s, 1))))! }
 	}
 
 }

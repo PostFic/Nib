@@ -14,17 +14,14 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#vp-gMonthDayCanRep>
 	@inlinable
-	static func ·gMonthDayCanonicalMap·(
+	static func ·gMonthDayCanonicalMap· (
 		_ md: XSD.GMonthDayValue
 	) -> XSD.gMonthDayLexicalRep {
-		let MD = "--" + String(
-			describing: XSD.·monthCanonicalFragmentMap·(md.·month·!)
-		) + "-" + String(
-			describing: XSD.·dayCanonicalFragmentMap·(md.·day·!)
-		)
-		if let tz = md.·timezoneOffset· {
-			return (MD + XSD.·timezoneCanonicalFragmentMap·(tz))◊
-		} else { return MD◊ }
+		let MD = "--" + String(XSD.·monthCanonicalFragmentMap·(md.·month·.unsafelyUnwrapped)) + "-" + String(XSD.·dayCanonicalFragmentMap·(md.·day·.unsafelyUnwrapped))
+		if let tz = md.·timezoneOffset·
+		{ return XSD.gMonthDayLexicalRep(MD + String(XSD.·timezoneCanonicalFragmentMap·(tz)))! }
+		else
+		{ return XSD.gMonthDayLexicalRep(MD)! }
 	}
 
 }

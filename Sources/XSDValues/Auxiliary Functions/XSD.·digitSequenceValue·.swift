@@ -16,8 +16,8 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-digitSeqVal>
 	@inlinable
-	static func ·digitSequenceValue·(
-		_ S: XSD.Sequence<XSD.digit>
+	static func ·digitSequenceValue· (
+		_ S: XSD.Sequence <XSD.digit>
 	) -> XSD.Integer {
 		return S.reduce(
 			into: 0 as XSD.Integer

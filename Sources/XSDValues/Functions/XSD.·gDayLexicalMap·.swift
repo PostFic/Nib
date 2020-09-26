@@ -17,32 +17,21 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#vp-gDayLexRep>
 	@inlinable
-	static func ·gDayLexicalMap·(
+	static func ·gDayLexicalMap· (
 		_ LEX: XSD.gDayLexicalRep
 	) -> XSD.GDayValue {
-		let string = String(describing: LEX)
+		let string = String(LEX)
 		let Array·D，T = string.dropFirst(3).split(
 			maxSplits: 1,
 			omittingEmptySubsequences: false
 		) { $0 == "-" || $0 == "Z" || $0 == "+" }
 		let tz: XSD.Integer?
-		if Array·D，T.count == 2 {
-			tz = XSD.·timezoneFragValue·(
-				string[
-					Array·D，T[0].endIndex..<string.endIndex
-				]◊
-			)
-		} else { tz = nil }
+		if Array·D，T.count == 2
+		{ tz = XSD.·timezoneFragValue·(XSD.timezoneFrag(string[Array·D，T[0].endIndex..<string.endIndex])!) }
+		else
+		{ tz = nil }
 		let D = Array·D，T[0]
-		return XSD.·newDateTime·(
-			nil,
-			nil,
-			XSD.·dayFragValue·(D◊),
-			nil,
-			nil,
-			nil,
-			tz
-		)
+		return XSD.·newDateTime·(nil, nil, XSD.·dayFragValue·(XSD.dayFrag(D)!), nil, nil, nil, tz)
 	}
 
 }

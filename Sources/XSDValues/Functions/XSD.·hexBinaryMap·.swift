@@ -19,17 +19,19 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-hexBinaryMap>
 	@inlinable
-	static func ·hexBinaryMap·(
+	static func ·hexBinaryMap· (
 		_ LEX: XSD.hexBinaryRep
 	) -> XSD.HexBinaryValue {
-		let octets = String(describing: LEX)
-		let o: UnfoldSequence<XSD.BinaryOctet, Substring> = sequence(
+		let octets = String(LEX)
+		let o: UnfoldSequence <XSD.BinaryOctet, Substring> = sequence(
 			state: octets[octets.startIndex..<octets.endIndex]
 		) { state in
 			let octet = state.prefix(2)
-			guard octet.count == 2 else { return nil }
+			guard octet.count == 2
+			else
+			{ return nil }
 			state = octets[octet.endIndex..<octets.endIndex]
-			return XSD.·hexOctetMap·(octet◊)
+			return XSD.·hexOctetMap·(XSD.hexOctet(octet)!)
 		}
 		return XSD.HexBinaryValue(o)
 	}

@@ -11,15 +11,17 @@ extension XSD {
 
 		public typealias LexicalRepresentation = XSD.Base64Binary
 
-		public var ·canonicalMapping·:
-			XSD.Base64BinaryValue.LexicalRepresentation
-		{ data.base64EncodedString()◊ }
+		public var ·canonicalMapping·: XSD.Base64BinaryValue.LexicalRepresentation
+		{ XSD.Base64BinaryValue.LexicalRepresentation(data.base64EncodedString())! }
 
-		public let octets: XSD.Sequence<XSD.BinaryOctet>
+		public let octets: XSD.Sequence <XSD.BinaryOctet>
 
-		public init<S: Swift.Sequence>(
+		public init <S> (
 			_ data: S
-		) where S.Element == XSD.BinaryOctet {
+		) where
+			S: Swift.Sequence,
+			S.Element == XSD.BinaryOctet
+		{
 			self.octets = sequence(
 				state: data.makeIterator()
 			) { state in
@@ -30,13 +32,12 @@ extension XSD {
 			}
 		}
 
-		public init(
-			mapping literal:
-				XSD.Base64BinaryValue.LexicalRepresentation
+		public init (
+			mapping literal: XSD.Base64BinaryValue.LexicalRepresentation
 		) {
 			self.init(
 				Data(
-					base64Encoded: String(describing: literal),
+					base64Encoded: String(literal),
 					options: .ignoreUnknownCharacters
 				)!
 			)

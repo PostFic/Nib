@@ -12,9 +12,8 @@ extension XSD {
 		
 		public typealias LexicalRepresentation = XSD.gYearLexicalRep
 
-		public var ·canonicalMapping·:
-			XSD.GYearValue.LexicalRepresentation
-		{ return XSD.·gYearCanonicalMap·(self) }
+		public var ·canonicalMapping·: XSD.GYearValue.LexicalRepresentation
+		{ XSD.·gYearCanonicalMap·(self) }
 
 		public let ·day·: XSD.Integer? = nil
 
@@ -30,7 +29,7 @@ extension XSD {
 
 		public let ·year·: XSD.Integer?
 
-		public init(
+		public init (
 			mapping literal: XSD.GYearValue.LexicalRepresentation
 		) {
 			let Y = XSD.·gYearLexicalMap·(literal)
@@ -38,7 +37,7 @@ extension XSD {
 			·timezoneOffset· = Y.·timezoneOffset·
 		}
 		
-		public init?(
+		public init? (
 			year: XSD.Integer?,
 			month: XSD.Integer? = nil,
 			day: XSD.Integer? = nil,
@@ -63,7 +62,8 @@ extension XSD {
 					second: second,
 					timezoneOffset: timezoneOffset
 				)
-			else { return nil }
+			else
+			{ return nil }
 			·year· = d7m.·year·
 			·timezoneOffset· = d7m.·timezoneOffset·
 		}

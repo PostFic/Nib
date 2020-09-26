@@ -16,7 +16,7 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-round>
 	@inlinable
-	static func ·round·(
+	static func ·round· (
 		_ n: XSD.DecimalNumber,
 		_ k: XSD.Integer
 	) -> XSD.DecimalNumber {

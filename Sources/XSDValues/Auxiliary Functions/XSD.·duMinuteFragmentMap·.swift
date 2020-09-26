@@ -24,11 +24,11 @@ public extension XSD {
 	///       preceding.
 	///     Nib provides the correct implementation.
 	@inlinable
-	static func ·duMinuteFragmentMap·(
+	static func ·duMinuteFragmentMap· (
 		_ M: XSD.duMinuteFrag
 	) -> XSD.Integer {
-		let N = String(describing: M).dropLast()
-		return XSD.·noDecimalMap·(N◊)
+		let N = String(M).dropLast()
+		return XSD.·noDecimalMap·(XSD.noDecimalPtNumeral(N)!)
 	}
 
 }

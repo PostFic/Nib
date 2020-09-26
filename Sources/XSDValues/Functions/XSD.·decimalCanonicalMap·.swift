@@ -15,14 +15,13 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-decimalCanmap>
 	@inlinable
-	static func ·decimalCanonicalMap·(
+	static func ·decimalCanonicalMap· (
 		_ d: XSD.DecimalValue
 	) -> XSD.decimalLexicalRep {
-		if let integer = d.integer {
-			return XSD.·noDecimalPtCanonicalMap·(integer)◊
-		} else {
-			return XSD.·decimalPtCanonicalMap·(d.decimalNumber!)◊
-		}
+		if let integer = d.integer
+		{ return XSD.decimalLexicalRep(XSD.·noDecimalPtCanonicalMap·(integer))! }
+		else
+		{ return XSD.decimalLexicalRep(XSD.·decimalPtCanonicalMap·(d.decimalNumber!))! }
 	}
 
 }

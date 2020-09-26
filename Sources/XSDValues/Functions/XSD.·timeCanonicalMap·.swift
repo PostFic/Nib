@@ -14,19 +14,13 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#vp-timeCanRep>
 	@inlinable
-	static func ·timeCanonicalMap·(
+	static func ·timeCanonicalMap· (
 		_ ti: XSD.TimeValue
 	) -> XSD.timeLexicalRep {
-		let T = String(
-			describing: XSD.·hourCanonicalFragmentMap·(ti.·hour·!)
-		) + ":" + String(
-			describing: XSD.·minuteCanonicalFragmentMap·(ti.·minute·!)
-		) + ":" + String(
-			describing: XSD.·secondCanonicalFragmentMap·(ti.·second·!)
-		)
-		if let tz = ti.·timezoneOffset· {
-			return (T + XSD.·timezoneCanonicalFragmentMap·(tz))◊
-		} else { return T◊ }
+		let T = String(XSD.·hourCanonicalFragmentMap·(ti.·hour·.unsafelyUnwrapped)) + ":" + String(XSD.·minuteCanonicalFragmentMap·(ti.·minute·.unsafelyUnwrapped)) + ":" + String(XSD.·secondCanonicalFragmentMap·(ti.·second·.unsafelyUnwrapped))
+		if let tz = ti.·timezoneOffset·
+		{ return XSD.timeLexicalRep(T + String(XSD.·timezoneCanonicalFragmentMap·(tz)))! }
+		else { return XSD.timeLexicalRep(T)! }
 	}
 
 }

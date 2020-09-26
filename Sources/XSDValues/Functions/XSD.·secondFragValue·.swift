@@ -17,14 +17,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-dt-seMap>
 	@inlinable
-	static func ·secondFragValue·(
+	static func ·secondFragValue· (
 		_ SE: XSD.secondFrag
-	) -> XSD.DecimalNumber {
-		if String(describing: SE).contains(".") {
-			return XSD.·unsignedDecimalPtMap·(SE◊)
-		} else {
-			return XSD.DecimalNumber(XSD.·unsignedNoDecimalMap·(SE◊))
-		}
-	}
+	) -> XSD.DecimalNumber
+	{ String(SE).contains(".") ? XSD.·unsignedDecimalPtMap·(XSD.unsignedDecimalPtNumeral(SE)!) : XSD.DecimalNumber(XSD.·unsignedNoDecimalMap·(XSD.unsignedNoDecimalPtNumeral(SE)!)) }
 
 }

@@ -21,19 +21,11 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-duTCan>
 	@inlinable
-	static func ·duTimeCanonicalFragmentMap·(
+	static func ·duTimeCanonicalFragmentMap· (
 		_ h: XSD.Integer,
 		_ m: XSD.Integer,
 		_ s: XSD.DecimalNumber
-	) -> XSD.duTimeFrag {
-		if h != 0 || m != 0 || s != 0 {
-			return (
-				"T"
-					+ XSD.·duHourCanonicalFragmentMap·(h)
-					+ XSD.·duMinuteCanonicalFragmentMap·(m)
-					+ XSD.·duSecondCanonicalFragmentMap·(s)
-			)◊
-		} else { return ""◊ }
-	}
+	) -> XSD.duTimeFrag
+	{ XSD.duTimeFrag(h != 0 || m != 0 || s != 0 ? "T" + String(XSD.·duHourCanonicalFragmentMap·(h)) + String(XSD.·duMinuteCanonicalFragmentMap·(m)) + String(XSD.·duSecondCanonicalFragmentMap·(s)) : "")! }
 
 }

@@ -14,13 +14,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-booleanLexmap>
 	@inlinable
-	static func ·booleanLexicalMap·(
+	static func ·booleanLexicalMap· (
 		_ LEX: XSD.booleanRep
-	) -> XSD.BooleanValue {
-		return (
-			String(describing: LEX) == "true"
-				|| String(describing: LEX) == "1"
-		) ? .true : .false
-	}
+	) -> XSD.BooleanValue
+	{ String(LEX) == "true" || String(LEX) == "1" ? .true : .false }
 
 }

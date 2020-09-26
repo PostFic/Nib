@@ -17,8 +17,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-dt-hrMap>
 	@inlinable
-	static func ·hourFragValue·(
+	static func ·hourFragValue· (
 		_ HR: XSD.hourFrag
-	) -> XSD.Integer { return XSD.·unsignedNoDecimalMap·(HR◊) }
+	) -> XSD.Integer
+	{ XSD.·unsignedNoDecimalMap·(XSD.unsignedNoDecimalPtNumeral(HR)!) }
 
 }

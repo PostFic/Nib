@@ -21,9 +21,9 @@ public extension XSD {
 	///       “minus” instead of “times”.
 	///     Nib provides the correct implementation.
 	@inlinable
-	static func ·FractionDigitRemainderSeq·(
+	static func ·FractionDigitRemainderSeq· (
 		_ f: XSD.DecimalNumber
-	) -> XSD.Sequence<XSD.DecimalNumber> {
+	) -> XSD.Sequence <XSD.DecimalNumber> {
 		return sequence(
 			state: XSD.·mod·(abs(f), 1) * 10
 		) { s_（j＋1） in

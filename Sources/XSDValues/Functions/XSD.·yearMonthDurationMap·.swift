@@ -19,12 +19,12 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-yearMonthDurationMap>
 	@inlinable
-	static func ·yearMonthDurationMap·(
+	static func ·yearMonthDurationMap· (
 		_ YM: XSD.yearMonthDurationLexicalRep
 	) -> XSD.DurationValue {
-		let first = String(describing: YM).first
-		let P = String(describing: YM).dropFirst(first == "-" ? 2 : 1)
-		let m = XSD.·duYearMonthFragmentMap·(P◊)
+		let first = String(YM).first
+		let P = String(YM).dropFirst(first == "-" ? 2 : 1)
+		let m = XSD.·duYearMonthFragmentMap·(XSD.duYearMonthFrag(P)!)
 		return XSD.DurationValue(
 			months: first == "-" ? -m : m,
 			seconds: 0

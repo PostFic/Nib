@@ -16,31 +16,28 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-daysInMonth>
 	@inlinable
-	static func ·daysInMonth·(
+	static func ·daysInMonth· (
 		_ y: XSD.Integer?,
 		_ m: XSD.Integer
 	) -> XSD.Integer {
-		guard m >= 1 && m <= 12 else {
-			fatalError(
-				"Expected an integer between 1 and 12, but got \(m)."
-			)
-		}
+		guard m >= 1 && m <= 12
+		else
+		{ fatalError("Expected an integer between 1 and 12, but got \(m).") }
 		switch m {
 		case 2:
-			guard let year = y else { return 28 }
+			guard let year = y
+			else
+			{ return 28 }
 			if year % 4 == 0 {
 				if year % 100 == 0 {
-					if year % 400 == 0 {
-						return 29
-					} else {
-						return 28
-					}
-				} else {
-					return 29
-				}
-			} else {
-				return 28
-			}
+					if year % 400 == 0
+					{ return 29 }
+					else
+					{ return 28 }
+				} else
+				{ return 29 }
+			} else
+			{ return 28 }
 		case 4, 6, 9, 11:
 			return 30
 		default:

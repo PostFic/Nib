@@ -17,8 +17,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-dt-daMap>
 	@inlinable
-	static func ·dayFragValue·(
+	static func ·dayFragValue· (
 		_ DA: XSD.dayFrag
-	) -> XSD.Integer { return XSD.·unsignedNoDecimalMap·(DA◊) }
+	) -> XSD.Integer
+	{ XSD.·unsignedNoDecimalMap·(XSD.unsignedNoDecimalPtNumeral(DA)!) }
 
 }

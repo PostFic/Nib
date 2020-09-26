@@ -14,25 +14,14 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#vp-dateTimeCanRep>
 	@inlinable
-	static func ·dateTimeCanonicalMap·(
+	static func ·dateTimeCanonicalMap· (
 		_ dt: XSD.DateTimeValue
 	) -> XSD.dateTimeLexicalRep {
-		let DT = String(
-			describing: XSD.·yearCanonicalFragmentMap·(dt.·year·!)
-		) + "-" + String(
-			describing: XSD.·monthCanonicalFragmentMap·(dt.·month·!)
-		) + "-" + String(
-			describing: XSD.·dayCanonicalFragmentMap·(dt.·day·!)
-		) + "T" + String(
-			describing: XSD.·hourCanonicalFragmentMap·(dt.·hour·!)
-		) + ":" + String(
-			describing: XSD.·minuteCanonicalFragmentMap·(dt.·minute·!)
-		) + ":" + String(
-			describing: XSD.·secondCanonicalFragmentMap·(dt.·second·!)
-		)
-		if let tz = dt.·timezoneOffset· {
-			return (DT + XSD.·timezoneCanonicalFragmentMap·(tz))◊
-		} else { return DT◊ }
+		let DT = String(XSD.·yearCanonicalFragmentMap·(dt.·year·.unsafelyUnwrapped)) + "-" + String(XSD.·monthCanonicalFragmentMap·(dt.·month·.unsafelyUnwrapped)) + "-" + String(XSD.·dayCanonicalFragmentMap·(dt.·day·.unsafelyUnwrapped)) + "T" + String(XSD.·hourCanonicalFragmentMap·(dt.·hour·.unsafelyUnwrapped)) + ":" + String(XSD.·minuteCanonicalFragmentMap·(dt.·minute·.unsafelyUnwrapped)) + ":" + String(XSD.·secondCanonicalFragmentMap·(dt.·second·.unsafelyUnwrapped))
+		if let tz = dt.·timezoneOffset·
+		{ return XSD.dateTimeLexicalRep(DT + String(XSD.·timezoneCanonicalFragmentMap·(tz)))! }
+		else
+		{ return XSD.dateTimeLexicalRep(DT)! }
 	}
 
 }

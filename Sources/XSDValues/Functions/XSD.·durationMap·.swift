@@ -19,11 +19,11 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-durationMap>
 	@inlinable
-	static func ·durationMap·(
+	static func ·durationMap· (
 		_ DUR: XSD.durationLexicalRep
 	) -> XSD.DurationValue {
-		let first = String(describing: DUR).first
-		let P = String(describing: DUR).dropFirst(first == "-" ? 2 : 1)
+		let first = String(DUR).first
+		let P = String(DUR).dropFirst(first == "-" ? 2 : 1)
 		let m: XSD.Integer
 		let s: XSD.DecimalNumber
 		let Array·Y，M，D = P.split(
@@ -31,22 +31,16 @@ public extension XSD {
 			omittingEmptySubsequences: false
 		) { $0 == "Y" || $0 == "M" }
 		if Array·Y，M，D.count > 1 {
-			m = XSD.·duYearMonthFragmentMap·(
-				P[
-					P.startIndex...Array·Y，M，D[
-						Array·Y，M，D.count - 2
-					].endIndex
-				]◊
-			)
-			s = Array·Y，M，D.last == "" ? 0
-				: XSD.·duDayTimeFragmentMap·(Array·Y，M，D.last!◊)
+			m = XSD.·duYearMonthFragmentMap·(XSD.duYearMonthFrag(P[P.startIndex...Array·Y，M，D[Array·Y，M，D.count - 2].endIndex])!)
+			s = Array·Y，M，D.last == "" ? 0 : XSD.·duDayTimeFragmentMap·(Array·Y，M，D.last!◊)
 		} else {
 			m = 0
-			s = XSD.·duDayTimeFragmentMap·(P◊)
+			s = XSD.·duDayTimeFragmentMap·(XSD.duDayTimeFrag(P)!)
 		}
-		if first == "-" {
-			return XSD.DurationValue(months: -m, seconds: -s)!
-		} else { return XSD.DurationValue(months: m, seconds: s)! }
+		if first == "-"
+		{ return XSD.DurationValue(months: -m, seconds: -s)! }
+		else
+		{ return XSD.DurationValue(months: m, seconds: s)! }
 	}
 
 }

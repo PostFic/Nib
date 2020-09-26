@@ -17,10 +17,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-hrCanFragMap>
 	@inlinable
-	static func ·hourCanonicalFragmentMap·(
+	static func ·hourCanonicalFragmentMap· (
 		_ h: XSD.Integer
-	) -> XSD.hourFrag {
-		return XSD.·unsTwoDigitCanonicalFragmentMap·(h)◊
-	}
+	) -> XSD.hourFrag
+	{ XSD.hourFrag(XSD.·unsTwoDigitCanonicalFragmentMap·(h))! }
 
 }

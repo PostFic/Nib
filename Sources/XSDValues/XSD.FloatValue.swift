@@ -11,17 +11,15 @@ extension XSD {
 
 		public typealias LexicalRepresentation = XSD.floatRep
 
-		public var ·canonicalMapping·:
-			XSD.FloatValue.LexicalRepresentation
-		{ return XSD.·floatCanonicalMap·(self) }
+		public var ·canonicalMapping·: XSD.FloatValue.LexicalRepresentation
+		{ XSD.·floatCanonicalMap·(self) }
 
-		public var decimalNumber: XSD.DecimalNumber? {
-			guard specialValue == nil else { return nil }
-			return (value as NSNumber).decimalValue
-		}
+		public var decimalNumber: XSD.DecimalNumber?
+		{ specialValue != nil ? nil : (value as NSNumber).decimalValue }
 
 		public var specialValue: XSD.SpecialValue? {
-			if value.isNaN { return .notANumber }
+			if value.isNaN
+			{ return .notANumber }
 			else {
 				switch value.floatingPointClass {
 				case .negativeInfinity:
@@ -38,31 +36,31 @@ extension XSD {
 			}
 		}
 
-		let value: Float
+		private let value: Float
 
-		public init?(
+		public init? (
 			exactly value: XSD.DecimalNumber
 		) {
-			if let float = Float(exactly: value as NSNumber) {
-				self.value = float
-			} else { return nil }
+			if let float = Float(
+				exactly: value as NSNumber
+			) { self.value = float }
+			else
+			{ return nil }
 		}
 
-		public init?(
+		public init? (
 			exactly value: XSD.SpecialValue
 		) { self.init(truncating: value) }
 
-		public init(
+		public init (
 			mapping literal: XSD.FloatValue.LexicalRepresentation
-		) {
-			self = XSD.·floatLexicalMap·(literal)
-		}
+		) { self = XSD.·floatLexicalMap·(literal) }
 
-		public init(
+		public init (
 			truncating value: XSD.DecimalNumber
 		) { self.value = Float(truncating: value as NSNumber) }
 
-		public init(
+		public init (
 			truncating value: XSD.SpecialValue
 		) {
 			switch value {

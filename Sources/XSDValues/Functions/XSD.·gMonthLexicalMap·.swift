@@ -17,32 +17,21 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#vp-gMonthLexRep>
 	@inlinable
-	static func ·gMonthLexicalMap·(
+	static func ·gMonthLexicalMap· (
 		_ LEX: XSD.gMonthLexicalRep
 	) -> XSD.GMonthValue {
-		let string = String(describing: LEX)
+		let string = String(LEX)
 		let Array·M，T = string.dropFirst(2).split(
 			maxSplits: 1,
 			omittingEmptySubsequences: false
 		) { $0 == "-" || $0 == "Z" || $0 == "+" }
 		let tz: XSD.Integer?
-		if Array·M，T.count == 2 {
-			tz = XSD.·timezoneFragValue·(
-				string[
-					Array·M，T[0].endIndex..<string.endIndex
-				]◊
-			)
-		} else { tz = nil }
+		if Array·M，T.count == 2
+		{ tz = XSD.·timezoneFragValue·(XSD.timezoneFrag(string[Array·M，T[0].endIndex..<string.endIndex])!) }
+		else
+		{ tz = nil }
 		let M = Array·M，T[0]
-		return XSD.·newDateTime·(
-			nil,
-			XSD.·monthFragValue·(M◊),
-			nil,
-			nil,
-			nil,
-			nil,
-			tz
-		)
+		return XSD.·newDateTime·(nil, XSD.·monthFragValue·(XSD.monthFrag(M)!), nil, nil, nil, nil, tz)
 	}
 
 }

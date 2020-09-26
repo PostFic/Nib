@@ -15,10 +15,10 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-specRepVal>
 	@inlinable
-	static func ·specialRepValue·(
+	static func ·specialRepValue· (
 		_ S: XSD.numericalSpecialRep
 	) -> XSD.SpecialValue {
-		switch String(describing: S) {
+		switch String(S) {
 		case "INF", "+INF":
 			return .positiveInfinity
 		case "-INF":

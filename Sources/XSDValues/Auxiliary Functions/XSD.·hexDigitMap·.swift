@@ -15,14 +15,18 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-hexDigitMap>
 	@inlinable
-	static func ·hexDigitMap·(
+	static func ·hexDigitMap· (
 		_ d: XSD.hexDigit
-	) -> XSD.Sequence<XSD.BinaryDigit> {
-		return sequence(state: 0 as UInt8) { state in
+	) -> XSD.Sequence <XSD.BinaryDigit> {
+		return sequence(
+			state: 0 as UInt8
+		) { state in
 			let nextState = state as! UInt8 + 1
-			guard nextState < 5 else { return nil }
+			guard nextState < 5
+			else
+			{ return nil }
 			state = nextState
-			switch String(describing: d) {
+			switch String(d) {
 			case "0":
 				return .０
 			case "1":

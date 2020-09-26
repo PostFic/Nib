@@ -25,14 +25,12 @@ public extension XSD {
 	///       algorithm.
 	///     Nib gives the correct implementation.
 	@inlinable
-	static func ·dayTimeDurationCanonicalMap·(
+	static func ·dayTimeDurationCanonicalMap· (
 		_ dt: XSD.DurationValue
 	) -> XSD.dayTimeDurationLexicalRep {
 		let s = dt.·seconds·
 		let sgn = s < 0 ? "-" : ""
-		return (
-			sgn + "P" + XSD.·duDayTimeCanonicalFragmentMap·(abs(s))
-		)◊
+		return XSD.dayTimeDurationLexicalRep(sgn + "P" + String(XSD.·duDayTimeCanonicalFragmentMap·(abs(s))))!
 	}
 
 }

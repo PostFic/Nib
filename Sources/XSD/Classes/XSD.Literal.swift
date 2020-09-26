@@ -27,10 +27,24 @@ extension XSD {
 		) {
 			if let lexicalSpace = Self.·lexicalSpace· {
 				guard lexicalSpace.·matches·(description)
-				else { return nil }
+				else
+				{ return nil }
 			}
 			self.description = description
 		}
+
+		/// Initializes the literal, ensuring that the provided
+		///   `literal` is within its `·lexicalSpace·`.
+		/// Fails otherwise.
+		///
+		///  +  parameters:
+		///      +  literal:
+		///         The string value of the literal.
+		@inlinable
+		public convenience init? <L> (
+			_ literal: L
+		) where L: XSD.Literal
+		{ self.init(String(literal)) }
 
 		/// Initializes the literal, ensuring that the provided
 		///   `representation` is within its `·lexicalSpace·`.
@@ -41,7 +55,7 @@ extension XSD {
 		///         The string value of the literal.
 		@inlinable
 		public convenience init? <S> (
-			_ representation: S = ""
+			_ representation: S
 		) where S: StringProtocol
 		{ self.init(String(representation)) }
 
@@ -76,33 +90,6 @@ extension XSD {
 
 	}
 
-}
-
-public extension XSD.Literal {
-
-	@inlinable
-	final class func + (
-		lhs: XSD.Literal,
-		rhs: XSD.Literal
-	) -> XSD.Literal
-	{ XSD.Literal(lhs.description + rhs.description)! }
-
-	@inlinable
-	final class func + <S> (
-		lhs: XSD.Literal,
-		rhs: S
-	) -> XSD.Literal
-	where S: StringProtocol
-	{ XSD.Literal(lhs.description + rhs)! }
-
-	@inlinable
-	final class func + <S> (
-		lhs: S,
-		rhs: XSD.Literal
-	) -> XSD.Literal
-	where S: StringProtocol
-	{ XSD.Literal(lhs + rhs.description)! }
-	
 }
 
 extension XSD.Literal: XSDLiteralConvertible {}

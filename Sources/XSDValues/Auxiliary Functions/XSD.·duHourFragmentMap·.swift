@@ -23,11 +23,11 @@ public extension XSD {
 	///       described by the [duHourFrag] grammar.
 	///     Nib provides the correct implementation.
 	@inlinable
-	static func ·duHourFragmentMap·(
+	static func ·duHourFragmentMap· (
 		_ H: XSD.duHourFrag
 	) -> XSD.Integer {
-		let N = String(describing: H).dropLast()
-		return XSD.·noDecimalMap·(N◊)
+		let N = String(H).dropLast()
+		return XSD.·noDecimalMap·(XSD.noDecimalPtNumeral(N)!)
 	}
 
 }

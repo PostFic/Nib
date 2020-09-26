@@ -14,8 +14,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-stringCanmap>
 	@inlinable
-	static func ·stringCanonicalMap·(
+	static func ·stringCanonicalMap· (
 		_ s: XSD.StringValue
-	) -> XSD.stringRep { return String(describing: s)◊ }
+	) -> XSD.stringRep
+	{ XSD.stringRep(s.description)! }
 
 }

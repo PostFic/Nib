@@ -12,9 +12,8 @@ extension XSD {
 		
 		public typealias LexicalRepresentation = XSD.dateTimeLexicalRep
 
-		public var ·canonicalMapping·:
-			XSD.DateTimeValue.LexicalRepresentation
-		{ return XSD.·dateTimeCanonicalMap·(self) }
+		public var ·canonicalMapping·: XSD.DateTimeValue.LexicalRepresentation
+		{ XSD.·dateTimeCanonicalMap·(self) }
 
 		public let ·day·: XSD.Integer?
 
@@ -30,11 +29,11 @@ extension XSD {
 
 		public let ·year·: XSD.Integer?
 
-		public init(
+		public init (
 			mapping literal: XSD.DateTimeValue.LexicalRepresentation
 		) { self = XSD.·dateTimeLexicalMap·(literal) }
 		
-		public init?(
+		public init? (
 			year: XSD.Integer?,
 			month: XSD.Integer?,
 			day: XSD.Integer?,
@@ -59,7 +58,8 @@ extension XSD {
 					second: second,
 					timezoneOffset: timezoneOffset
 				)
-			else { return nil }
+			else
+			{ return nil }
 			·year· = d7m.·year·
 			·month· = d7m.·month·
 			·day· = d7m.·day·

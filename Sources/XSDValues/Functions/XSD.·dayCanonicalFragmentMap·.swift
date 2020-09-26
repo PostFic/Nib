@@ -17,10 +17,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-daCanFragMap>
 	@inlinable
-	static func ·dayCanonicalFragmentMap·(
+	static func ·dayCanonicalFragmentMap· (
 		_ d: XSD.Integer
-	) -> XSD.dayFrag {
-		return XSD.·unsTwoDigitCanonicalFragmentMap·(d)◊
-	}
+	) -> XSD.dayFrag
+	{ XSD.dayFrag(XSD.·unsTwoDigitCanonicalFragmentMap·(d))! }
 
 }

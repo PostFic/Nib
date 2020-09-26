@@ -10,15 +10,17 @@ extension XSD {
 
 		public typealias LexicalRepresentation = XSD.hexBinaryRep
 
-		public var ·canonicalMapping·:
-			XSD.HexBinaryValue.LexicalRepresentation
+		public var ·canonicalMapping·: XSD.HexBinaryValue.LexicalRepresentation
 		{ XSD.·hexBinaryCanonical·(self) }
 
-		public let octets: XSD.Sequence<XSD.BinaryOctet>
+		public let octets: XSD.Sequence <XSD.BinaryOctet>
 
-		public init<S: Swift.Sequence>(
+		public init <S> (
 			_ data: S
-		) where S.Element == XSD.BinaryOctet {
+		) where
+			S: Swift.Sequence,
+			S.Element == XSD.BinaryOctet
+		{
 			self.octets = sequence(
 				state: data.makeIterator()
 			) { state in
@@ -29,7 +31,7 @@ extension XSD {
 			}
 		}
 
-		public init(
+		public init (
 			mapping literal: XSD.HexBinaryValue.LexicalRepresentation
 		) { self = XSD.·hexBinaryMap·(literal) }
 

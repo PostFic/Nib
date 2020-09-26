@@ -14,15 +14,14 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-decimalLexmap>
 	@inlinable
-	static func ·decimalLexicalMap·(
+	static func ·decimalLexicalMap· (
 		_ LEX: XSD.decimalLexicalRep
 	) -> XSD.DecimalValue {
 		let d: XSD.DecimalNumber
-		if let noDecimalPtNumeral: XSD.noDecimalPtNumeral = LEX◊? {
-			d = XSD.DecimalNumber(
-				XSD.·noDecimalMap·(noDecimalPtNumeral)
-			)
-		} else { d = XSD.·decimalPtMap·(LEX◊) }
+		if let noDecimalPtNumeral = XSD.noDecimalPtNumeral(LEX)
+		{ d = XSD.DecimalNumber(XSD.·noDecimalMap·(noDecimalPtNumeral)) }
+		else
+		{ d = XSD.·decimalPtMap·(XSD.decimalPtNumeral(LEX)!) }
 		return XSD.DecimalValue(exactly: d)!
 	}
 

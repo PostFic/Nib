@@ -18,16 +18,17 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-unsNoDecVal>
 	@inlinable
-	static func ·unsignedNoDecimalMap·(
+	static func ·unsignedNoDecimalMap· (
 		_ N: XSD.unsignedNoDecimalPtNumeral
 	) -> XSD.Integer {
 		return XSD.·digitSequenceValue·(
 			sequence(
-				state: String(describing: N).makeIterator()
+				state: String(N).makeIterator()
 			) { state in
 				var nextState = state as! String.Iterator
 				guard let S_i = nextState.next()
-				else { return nil }
+				else
+				{ return nil }
 				state = nextState
 				return XSD.digit(String(S_i))!
 			}

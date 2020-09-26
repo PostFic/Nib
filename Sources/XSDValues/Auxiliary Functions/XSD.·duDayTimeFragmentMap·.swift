@@ -19,25 +19,22 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-duDTMap>
 	@inlinable
-	static func ·duDayTimeFragmentMap·(
+	static func ·duDayTimeFragmentMap· (
 		_ DT: XSD.duDayTimeFrag
 	) -> XSD.DecimalNumber {
 		let d: XSD.Integer
 		let t: XSD.DecimalNumber
-		let Array·D，T = String(describing: DT).split(
+		let Array·D，T = String(DT).split(
 			separator: "D",
 			maxSplits: 1,
 			omittingEmptySubsequences: false
 		)
 		if Array·D，T.count == 2 {
-			d = XSD.·duDayFragmentMap·(
-				XSD.duDayFrag(Array·D，T[0] + "D")!
-			)
-			t = Array·D，T[1] == "" ? 0
-				: XSD.·duTimeFragmentMap·(Array·D，T[1]◊)
+			d = XSD.·duDayFragmentMap·(XSD.duDayFrag(Array·D，T[0] + "D")!)
+			t = Array·D，T[1] == "" ? 0 : XSD.·duTimeFragmentMap·(XSD.duTimeFrag(Array·D，T[1])!)
 		} else {
 			d = 0
-			t = XSD.·duTimeFragmentMap·(DT◊)
+			t = XSD.·duTimeFragmentMap·(XSD.duTimeFrag(DT)!)
 		}
 		return 86400 * XSD.DecimalNumber(d) + t
 	}

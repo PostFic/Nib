@@ -16,26 +16,13 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-fourDigCanFragMap>
 	@inlinable
-	static func ·fourDigitCanonicalFragmentMap·(
+	static func ·fourDigitCanonicalFragmentMap· (
 		_ i: XSD.Integer
 	) -> XSD.noDecimalPtNumeral {
-		if i < 0 {
-			return (
-				"-" + XSD.·unsTwoDigitCanonicalFragmentMap·(
-					XSD.·div·(-i, 100)
-				) + XSD.·unsTwoDigitCanonicalFragmentMap·(
-					XSD.·mod·(-i, 100)
-				)
-			)◊
-		} else {
-			return (
-				XSD.·unsTwoDigitCanonicalFragmentMap·(
-					XSD.·div·(i, 100)
-				) + XSD.·unsTwoDigitCanonicalFragmentMap·(
-					XSD.·mod·(i, 100)
-				)
-			)◊
-		}
+		if i < 0
+		{ return XSD.noDecimalPtNumeral("-" + String(XSD.·unsTwoDigitCanonicalFragmentMap·(XSD.·div·(-i, 100))) + String(XSD.·unsTwoDigitCanonicalFragmentMap·(XSD.·mod·(-i, 100))))! }
+		else
+		{ return XSD.noDecimalPtNumeral(String(XSD.·unsTwoDigitCanonicalFragmentMap·(XSD.·div·(i, 100))) + String(XSD.·unsTwoDigitCanonicalFragmentMap·(XSD.·mod·(i, 100))))! }
 	}
 
 }

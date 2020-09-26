@@ -17,17 +17,12 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-decVal>
 	@inlinable
-	static func ·decimalPtMap·(
+	static func ·decimalPtMap· (
 		_ N: XSD.decimalPtNumeral
 	) -> XSD.DecimalNumber {
-		let U: XSD.unsignedDecimalPtNumeral
-		let first = String(describing: N).first
-		if first == "-" || first == "+" {
-			U = String(describing: N).dropFirst()◊
-		}
-		else { U = N◊ }
-		if first == "-" { return -1 * XSD.·unsignedDecimalPtMap·(U) }
-		else { return XSD.·unsignedDecimalPtMap·(U) }
+		let first = String(N).first
+		let U = first == "-" || first == "+" ? XSD.unsignedDecimalPtNumeral(String(N).dropFirst())! : XSD.unsignedDecimalPtNumeral(N)!
+		return first == "-" ? -1 * XSD.·unsignedDecimalPtMap·(U) : XSD.·unsignedDecimalPtMap·(U)
 	}
 
 }

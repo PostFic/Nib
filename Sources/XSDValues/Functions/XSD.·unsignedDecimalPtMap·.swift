@@ -18,10 +18,10 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-unsDecVal>
 	@inlinable
-	static func ·unsignedDecimalPtMap·(
+	static func ·unsignedDecimalPtMap· (
 		_ D: XSD.unsignedDecimalPtNumeral
 	) -> XSD.DecimalNumber {
-		let parts = String(describing: D).split(
+		let parts = String(D).split(
 			separator: ".",
 			maxSplits: 1,
 			omittingEmptySubsequences: false
@@ -35,8 +35,7 @@ public extension XSD {
 		} else {
 			let N = XSD.unsignedNoDecimalPtNumeral(parts[0])!
 			let F = XSD.fracFrag(parts[1])!
-			return XSD.DecimalNumber(XSD.·unsignedNoDecimalMap·(N))
-				+ XSD.·fractionFragValue·(F)
+			return XSD.DecimalNumber(XSD.·unsignedNoDecimalMap·(N)) + XSD.·fractionFragValue·(F)
 		}
 	}
 

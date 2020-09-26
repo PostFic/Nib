@@ -17,12 +17,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-duMCan>
 	@inlinable
-	static func ·duMinuteCanonicalFragmentMap·(
+	static func ·duMinuteCanonicalFragmentMap· (
 		_ m: XSD.Integer
-	) -> XSD.duMinuteFrag {
-		if m != 0 {
-			return (XSD.·unsignedNoDecimalPtCanonicalMap·(m) + "M")◊
-		} else { return ""◊ }
-	}
+	) -> XSD.duMinuteFrag
+	{ XSD.duMinuteFrag(m != 0 ? String(XSD.·unsignedNoDecimalPtCanonicalMap·(m)) + "M" : "")! }
 
 }

@@ -83,7 +83,8 @@ public extension XSD {
 				let Y = XSD.Integer(description[description.startIndex..<Array·Y，M，D，T[0].endIndex]),
 				let M = XSD.Integer(Array·Y，M，D，T[1]),
 				let D = XSD.Integer(Array·Y，M，D，T[2])
-			else { return nil }
+			else
+			{ return nil }
 			if D > 30 && (M == 4 || M == 6 || M == 9 || M == 11) || D > 28 && M == 2 && (Y % 4 != 0 || Y % 100 == 0 && Y % 400 != 0) || D > 29 && M == 2 && (Y % 400 == 0 || Y % 4 == 0 && Y % 100 != 0)
 			{ return nil }
 			super.init(description)

@@ -17,17 +17,12 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-noDecVal>
 	@inlinable
-	static func ·noDecimalMap·(
+	static func ·noDecimalMap· (
 		_ N: XSD.noDecimalPtNumeral
 	) -> XSD.Integer {
-		let U: XSD.unsignedNoDecimalPtNumeral
-		let first = String(describing: N).first
-		if first == "-" || first == "+" {
-			U = String(describing: N).dropFirst()◊
-		}
-		else { U = N◊ }
-		if first == "-" { return -1 * XSD.·unsignedNoDecimalMap·(U) }
-		else { return XSD.·unsignedNoDecimalMap·(U) }
+		let first = String(N).first
+		let U = first == "-" || first == "+" ? XSD.unsignedNoDecimalPtNumeral(String(N).dropFirst())! : XSD.unsignedNoDecimalPtNumeral(N)!
+		return first == "-" ? -1 * XSD.·unsignedNoDecimalMap·(U) : XSD.·unsignedNoDecimalMap·(U)
 	}
 
 }

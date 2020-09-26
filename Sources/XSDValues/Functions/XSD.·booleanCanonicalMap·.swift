@@ -14,8 +14,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-booleanCanmap>
 	@inlinable
-	static func ·booleanCanonicalMap·(
+	static func ·booleanCanonicalMap· (
 		_ b: XSD.BooleanValue
-	) -> XSD.booleanRep { return (b == .true ? "true" : "false")◊ }
+	) -> XSD.booleanRep
+	{ XSD.booleanRep(b.rawValue)! }
 
 }

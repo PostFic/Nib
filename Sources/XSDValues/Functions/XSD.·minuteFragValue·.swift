@@ -17,8 +17,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-dt-miMap>
 	@inlinable
-	static func ·minuteFragValue·(
+	static func ·minuteFragValue· (
 		_ MI: XSD.minuteFrag
-	) -> XSD.Integer { return XSD.·unsignedNoDecimalMap·(MI◊) }
+	) -> XSD.Integer
+	{ XSD.·unsignedNoDecimalMap·(XSD.unsignedNoDecimalPtNumeral(MI)!) }
 
 }

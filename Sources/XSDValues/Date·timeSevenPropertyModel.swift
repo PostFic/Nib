@@ -29,12 +29,22 @@ internal struct Date·timeSevenPropertyModel:
 	internal let ·year·: XSD.Integer?
 
 	@usableFromInline
-	internal init(
+	internal init (
 		mapping literal: Date·timeSevenPropertyModel.LexicalRepresentation
-	) { self.init(XSD.·dateTimeLexicalMap·(literal◊))! }
+	) {
+		self.init(
+			XSD.·dateTimeLexicalMap·(
+				XSD.dateTimeLexicalRep(
+					String(
+						describing: literal
+					)
+				)!
+			)
+		)!
+	}
 
 	@usableFromInline
-	internal init(
+	internal init (
 		_ Yr: XSD.Integer?,
 		_ Mo: XSD.Integer?,
 		_ Da: XSD.Integer?,
@@ -50,54 +60,24 @@ internal struct Date·timeSevenPropertyModel:
 		var mi = Mi ?? 0
 		var se = Se ?? 0
 		let tz = Tz ?? 0
-		guard mo >= 1 && mo <= 12 else {
-			fatalError(
-				"""
-				Expected an integer between 1 and 12 inclusive\
-				, but got \(mo).
-				"""
-			)
-		}
-		guard da >= 1 && da <= 31 else {
-			fatalError(
-				"""
-				Expected an integer between 1 and 31 inclusive\
-				, but got \(da).
-				"""
-			)
-		}
-		guard hr >= 0 && hr <= 24 else {
-			fatalError(
-				"""
-				Expected an integer between 0 and 24 inclusive\
-				, but got \(hr).
-				"""
-			)
-		}
-		guard mi >= 0 && mi <= 59 else {
-			fatalError(
-				"""
-				Expected an integer between 0 and 59 inclusive\
-				, but got \(mi).
-				"""
-			)
-		}
-		guard se >= 0 && se < 60 else {
-			fatalError(
-				"""
-				Expected a decimal number greater than or equal \
-				to 0 and less than 60, but got \(se).
-				"""
-			)
-		}
-		guard tz >= -840 && tz <= 840 else {
-			fatalError(
-				"""
-				Expected an integer between -840 and 840 inclusive\
-				, but got \(tz).
-				"""
-			)
-		}
+		guard mo >= 1 && mo <= 12
+		else
+		{ fatalError("Expected an integer between 1 and 12 inclusive, but got \(mo).") }
+		guard da >= 1 && da <= 31
+		else
+		{ fatalError("Expected an integer between 1 and 31 inclusive, but got \(da).") }
+		guard hr >= 0 && hr <= 24
+		else
+		{ fatalError("Expected an integer between 0 and 24 inclusive, but got \(hr).") }
+		guard mi >= 0 && mi <= 59
+		else
+		{ fatalError("Expected an integer between 0 and 59 inclusive, but got \(mi).") }
+		guard se >= 0 && se < 60
+		else
+		{ fatalError("Expected a decimal number greater than or equal to 0 and less than 60, but got \(se).") }
+		guard tz >= -840 && tz <= 840
+		else
+		{ fatalError("Expected an integer between -840 and 840 inclusive, but got \(tz).") }
 		XSD.·normalizeSecond·(&yr, &mo, &da, &hr, &mi, &se)
 		·year· = Yr == nil ? nil : yr
 		·month· = Mo == nil ? nil : mo
@@ -109,7 +89,7 @@ internal struct Date·timeSevenPropertyModel:
 	}
 
 	@usableFromInline
-	internal init?(
+	internal init? (
 		year: XSD.Integer?,
 		month: XSD.Integer?,
 		day: XSD.Integer?,
@@ -142,15 +122,7 @@ internal struct Date·timeSevenPropertyModel:
 			let tz = timezoneOffset,
 			!(tz >= -840 && tz <= 840)
 		{ return nil }
-		self.init(
-			year,
-			month,
-			day,
-			hour,
-			minute,
-			second,
-			timezoneOffset
-		)
+		self.init(year, month, day, hour, minute, second, timezoneOffset)
 	}
 
 	@usableFromInline

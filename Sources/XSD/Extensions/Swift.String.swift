@@ -1,1 +1,3 @@
-extension String: XSDLiteralConvertible {}
+extension String:
+	XSDLiteralConvertible
+{}

@@ -14,19 +14,13 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#vp-gMonthCanRep>
 	@inlinable
-	static func ·gMonthCanonicalMap·(
+	static func ·gMonthCanonicalMap· (
 		_ gM: XSD.GMonthValue
 	) -> XSD.gMonthLexicalRep {
-		if let tz = gM.·timezoneOffset· {
-			return (
-				"--" + XSD.·monthCanonicalFragmentMap·(gM.·month·!)
-					+ XSD.·timezoneCanonicalFragmentMap·(tz)
-			)◊
-		} else {
-			return (
-				"--" + XSD.·monthCanonicalFragmentMap·(gM.·month·!)
-			)◊
-		}
+		if let tz = gM.·timezoneOffset·
+		{ return XSD.gMonthLexicalRep("--" + String(XSD.·monthCanonicalFragmentMap·(gM.·month·.unsafelyUnwrapped)) + String(XSD.·timezoneCanonicalFragmentMap·(tz)))! }
+		else
+		{ return XSD.gMonthLexicalRep("--" + String(XSD.·monthCanonicalFragmentMap·(gM.·month·.unsafelyUnwrapped)))! }
 	}
 
 }

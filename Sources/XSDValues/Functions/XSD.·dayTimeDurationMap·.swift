@@ -24,12 +24,12 @@ public extension XSD {
 	///       value, rather than a literal.
 	///     Nib provides the correct implementation.
 	@inlinable
-	static func ·dayTimeDurationMap·(
+	static func ·dayTimeDurationMap· (
 		_ DT: XSD.dayTimeDurationLexicalRep
 	) -> XSD.DurationValue {
-		let first = String(describing: DT).first
-		let P = String(describing: DT).dropFirst(first == "-" ? 2 : 1)
-		let s = XSD.·duDayTimeFragmentMap·(P◊)
+		let first = String(DT).first
+		let P = String(DT).dropFirst(first == "-" ? 2 : 1)
+		let s = XSD.·duDayTimeFragmentMap·(XSD.duDayTimeFrag(P)!)
 		return XSD.DurationValue(
 			months: 0,
 			seconds: first == "-" ? -s : s

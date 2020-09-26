@@ -14,8 +14,9 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-stringLexmap>
 	@inlinable
-	static func ·stringLexicalMap·(
+	static func ·stringLexicalMap· (
 		_ LEX: XSD.stringRep
-	) -> XSD.StringValue { return XSD.StringValue(LEX) }
+	) -> XSD.StringValue
+	{ XSD.StringValue(LEX) }
 
 }

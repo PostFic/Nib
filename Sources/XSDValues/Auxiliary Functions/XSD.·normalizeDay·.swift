@@ -16,7 +16,7 @@ public extension XSD {
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-dt-normDa>
 	@inlinable
-	static func ·normalizeDay·(
+	static func ·normalizeDay· (
 		_ yr: inout XSD.Integer,
 		_ mo: inout XSD.Integer,
 		_ da: inout XSD.Integer

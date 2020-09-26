@@ -11,17 +11,15 @@ extension XSD {
 
 		public typealias LexicalRepresentation = XSD.doubleRep
 
-		public var ·canonicalMapping·:
-			XSD.DoubleValue.LexicalRepresentation
-		{ return XSD.·doubleCanonicalMap·(self) }
+		public var ·canonicalMapping·: XSD.DoubleValue.LexicalRepresentation
+		{ XSD.·doubleCanonicalMap·(self) }
 
-		public var decimalNumber: XSD.DecimalNumber? {
-			guard specialValue == nil else { return nil }
-			return XSD.DecimalNumber(value)
-		}
+		public var decimalNumber: XSD.DecimalNumber?
+		{ specialValue != nil ? nil : XSD.DecimalNumber(value) }
 
 		public var specialValue: XSD.SpecialValue? {
-			if value.isNaN { return .notANumber }
+			if value.isNaN
+			{ return .notANumber }
 			else {
 				switch value.floatingPointClass {
 				case .negativeInfinity:
@@ -38,31 +36,34 @@ extension XSD {
 			}
 		}
 
-		let value: Double
+		private let value: Double
 
-		public init?(
+		public init? (
 			exactly value: XSD.DecimalNumber
 		) {
-			if let double = Double(exactly: value as NSNumber) {
-				self.value = double
-			} else { return nil }
+			if let double = Double(
+				exactly: value as NSNumber
+			) { self.value = double }
+			else { return nil }
 		}
 
-		public init?(
+		public init? (
 			exactly value: XSD.SpecialValue
 		) { self.init(truncating: value) }
 
-		public init(floatLiteral value: Double) { self.value = value }
+		public init (
+			floatLiteral value: Double
+		) { self.value = value }
 
-		public init(
+		public init (
 			mapping literal: XSD.DoubleValue.LexicalRepresentation
 		) { self = XSD.·doubleLexicalMap·(literal) }
 
-		public init(
+		public init (
 			truncating value: XSD.DecimalNumber
 		) { self.value = Double(truncating: value as NSNumber) }
 
-		public init(
+		public init (
 			truncating value: XSD.SpecialValue
 		) {
 			switch value {
