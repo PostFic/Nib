@@ -2,9 +2,7 @@ import XSD
 
 public extension XSD {
 
-	/// If month (`mo`) is out of range, or day (`da`) is out of range
-	///   for the appropriate month, then adjust values accordingly,
-	///   otherwise, make no change.
+	/// If month (`mo`) is out of range, or day (`da`) is out of range for the appropriate month, then adjust values accordingly, otherwise, make no change.
 	///
 	///  +  parameters:
 	///      +  yr:

@@ -33,7 +33,7 @@ extension XSD {
 				!(tz >= -840 && tz <= 840)
 			{ fatalError("Expected an integer between -840 and 840 inclusive, but got \(tz).") }
 			else {
-				var yr = 1 as XSD.Integer
+				var yr = 0 as XSD.Integer
 				var mo = Mo
 				var da = 1 as XSD.Integer
 				var hr = 0 as XSD.Integer

@@ -2,8 +2,7 @@ import XSD
 
 public extension XSD {
 
-	/// If month (`mo`) is out of range, adjust month and year (`yr`)
-	///   accordingly; otherwise, make no change.
+	/// If month (`mo`) is out of range, adjust month and year (`yr`) accordingly; otherwise, make no change.
 	///
 	///  +  parameters:
 	///      +  yr:
@@ -14,8 +13,7 @@ public extension XSD {
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-dt-normMo>
 	///
 	///  +  note:
-	///     The XSD specification incorrectly fails to normalize
-	///       nonpositive values.
+	///     The XSD specification incorrectly fails to normalize nonpositive values.
 	///     Nib provides the correct implementation.
 	@inlinable
 	static func ·normalizeMonth· (

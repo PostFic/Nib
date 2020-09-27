@@ -2,8 +2,7 @@ import XSD
 
 public extension XSD {
 
-	/// Returns an `XSDDate·timeSevenPropertyModel` with property
-	///   values as specified in the arguments.
+	/// Returns an `XSDDate·timeSevenPropertyModelValue` with property values as specified in the arguments.
 	///
 	///  +  parameters:
 	///      +  Yr:
@@ -17,16 +16,18 @@ public extension XSD {
 	///      +  Mi:
 	///         An `XSD.Integer` between 0 and 59 inclusive, or `nil`.
 	///      +  Se:
-	///         A `XSD.DecimalNumber` greater than or equal to 0 and
-	///           less than 60, or `nil`.
+	///         A `XSD.DecimalNumber` greater than or equal to 0 and less than 60, or `nil`.
 	///      +  Tz:
-	///         An `XSD.Integer` between -840 and 840 inclusive, or
-	///           `nil`.
+	///         An `XSD.Integer` between -840 and 840 inclusive, or `nil`.
 	///
 	///  +  returns:
-	///     A `XSDDate·timeSevenPropertyModel`.
+	///     A `XSDDate·timeSevenPropertyModelValue`.
 	///
 	/// <https://www.w3.org/TR/xmlschema11-2/#p-setDTFromRaw>
+	///
+	///  +  note:
+	///     The XSD specification specifies that `·newDateTime·` should use a year of 1 when `Yr` is absent; however, this effectively prohibits `--02-29` as a `XSD.GMonthDayValue`, as year 1 is not a leapyear.
+	///     Nib instead supplies a year of 0, which avoids this problem.
 	@inlinable
 	static func ·newDateTime· <D7M> (
 		_ Yr: XSD.Integer?,

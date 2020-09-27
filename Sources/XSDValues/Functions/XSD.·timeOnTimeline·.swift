@@ -2,13 +2,11 @@ import XSD
 
 public extension XSD {
 
-	/// Maps a `XSDDate·timeSevenPropertyModel` to the decimal number
-	///   representing
-	///   its position on the timeline.
+	/// Maps a `XSDDate·timeSevenPropertyModelValue` to the decimal number representing its position on the timeline.
 	///
 	///  +  parameters:
 	///      +  dt:
-	///         A `XSDDate·timeSevenPropertyModel`.
+	///         A `XSDDate·timeSevenPropertyModelValue`.
 	///
 	///  +  returns:
 	///     A `XSD.DecimalNumber`.

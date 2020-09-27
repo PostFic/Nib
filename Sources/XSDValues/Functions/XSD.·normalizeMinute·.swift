@@ -2,8 +2,7 @@ import XSD
 
 public extension XSD {
 
-	/// Normalizes minute, hour, month, and year values to values that
-	///   obey the appropriate constraints.
+	/// Normalizes minute, hour, month, and year values to values that obey the appropriate constraints.
 	///
 	///  +  parameters:
 	///      +  yr:
@@ -20,8 +19,7 @@ public extension XSD {
 	/// <https://www.w3.org/TR/xmlschema11-2/#f-dt-normMi>
 	///
 	///  +  note:
-	///     The XSD specification incorrectly fails to normalize
-	///       negative values.
+	///     The XSD specification incorrectly fails to normalize negative values.
 	///     Nib provides the correct implementation.
 	@inlinable
 	static func ·normalizeMinute· (

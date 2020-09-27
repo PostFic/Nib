@@ -14,26 +14,10 @@ func testRepresentation <V> (
 {
 	let mapping = V.LexicalRepresentation(representation)?.·lexicalMapping·
 	XCTAssertNotNil(mapping)
-	XCTAssertEqual(mapping!, value)
+	XCTAssertTrue(mapping! === value)
 }
 
-func testRepresentation <V> (
-	_ representation: String,
-	_ value: V
-) where
-	V: XSDNumberValue,
-	V: XSDCanonicalMappable
-{
-	let mapping = V.LexicalRepresentation(representation)?.·lexicalMapping·
-	XCTAssertNotNil(mapping)
-	if let specialValue = mapping!.specialValue {
-		XCTAssertNotNil(value.specialValue)
-		XCTAssertEqual(specialValue, value.specialValue!)
-	} else
-	{ XCTAssertEqual(mapping!, value) }
-}
-
-final class XSDTestLexicalSpaces: XCTestCase {
+final class XSDTestLexicalMappings: XCTestCase {
 
 	func testStringValueLexicalMapping () {
 		testRepresentation("\u{10000}", "\u{10000}" as XSD.StringValue)
@@ -109,7 +93,7 @@ final class XSDTestLexicalSpaces: XCTestCase {
 			)!
 		)
 		testRepresentation(
-			"INF",
+			"+INF",
 			XSD.FloatValue(
 				exactly: .positiveInfinity
 			)!
@@ -179,7 +163,7 @@ final class XSDTestLexicalSpaces: XCTestCase {
 			)!
 		)
 		testRepresentation(
-			"INF",
+			"+INF",
 			XSD.DoubleValue(
 				exactly: .positiveInfinity
 			)!
@@ -304,7 +288,7 @@ final class XSDTestLexicalSpaces: XCTestCase {
 
 	func testGMonthDayValueLexicalMapping() {
 		testRepresentation("--12-31Z", XSD.GMonthDayValue(12, 31, 0))
-		testRepresentation("--01-01", XSD.GMonthDayValue(1, 1, 0))
+		testRepresentation("--01-01Z", XSD.GMonthDayValue(1, 1, 0))
 		testRepresentation("--01-01", XSD.GMonthDayValue(1, 1))
 		testRepresentation("--02-29", XSD.GMonthDayValue(2, 29))
 		testRepresentation("--12-31+00:00", XSD.GMonthDayValue(12, 31, 0))
