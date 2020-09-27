@@ -37,7 +37,16 @@ public extension XSD {
 		_ Se: XSD.DecimalNumber?,
 		_ Tz: XSD.Integer?
 	) -> D7M
-	where D7M: XSDDate·timeSevenPropertyModelValue
-	{ D7M(Date·timeSevenPropertyModel(Yr, Mo, Da, Hr, Mi, Se, Tz))! }
+	where D7M: XSDDate·timeSevenPropertyModelValue {
+		return D7M(
+			year: Yr,
+			month: Mo,
+			day: Da,
+			hour: Hr,
+			minute: Mi,
+			second: Se,
+			timezoneOffset: Tz
+		)!
+	}
 
 }

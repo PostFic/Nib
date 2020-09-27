@@ -6,9 +6,7 @@ public extension XSD {
 	///   functions.
 	///
 	///  +  note:
-	///     XSD functions will sometimes add additional constraints to
-	///       the decimal numbers they take; no separate datatypes for
-	///       these are used.
+	///     XSD functions will sometimes add additional constraints to the decimal numbers they take; no separate datatypes for these are used.
 	typealias DecimalNumber = Decimal
 
 }

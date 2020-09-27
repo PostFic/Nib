@@ -13,6 +13,12 @@ public protocol XSDDurationValue:
 		seconds: XSD.DecimalNumber
 	)
 
+	init (
+		sign: FloatingPointSign,
+		months: XSD.Integer,
+		seconds: XSD.DecimalNumber
+	)
+
 	static func == <D> (
 		lhs: Self,
 		rhs: D

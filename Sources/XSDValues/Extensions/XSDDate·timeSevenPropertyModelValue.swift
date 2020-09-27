@@ -19,21 +19,23 @@ public extension XSDDate·timeSevenPropertyModelValue {
 		self = XSD.·newDateTime·(yr, mo, da, hr, mi, se, tz)
 	}
 
-	static func +(
+	static func + (
 		lhs: Self,
 		rhs: XSD.DurationValue
 	) -> Self
 	{ XSD.·dateTimePlusDuration·(rhs, lhs) }
 
-	static func +<Duration: XSDDurationValue>(
+	static func + <D> (
 		lhs: Self,
-		rhs: Duration
-	) -> Self {
+		rhs: D
+	) -> Self
+	where D: XSDDurationValue {
 		return XSD.·dateTimePlusDuration·(
 			XSD.DurationValue(
+				sign: rhs.·months· < 0 || rhs.·seconds· < 0 ? .minus : .plus,
 				months: rhs.·months·,
 				seconds: rhs.·seconds·
-			)!,
+			),
 			lhs
 		)
 	}

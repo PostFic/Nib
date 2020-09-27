@@ -2,11 +2,8 @@ extension XSD {
 
 	/// A string, optionally belonging to a particular lexical space.
 	///
-	/// The `XSD.Literal` class is used to assert that strings actually
-	///   belong to a given lexical space, as the initializer will fail
-	///   for strings which are out‐of‐bounds.
-	/// The underlying `description` property contains the actual
-	///   string.
+	/// The `XSD.Literal` class is used to assert that strings actually belong to a given lexical space, as the initializer will fail for strings which are out‐of‐bounds.
+	/// The underlying `description` property contains the actual string.
 	open class Literal:
 		Codable,
 		LosslessStringConvertible
@@ -15,46 +12,51 @@ extension XSD {
 		/// The string value of the literal.
 		public let description: String
 
-		/// Initializes the literal, ensuring that the provided
-		///   `description` is within its `·lexicalSpace·`.
-		/// Fails otherwise.
-		///
-		///  +  parameters:
-		///      +  description:
-		///         The string value of the literal.
-		public required init? (
-			_ description: String = ""
-		) {
-			if let lexicalSpace = Self.·lexicalSpace· {
-				guard lexicalSpace.·matches·(description)
-				else
-				{ return nil }
-			}
-			self.description = description
-		}
-
-		/// Initializes the literal, ensuring that the provided
-		///   `literal` is within its `·lexicalSpace·`.
+		/// Initializes the `XSD.Literal`, ensuring that the provided `literal` is within its `·lexicalSpace·`.
 		/// Fails otherwise.
 		///
 		///  +  parameters:
 		///      +  literal:
-		///         The string value of the literal.
-		@inlinable
-		public convenience init? <L> (
+		///         Another `XSD.Literal`.
+		public required init? <L> (
 			_ literal: L
 		) where L: XSD.Literal
-		{ self.init(String(literal)) }
+		{
+			if L.·lexicalSpace· == Self.·lexicalSpace·
+			{ description = literal.description }
+			else if
+				let lexicalSpace = Self.·lexicalSpace·,
+				!lexicalSpace.·matches·(literal.description)
+			{ return nil }
+			else
+			{ description = literal.description }
+		}
 
-		/// Initializes the literal, ensuring that the provided
-		///   `representation` is within its `·lexicalSpace·`.
+		/// Initializes the `XSD.Literal`, ensuring that the provided `representation` is within its `·lexicalSpace·`.
 		/// Fails otherwise.
 		///
 		///  +  parameters:
 		///      +  representation:
-		///         The string value of the literal.
+		///         The string value of the `XSD.Literal`, as a `String`.
+		public required init? (
+			_ representation: String = ""
+		) {
+			if
+				let lexicalSpace = Self.·lexicalSpace·,
+				!lexicalSpace.·matches·(representation)
+			{ return nil }
+			else
+			{ description = representation }
+		}
+
+		/// Initializes the `XSD.Literal`, ensuring that the provided `representation` is within its `·lexicalSpace·`.
+		/// Fails otherwise.
+		///
+		///  +  parameters:
+		///      +  representation:
+		///         The string value of the `XSD.Literal`, as an instance conforming to `StringProtocol`.
 		@inlinable
-		public convenience init? <S> (
+		public required convenience init? <S> (
 			_ representation: S
 		) where S: StringProtocol
 		{ self.init(String(representation)) }
@@ -81,18 +83,14 @@ extension XSD {
 			)
 		}
 
-		/// An (optional) `XSD.RegularExpression` which defines the
-		///   lexical space of the literal.
-		/// If `nil`, this literal does not have an associated lexical
-		///   space.
+		/// An (optional) `XSD.RegularExpression` which defines the lexical space of the literal.
+		/// If `nil`, this `XSD.Literal` does not have an associated lexical space.
 		@inlinable
 		open class var ·lexicalSpace·: XSD.RegularExpression? { nil }
 
 	}
 
 }
-
-extension XSD.Literal: XSDLiteralConvertible {}
 
 extension XSD.Literal: Equatable {
 
@@ -105,11 +103,9 @@ extension XSD.Literal: Equatable {
 	///         A `XSD.Literal`.
 	///
 	///  +  returns:
-	///     `true` if the literals represent the same string; `false`
-	///       otherwise.
+	///     `true` if the literals represent the same string; `false` otherwise.
 	///
-	/// Equality is determined based on the `description` string of the
-	///   literal.
+	/// Equality is determined based on the `description` string of the literal.
 	/// It does not test against lexical space.
 	@inlinable
 	public final class func == (

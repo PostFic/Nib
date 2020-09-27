@@ -4,52 +4,36 @@ public extension XSD {
 
 	/// An XSD regular expression.
 	///
-	/// Inherits from `NSRegularExpression` and has all the same
-	///   properties and methods.
-	/// Unlike normal `NSRegularExpression`s, `XSD.RegularExpression`s
-	///   are implicitly anchored at the head and tail.
+	/// Inherits from `NSRegularExpression` and has all the same properties and methods.
+	/// Unlike normal `NSRegularExpression`s, `XSD.RegularExpression`s are implicitly anchored at the head and tail.
 	///
 	///  +  Note:
-	///     The syntax and supported escapes for XSD Regular
-	///       Expressions differs somewhat from that used by
-	///       Foundation.
-	///     `XSD.RegularExpression` does its best to bridge this
-	///       divide, and is able to support all of the regular
-	///       expressions used as `pattern`s for the XSD base
-	///       datatypes.
-	///     However, there is a chance that exceedingly complicated
-	///       regular expressions might behave in an unexpected manner.
+	///     The syntax and supported escapes for XSD regular expressions differs somewhat from that used by Foundation.
+	///     `XSD.RegularExpression` does its best to bridge this divide, and is able to support all of the regular expressions used as `pattern`s for the XSD base datatypes.
+	///     However, there is a chance that exceedingly complicated regular expressions might behave in an unexpected manner.
 	///
 	///  +  Note:
-	///     Foundation does not support XSD's `\p{Is…}` syntax, which
-	///       will be passed through unmodified.
+	///     Foundation does not support XSD's `\p{Is…}` syntax, which will be passed through unmodified.
 	///     Using this syntax will likely result in an error.
 	///
 	///  +  Note:
-	///     `XSD.RegularExpression` is not sophisticated enough to
-	///       completely parse the given pattern; this task is left to
-	///       `NSRegularExpression` and Foundation.
-	///     However, Foundation will likely accept some regular
-	///       expressions which would be in error under XSD syntax,
-	///       because its rules regarding atoms and metacharacters are
-	///       less restrictive.
-	///     Be sure to double‐check that your regular expressions meet
-	///       the syntax requirements of XSD.
+	///     `XSD.RegularExpression` is not sophisticated enough to completely parse the given pattern; this task is left to `NSRegularExpression` and Foundation.
+	///     However, Foundation will likely accept some regular expressions which would be in error under XSD syntax, because its rules regarding atoms and metacharacters are less restrictive.
+	///     Be sure to double‐check that your regular expressions meet the syntax requirements of XSD.
 	struct RegularExpression: CustomStringConvertible {
 
 		/// The string representation of the regular expression.
 		public let description: String
 
-		/// The underlying `NSRegularExpression` which this regular
-		///   expression is (hopefully) equivalent to.
+		/// The underlying `NSRegularExpression` which this regular expression is (hopefully) equivalent to.
 		public let nsRegularExpression: NSRegularExpression
 
-		/// Attempts to create a regular expression from a string.
+		/// Attempts to create a `XSD.RegularExpression` from a `String`.
 		/// Fails if the input is not a valid XSD regular expression.
 		///
 		///  +  parameters:
 		///      +  description:
-		///         The XSD regular expression source.
+		///         The XSD regular expression source, as a `String`.
 		public init? (
 			_ description: String
 		) {
@@ -152,22 +136,43 @@ public extension XSD {
 			self.description = description
 		}
 
-		/// Tests for a match between a string and a regular
-		///   expression.
+		/// Tests for a match between a `String` and this `XSD.RegularExpression`.
 		///
 		///  +  parameters:
 		///      +  string:
-		///         The string to test.
+		///         The `String` to test.
 		///
 		///  +  returns:
-		///     `true` or `false` depending on whether the regular
-		///       expression matches the entire string.
+		///     `true` or `false` depending on whether this `XSD.RegularExpression` matches the entire `String`.
 		public func ·matches· (
 			_ string: String
 		) -> Bool {
-			nsRegularExpression.firstMatch(
+			return nsRegularExpression.firstMatch(
 				in: string,
-				range: NSMakeRange(0, (string as NSString).length)
+				range: NSRange(
+					string.startIndex..<string.endIndex,
+					in: string
+				)
+			) != nil
+		}
+
+		/// Tests for a match between a `Substring` and this `XSD.RegularExpression`.
+		///
+		///  +  parameters:
+		///      +  substring:
+		///         The `Substring` to test.
+		///
+		///  +  returns:
+		///     `true` or `false` depending on whether this `XSD.RegularExpression` matches the entire `Substring`.
+		public func ·matches· (
+			_ substring: Substring
+		) -> Bool {
+			return nsRegularExpression.firstMatch(
+				in: substring.base,
+				range: NSRange(
+					substring.startIndex..<substring.endIndex,
+					in: substring.base
+				)
 			) != nil
 		}
 
@@ -194,8 +199,7 @@ public extension XSD {
 			for: #"\x00-\x{10FFFF}"#
 		)
 
-		/// The set of name characters, those matched by
-		///   [NameChar].
+		/// The set of name characters, those matched by [NameChar].
 		///
 		/// [NameChar]: https://www.w3.org/TR/xml11/#NT-NameChar
 		private static let char = NSRegularExpression.escapedTemplate(
@@ -212,11 +216,9 @@ public extension XSD {
 			for: #"\x20\t\n\r"#
 		)
 
-		/// The set of initial name characters, those matched by
-		///   [NameStartChar].
+		/// The set of initial name characters, those matched by [NameStartChar].
 		///
-		/// [NameStartChar]:
-		///   https://www.w3.org/TR/xml11/#NT-NameStartChar
+		/// [NameStartChar]: https://www.w3.org/TR/xml11/#NT-NameStartChar
 		private static let startChar = NSRegularExpression.escapedTemplate(
 			for: #":A-Z_a-z\xC0-\xD6\xD8-\xF6\xF8-\x{2FF}\x{370}-\x{37D}\x{37F}-\x{1FFF}\x{200C}-\x{200D}\x{2070}-\x{218F}\x{2C00}-\x{2FEF}\x{3001}-\x{D7FF}\x{F900}-\x{FDCF}\x{FDF0}-\x{FFFD}\x{10000}-\x{EFFFF}"#
 		)
@@ -226,16 +228,15 @@ public extension XSD {
 			for: #"\p{P}\p{Z}\p{C}"#
 		)
 
-		/// Replaces within a string, used internally to modify the
-		///   input string.
+		/// Replaces within a `String`, used internally to modify the input string.
 		///
 		///  +  parameters:
 		///      +  string:
-		///         The string to replace within.
+		///         The `String` to replace within.
 		///      +  pattern:
-		///         The pattern to match within the string.
+		///         A `String` pattern to match within the string.
 		///      +  template:
-		///         The template to use when replacing matches.
+		///         The template `String` to use when replacing matches.
 		private static func replaceIn (
 			string: inout String,
 			pattern: String,
@@ -257,7 +258,7 @@ extension XSD.RegularExpression:
 	Equatable
 {
 
-	/// Tests to see if two XSD regular expressions are equal.
+	/// Tests to see if two `XSD.RegularExpression`s are equal.
 	///
 	///  +  parameters:
 	///      +  lhs:
@@ -266,13 +267,11 @@ extension XSD.RegularExpression:
 	///         A `XSD.RegularExpression`.
 	///
 	///  +  returns:
-	///     `true` if the regular expressions represent the same
-	///       string; `false` otherwise.
+	///     `true` if the `XSD.RegularExpression`s represent the same string; `false` otherwise.
 	///
-	/// Equality is determined based on the `description` string of the
-	///   regular expression.
+	/// Equality is determined based on the `description` string of the regular expression.
 	@inlinable
-	public static func ==(
+	public static func == (
 		lhs: XSD.RegularExpression,
 		rhs: XSD.RegularExpression
 	) -> Bool
@@ -284,14 +283,13 @@ extension XSD.RegularExpression:
 	Hashable
 {
 
-	/// Hashes the regular expression.
+	/// Hashes this `XSD.RegularExpression`.
 	///
 	///  +  parameters:
 	///      +  hasher:
-	///         The hasher to hash into.
+	///         The `Hasher` to hash into.
 	///
-	/// Hashing is done using the `description` string of the regular
-	///   expression.
+	/// Hashing is done using the `description` string of the regular expression.
 	@inlinable
 	public func hash (
 		into hasher: inout Hasher

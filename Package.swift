@@ -7,7 +7,7 @@ let package = Package(
 	products: [
 		.library(
 			name: "Nib",
-			targets: ["XSDValues"]
+			targets: ["XSDMappings"]
 		)
 	],
 	dependencies: [
@@ -23,7 +23,11 @@ let package = Package(
 		),
 		.target(
 			name: "XSDValues",
-			dependencies: ["XSDLiterals"]
+			dependencies: ["XSD"]
+		),
+		.target(
+			name: "XSDMappings",
+			dependencies: ["XSDLiterals", "XSDValues"]
 		),
 		//.target(name: "XSDDatatypes", dependencies: ["XSDValues"]),
 		.testTarget(
@@ -38,6 +42,10 @@ let package = Package(
 			name: "XSDValueTests",
 			dependencies: ["XSDValues"]
 		),
+		.testTarget(
+			name: "XSDMappingTests",
+			dependencies: ["XSDMappings"]
+		)
 		//.testTarget(name: "XSDDatatypeTests", dependencies: ["XSDDatatypes"])
 	],
 	swiftLanguageVersions: [.v5]

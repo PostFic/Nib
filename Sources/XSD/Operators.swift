@@ -37,11 +37,5 @@ infix operator «»: ComparisonPrecedence
 /// Comparable.
 infix operator !«»: ComparisonPrecedence
 
-/// Implied·convert.
-postfix operator ◊
-
-/// Implied·convert·maybe.
-postfix operator ◊?
-
 /// Associated·type.
 prefix operator 〒

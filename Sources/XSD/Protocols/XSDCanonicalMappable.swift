@@ -2,11 +2,15 @@ public protocol XSDCanonicalMappable:
 	Codable,
 	LosslessStringConvertible,
 	TextOutputStreamable,
-	XSDValue
+	XSDLexicallyRepresentable
 {
 
 	var ·canonicalMapping·: Self.LexicalRepresentation
 	{ get }
+
+	init(
+		mapping literal: Self.LexicalRepresentation
+	)
 
 }
 

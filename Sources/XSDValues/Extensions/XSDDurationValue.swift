@@ -1,17 +1,9 @@
 import XSD
 
-fileprivate let value1 = XSD.DateTimeValue(
-	mapping: XSD.dateTimeLexicalRep("1696-09-01T00:00:00Z")!
-)
-fileprivate let value2 = XSD.DateTimeValue(
-	mapping: XSD.dateTimeLexicalRep("1697-02-01T00:00:00Z")!
-)
-fileprivate let value3 = XSD.DateTimeValue(
-	mapping: XSD.dateTimeLexicalRep("1903-03-01T00:00:00Z")!
-)
-fileprivate let value4 = XSD.DateTimeValue(
-	mapping: XSD.dateTimeLexicalRep("1903-07-01T00:00:00Z")!
-)
+fileprivate let value1 = XSD.DateTimeValue(1696, 9, 1, 0, 0, 0, 0)
+fileprivate let value2 = XSD.DateTimeValue(1697, 2, 1, 0, 0, 0, 0)
+fileprivate let value3 = XSD.DateTimeValue(1903, 3, 1, 0, 0, 0, 0)
+fileprivate let value4 = XSD.DateTimeValue(1903, 7, 1, 0, 0, 0, 0)
 
 public extension XSDDurationValue {
 

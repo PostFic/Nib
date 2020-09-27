@@ -18,6 +18,8 @@ Requires Foundation; in particular, the following classes:
  +  `Data`
  +  `Decimal`
  +  `NSDecimalNumber`
+ +  `NSNumber`
+ +  `NSRange`
  +  `NSRegularExpression`
  +  `NumberFormatter`
 
