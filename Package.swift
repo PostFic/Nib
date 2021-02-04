@@ -7,46 +7,36 @@ let package = Package(
 	products: [
 		.library(
 			name: "Nib",
-			targets: ["XSDMappings"]
-		)
+			targets: [
+				"EBNF",
+//				"XML11",
+//				"XSD"
+			]
+		),
 	],
 	dependencies: [
 	],
 	targets: [
 		.target(
-			name: "XSD",
+			name: "EBNF",
 			dependencies: []
 		),
-		.target(
-			name: "XSDLiterals",
-			dependencies: ["XSD"]
-		),
-		.target(
-			name: "XSDValues",
-			dependencies: ["XSD"]
-		),
-		.target(
-			name: "XSDMappings",
-			dependencies: ["XSDLiterals", "XSDValues"]
-		),
-		//.target(name: "XSDDatatypes", dependencies: ["XSDValues"]),
-		.testTarget(
-			name: "XSDTests",
-			dependencies: ["XSD"]
-		),
-		.testTarget(
-			name: "XSDLiteralTests",
-			dependencies: ["XSDLiterals"]
-		),
-		.testTarget(
-			name: "XSDValueTests",
-			dependencies: ["XSDValues"]
-		),
-		.testTarget(
-			name: "XSDMappingTests",
-			dependencies: ["XSDMappings"]
-		)
-		//.testTarget(name: "XSDDatatypeTests", dependencies: ["XSDDatatypes"])
+//		.target(
+//			name: "XML11",
+//			dependencies: ["EBNF"]
+//		),
+//		.target(
+//			name: "XSD",
+//			dependencies: ["XML11"]
+//		),
+//		.testTarget(
+//			name: "XML11Tests",
+//			dependencies: ["XML11"]
+//		),
+//		.testTarget(
+//			name: "XSDTests",
+//			dependencies: ["XSD"]
+//		)
 	],
 	swiftLanguageVersions: [.v5]
 )

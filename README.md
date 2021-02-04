@@ -69,6 +69,6 @@ The following aspects of XSD are not fully supported:
 
 ##  License  ##
 
-Copyright © 2018, 2020 KIBI Gô.
-<cite>Nib</cite> is made available under the terms of the GNU GPL license, either version 3 or (at your option) any later version.
-For more information, see [COPYING](COPYING).
+Copyright © 2020–2021 kibigo!.
+<cite>Nib</cite> is made available under the terms of the Mozilla Public License, version 2.0.
+For more information, see [LICENSE](LICENSE).
