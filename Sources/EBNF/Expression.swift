@@ -14,11 +14,11 @@
 ///         The `Array` of `Expression`s to add.
 ///      +  view:
 ///         A `Text.SubSequence` which is a supersequence of the `.text`s of all of the `Expression`s.
-internal func collectExpressions <Grammar> (
-	_ collection: inout [Construct<Grammar>],
-	_ addition: [Construct<Grammar>],
+fileprivate func collectExpressions (
+	_ collection: inout [Construct],
+	_ addition: [Construct],
 	in view: Text.SubSequence
-) where Grammar: ExpressibleGrammar {
+) {
 	if
 		let prev = collection.last,
 		let next = addition.first,
@@ -35,10 +35,10 @@ internal func collectExpressions <Grammar> (
 }
 
 /// An enumerated type representing an EBNF expression, potentially containing subexpressions.
-public enum Expression <Grammar>:
-	CustomStringConvertible,
+public enum Expression:
+	CustomDebugStringConvertible,
 	Hashable
-where Grammar : ExpressibleGrammar {
+{
 
 	/// An EBNF gobbling error.
 	private enum GobbleError:
@@ -46,7 +46,7 @@ where Grammar : ExpressibleGrammar {
 	{
 
 		/// Signifies that gobbling failed to match the given `Expression` starting from the provided `Text.SubSequence`.
-		case parseError (Text.SubSequence, Expression<Grammar>)
+		case parseError (Text.SubSequence, Expression)
 
 	}
 
@@ -72,19 +72,19 @@ where Grammar : ExpressibleGrammar {
 
 	/// `symbol`
 	///
-	/// Matches a `Grammar`.
-	case symbol (Grammar)
+	/// Matches a `Symbol`.
+	indirect case symbol (Symbol)
 
 	/// `A [ | B ...]`
 	///
 	/// Matches any of the `Expression`s.
-	indirect case choice ([Expression<Grammar>])
+	indirect case choice ([Expression])
 
 
 	/// `A [ B ...]`
 	///
 	/// Matches each of the `Expression`s in order.
-	indirect case sequence ([Expression<Grammar>])
+	indirect case sequence ([Expression])
 
 	/// `A − B`
 	///
@@ -93,7 +93,7 @@ where Grammar : ExpressibleGrammar {
 	///  +  note:
 	///     `.excluding` only checks for an exact match with the second `Expression`.
 	///     Use `.notIncluding` to check if the second `Expression` matches any substring.
-	indirect case excluding (Expression<Grammar>, Expression<Grammar>)
+	indirect case excluding (Expression,Expression)
 
 	/// `A ÷ B`
 	///
@@ -102,25 +102,25 @@ where Grammar : ExpressibleGrammar {
 	///  +  note:
 	///     The XML specification specifies this as `A − (Char* B Char*)`.
 	///     It is treated specially here because the Nib engine is a greedy parser, so `Char* B` will never match.
-	indirect case notIncluding (Expression<Grammar>, Expression<Grammar>)
+	indirect case notIncluding (Expression,Expression)
 
 	/// `A?`
 	///
 	/// Matches anything which matches the `Expression` zero or one times.
-	indirect case zeroOrOne (Expression<Grammar>)
+	indirect case zeroOrOne (Expression)
 
 	/// `A+`
 	///
 	/// Matches anything which matches the `Expression` one or more times.
-	indirect case oneOrMore (Expression<Grammar>)
+	indirect case oneOrMore (Expression)
 
 	/// `A*`
 	///
 	/// Matches anything which matches the `Expression` zero or more times.
-	indirect case zeroOrMore (Expression<Grammar>)
+	indirect case zeroOrMore (Expression)
 
 	/// An EBNF string representing this `Expression`.
-	public var description: String {
+	public var debugDescription: String {
 		switch self {
 		case .anyOf(let expr):
 			return """
@@ -222,7 +222,7 @@ where Grammar : ExpressibleGrammar {
 		}
 	}
 
-	/// Extracts a `Construct` matching this `Expression` from the beginning of the provided `Text`, or returns `nil`.
+	/// Extracts an `Array` of `Construct`s matching this `Expression` from the beginning of the provided `Text`, or returns `nil`.
 	///
 	///  +  parameters:
 	///      +  text:
@@ -240,10 +240,13 @@ where Grammar : ExpressibleGrammar {
 	@inlinable
 	public func extract (
 		from text: Text
-	) throws -> [Construct<Grammar>]
-	{ try extract(from: text[...]) }
+	) throws -> [Construct] {
+		try extract(
+			from: text[...]
+		)
+	}
 
-	/// Extracts a `Construct` matching this `Expression` from the beginning of the provided `Text.SubSequence`, or throws.
+	/// Extracts an `Array` of `Construct`s matching this `Expression` from the beginning of the provided `Text.SubSequence`, or throws.
 	///
 	///  +  parameters:
 	///      +  text:
@@ -260,7 +263,7 @@ where Grammar : ExpressibleGrammar {
 	///     To see if the whole `text` was matched, compare the `.endIndex` of the `.text` property of the final `Construct` in the result to the `.endIndex` of the provided argument.
 	public func extract (
 		from text: Text.SubSequence
-	) throws -> [Construct<Grammar>] {
+	) throws -> [Construct] {
 		do {
 			let (_, contained) = try gobble(text)
 			return contained
@@ -273,9 +276,9 @@ where Grammar : ExpressibleGrammar {
 		}
 	}
 
-	internal func gobble (
+	private func gobble (
 		_ view: Text.SubSequence
-	) throws -> (Text.Index, [Construct<Grammar>]) {
+	) throws -> (Text.Index,[Construct]) {
 		let failure = GobbleError.parseError(view, self)
 		switch self {
 		case .anyOf, .character, .noneOf:
@@ -316,17 +319,17 @@ where Grammar : ExpressibleGrammar {
 					content: view[..<end]
 				)
 			])
-		case .symbol (let grammar):
+		case .symbol (let symbol):
 			do {
-				let (end, contained) = try grammar.expression.gobble(view)
+				let (end, contained) = try symbol.expression.gobble(view)
 				return (end, [
 					.symbol(
-						grammar: grammar,
+						symbol,
 						content: contained
 					)
 				])
 			} catch let GobbleError.parseError(text, expr) {
-				if text.startIndex == view.startIndex && expr == grammar.expression
+				if text.startIndex == view.startIndex && expr == symbol.expression
 				{ throw failure }
 				else
 				{ throw GobbleError.parseError(text, expr) }
@@ -339,7 +342,7 @@ where Grammar : ExpressibleGrammar {
 			throw failure
 		case .sequence (let exprs):
 			var current = view.startIndex
-			var allContained: [Construct<Grammar>] = []
+			var allContained: [Construct] = []
 			for expr in exprs {
 				let (end, contained) = try expr.gobble(view[current...])
 				collectExpressions(&allContained, contained, in: view)
@@ -365,7 +368,7 @@ where Grammar : ExpressibleGrammar {
 			{ return result }
 		case .oneOrMore (let A):
 			var current = view.startIndex
-			var allContained: [Construct<Grammar>] = []
+			var allContained: [Construct] = []
 			while let (end, contained) = try? A.gobble(view[current...]) {
 				collectExpressions(&allContained, contained, in: view)
 				if current == end || end == view.endIndex
@@ -379,7 +382,7 @@ where Grammar : ExpressibleGrammar {
 			{ return (current, allContained) }
 		case .zeroOrMore (let A):
 			var current = view.startIndex
-			var allContained: [Construct<Grammar>] = []
+			var allContained: [Construct] = []
 			while let (end, contained) = try? A.gobble(view[current...]) {
 				if current == end || end == view.endIndex
 				{ return (end, allContained) }
@@ -394,23 +397,67 @@ where Grammar : ExpressibleGrammar {
 		}
 	}
 
+	/// Parses the provided `Text` into a tree of `Construct`s, or throws.
+	///
+	///  +  parameters:
+	///     + text:
+	///       The `Text` to parse.
+	///
+	///  +  throws:
+	///     A `Error.parseError` if this `Expression` does not exactly match the provided `Text`.
+	///
+	///  +  returns:
+	///     An `Array` of `Construct`s.
+	@inlinable
+	public func parse (
+		_ text: Text
+	) throws -> [Construct]
+	{ try self.parse(text[...]) }
+
+	/// Parses the provided `Text.SubSequence` into a tree of `Construct`s, or throws.
+	///
+	///  +  parameters:
+	///     + text:
+	///       The `Text.SubSequence` to parse.
+	///
+	///  +  throws:
+	///     A `Error.parseError` if this `Expression` does not exactly match the provided `Text.SubSequence`.
+	///
+	///  +  returns:
+	///     An `Array` of `Construct`s.
+	public func parse (
+		_ text: Text.SubSequence
+	) throws -> [Construct] {
+		let (end, result) = try self.gobble(text)
+		if end == text.endIndex
+		{ return result }
+		else {
+			throw Error.parseError(
+				text,
+				index: text.startIndex,
+				expression: self,
+				exhaustive: true
+			)
+		}
+	}
+
 	/// The `|` infix operator produces a `.choice` of its operands.
 	///
 	///  +  parameters:
 	///      +  lhs:
 	///         An `Expression`.
 	///      +  rhs:
-	///         An `Expression` (of the same `Grammar`).
+	///         An `Expression`.
 	///
 	///  +  returns:
-	///     A `.choice` (of the same `Grammar`).
+	///     A `.choice`.
 	///
 	///  +  note:
 	///     Consider using `‖` with an array literal instead when you need to produce a `.choice` of more than two `Expression`s.
 	public static func | (
-		_ lhs: Expression<Grammar>,
-		_ rhs: Expression<Grammar>
-	) -> Expression<Grammar>
+		_ lhs: Expression,
+		_ rhs: Expression
+	) -> Expression
 	{
 		if case .choice(let lhsExprs) = lhs {
 			if case .choice(let rhsExprs) = rhs
@@ -427,18 +474,18 @@ where Grammar : ExpressibleGrammar {
 	///      +  lhs:
 	///         An `Expression`.
 	///      +  rhs:
-	///         An `Expression` (of the same `Grammar`).
+	///         An `Expression`.
 	///
 	///  +  returns:
-	///     A `.excluding` (of the same `Grammar`) excluding `rhs` from `lhs`.
+	///     A `.excluding` excluding `rhs` from `lhs`.
 	///
 	///  +  note:
 	///     This operator is `U+2212 − MINUS SIGN`, not `U+002D - HYPHEN-MINUS`.
 	@inlinable
 	public static func − (
-		_ lhs: Expression<Grammar>,
-		_ rhs: Expression<Grammar>
-	) -> Expression<Grammar>
+		_ lhs: Expression,
+		_ rhs: Expression
+	) -> Expression
 	{ .excluding(lhs, rhs) }
 
 	/// The `÷` infix operator produces a `.notIncluding` of its operands.
@@ -447,16 +494,55 @@ where Grammar : ExpressibleGrammar {
 	///      +  lhs:
 	///         An `Expression`.
 	///      +  rhs:
-	///         An `Expression` (of the same `Grammar`).
+	///         An `Expression`.
 	///
 	///  +  returns:
-	///     A `.notIncluding` (of the same `Grammar`) excluding `rhs` from `lhs`.
+	///     A `.notIncluding` excluding `rhs` from `lhs`.
 	@inlinable
 	public static func ÷ (
-		_ lhs: Expression<Grammar>,
-		_ rhs: Expression<Grammar>
-	) -> Expression<Grammar>
+		_ lhs: Expression,
+		_ rhs: Expression
+	) -> Expression
 	{ .notIncluding(lhs, rhs) }
+
+	/// The `«=` infix operator produces a `Symbol` with the name and expression specified by its operands.
+	///
+	///  +  parameters:
+	///      +  lhs:
+	///         A `String` name.
+	///      +  rhs:
+	///         An `Expression`.
+	///
+	///  +  returns:
+	///     A `Symbol`.
+	@inlinable
+	public static func «= (
+		_ lhs: String,
+		_ rhs: Expression
+	) -> Symbol
+	{ Symbol(lhs, rhs) }
+
+
+	/// The `«=` infix operator produces a `Symbol` with the reference identifier, name, and expression specified by its operands.
+	///
+	///  +  parameters:
+	///      +  lhs:
+	///         A `(id:String,String)` reference identifier and name.
+	///      +  rhs:
+	///         An `Expression`.
+	///
+	///  +  returns:
+	///     A `Symbol`.
+	public static func «= (
+		_ lhs: (id:String,String),
+		_ rhs: Expression
+	) -> Symbol {
+		Symbol(
+			id: lhs.id,
+			lhs.1,
+			rhs
+		)
+	}
 
 	/// The `‖` prefix operator produces a `.choice` from a `.sequence`.
 	///
@@ -465,7 +551,7 @@ where Grammar : ExpressibleGrammar {
 	///         An `Expression`.
 	///
 	///  +  returns:
-	///     A `.choice` (of the same `Grammar`) between the expressions in `operand`, if `operand` is a `.sequence`; `operand` otherwise.
+	///     A `.choice` between the expressions in `operand`, if `operand` is a `.sequence`; `operand` otherwise.
 	///
 	/// `‖` is designed to work well with array literals:
 	/// ````
@@ -476,8 +562,8 @@ where Grammar : ExpressibleGrammar {
 	///     This operator is `U+2016 ‖ DOUBLE VERTICAL LINE`, not two `U+007C | VERTICAL LINES`.
 	@inlinable
 	public static prefix func ‖ (
-		_ operand: Expression<Grammar>
-	) -> Expression<Grammar> {
+		_ operand: Expression
+	) -> Expression {
 		if case .sequence(let exprs) = operand
 		{ return .choice(exprs) }
 		else
@@ -490,8 +576,6 @@ extension Expression:
 	Expressible
 {
 
-	public typealias ExpressedGrammar = Grammar
-
 	/// The `°` postfix operator produces a `.zeroOrOne` of its operand.
 	///
 	///  +  parameters:
@@ -499,11 +583,11 @@ extension Expression:
 	///         An `Expression`.
 	///
 	///  +  returns:
-	///     A `.zeroOrOne` (of the same `Grammar`) containing `operand`.
+	///     A `.zeroOrOne` containing `operand`.
 	@inlinable
 	public static postfix func ° (
-		_ operand: Expression<Grammar>
-	) -> Expression<Grammar>
+		_ operand: Expression
+	) -> Expression
 	{ .zeroOrOne(operand) }
 
 	/// The `′` postfix operator simply returns its operand.
@@ -516,8 +600,8 @@ extension Expression:
 	///     `operand`.
 	@inlinable
 	public static postfix func ′ (
-		_ operand: Expression<Grammar>
-	) -> Expression<Grammar>
+		_ operand: Expression
+	) -> Expression
 	{ operand }
 
 	/// The `″` postfix operator produces a `.oneOrMore` of its operand.
@@ -527,11 +611,11 @@ extension Expression:
 	///         An `Expression`.
 	///
 	///  +  returns:
-	///     A `.oneOrMore` (of the same `Grammar`) containing `operand`.
+	///     A `.oneOrMore` containing `operand`.
 	@inlinable
 	public static postfix func ″ (
-		_ operand: Expression<Grammar>
-	) -> Expression<Grammar>
+		_ operand: Expression
+	) -> Expression
 	{ .oneOrMore(operand) }
 
 	/// The `*` postfix operator produces a `.zeroOrMore` of its operand.
@@ -541,11 +625,11 @@ extension Expression:
 	///         An `Expression`.
 	///
 	///  +  returns:
-	///     A `.zeroOrMore` (of the same `Grammar`) containing `operand`.
+	///     A `.zeroOrMore` containing `operand`.
 	@inlinable
 	public static postfix func * (
-		_ operand: Expression<Grammar>
-	) -> Expression<Grammar>
+		_ operand: Expression
+	) -> Expression
 	{ .zeroOrMore(operand) }
 
 }
@@ -586,7 +670,7 @@ extension Expression:
 	///  +  returns:
 	///     A `.sequence` containing `elements`.
 	public init(
-		arrayLiteral elements: Expression<Grammar>...
+		arrayLiteral elements: Expression...
 	) { self = .sequence(elements) }
 
 }

@@ -6,9 +6,9 @@
 //  If a copy of the MPL 2.0 was not distributed with this file, you can obtain one at <http://mozilla.org/MPL/2.0/>.
 
 /// An EBNF processing error.
-public enum Error <Grammar>:
+public enum Error:
 	Swift.Error
-where Grammar : ExpressibleGrammar {
+{
 
 	/// Signifies that a `Text.SubSequence` failed to match the given `Expression` starting from the provided `Text.Index`.
 	///
@@ -16,7 +16,7 @@ where Grammar : ExpressibleGrammar {
 	case parseError (
 		Text.SubSequence,
 		index: Text.Index,
-		expression: Expression<Grammar>,
+		expression: Expression,
 		exhaustive: Bool = false
 	)
 

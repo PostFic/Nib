@@ -8,28 +8,25 @@
 /// A type which conforms to the `Expressible` protocol can be converted into an expression using the `′` postfix operator.
 public protocol Expressible {
 
-	/// The `Grammar` of the resulting `Expression`.
-	associatedtype ExpressedGrammar: ExpressibleGrammar
-
 	/// A `Expression.zeroOrOne` of the resulting `Expression`.
 	static postfix func ° (
 		_ operand: Self
-	) -> Expression<ExpressedGrammar>
+	) -> Expression
 
 	/// The `Expression` that this `Expressible` can be expressed as.
 	static postfix func ′ (
 		_ operand: Self
-	) -> Expression<ExpressedGrammar>
+	) -> Expression
 
 	/// A `Expression.oneOrMore` of the resulting `Expression`.
 	static postfix func ″ (
 		_ operand: Self
-	) -> Expression<ExpressedGrammar>
+	) -> Expression
 
 	/// A `Expression.zeroOrMore` of the resulting `Expression`.
 	static postfix func * (
 		_ operand: Self
-	) -> Expression<ExpressedGrammar>
+	) -> Expression
 
 }
 
@@ -38,19 +35,19 @@ public extension Expressible {
 	@inlinable
 	static postfix func ° (
 		_ operand: Self
-	) -> Expression<ExpressedGrammar>
+	) -> Expression
 	{ .zeroOrOne(operand′) }
 
 	@inlinable
 	static postfix func ″ (
 		_ operand: Self
-	) -> Expression<ExpressedGrammar>
+	) -> Expression
 	{ .oneOrMore(operand′) }
 
 	@inlinable
 	static postfix func * (
 		_ operand: Self
-	) -> Expression<ExpressedGrammar>
+	) -> Expression
 	{ .zeroOrMore(operand′) }
 
 }
