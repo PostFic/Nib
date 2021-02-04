@@ -18,10 +18,9 @@ public extension BracketedExpression {
 	///
 	///  +  returns:
 	///     An `.anyOf` including the `operand`.
-	static prefix func √ <Grammar> (
+	static prefix func √ (
 		_ operand: BracketedExpression
-	) -> Expression<Grammar>
-	where Grammar: ExpressibleGrammar
+	) -> Expression
 	{ .anyOf(operand) }
 
 
@@ -33,10 +32,9 @@ public extension BracketedExpression {
 	///
 	///  +  returns:
 	///     An `.noneOf` including the `operand`.
-	static prefix func ^ <Grammar> (
+	static prefix func ^ (
 		_ operand: BracketedExpression
-	) -> Expression<Grammar>
-	where Grammar: ExpressibleGrammar
+	) -> Expression
 	{ .noneOf(operand) }
 
 }

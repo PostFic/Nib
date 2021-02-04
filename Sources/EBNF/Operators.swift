@@ -9,6 +9,8 @@ infix operator −: ExclusionPrecedence
 
 infix operator ÷: ExclusionPrecedence
 
+infix operator «=: DeclarationPrecedence
+
 prefix operator ‖
 
 prefix operator √

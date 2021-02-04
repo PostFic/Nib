@@ -10,3 +10,9 @@ precedencegroup ExclusionPrecedence {
 	higherThan: RangeFormationPrecedence
 	lowerThan: AdditionPrecedence
 }
+
+precedencegroup DeclarationPrecedence {
+	associativity: none
+	higherThan: TernaryPrecedence
+	lowerThan: LogicalDisjunctionPrecedence
+}

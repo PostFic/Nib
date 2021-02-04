@@ -12,17 +12,16 @@
 /// They represent a single *instance* of a `Grammar`.
 ///
 /// `Construct.string`s represent the content of an instance of a terminal `Expression`.
-public enum Construct <Grammar>
-where Grammar: ExpressibleGrammar {
+public enum Construct {
 
-	/// The string contents of an instance of a terminal `Grammar`.
+	/// The string contents of an instance of a terminal `Expression`.
 	case string (
 		content: Text.SubSequence
 	)
 
-	/// A lexed instance of a terminal `Grammar`.
+	/// A lexed instance of a `Symbol`.
 	case symbol (
-		grammar: Grammar,
+		Symbol,
 		content: [Construct]
 	)
 
@@ -34,7 +33,7 @@ where Grammar: ExpressibleGrammar {
 		):
 			return text
 		case .symbol (
-			grammar: _,
+			_,
 			content: let children
 		):
 			return children.count == 0 ? Text.SubSequence() : Substring(children[0].text).base[children[0].text.startIndex..<children.last!.text.endIndex].unicodeScalars
