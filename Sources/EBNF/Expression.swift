@@ -40,12 +40,22 @@ public enum Expression:
 {
 
 	/// An EBNF gobbling error.
-	private enum GobbleError:
+	private struct GobbleError:
 		Swift.Error
 	{
 
+		fileprivate let failedExpression: Expression
+
+		fileprivate let text: Text.SubSequence
+
 		/// Signifies that gobbling failed to match the given `Expression` starting from the provided `Text.SubSequence`.
-		case parseError (Text.SubSequence, Expression)
+		fileprivate init (
+			_ text: Text.SubSequence,
+			_ expression: Expression
+		) {
+			failedExpression = expression
+			self.text = text
+		}
 
 	}
 
@@ -266,11 +276,11 @@ public enum Expression:
 		do {
 			let (_, contained) = try gobble(text)
 			return contained
-		} catch let GobbleError.parseError(sub, expr) {
-			throw Error.parseError(
+		} catch let error as GobbleError {
+			throw ParseError(
 				text,
-				index: sub.startIndex,
-				expression: expr
+				index: error.text.startIndex,
+				expression: error.failedExpression
 			)
 		}
 	}
@@ -278,7 +288,7 @@ public enum Expression:
 	private func gobble (
 		_ view: Text.SubSequence
 	) throws -> (Text.Index,[Construct]) {
-		let failure = GobbleError.parseError(view, self)
+		let failure = GobbleError(view, self)
 		switch self {
 		case .anyOf, .character, .noneOf:
 			guard let character = view.first else
@@ -327,12 +337,9 @@ public enum Expression:
 						content: contained
 					)
 				])
-			} catch let GobbleError.parseError(text, expr) {
-				if text.startIndex == view.startIndex
-				{ throw failure }
-				else
-				{ throw GobbleError.parseError(text, expr) }
-			}
+			} catch let error as GobbleError
+			where error.text.startIndex == view.startIndex
+			{ throw failure }
 		case .choice (let exprs):
 			for expr in exprs {
 				if let result = try? expr.gobble(view)
@@ -431,7 +438,7 @@ public enum Expression:
 		if end == text.endIndex
 		{ return result }
 		else {
-			throw Error.parseError(
+			throw ParseError(
 				text,
 				index: text.startIndex,
 				expression: self,
@@ -518,8 +525,12 @@ public enum Expression:
 	public static func «= (
 		_ lhs: String,
 		_ rhs: Expression
-	) -> Symbol
-	{ Symbol(lhs, rhs) }
+	) -> Symbol {
+		Symbol(
+			name: lhs,
+			expression: rhs
+		)
+	}
 
 
 	/// The `«=` infix operator produces a `Symbol` with the reference identifier, name, and expression specified by its operands.
@@ -538,8 +549,8 @@ public enum Expression:
 	) -> Symbol {
 		Symbol(
 			id: lhs.id,
-			lhs.1,
-			rhs
+			name: lhs.1,
+			expression: rhs
 		)
 	}
 

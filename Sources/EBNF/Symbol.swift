@@ -6,7 +6,7 @@
 //  If a copy of the MPL 2.0 was not distributed with this file, you can obtain one at <http://mozilla.org/MPL/2.0/>.
 
 /// A named `Expression`.
-public final class Symbol:
+open class Symbol:
 	CustomDebugStringConvertible,
 	CustomStringConvertible
 {
@@ -50,8 +50,8 @@ public final class Symbol:
 	///     The `expression` parameter is treated as an autoclosure to delay computation and allow for recursive `Symbols`.
 	public init (
 		id: String? = nil,
-		_ name: String,
-		_ expression: @autoclosure @escaping () -> Expression
+		name: String,
+		expression: @autoclosure @escaping () -> Expression
 	) {
 		referenceID = id
 		self.name = name
