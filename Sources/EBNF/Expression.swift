@@ -36,8 +36,7 @@ fileprivate func collectExpressions (
 
 /// An enumerated type representing an EBNF expression, potentially containing subexpressions.
 public enum Expression:
-	CustomDebugStringConvertible,
-	Hashable
+	CustomDebugStringConvertible
 {
 
 	/// An EBNF gobbling error.
@@ -329,7 +328,7 @@ public enum Expression:
 					)
 				])
 			} catch let GobbleError.parseError(text, expr) {
-				if text.startIndex == view.startIndex && expr == symbol.expression
+				if text.startIndex == view.startIndex
 				{ throw failure }
 				else
 				{ throw GobbleError.parseError(text, expr) }
