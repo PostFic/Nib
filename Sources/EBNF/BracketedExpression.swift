@@ -38,3 +38,33 @@ public extension BracketedExpression {
 	{ .noneOf(operand) }
 
 }
+
+extension BracketedExpression:
+	ExpressibleByUnicodeScalarLiteral
+{
+
+	public init(
+		unicodeScalarLiteral value: Character
+	) { self = [value...value] }
+
+}
+
+extension BracketedExpression:
+	ExpressibleByExtendedGraphemeClusterLiteral
+{
+
+	public init(
+		extendedGraphemeClusterLiteral value: String
+	) { self = value.unicodeScalars.map { $0...$0 } }
+
+}
+
+extension BracketedExpression:
+	ExpressibleByStringLiteral
+{
+
+	public init(
+		stringLiteral value: String
+	) { self = value.unicodeScalars.map { BracketedComponent($0) } }
+
+}

@@ -87,6 +87,6 @@ public struct BracketedComponent:
 	public func matches (
 		_ character: Character
 	) -> Bool
-	{ ("\u{1}"..."\u{D7FF}").contains(character) || ("\u{E000}"..."\u{FFFD}").contains(character) || ("\u{10000}"..."\u{10FFFF}").contains(character) ? range.contains(character) : false }
+	{ (("\u{1}"..."\u{D7FF}").contains(character) || ("\u{E000}"..."\u{FFFD}").contains(character) || ("\u{10000}"..."\u{10FFFF}").contains(character)) && range.contains(character) }
 
 }
