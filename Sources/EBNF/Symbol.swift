@@ -6,10 +6,9 @@
 //  If a copy of the MPL 2.0 was not distributed with this file, you can obtain one at <http://mozilla.org/MPL/2.0/>.
 
 /// A named `Expression`.
-public struct Symbol:
+public final class Symbol:
 	CustomDebugStringConvertible,
-	CustomStringConvertible,
-	Hashable
+	CustomStringConvertible
 {
 
 	/// An EBNF rule defining this `Symbol`.
@@ -24,8 +23,12 @@ public struct Symbol:
 	public var description: String
 	{ name }
 
+	/// The autoclosure wrapping the `expression` of this `Symbol`.
+	private let expressed: () -> Expression
+
 	/// The `Expression` associated with this `Symbol`.
-	public let expression: Expression
+	public var expression: Expression
+	{ expressed() }
 
 	/// The `String` reference identifier of this `Symbol`, if one is defined.
 	public let referenceID: String?
@@ -42,14 +45,17 @@ public struct Symbol:
 	///         A `String` name.
 	///      +  expression:
 	///         An `Expression`.
+	///
+	///  +  note:
+	///     The `expression` parameter is treated as an autoclosure to delay computation and allow for recursive `Symbols`.
 	public init (
 		id: String? = nil,
 		_ name: String,
-		_ expression: Expression
+		_ expression: @autoclosure @escaping () -> Expression
 	) {
 		referenceID = id
 		self.name = name
-		self.expression = expression
+		expressed = expression
 	}
 
 }
@@ -65,9 +71,10 @@ extension Symbol:
 //	) -> Expression<Self>
 //	{ .zeroOrOne(operand′) }
 
+	/// A `.symbol` which wraps this `Symbol`.
 	@inlinable
 	public static postfix func ′ (
-		_ operand: Self
+		_ operand: Symbol
 	) -> Expression
 	{ .symbol(operand) }
 
