@@ -1,19 +1,28 @@
 #  Nib  #
 
-A Swift implementation of [<cite>XML Schema: Datatypes</cite>](https://www.w3.org/TR/xmlschema11-2/).
+A Swift implementation of various XML specifications. 
 Intended for use with RDF tools and libraries, but conceivably could be utilized elsewhere.
 
-| XSD version | Package version | Swift version |
-| :-: | :-: | :-: |
-| 1.1 | _Not released._ | 5.3 |
+##  Should I Use This Library?  ##
 
-##  About/Usage  ##
+*Ideally,* **you should not.** 
+Nib is built as a highly precise/exact implementation of the algorithms present in the specifications it implements, which makes it more of a reference implementation than an optimized library for general usage. 
+*However,* there is something of a paucity of highly‐optimized native Swift implementations for the sorts of things that Nib accomplishes, so **you may find that it is the best, most‐reliable tool for the job nonetheless.**
 
-Please see the [Docs](Docs/) directory for general and usage information.
+Nib takes advantage of the flexibility of the Swift language to implement a number of DSLs for expressing common data structures or operations. 
+If you are going to be scared off by something like `.EmptyElemTag′ | [.STag′, .content′, .ETag′]` then you might want to pick a different library.
 
-##  Requirements  ##
+**Nib requires an editor which supports Unicode and a programmer willing to input Unicode characters.**
 
-Requires Foundation; in particular, the following classes:
+##  Supports  ##
+
+| Technology | Version(s) | Notes |
+| --- | :-: | --- |
+| XML EBNF | 1.1 | Requires transcription into a DSL. Greedy matching only. Uses the XML 1.1 definition of `Char` when matching bracketed expressions. |
+
+##  Dependencies  ##
+
+Nib requires Swift ≥ 5.3 and Foundation; in particular, the following classes:
 
  +  `Data`
  +  `Decimal`
@@ -24,48 +33,6 @@ Requires Foundation; in particular, the following classes:
  +  `NumberFormatter`
 
 [`swift-corelibs-foundation`](https://github.com/apple/swift-corelibs-foundation) should provide sufficient compatibility for non-Apple platforms.
-
-##  Limitations  ##
-
-The goal of this project is to create a lightweight package which supports the aspects of XSD required for use in non‐XML technologies like RDF.
-As much of the XSD specification has been implemented as was feasible.
-However, aspects of the XSD specification which depend on XML processing behaviours have *not* been implemented.
-
-The following aspects of XSD are not fully supported:
-
- +  The following datatypes:
-
- +  The following properties:
-
-     +  __`annotations`.__
-
-        Requires XML support, which is beyond the scope of this
-          project.
-
-        All datatypes have an `annotations` property of type
-          `[XSDAnnotation]` and value `[]`.
-        This property cannot be changed.
-        The type `XSDAnnotation` is a typealias for `Any`.
-
-     +  __`context`.__
-
-        It is not possible to create anonymous XSD types with this
-          package.
-        Every type is required to have a `name`.
-
-        All simple datatypes have a `context` property, but its value
-          is always `nil`.
-
- +  The following facets:
-
-     +  __`Assertions`.__
-
-        Requires XML and XPath support, which is beyond the scope of
-          this project.
-
-        You can create `Assertions` facets, but their `value` will
-          always have a type of `[XSDAssertion]` and a value of `[]`.
-        The type `XSDAssertion` is a typealias for `Any`.
 
 ##  License  ##
 

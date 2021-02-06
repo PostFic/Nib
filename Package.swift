@@ -7,23 +7,23 @@ let package = Package(
 	products: [
 		.library(
 			name: "Nib",
-			targets: [
-				"EBNF",
-//				"XML11",
-//				"XSD"
-			]
+			targets: ["Core", "EBNF"]
 		),
 	],
 	dependencies: [
 	],
 	targets: [
 		.target(
-			name: "EBNF",
+			name: "Core",
 			dependencies: []
+		),
+		.target(
+			name: "EBNF",
+			dependencies: ["Core"]
 		),
 //		.target(
 //			name: "XML11",
-//			dependencies: ["EBNF"]
+//			dependencies: ["Core", "EBNF"]
 //		),
 //		.target(
 //			name: "XSD",
