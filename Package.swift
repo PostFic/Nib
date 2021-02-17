@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
@@ -7,7 +7,7 @@ let package = Package(
 	products: [
 		.library(
 			name: "Nib",
-			targets: ["Core", "EBNF"]
+			targets: ["Core", "E·B·N·F"]
 		),
 	],
 	dependencies: [
@@ -15,27 +15,48 @@ let package = Package(
 	targets: [
 		.target(
 			name: "Core",
-			dependencies: []
+			dependencies: [],
+			exclude: ["Documentation"]
 		),
 		.target(
-			name: "EBNF",
-			dependencies: ["Core"]
+			name: "E·B·N·F",
+			dependencies: ["Core"],
+			exclude: ["Documentation"]
 		),
 //		.target(
-//			name: "XML11",
-//			dependencies: ["Core", "EBNF"]
+//			name: "X·M·L",
+//			dependencies: ["Core", "E·B·N·F"],
+// 			exclude: ["Documentation"]
 //		),
 //		.target(
-//			name: "XSD",
-//			dependencies: ["XML11"]
+//			name: "Names",
+//			dependencies: ["Core", "E·B·N·F", "X·M·L"],
+// 			exclude: ["Documentation"]
+//		),
+//		.target(
+//			name: "Infoset",
+//			dependencies: ["Core", "X·M·L", "Names"],
+// 			exclude: ["Documentation"]
+//		),
+//		.target(
+//			name: "X·S·D",
+//			dependencies: ["X·M·L"],
+// 			exclude: ["Documentation"]
+//		),
+		.testTarget(
+			name: "E·B·N·F·Tests",
+			dependencies: ["Core", "E·B·N·F"],
+			exclude: ["Documentation"]
+		),
+//		.testTarget(
+//			name: "X·M·L·Tests",
+//			dependencies: ["Core", "E·B·N·F", "X·M·L"],
+// 			exclude: ["Documentation"]
 //		),
 //		.testTarget(
-//			name: "XML11Tests",
-//			dependencies: ["XML11"]
-//		),
-//		.testTarget(
-//			name: "XSDTests",
-//			dependencies: ["XSD"]
+//			name: "X·S·D·Tests",
+//			dependencies: ["Core", "E·B·N·F", "X·S·D"],
+// 			exclude: ["Documentation"]
 //		)
 	],
 	swiftLanguageVersions: [.v5]

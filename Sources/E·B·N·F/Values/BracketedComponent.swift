@@ -1,9 +1,8 @@
-//  #  EBNF :: BracketedComponent  #
+//  #  E·B·N·F :: BracketedComponent  #
 //
 //  Copyright © 2021 kibigo!
 //
-//  This file is made available under the terms of the Mozilla Public License, version 2.0 (MPL 2.0).
-//  If a copy of the MPL 2.0 was not distributed with this file, you can obtain one at <http://mozilla.org/MPL/2.0/>.
+//  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import Core
 
@@ -43,14 +42,12 @@ public struct BracketedComponent:
 	///         The `Text.Character` to test.
 	///
 	///  +  Returns:
-	///     `true` if `character` is an XML `Char` and is contained by this `BracketedComponent`; `false` otherwise.
-	///
-	///  +  Note:
-	///     `.matches(:)` always returns `false` for `Text.Character`s which are not an XML `Char`.
+	///     `true` if `character` is contained by this `BracketedComponent`; `false` otherwise.
+	@inlinable
 	public func matches (
 		_ character: Text.Character
 	) -> Bool
-	{ ("\u{1}"..."\u{D7FF}" ~= character || "\u{E000}"..."\u{FFFD}" ~= character || "\u{10000}"..."\u{10FFFF}" ~= character) && range ~= character }
+	{ range ~= character }
 
 	/// Returns whether a given `BracketedComponent` matches a given `Text.Character`.
 	///
@@ -61,10 +58,7 @@ public struct BracketedComponent:
 	///         The `Text.Character` to test.
 	///
 	///  +  Returns:
-	///     `true` if `character` is an XML `Char` and is contained by this `BracketedComponent`; `false` otherwise.
-	///
-	///  +  Note:
-	///     `~=` always returns `false` for `Text.Character`s which are not an XML `Char`.
+	///     `true` if `character` is contained by this `BracketedComponent`; `false` otherwise.
 	@inlinable
 	public static func ~= (
 		_ lhs: BracketedComponent,
@@ -72,39 +66,44 @@ public struct BracketedComponent:
 	) -> Bool
 	{ lhs.matches(rhs) }
 
+
+	/// Escapes all nonprintable ASCII characters as `£N;`, where `N` is the Unicode codepoint (in hexadecimal).
+	///
+	///  +  Parameters:
+	///      +  char:
+	///         The `Text.Character` to escape.
+	///
+	///  +  Returns:
+	///     A `String` escaping the `Text.Character` if necessary.
+	private static func charString (
+		_ char: Text.Character
+	) -> String {
+		return "!"..."~" as ClosedRange<Text.Character> ~= char ? String(char) : """
+			£\(
+				String(
+					UInt32(char),
+					radix: 16,
+					uppercase: true
+				)
+			);
+			"""
+	}
+
 }
 
 extension BracketedComponent:
 	CustomStringConvertible
 {
 
-	/// `#xN` for single characters, and `#xM-#xN` for ranges.
-	public var description: String {
-		range.lowerBound == range.upperBound ? """
-			#x\(
-				String(
-					UInt32(range.lowerBound),
-					radix: 16,
-					uppercase: true
-				)
-			)
-			"""
-		: """
-			#x\(
-				String(
-					UInt32(range.lowerBound),
-					radix: 16,
-					uppercase: true
-				)
-			)-#x\(
-				String(
-					UInt32(range.upperBound),
-					radix: 16,
-					uppercase: true
-				)
-			)
-			"""
-	}
+	/// `£N;` for single characters, and `£M;–£N;` for ranges.
+	///
+	/// The literal character is used instead of the escaped counterpart for printable ASCII characters (not including space).
+	///
+	///  +  Note:
+	///     The character used to delimit ranges is `U+2013 EN DASH`, not `U+002D HYPHEN-MINUS`.
+	///     The latter may appear literally in strings.
+	public var description: String
+	{ range.lowerBound == range.upperBound ? BracketedComponent.charString(range.lowerBound) : "\(BracketedComponent.charString(range.lowerBound))–\(BracketedComponent.charString(range.upperBound))" }
 
 }
 
@@ -112,7 +111,7 @@ extension BracketedComponent:
 	ExpressibleByUnicodeScalarLiteral
 {
 
-	/// Creates a `BracketedComponent` from a unicode scalar literal.
+	/// Creates a `BracketedComponent` from a Unicode scalar literal.
 	///
 	///  +  Parameters:
 	///      +  value:

@@ -1,9 +1,8 @@
-//  # EBNF :: ParseError
+//  #  E·B·N·F :: ParseError  #
 //
 //  Copyright © 2021 kibigo!
 //
-//  This file is made available under the terms of the Mozilla Public License, version 2.0 (MPL 2.0).
-//  If a copy of the MPL 2.0 was not distributed with this file, you can obtain one at <http://mozilla.org/MPL/2.0/>.
+//  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import Core
 
@@ -17,19 +16,19 @@ public struct ParseError <Symbol>:
 where Symbol: Symbolic {
 
 	/// Whether an exact (exhaustive) match was desired.
-	let exactMatch: Bool
+	public let exactMatch: Bool
 
 	/// The `Expression` which failed to match.
-	let failedExpression: Expression<Symbol>
+	public let failedExpression: Symbol.Expression
 
 	/// The start `Text.Index` that the match was attempted from.
-	let startIndex: Text.Index
+	public let startIndex: Text.Index
 
 	/// The `Text.SubSequence` that the match was attempted on.
-	let text: Text.SubSequence
+	public let text: Text.SubSequence
 
 	/// The `Symbol.Version` that the match was attempted with.
-	let version: Symbol.Version
+	public let version: Symbol.Version
 
 	/// Creates a `ParseError` for a failed match between a `text` and a `expression` at `index`.
 	///
@@ -49,7 +48,7 @@ where Symbol: Symbolic {
 	public init (
 		_ text: Text.SubSequence,
 		at index: Text.Index,
-		failed expression: Expression<Symbol>,
+		failed expression: Symbol.Expression,
 		version: Symbol.Version = Symbol.Version.default,
 		exhaustive: Bool = false
 	) {
