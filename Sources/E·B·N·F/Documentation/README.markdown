@@ -61,7 +61,7 @@ Using the DSL when possible is generally preferred.
 A table summarizing the various EBNF expressions is below:
 
 | XML | DSL | `.description` | Expression kind |
-| :-: | :-: | :-: | --- |
+| :-: | :-: | :-: | --- |
 | `#x2764` | `"\u{2764}"` | `£2764;` | `.character` |
 | `[#x2620#xFE0F#x1F496]` | `√"\u{2620}\u{FE0F}\u{1F496}"` | `⟨£2620;£FE0F;£1F496;⟩` | `.anyOf` |
 | `[#x1F494-#x1F49D]` | `√["\u{1F494}"..."\u{1F49D}"]` | `⟨£1F494;-£1F49D;⟩` | `.anyOf` |
@@ -69,9 +69,10 @@ A table summarizing the various EBNF expressions is below:
 | `[^#x1F494-#x1F49D]` | `^["\u{1F494}"..."\u{1F49D}"]` | `⟨∼£1F494;-£1F49D;⟩` | `.noneOf` |
 | `"string"` | `"string"` | `‹string›` | `.string` |
 | `symbol` | `symbol′` | `symbol` | `.symbol` |
-| `A | B` | `A | B` | `(A | B)` | `.choice` |
-| `A | B | C` | `‖[A, B, C]` | `(A | B | C)` | `.choice` |
-| `A B` | `[A, B]` | `(A B)` | `.sequence` |
+| <code>A &#x7C; B</code> | <code>A &#x7C; B</code> | <code>(A &#x7C; B)</code> | `.choice` |
+| <code>A &#x7C; B &#x7C; C</code> | `‖[A, B, C]` | <code>(A &#x7C; B &#x7C; C)</code> | `.choice` |
+| `A B` | `A & B` | `(A B)` | `.sequence` |
+| `A B C` | `[A, B, C]` | `(A B C)` | `.sequence` |
 | `A - B` | `A − B` | `(A − B)` | `.excluding` |
 | `A - (Char* B Char*)` | `A ÷ B` | `(A ÷ B)` | `.notIncluding` |
 | `A?` | `A°` | `(A?)` | `.zeroOrOne` |
@@ -165,7 +166,7 @@ The `‖[A, B, C]` form is preferred whenever choosing between more than two opt
 Where `A`, `B`, and `C` are `Expression`s :—
 
  +  XML EBNF: `A B`; `A B C`
- +  Swift DSL: `A B`; `[A, B, C]`
+ +  Swift DSL: `A & B`; `[A, B, C]`
  +  `.description`: `(A B)`; `(A B C)`
  
 Matches `A`, `B`, and `C` in order.
