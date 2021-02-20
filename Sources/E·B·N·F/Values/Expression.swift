@@ -1085,6 +1085,14 @@ extension Expression:
 	///
 	///  +  Version:
 	///     `0.1.0`.
+	///
+	/// ___
+	///
+	/// `.string`s which contained both ASCII and non·ASCII characters used to always be described as though the were a `.sequence`, surrounded by parentheses.
+	/// Now, the parentheses are discarded when the `.string` is already a part of a `.sequence`.
+	///
+	///  +  Version:
+	///     `0.2.0`.
 	public var description: String {
 		switch self {
 			case .character (
@@ -1100,26 +1108,10 @@ extension Expression:
 				"""
 			case .anyOf (
 				let expr
-			): return """
-				⟨\(
-					expr.map {
-						String(
-							describing: $0
-						)
-					}.joined()
-				)⟩
-				"""
+			): return "⟨\(expr.map(\.description).joined())⟩"
 			case .noneOf (
 				let expr
-			): return """
-				⟨∼\(
-					expr.map {
-						String(
-							describing: $0
-						)
-					}.joined()
-				)⟩
-				"""
+			): return "⟨∼\(expr.map(\.description).joined())⟩"
 			case .string (
 				let str
 			):
@@ -1161,11 +1153,7 @@ extension Expression:
 				let exprs
 			): return """
 				(\(
-					exprs.map {
-						String(
-							describing: $0
-						)
-					}.joined(
+					exprs.map(\.description).joined(
 						separator: " | "
 					)
 				))
@@ -1174,10 +1162,14 @@ extension Expression:
 				let exprs
 			): return """
 				(\(
-					exprs.map {
-						String(
-							describing: $0
-						)
+					exprs.map { expr -> Substring in
+						let result = expr.description[...]
+						if
+							case .string = expr,
+							result.first == "("
+						{ return result.dropFirst().dropLast() }
+						else
+						{ return result }
 					}.joined(
 						separator: " "
 					)
