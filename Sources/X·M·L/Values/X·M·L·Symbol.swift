@@ -1151,8 +1151,8 @@ extension X·M·L·Symbol:
 	///
 	///  +  Version:
 	///     `0.2.0`.
-	public subscript (
-		version: X·M·L·Version
+	public func callAsFunction (
+		_ version: X·M·L·Version
 	) -> X·M·L·Symbol.Expression? {
 		switch self {
 
