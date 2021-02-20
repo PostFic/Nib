@@ -5,7 +5,7 @@ Intended for use with RDF tools and libraries, but conceivably could be utilized
 
 | Swift version | Package version |
 | :-: | :-: |
-| 5.3 | 0.1 |
+| 5.3 | 0.2.0-development |
 
 ##  Should I Use This Library?  ##
 
@@ -21,8 +21,11 @@ If you are going to be scared off by something like `.EmptyElemTag′ | [.STag�
 ##  Supports  ##
 
 | Technology | Version(s) | Notes |
-| --- | :-: | --- |
-| XML EBNF | [1.1 (2nd ed.)](https://www.w3.org/TR/2006/REC-xml11-20060816/#sec-notation) | Requires transcription into a DSL. Greedy matching only. Uses the XML 1.1 definition of `Char` when matching bracketed expressions. Does not support validity constraints. |
+| :-: | :-: | --- |
+| [XML EBNF](Sources/E·B·N·F/) | [1.1 (2nd ed.)](https://www.w3.org/TR/2006/REC-xml11-20060816/#sec-notation) | Requires transcription into a DSL. Greedy matching only. Uses the XML 1.1 definition of `Char` when matching bracketed expressions. |
+<!--
+| [XML](Sources/X·M·L/) | [1.0 (5th ed.)](https://www.w3.org/TR/2008/REC-xml-20081126/), [1.1 (2nd ed.)](https://www.w3.org/TR/2006/REC-xml11-20060816/) | External entities must be supplied prior to document loading. |
+-->
 
 ##  Dependencies  ##
 

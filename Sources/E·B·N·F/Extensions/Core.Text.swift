@@ -10,6 +10,12 @@ extension Text.Character {
 
 	/// Creates a `BracketedComponent` ranging the operand `Text.Character`s.
 	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      + l·h·s:
 	///        A `Text.Character`·
