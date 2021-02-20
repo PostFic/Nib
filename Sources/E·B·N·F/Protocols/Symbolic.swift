@@ -38,10 +38,10 @@ where
 	var reference: Text?
 	{ get }
 
-	/// Accesses the `Expression` of a given `version` of this value, if one is defined.
+	/// Returns the `Expression` of a given `version` of this value, if one is defined.
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  version:
@@ -49,10 +49,9 @@ where
 	///
 	///  +  Returns:
 	///     An `Expression`, or `nil` if none is defined for the provided `version`.
-	subscript(
+	func callAsFunction (
 		_ version: Version
 	) -> Expression?
-	{ get }
 
 	/// Extracts and returns a `Construct.symbol` from the beginning of the provided `text` according to the given `version`, or throws.
 	///
@@ -162,7 +161,7 @@ extension Symbolic {
 		version: Version
 	) -> String {
 		let expressionString: String
-		if let expression = self[version]
+		if let expression = self(version)
 		{ expressionString = String(describing: expression) }
 		else
 		{ expressionString = "/* Not defined */" }

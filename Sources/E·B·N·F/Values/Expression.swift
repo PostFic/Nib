@@ -407,7 +407,7 @@ where Symbol: Symbolic {
 			case .symbol (
 				let symbol
 			):
-				guard let expression = symbol[version]
+				guard let expression = symbol(version)
 				else
 				{ throw failure }
 				do {

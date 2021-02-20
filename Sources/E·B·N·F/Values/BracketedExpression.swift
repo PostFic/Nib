@@ -62,7 +62,7 @@ extension BracketedExpression:
 	ExpressibleByUnicodeScalarLiteral
 {
 
-	/// Creates a `BracketedExpression` from a `unicodeScalarLiteral`.
+	/// Creates a `BracketedExpression` from a Unicode scalar literal.
 	///
 	/// The resulting `BracketedExpression` will have one component, matching only the provided `Text.Character`.
 	///
@@ -73,9 +73,9 @@ extension BracketedExpression:
 	///     `0.1.0`.
 	///
 	///  + Parameters:
-	///      +  unicodeScalarLiteral:
+	///      +  value:
 	///         A `Text.Character` representing the Unicode scalar literal.
-	public init(
+	public init (
 		unicodeScalarLiteral value: Text.Character
 	) { self = [BracketedComponent(value)] }
 
@@ -85,7 +85,7 @@ extension BracketedExpression:
 	ExpressibleByExtendedGraphemeClusterLiteral
 {
 
-	/// Creates a `BracketedExpression` from an `extendedGraphemeClusterLiteral`.
+	/// Creates a `BracketedExpression` from an extended grapheme cluster literal.
 	///
 	/// The resulting `BracketedExpression` will only match those `Text.Character`s in the provided `String`.
 	///
@@ -96,9 +96,9 @@ extension BracketedExpression:
 	///     `0.1.0`.
 	///
 	///  + Parameters:
-	///      +  extendedGraphemeClusterLiteral:
+	///      +  value:
 	///         A `String` representing the extended grapheme cluster.
-	public init(
+	public init (
 		extendedGraphemeClusterLiteral value: String
 	) { self = value.unicodeScalars.map { BracketedComponent($0) } }
 
@@ -108,7 +108,7 @@ extension BracketedExpression:
 	ExpressibleByStringLiteral
 {
 
-	/// Creates a `BracketedExpression` from a `stringLiteral`.
+	/// Creates a `BracketedExpression` from a string literal.
 	///
 	/// The resulting `BracketedExpression` will only match those `Text.Character`s in the provided `String`.
 	///
@@ -119,9 +119,9 @@ extension BracketedExpression:
 	///     `0.1.0`.
 	///
 	///  + Parameters:
-	///      +  stringLiteral:
+	///      +  value:
 	///         A `String`.
-	public init(
+	public init (
 		stringLiteral value: String
 	) { self = value.unicodeScalars.map { BracketedComponent($0) } }
 
