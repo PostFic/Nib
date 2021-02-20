@@ -1,13 +1,13 @@
 // swift-tools-version:5.3
 import PackageDescription
 
+/// __Nib ✒💦:__ A Swift implementation of the XML suite of specifications.
 let package = Package(
-	/// ✒💦 A Swift implementation of XSD datatypes for RDF.
 	name: "Nib",
 	products: [
 		.library(
 			name: "Nib",
-			targets: ["Core", "E·B·N·F"]
+			targets: ["Core", "E·B·N·F", "X·M·L"]
 		),
 	],
 	dependencies: [
@@ -23,11 +23,11 @@ let package = Package(
 			dependencies: ["Core"],
 			exclude: ["Documentation"]
 		),
-//		.target(
-//			name: "X·M·L",
-//			dependencies: ["Core", "E·B·N·F"],
-// 			exclude: ["Documentation"]
-//		),
+		.target(
+			name: "X·M·L",
+			dependencies: ["Core", "E·B·N·F"],
+ 			exclude: ["Documentation"]
+		),
 //		.target(
 //			name: "Names",
 //			dependencies: ["Core", "E·B·N·F", "X·M·L"],
@@ -48,11 +48,11 @@ let package = Package(
 			dependencies: ["Core", "E·B·N·F"],
 			exclude: ["Documentation"]
 		),
-//		.testTarget(
-//			name: "X·M·L·Tests",
-//			dependencies: ["Core", "E·B·N·F", "X·M·L"],
-// 			exclude: ["Documentation"]
-//		),
+		.testTarget(
+			name: "X·M·L·Tests",
+			dependencies: ["Core", "E·B·N·F", "X·M·L"],
+ 			exclude: ["Documentation"]
+		),
 //		.testTarget(
 //			name: "X·S·D·Tests",
 //			dependencies: ["Core", "E·B·N·F", "X·S·D"],
