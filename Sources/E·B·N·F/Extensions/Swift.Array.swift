@@ -192,14 +192,14 @@ where Element == Text.Character {
 	///      +  expression:
 	///         An `Expressible`.
 	///      +  r·h·s:
-	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
+	///         A `Array` whose `Element` is `Text.Character`.
 	///
 	///  +  Returns:
 	///     A `Boolean`.
 	@inlinable
 	public static func ~= <Expressed> (
 		_ l·h·s: Expressed,
-		_ r·h·s: Self
+		_ r·h·s: [Text.Character]
 	) -> Bool
 	where Expressed: Expressible
 	{ Text(r·h·s).matches(l·h·s) }
