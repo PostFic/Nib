@@ -94,7 +94,7 @@ final class E·B·N·F·TestExpressions:
 		var reference: Text?
 		{ nil }
 
-		subscript (
+		func callAsFunction (
 			_ version: Version = .default
 		) -> Symbol.Expression? {
 			switch self {
@@ -243,7 +243,7 @@ final class E·B·N·F·TestExpressions:
 			XCTAssertEqual(
 				description,
 				String(
-					describing: symbol[]!
+					describing: symbol()!
 				)
 			)
 		}
@@ -387,7 +387,7 @@ final class E·B·N·F·TestExpressions:
 
 	func testExpressionDescriptionInitialization () {
 		for symbol in Symbol.allCases {
-			XCTAssertEqual(symbol[]!.description, Symbol.Expression(symbol[]!.description)?.description)
+			XCTAssertEqual(symbol()!.description, Symbol.Expression(symbol()!.description)?.description)
 		}
 	}
 

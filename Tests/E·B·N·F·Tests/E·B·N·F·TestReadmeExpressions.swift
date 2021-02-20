@@ -44,7 +44,7 @@ final class E·B·N·F·TestReadmeExpressions:
 		var reference: Text?
 		{ nil }
 
-		subscript (
+		func callAsFunction (
 			_ version: Version = .default
 		) -> Expression<ExampleSymbol>? {
 			switch self {
@@ -101,7 +101,7 @@ final class E·B·N·F·TestReadmeExpressions:
 
 	func testReadmeExpressionDescriptionInitialization () {
 		for symbol in ExampleSymbol.allCases {
-			XCTAssertEqual(symbol[]!.description, ExampleSymbol.Expression(symbol[]!.description)?.description)
+			XCTAssertEqual(symbol()!.description, ExampleSymbol.Expression(symbol()!.description)?.description)
 		}
 	}
 
