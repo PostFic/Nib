@@ -82,29 +82,6 @@ where
 		T: Collection,
 		T.SubSequence == Text.SubSequence
 
-	/// Returns whether the `expression` of this `Symbolic` exactly matches the provided `text`.
-	///
-	/// <https://www.w3.org/TR/2006/REC-xml11-20060816/#dt-match>.
-	///
-	///  +  Version:
-	///     `0.1.0`.
-	///
-	///  +  Parameters:
-	///      +  text:
-	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
-	///      +  version:
-	///         The `Version` to use when matching.
-	///
-	///  +  Returns:
-	///     A `Boolean`.
-	func matches <T> (
-		_ text: T,
-		version: Version
-	) -> Bool
-	where
-		T: Collection,
-		T.SubSequence == Text.SubSequence
-
 	/// Returns a `Construct.symbol` parsed from the provided `text` according to the `expression` of this `Symbolic`, or throws.
 	///
 	///  +  Version:
@@ -125,29 +102,6 @@ where
 		_ text: T,
 		version: Version
 	) throws -> Construct
-	where
-		T: Collection,
-		T.SubSequence == Text.SubSequence
-
-	/// Returns whether the `expression` of a given `Symbolic` exactly matches the provided text, according to the default `Version`.
-	///
-	/// <https://www.w3.org/TR/2006/REC-xml11-20060816/#dt-match>.
-	///
-	///  +  Version:
-	///     `0.1.0`.
-	///
-	///  +  Parameters:
-	///      +  l·h·s:
-	///         An `Expression`.
-	///      +  r·h·s:
-	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
-	///
-	///  +  Returns:
-	///     A `Boolean`.
-	static func ~= <T> (
-		_ l·h·s: Self,
-		_ r·h·s: T
-	) -> Bool
 	where
 		T: Collection,
 		T.SubSequence == Text.SubSequence
@@ -275,39 +229,6 @@ extension Symbolic {
 	///  +  Returns:
 	///     A `Boolean`.
 	@inlinable
-	public func matches <T> (
-		_ text: T,
-		version: Version = Version.default
-	) -> Bool
-	where
-		T: Collection,
-		T.SubSequence == Text.SubSequence
-	{
-		self′.matches(
-			text,
-			version: version
-		)
-	}
-
-	/// Returns whether the `expression` of this `Symbolic` exactly matches the provided `text`.
-	///
-	/// <https://www.w3.org/TR/2006/REC-xml11-20060816/#dt-match>.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.1.0`.
-	///
-	///  +  Parameters:
-	///      +  text:
-	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
-	///      +  version:
-	///         The `Version` to use when matching.
-	///
-	///  +  Returns:
-	///     A `Boolean`.
-	@inlinable
 	public func parse <T> (
 		_ text: T,
 		version: Version = Version.default
@@ -321,16 +242,6 @@ extension Symbolic {
 			version: version
 		)[0]
 	}
-
-	@inlinable
-	public static func ~= <T> (
-		_ l·h·s: Self,
-		_ r·h·s: T
-	) -> Bool
-	where
-		T: Collection,
-		T.SubSequence == Text.SubSequence
-	{ l·h·s′ ~= r·h·s }
 
 	/// Returns an `Expression.zeroOrOne` of an `Expression.symbol` which wraps the given value.
 	///

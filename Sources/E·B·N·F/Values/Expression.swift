@@ -535,41 +535,6 @@ where Symbol: Symbolic {
 		}
 	}
 
-	/// Returns whether this `Expression` exactly matches the provided `text`.
-	///
-	/// <https://www.w3.org/TR/xml11/#dt-match>.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.1.0`.
-	///
-	///  +  Parameters:
-	///      +  text:
-	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
-	///      +  version:
-	///         The `Version` to use when matching.
-	///
-	///  +  Returns:
-	///     A `Boolean`.
-	@inlinable
-	public func matches <T> (
-		_ text: T,
-		version: Version = Version.default
-	) -> Bool
-	where
-		T: Collection,
-		T.SubSequence == Text.SubSequence
-	{
-		(
-			try? self.parse(
-				text,
-				version: version
-			)
-		) != nil
-	}
-
 	/// Returns a tree of `Construct`s parsed from the provided `text`, or throws.
 	///
 	///  +  Authors:
@@ -921,32 +886,6 @@ where Symbol: Symbolic {
 				return (match.endIndex, symbol == .zeroOrOne ? .zeroOrOne(expr) : symbol == .oneOrMore ? .oneOrMore(expr) : .zeroOrMore(expr))
 		}
 	}
-
-	/// Returns whether a given `Expression` exactly matches the provided text.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.1.0`.
-	///
-	///  +  Parameters:
-	///      +  l·h·s:
-	///         An `Expression`.
-	///      +  r·h·s:
-	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
-	///
-	///  +  Returns:
-	///     A `Boolean`.
-	@inlinable
-	public static func ~= <T> (
-		_ l·h·s: Symbol.Expression,
-		_ r·h·s: T
-	) -> Bool
-	where
-		T: Collection,
-		T.SubSequence == Text.SubSequence
-	{ l·h·s.matches(r·h·s) }
 
 	/// Returns an `Expression.sequence` of its operands.
 	///
