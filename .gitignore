@@ -1,7 +1,8 @@
 .DS_Store
-/.build
-/.swiftpm
+*.xcodeproj
+*.playground
+.build/
+.swiftpm/
 /Packages
-/*.xcodeproj
-/*.playground
 /build
+/Tests/LinuxMain.swift
