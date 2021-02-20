@@ -23,6 +23,7 @@ If you are going to be scared off by something like `.EmptyElemTag′ | [.STag�
 | Technology | Version(s) | Notes |
 | :-: | :-: | --- |
 | [XML EBNF](Sources/E·B·N·F/) | [1.1 (2nd ed.)](https://www.w3.org/TR/2006/REC-xml11-20060816/#sec-notation) | Requires transcription into a DSL. Greedy matching only. Uses the XML 1.1 definition of `Char` when matching bracketed expressions. |
+| [Legacy extended IRIs for XML resource identification](Sources/L·E·I·R·I/) | [3 November 2008](https://www.w3.org/TR/2008/NOTE-leiri-20081103/) | ⸺ |
 <!--
 | [XML](Sources/X·M·L/) | [1.0 (5th ed.)](https://www.w3.org/TR/2008/REC-xml-20081126/), [1.1 (2nd ed.)](https://www.w3.org/TR/2006/REC-xml11-20060816/) | External entities must be supplied prior to document loading. |
 -->

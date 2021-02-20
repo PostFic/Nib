@@ -7,7 +7,7 @@ let package = Package(
 	products: [
 		.library(
 			name: "Nib",
-			targets: ["Core", "E·B·N·F"]
+			targets: ["Core", "E·B·N·F", "L·E·I·R·I"]
 		),
 	],
 	dependencies: [
@@ -21,6 +21,11 @@ let package = Package(
 		.target(
 			name: "E·B·N·F",
 			dependencies: ["Core"],
+			exclude: ["Documentation"]
+		),
+		.target(
+			name: "L·E·I·R·I",
+			dependencies: ["Core", "E·B·N·F"],
 			exclude: ["Documentation"]
 		),
 //		.target(
