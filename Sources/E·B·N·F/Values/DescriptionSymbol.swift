@@ -136,7 +136,7 @@ public enum DescriptionSymbol:
 			case .choice:
 				return ["(", (.S | .comment)*, .expression, [(.S | .comment)*, "|", (.S | .comment)*, .expression]″, (.S | .comment)*, ")"]
 			case .sequence:
-				return ["(", (.S | .comment)*, [.expression, [.comment*, .S, [.comment, .S°]*, .expression]*, (.S | .comment)*]°, ")"]
+				return ["(", (.S | .comment)*, [.expression, [.comment*, .S, (.comment & .S°)*, .expression]*, (.S | .comment)*]°, ")"]
 			case .excluding:
 				return ["(", (.S | .comment)*, .expression, (.S | .comment)*, "−", (.S | .comment)*, .expression, (.S | .comment)*, ")"]
 			case .notIncluding:
