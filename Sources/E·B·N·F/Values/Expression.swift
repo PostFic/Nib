@@ -1041,7 +1041,7 @@ where Symbol: Symbolic {
 		if l·h·s.upperBound - l·h·s.lowerBound < 1
 		{ return [] }
 		else if  l·h·s.upperBound - l·h·s.lowerBound == 1
-		{ return r·h·s }
+		{ return l·h·s.lowerBound * r·h·s }
 		else
 		{ return (l·h·s.lowerBound ... l·h·s.upperBound - 1) * r·h·s }
 	}
