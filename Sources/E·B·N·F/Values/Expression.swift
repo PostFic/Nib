@@ -730,8 +730,9 @@ where Symbol: Symbolic {
 			case .string:
 				return (match.endIndex, .string(Text(match.dropFirst().dropLast())))
 			case .symbol:
-				guard let symbol = (Symbol.allCases.first { $0.name.elementsEqual(construct.text) })
-				else
+				guard let symbol = Symbol(
+					name: Text(construct.text)
+				) else
 				{ return nil }
 				return (match.endIndex, .symbol(symbol))
 			case .choice:
