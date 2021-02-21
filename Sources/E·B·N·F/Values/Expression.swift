@@ -888,6 +888,198 @@ where Symbol: Symbolic {
 		}
 	}
 
+	/// Returns an `Expression` matching `r·h·s`, repeated some number of times indicated by `l·h·s`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `ClosedRange` with `Int` `Bound`s.
+	///         Negative values are treated as if they were `0`.
+	///      +  r·h·s:
+	///         An `Expression`.
+	///
+	///  +  Returns:
+	///     An `Expression.sequence` of `r·h·s` repeated from `l·h·s.lowerBound` up to `l·h·s.upperBound` times (inclusive), or an equivalent expression.
+	public static func * (
+		_ l·h·s: ClosedRange<Int>,
+		_ r·h·s: Symbol.Expression
+	) -> Symbol.Expression {
+		let lowerPart: Symbol.Expression
+		if l·h·s.lowerBound < 1
+		{ lowerPart = [] }
+		else if l·h·s.lowerBound == 1
+		{ lowerPart = r·h·s }
+		else {
+			lowerPart = Array(
+				repeating: r·h·s,
+				count: l·h·s.lowerBound
+			)′
+		}
+		return lowerPart & (...(l·h·s.upperBound - l·h·s.lowerBound) * r·h·s)
+	}
+
+	/// Returns an `Expression` matching `r·h·s`, repeated some number of times indicated by `l·h·s`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `PartialRangeFrom` with `Int` bounds.
+	///         Negative values are treated as if they were `0`.
+	///      +  r·h·s:
+	///         An `Expression`.
+	///
+	///  +  Returns:
+	///     An `Expression.sequence` of `r·h·s` repeated at least `l·h·s.lowerBound` times (inclusive), or an equivalent expression.
+	public static func * (
+		_ l·h·s: PartialRangeFrom<Int>,
+		_ r·h·s: Symbol.Expression
+	) -> Symbol.Expression {
+		if l·h·s.lowerBound < 1
+		{ return r·h·s* }
+		else if l·h·s.lowerBound == 1
+		{ return r·h·s″ }
+		else {
+			return Array(
+				repeating: r·h·s,
+				count: Int(l·h·s.lowerBound - 1)
+			)′ & r·h·s″
+		}
+	}
+
+	/// Returns an `Expression` matching `r·h·s`, repeated some number of times indicated by `l·h·s`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `PartialRangeThrough` with `Int` bounds.
+	///         Negative values are treated as if they were `0`.
+	///      +  r·h·s:
+	///         An `Expression`.
+	///
+	///  +  Returns:
+	///     An `Expression.sequence` of `r·h·s` repeated up to `l·h·s.upperBound` times (inclusive), or an equivalent expression.
+	@inlinable
+	public static func * (
+		_ l·h·s: PartialRangeThrough<Int>,
+		_ r·h·s: Symbol.Expression
+	) -> Symbol.Expression {
+		if l·h·s.upperBound < 1
+		{ return [] }
+		else if l·h·s.upperBound == 1
+		{ return r·h·s° }
+		else
+		{ return (r·h·s & (...(l·h·s.upperBound - 1) * r·h·s))° }
+	}
+
+	/// Returns an `Expression` matching `r·h·s`, repeated some number of times indicated by `l·h·s`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `PartialRangeUpTo` with `Int` `Bound`s.
+	///         Negative values are treated as if they were `0`.
+	///      +  r·h·s:
+	///         An `Expression`.
+	///
+	///  +  Returns:
+	///     An `Expression.sequence` of `r·h·s` repeated up to `l·h·s.upperBound` times (exclusive), or an equivalent expression.
+	@inlinable
+	public static func * (
+		_ l·h·s: PartialRangeUpTo<Int>,
+		_ r·h·s: Symbol.Expression
+	) -> Symbol.Expression {
+		if l·h·s.upperBound < 2
+		{ return [] }
+		else if l·h·s.upperBound == 2
+		{ return r·h·s° }
+		else
+		{ return (r·h·s & (...(l·h·s.upperBound - 2) * r·h·s))° }
+	}
+
+	/// Returns an `Expression` matching `r·h·s`, repeated some number of times indicated by `l·h·s`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         A `Range` with `Int` `Bound`s.
+	///         Negative values are treated as if they were `0`.
+	///      +  r·h·s:
+	///         An `Expression`.
+	///
+	///  +  Returns:
+	///     An `Expression.sequence` of `r·h·s` repeated from `l·h·s.lowerBound` up to `l·h·s.upperBound` times (exclusive), or an equivalent expression.
+	@inlinable
+	public static func * (
+		_ l·h·s: Range<Int>,
+		_ r·h·s: Symbol.Expression
+	) -> Symbol.Expression {
+		if l·h·s.upperBound - l·h·s.lowerBound < 1
+		{ return [] }
+		else if  l·h·s.upperBound - l·h·s.lowerBound == 1
+		{ return r·h·s }
+		else
+		{ return (l·h·s.lowerBound ... l·h·s.upperBound - 1) * r·h·s }
+	}
+
+	/// Returns an `Expression.sequence` of `r·h·s`, repeated `l·h·s` times.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  l·h·s:
+	///         An `Int`.
+	///         Negative values are treated as if they were `0`.
+	///      +  r·h·s:
+	///         An `Expression`.
+	///
+	///  +  Returns:
+	///     An `Expression.sequence` of `r·h·s` repeated `l·h·s` times, or an equivalent expression.
+	@inlinable
+	public static func * (
+		_ l·h·s: Int,
+		_ r·h·s: Symbol.Expression
+	) -> Symbol.Expression {
+		if l·h·s < 1
+		{ return []′ }
+		else if l·h·s == 1
+		{ return r·h·s }
+		else {
+			return Array(
+				repeating: r·h·s,
+				count: l·h·s
+			)′
+		}
+	}
+
 	/// Returns an `Expression.sequence` of its operands.
 	///
 	///  +  Note:
@@ -900,9 +1092,9 @@ where Symbol: Symbolic {
 	///     `0.1.0`.
 	///
 	///  +  Parameters:
-	///      +  lhs:
+	///      +  l·h·s:
 	///         An `Expression`.
-	///      +  rhs:
+	///      +  r·h·s:
 	///         An `Expression`.
 	///
 	///  +  Returns:
@@ -912,7 +1104,7 @@ where Symbol: Symbolic {
 		_ l·h·s: Symbol.Expression,
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression
-	{ [l·h·s, r·h·s] }
+	{ [l·h·s, r·h·s]′ }
 
 	/// Returns an `Expression.choice` of its operands.
 	///
@@ -926,9 +1118,9 @@ where Symbol: Symbolic {
 	///     `0.1.0`.
 	///
 	///  +  Parameters:
-	///      +  lhs:
+	///      +  l·h·s:
 	///         An `Expression`.
-	///      +  rhs:
+	///      +  r·h·s:
 	///         An `Expression`.
 	///
 	///  +  Returns:
@@ -1006,15 +1198,15 @@ where Symbol: Symbolic {
 	///     `0.1.0`.
 	///
 	///  +  Parameters:
-	///      +  lhs:
+	///      +  l·h·s:
 	///         An `Expression`.
-	///      +  rhs:
+	///      +  r·h·s:
 	///         An `Expression`.
 	@inlinable
 	public static func &= (
 		_ l·h·s: inout Symbol.Expression,
 		_ r·h·s: Symbol.Expression
-	) { l·h·s = [l·h·s, r·h·s] }
+	) { l·h·s = [l·h·s, r·h·s]′ }
 
 	/// Creates an `Expression.choice` of its operands and stores the result in the left·hand·side variable.
 	///
@@ -1025,9 +1217,9 @@ where Symbol: Symbolic {
 	///     `0.1.0`.
 	///
 	///  +  Parameters:
-	///      +  lhs:
+	///      +  l·h·s:
 	///         An `Expression`.
-	///      +  rhs:
+	///      +  r·h·s:
 	///         An `Expression`.
 	@inlinable
 	public static func |= (
@@ -1063,9 +1255,9 @@ where Symbol: Symbolic {
 	///     `0.1.0`.
 	///
 	///  +  Parameters:
-	///      +  lhs:
+	///      +  l·h·s:
 	///         An `Expression`.
-	///      +  rhs:
+	///      +  r·h·s:
 	///         An `Expression`.
 	@inlinable
 	public static func ÷= (
@@ -1487,7 +1679,7 @@ extension Expression:
 	///     A `.sequence` containing `elements`, or an equivalent expression.
 	public init(
 		arrayLiteral elements: Symbol.Expression...
-	) { self = .sequence(elements) }
+	) { self = elements′ }
 
 }
 
