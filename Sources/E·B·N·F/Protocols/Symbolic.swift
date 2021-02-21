@@ -38,6 +38,18 @@ where
 	var reference: Text?
 	{ get }
 
+	/// Creates a `Symbol` with the given `name`.
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  name:
+	///         The `Text` name of the `Symbol` to create.
+	init? (
+		name: Text
+	)
+
 	/// Returns the `Expression` of a given `version` of this value, if one is defined.
 	///
 	///  +  Version:
@@ -107,19 +119,19 @@ where
 
 }
 
-extension Symbolic {
+public extension Symbolic {
 
 	/// The `Construct`s produced by this `Symbolic`.
 	///
 	///  +  Version:
 	///     `0.1.0`.
-	public typealias Construct = E·B·N·F.Construct<Self>
+	typealias Construct = E·B·N·F.Construct<Self>
 
 	/// The `Expression`s produced by this `Symbolic`.
 	///
 	///  +  Version:
 	///     `0.1.0`.
-	public typealias Expression = E·B·N·F.Expression<Self>
+	typealias Expression = E·B·N·F.Expression<Self>
 
 	/// The `String` name of this `Symbolic`.
 	///
@@ -129,7 +141,7 @@ extension Symbolic {
 	///  +  Version:
 	///     `0.1.0`.
 	@inlinable
-	public var description: String
+	var description: String
 	{ String(name) }
 
 	/// The `name` of this `Symbolic`.
@@ -140,8 +152,25 @@ extension Symbolic {
 	///  +  Version:
 	///     `0.1.0`.
 	@inlinable
-	public var name: Text
+	var name: Text
 	{ rawValue.unicodeScalars }
+
+	/// Creates the `Symbol` whose `.rawValue` matches the given `name`.
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  name:
+	///         The `Text` name of the `Symbol` to create.
+	init? (
+		name: Text
+	) {
+		guard let match = (Symbol.allCases.first { $0.name.elementsEqual(name) })
+		else
+		{ return nil }
+		self = match
+	}
 
 	/// Returns a `String` EBNF rule for this `Symbolic`.
 	///
@@ -157,7 +186,8 @@ extension Symbolic {
 	///
 	///  +  Returns:
 	///     A `String` giving the EBNF rule for this value according to the provided `version`.
-	public func debugDescription (
+	@inlinable
+	func debugDescription (
 		version: Version
 	) -> String {
 		let expressionString: String
@@ -195,7 +225,7 @@ extension Symbolic {
 	///  +  Returns:
 	///     A `Construct.symbol`.
 	@inlinable
-	public func extract <T> (
+	func extract <T> (
 		from text: T,
 		version: Version = Version.default
 	) throws -> Construct
@@ -228,7 +258,7 @@ extension Symbolic {
 	///  +  Returns:
 	///     A `Boolean`.
 	@inlinable
-	public func parse <T> (
+	func parse <T> (
 		_ text: T,
 		version: Version = Version.default
 	) throws -> Construct
@@ -257,7 +287,7 @@ extension Symbolic {
 	///  +  Returns:
 	///     An `Expression.zeroOrOne`.
 	@inlinable
-	public static postfix func ° (
+	static postfix func ° (
 		_ operand: Self
 	) -> Expression
 	{ .zeroOrOne(operand′) }
@@ -277,7 +307,7 @@ extension Symbolic {
 	///  +  Returns:
 	///     An `Expression.symbol`.
 	@inlinable
-	public static postfix func ′ (
+	static postfix func ′ (
 		_ operand: Self
 	) -> Expression
 	{ .symbol(operand) }
@@ -297,7 +327,7 @@ extension Symbolic {
 	///  +  Returns:
 	///     An `Expression.oneOrMore`.
 	@inlinable
-	public static postfix func ″ (
+	static postfix func ″ (
 		_ operand: Self
 	) -> Expression
 	{ .oneOrMore(operand′) }
@@ -317,7 +347,7 @@ extension Symbolic {
 	///  +  Returns:
 	///     An `Expression.zeroOrMore`.
 	@inlinable
-	public static postfix func * (
+	static postfix func * (
 		_ operand: Self
 	) -> Expression
 	{ .zeroOrMore(operand′) }
