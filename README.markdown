@@ -7,6 +7,9 @@ Intended for use with RDF tools and libraries, but conceivably could be utilized
 | :-: | :-: |
 | 5.3 | 0.1 |
 
+Make something using Nib?
+Feel free to talk about it in the [GitHub Discussions](https://github.com/marrus-sh/Nib/discussions/categories/demoscene).
+
 ##  Should I Use This Library?  ##
 
 *Ideally,* **you should not.**
@@ -20,13 +23,15 @@ If you are going to be scared off by something like `.EmptyElemTag′ | [.STag�
 
 ##  Supports  ##
 
-| Technology | Version(s) | Notes |
+| Technology | Specification(s) | Notes |
 | --- | :-: | --- |
 | XML EBNF | [1.1 (2nd ed.)](https://www.w3.org/TR/2006/REC-xml11-20060816/#sec-notation) | Requires transcription into a DSL. Greedy matching only. Uses the XML 1.1 definition of `Char` when matching bracketed expressions. Does not support validity constraints. |
 
 ##  Dependencies  ##
 
 Nib requires Swift ≥ 5.3.
+Future versions of Nib will likely require even later versions of Swift.
+
 Future versions of Nib will likely require Foundation.
 [`swift-corelibs-foundation`](https://github.com/apple/swift-corelibs-foundation) should provide sufficient compatibility for non-Apple platforms.
 
