@@ -1,4 +1,4 @@
-//  #  E·B·N·F :: Core.Text  #
+//  #  E·B·N·F :: Core.Text.Character  #
 //
 //  Copyright © 2021 kibigo!
 //
