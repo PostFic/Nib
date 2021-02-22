@@ -18,7 +18,7 @@ import Core
 ///     `0.1.0`.
 public enum Expression <Symbol>:
 	Versionable
-where Symbol: Symbolic {
+where Symbol : Symbolic {
 
 	/// An EBNF gobbling error.
 	private struct GobbleError:
@@ -301,7 +301,7 @@ where Symbol: Symbolic {
 		version: Version = Version.default
 	) throws -> [Symbol.Construct]
 	where
-		T: Collection,
+		T : Collection,
 		T.SubSequence == Text.SubSequence
 	{
 		let view = text[...]
@@ -559,7 +559,7 @@ where Symbol: Symbolic {
 		version: Version = Version.default
 	) throws -> [Symbol.Construct]
 	where
-		T: Collection,
+		T : Collection,
 		T.SubSequence == Text.SubSequence
 	{
 		let view = text[...]
@@ -1264,6 +1264,30 @@ where Symbol: Symbolic {
 		_ l·h·s: inout Symbol.Expression,
 		_ r·h·s: Symbol.Expression
 	) { l·h·s = l·h·s ÷ r·h·s }
+
+	/// Returns an `Expression.zeroOrMore` of `operand`.
+	///
+	///  +  Note:
+	///     `*operand` is the same as `operand*`, which is preferred in most circumstances.
+	///     It is defined for completeness with regards to the ABNF·style `range*operand` syntax, where `range` is optional.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  operand:
+	///         An `Expression`.
+	///
+	///  +  Returns:
+	///     An `Expression.zeroOrMore` of `operand`, or an equivalent expression.
+	@inlinable
+	public static prefix func * (
+		_ operand: Symbol.Expression
+	) -> Symbol.Expression
+	{ operand* }
 
 }
 

@@ -32,7 +32,7 @@ where SubSequence == Text.SubSequence {
 		with expression: Expressed,
 		version: Expressed.Symbol.Version = .default
 	) -> Bool
-	where Expressed: Expressible {
+	where Expressed : Expressible {
 		(
 			try? expression′.extract(
 				from: self,
@@ -64,7 +64,7 @@ where SubSequence == Text.SubSequence {
 		_ expression: Expressed,
 		version: Expressed.Symbol.Version = .default
 	) -> Bool
-	where Expressed: Expressible {
+	where Expressed : Expressible {
 		(
 			try? expression′.parse(
 				self,
@@ -94,7 +94,7 @@ where SubSequence == Text.SubSequence {
 		_ l·h·s: Expressed,
 		_ r·h·s: Self
 	) -> Bool
-	where Expressed: Expressible
+	where Expressed : Expressible
 	{ r·h·s.matches(l·h·s) }
 
 }

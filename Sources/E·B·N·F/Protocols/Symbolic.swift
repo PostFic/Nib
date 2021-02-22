@@ -90,7 +90,7 @@ where
 		version: Version
 	) throws -> Construct
 	where
-		T: Collection,
+		T : Collection,
 		T.SubSequence == Text.SubSequence
 
 	/// Returns a `Construct.symbol` parsed from the provided `text` according to the `expression` of this `Symbolic`, or throws.
@@ -114,7 +114,7 @@ where
 		version: Version
 	) throws -> Construct
 	where
-		T: Collection,
+		T : Collection,
 		T.SubSequence == Text.SubSequence
 
 }
@@ -157,6 +157,9 @@ public extension Symbolic {
 
 	/// Creates the `Symbol` whose `.rawValue` matches the given `name`.
 	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
 	///  +  Version:
 	///     `0.2.0`.
 	///
@@ -166,10 +169,10 @@ public extension Symbolic {
 	init? (
 		name: Text
 	) {
-		guard let match = (Symbol.allCases.first { $0.name.elementsEqual(name) })
+		if let match = Self.nameMapping[Array(name)]
+		{ self = match }
 		else
 		{ return nil }
-		self = match
 	}
 
 	/// Returns a `String` EBNF rule for this `Symbolic`.
@@ -230,7 +233,7 @@ public extension Symbolic {
 		version: Version = Version.default
 	) throws -> Construct
 	where
-		T: Collection,
+		T : Collection,
 		T.SubSequence == Text.SubSequence
 	{
 		try self′.extract(
@@ -263,13 +266,19 @@ public extension Symbolic {
 		version: Version = Version.default
 	) throws -> Construct
 	where
-		T: Collection,
+		T : Collection,
 		T.SubSequence == Text.SubSequence
 	{
 		try self′.parse(
 			text,
 			version: version
 		)[0]
+	}
+
+	private static var nameMapping: [[Text.Character]: Self] {
+		Dictionary(
+			uniqueKeysWithValues: Self.allCases.map { (Array($0.rawValue.unicodeScalars), $0) }
+		)
 	}
 
 	/// Returns an `Expression.zeroOrOne` of an `Expression.symbol` which wraps the given value.

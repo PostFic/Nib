@@ -391,6 +391,10 @@ final class E·B·N·F·TestExpressions:
 		}
 	}
 
+	func testExpressionEmptyMultiples () {
+		XCTAssertEqual(*Symbol.symbol′, Symbol.symbol*)
+	}
+
 	func testExpressionSingleMultiples () {
 		XCTAssertEqual(0 * Symbol.symbol′, [])
 		XCTAssertEqual(1 * Symbol.symbol′, Symbol.symbol′)
