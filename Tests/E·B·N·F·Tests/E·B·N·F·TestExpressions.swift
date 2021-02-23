@@ -169,7 +169,7 @@ final class E·B·N·F·TestExpressions:
 
 	}
 
-	func testSymbolDescription () {
+	func testDescription () {
 		for symbol in Symbol.allCases {
 			let description: String
 			switch symbol {

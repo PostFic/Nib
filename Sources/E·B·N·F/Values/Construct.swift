@@ -13,10 +13,16 @@ import Core
 /// They represent a single *instance* of a `Symbol`.
 ///
 /// `Construct.string`s represent the text content of an instance of a terminal `Expression`.
+///
+///  +  Version:
+///     `0.1.0`.
 public enum Construct <Symbol>
 where Symbol: Symbolic {
 
 	/// The text contents of an instance of a terminal `Expression`.
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	case string (
 		content: Text.SubSequence
 	)
@@ -24,6 +30,9 @@ where Symbol: Symbolic {
 	/// A lexed instance of a `Symbol`.
 	///
 	/// The `content` must form a contiguous sequence from `.first.startIndex` to `.last.endIndex`.
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	case symbol (
 		Symbol,
 		version: Symbol.Version,
@@ -31,6 +40,12 @@ where Symbol: Symbolic {
 	)
 
 	/// If this `Symbol` is a `.symbol`, its `content`; otherwise, an array containing only this `Symbol`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	@inlinable
 	public var content: [Symbol.Construct] {
 		switch self {
@@ -45,6 +60,12 @@ where Symbol: Symbolic {
 	}
 
 	/// If this `Symbol` is a `.symbol`, its `symbol`; otherwise, `nil`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	@inlinable
 	public var symbol: Symbol? {
 		switch self {
@@ -59,6 +80,12 @@ where Symbol: Symbolic {
 	}
 
 	/// The substring which this `Construct` lexes.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	@inlinable
 	public var text: Text.SubSequence {
 		switch self {
@@ -74,6 +101,12 @@ where Symbol: Symbolic {
 	}
 
 	/// If this `Symbol` is a `.symbol`, its `version`; otherwise, `nil`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	@inlinable
 	public var version: Symbol.Version? {
 		switch self {

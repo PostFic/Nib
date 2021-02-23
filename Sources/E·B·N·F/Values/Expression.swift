@@ -13,6 +13,9 @@ import Core
 ///     In particular, rules of the following form will always fail:
 ///
 ///         neverMatches ::= A* A B
+///
+///  +  Version:
+///     `0.1.0`.
 public enum Expression <Symbol>:
 	Versionable
 where Symbol: Symbolic {
@@ -29,6 +32,9 @@ where Symbol: Symbolic {
 		fileprivate let text: Text.SubSequence
 
 		/// Creates a new gobbling error from the `text` and `expression`.
+		///
+		///  +  Authors:
+		///     [kibigo!](https://go.KIBI.family/About/#me).
 		fileprivate init (
 			_ text: Text.SubSequence,
 			_ expression: Symbol.Expression
@@ -40,11 +46,17 @@ where Symbol: Symbolic {
 	}
 
 	/// The type of versioning associated with an `Expression`’s associated `Symbol`s.
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	public typealias Version = Symbol.Version
 
 	/// Match a single `Text.Character`.
 	///
 	///     £N;
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	case character (
 		Text.Character
 	)
@@ -53,6 +65,9 @@ where Symbol: Symbolic {
 	///
 	///     ⟨£I;£J;£K;⟩
 	///     ⟨£M;–£N;⟩
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	case anyOf (
 		BracketedExpression
 	)
@@ -61,6 +76,9 @@ where Symbol: Symbolic {
 	///
 	///     ⟨∼£I;£J;£K;⟩
 	///     ⟨∼£M;–£N;⟩
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	case noneOf (
 		BracketedExpression
 	)
@@ -68,6 +86,9 @@ where Symbol: Symbolic {
 	/// Match the literal `Text.Character`s in the `String`.
 	///
 	///     ‹string›
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	case string (
 		Text
 	)
@@ -75,6 +96,9 @@ where Symbol: Symbolic {
 	/// Match a `Symbol`.
 	///
 	///     symbol
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	indirect case symbol (
 		Symbol
 	)
@@ -82,6 +106,9 @@ where Symbol: Symbolic {
 	/// Match any of the associated `Expression`s.
 	///
 	///     (A | B | C)
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	indirect case choice (
 		[Symbol.Expression]
 	)
@@ -89,6 +116,9 @@ where Symbol: Symbolic {
 	/// Match each of the associated `Expression`s in order.
 	///
 	///     (A B C)
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	indirect case sequence (
 		[Symbol.Expression]
 	)
@@ -100,6 +130,9 @@ where Symbol: Symbolic {
 	///  +  Note:
 	///     `.excluding` only checks for an exact match with the second `Expression`.
 	///     Use `.notIncluding` to check if the second `Expression` matches any substring.
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	indirect case excluding (
 		Symbol.Expression,
 		Symbol.Expression
@@ -112,6 +145,9 @@ where Symbol: Symbolic {
 	///  +  Note:
 	///     The XML specification specifies this as `A − (Char* B Char*)` (or equivalent).
 	///     It is treated specially here because the Nib engine is a greedy parser, and `Char* B` will never match.
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	indirect case notIncluding (
 		Symbol.Expression,
 		Symbol.Expression
@@ -120,6 +156,9 @@ where Symbol: Symbolic {
 	/// Match anything which matches the associated `Expression` zero or one times.
 	///
 	///     (A?)
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	indirect case zeroOrOne (
 		Symbol.Expression
 	)
@@ -127,6 +166,9 @@ where Symbol: Symbolic {
 	/// Match anything which matches the associated `Expression` one or more times.
 	///
 	///     (A+)
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	indirect case oneOrMore (
 		Symbol.Expression
 	)
@@ -134,6 +176,9 @@ where Symbol: Symbolic {
 	/// Match anything which matches the associated `Expression` zero or more times.
 	///
 	///     (A×)
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	indirect case zeroOrMore (
 		Symbol.Expression
 	)
@@ -141,6 +186,12 @@ where Symbol: Symbolic {
 	/// Whether an `Expression` is terminal.
 	///
 	/// An `Expression` is terminal if it is not `.symbol` and all of its subexpressions are terminal.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	public var isTerminal: Bool {
 		switch self {
 			case
@@ -187,6 +238,12 @@ where Symbol: Symbolic {
 	///
 	///  +  Note:
 	///     Converting an `Expression` to and from a string is not necessarily lossless, but the resulting `Expression` will be equivalent (match exactly the same `Text`s).
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	public init? (
 		_ description: String
 	) {
@@ -218,6 +275,16 @@ where Symbol: Symbolic {
 
 	/// Returns an `Array` of `Construct`s matching this `Expression` from the beginning of the provided `text`, or throws.
 	///
+	///  +  Note:
+	///     This `Expression` need not match the entire `text` for `.extract(from:version:)` to return a value.
+	///     To see if the whole `text` was matched, use `.parse(:version:)` instead.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  text:
 	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
@@ -229,10 +296,6 @@ where Symbol: Symbolic {
 	///
 	///  +  Returns:
 	///     An `Array` of `Construct`s.
-	///
-	///  +  Note:
-	///     This `Expression` need not match the entire `text` for `.extract(from:version:)` to return a value.
-	///     To see if the whole `text` was matched, use `.parse(:version:)` instead.
 	public func extract <T> (
 		from text: T,
 		version: Version = Version.default
@@ -259,6 +322,9 @@ where Symbol: Symbolic {
 	}
 
 	/// Returns a tuple consisting of a `Text.Index`, signifying where matching ended, and an `Array` of `Construct`s matching this `Expression` from the beginning of the provided `view`, or throws.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  view:
@@ -473,6 +539,12 @@ where Symbol: Symbolic {
 	///
 	/// <https://www.w3.org/TR/xml11/#dt-match>.
 	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  text:
 	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
@@ -499,6 +571,12 @@ where Symbol: Symbolic {
 	}
 
 	/// Returns a tree of `Construct`s parsed from the provided `text`, or throws.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  text:
@@ -538,6 +616,9 @@ where Symbol: Symbolic {
 
 	/// Adds an `Array` of `Construct`s to another `Array` of `Construct`s , merging the `.string`s on the boundary.
 	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
 	///  +  Parameters:
 	///      +  collection:
 	///         The `Array` of `Construct`s to add to.
@@ -570,6 +651,9 @@ where Symbol: Symbolic {
 	}
 
 	/// Gobbles an expression description from the beginning of the provided `text` and returns a tuple of the end·index of the match and the expression produced.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  text:
@@ -840,6 +924,12 @@ where Symbol: Symbolic {
 
 	/// Returns whether a given `Expression` exactly matches the provided text.
 	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  l·h·s:
 	///         An `Expression`.
@@ -860,6 +950,15 @@ where Symbol: Symbolic {
 
 	/// Returns an `Expression.sequence` of its operands.
 	///
+	///  +  Note:
+	///     Consider using an array literal instead when you need to produce a `.sequence` of more than two `Expression`s.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  lhs:
 	///         An `Expression`.
@@ -868,9 +967,6 @@ where Symbol: Symbolic {
 	///
 	///  +  Returns:
 	///     An `Expression.sequence`, or an equivalent expression.
-	///
-	///  +  Note:
-	///     Consider using an array literal instead when you need to produce a `.sequence` of more than two `Expression`s.
 	@inlinable
 	public static func & (
 		_ l·h·s: Symbol.Expression,
@@ -880,6 +976,15 @@ where Symbol: Symbolic {
 
 	/// Returns an `Expression.choice` of its operands.
 	///
+	///  +  Note:
+	///     Consider using `‖` with an array literal instead when you need to produce a `.choice` of more than two `Expression`s.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  lhs:
 	///         An `Expression`.
@@ -888,9 +993,6 @@ where Symbol: Symbolic {
 	///
 	///  +  Returns:
 	///     An `Expression.choice`, or an equivalent expression.
-	///
-	///  +  Note:
-	///     Consider using `‖` with an array literal instead when you need to produce a `.choice` of more than two `Expression`s.
 	@inlinable
 	public static func | (
 		_ l·h·s: Symbol.Expression,
@@ -900,6 +1002,15 @@ where Symbol: Symbolic {
 
 	/// Returns an `Expression.excluding` of its operands.
 	///
+	///  +  Note:
+	///     This operator is `U+2212 − MINUS SIGN`, not `U+002D - HYPHEN-MINUS`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  l·h·s:
 	///         An `Expression`.
@@ -908,9 +1019,6 @@ where Symbol: Symbolic {
 	///
 	///  +  Returns:
 	///     An `Expression.excluding` excluding `r·h·s` from `l·h·s`, or an equivalent expression.
-	///
-	///  +  Note:
-	///     This operator is `U+2212 − MINUS SIGN`, not `U+002D - HYPHEN-MINUS`.
 	@inlinable
 	public static func − (
 		_ l·h·s: Symbol.Expression,
@@ -923,6 +1031,12 @@ where Symbol: Symbolic {
 	}
 
 	/// Returns an `Expression.notIncluding` of its operands.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -945,6 +1059,12 @@ where Symbol: Symbolic {
 
 	/// Creates an `Expression.sequence` of its operands and stores the result in the left·hand·side variable.
 	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  lhs:
 	///         An `Expression`.
@@ -957,6 +1077,12 @@ where Symbol: Symbolic {
 	) { l·h·s = [l·h·s, r·h·s] }
 
 	/// Creates an `Expression.choice` of its operands and stores the result in the left·hand·side variable.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  lhs:
@@ -971,6 +1097,12 @@ where Symbol: Symbolic {
 
 	/// Creates an `Expression.excluding` from its operands and stores the result in the left·hand·side variable.
 	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  lhs:
 	///         An `Expression`.
@@ -983,6 +1115,12 @@ where Symbol: Symbolic {
 	) { l·h·s = l·h·s − r·h·s }
 
 	/// Creates an `Expression.notIncluding` from its operands and stores the result in the left·hand·side variable.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  lhs:
@@ -1002,6 +1140,12 @@ extension Expression:
 {
 
 	/// A `String` representation of the EBNF expression.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	public var description: String {
 		switch self {
 			case .character (
@@ -1128,6 +1272,15 @@ extension Expression:
 
 	/// Returns whether the operands are identical expressions.
 	///
+	///  +  Note:
+	///     Two `Expression`s might not be equal but may still match exactly the same strings.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  l·h·s:
 	///         An `Expression`.
@@ -1136,9 +1289,6 @@ extension Expression:
 	///
 	///  +  Returns:
 	///     `true` if the operands are identicial; false otherwise.
-	///
-	///  +  Note:
-	///     Two `Expression`s might not be equal but may still match exactly the same strings.
 	public static func == (
 		_ l·h·s: Symbol.Expression,
 		_ r·h·s: Symbol.Expression
@@ -1269,6 +1419,12 @@ extension Expression:
 
 	/// Returns a `.zeroOrOne` of its operand.
 	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  operand:
 	///         An `Expression`.
@@ -1294,6 +1450,12 @@ extension Expression:
 
 	/// Returns its operand.
 	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  operand:
 	///         An `Expression`.
@@ -1307,6 +1469,12 @@ extension Expression:
 	{ operand }
 
 	/// Returns a `.oneOrMore` of its operand.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -1332,6 +1500,12 @@ extension Expression:
 	}
 
 	/// Returns a `.zeroOrMore` of its operand.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -1367,6 +1541,12 @@ extension Expression:
 
 	/// Creates a `.sequence` from an array literal.
 	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  elements:
 	///         An `Array` of `Expression`s.
@@ -1384,6 +1564,12 @@ extension Expression:
 {
 
 	/// Creates a `.character` or `.string` from a string literal.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  value:
@@ -1408,6 +1594,9 @@ extension Expression
 where Symbol == DescriptionSymbol {
 
 	/// An XML Names 1.1 QName.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	internal static let QName: Symbol.Expression = {
 		let NCNameStartChar: Symbol.Expression = ‖[√["A"..."Z"], "_", √["a"..."z"], √["\u{C0}"..."\u{D6}"], √["\u{D8}"..."\u{F6}"], √["\u{F8}"..."\u{2FF}"], √["\u{370}"..."\u{37D}"], √["\u{37F}"..."\u{1FFF}"], √["\u{200C}"..."\u{200D}"], √["\u{2070}"..."\u{218F}"], √["\u{2C00}"..."\u{2FEF}"], √["\u{3001}"..."\u{D7FF}"], √["\u{F900}"..."\u{FDCF}"], √["\u{FDF0}"..."\u{FFFD}"], √["\u{10000}"..."\u{EFFFF}"]]
 		let NCNameChar: Symbol.Expression = ‖[NCNameStartChar, "-", ".", √["0"..."9"], "\u{B7}", √["\u{300}"..."\u{36F}"], √["\u{203F}"..."\u{2040}"]]

@@ -12,15 +12,21 @@ extension Array {
 	///
 	///     ‖[.A′, .B′] == .choice([.symbol(.A), .symbol(.B)])
 	///
+	///  +  Note:
+	///     This operator is `U+2016 ‖ DOUBLE VERTICAL LINE`, not two `U+007C | VERTICAL LINES`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  operand:
 	///         An `[Expression]`.
 	///
 	///  +  Returns:
 	///     A `Expression.choice` between the expressions in `operand`, or an equivalent expression.
-	///
-	///  +  Note:
-	///     This operator is `U+2016 ‖ DOUBLE VERTICAL LINE`, not two `U+007C | VERTICAL LINES`.
 	public static prefix func ‖ <Symbol> (
 		_ operand: [Element]
 	) -> Element

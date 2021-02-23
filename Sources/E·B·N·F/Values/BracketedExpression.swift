@@ -7,37 +7,52 @@
 import Core
 
 /// An ordered collection of `BracketedComponent`s.
+///
+///  +  Version:
+///     `0.1.0`.
 public typealias BracketedExpression = [BracketedComponent]
 
 extension BracketedExpression {
 
-	/// Returns an `.anyOf` wrapping the given `BracketedExpression`.
+	/// Returns an `Expression.anyOf` wrapping the given `BracketedExpression`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
 	///         A `BracketedExpression`.
 	///
 	///  +  Returns:
-	///     An `.anyOf` wrapping the `operand`.
+	///     An `Expression.anyOf` wrapping the `operand`.
 	@inlinable
 	public static prefix func √ <Symbol> (
 		_ operand: BracketedExpression
-	) -> Expression<Symbol>
+	) -> Symbol.Expression
 	where Symbol: Symbolic
 	{ .anyOf(operand) }
 
-	/// Returns a `.noneOf` wrapping the given `BracketedExpression`.
+	/// Returns an `Expression.noneOf` wrapping the given `BracketedExpression`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
 	///         A `BracketedExpression`.
 	///
 	///  +  Returns:
-	///     A `.noneOf` wrapping the `operand`.
+	///     An `Expression.noneOf` wrapping the `operand`.
 	@inlinable
 	public static prefix func ^ <Symbol> (
 		_ operand: BracketedExpression
-	) -> Expression<Symbol>
+	) -> Symbol.Expression
 	where Symbol: Symbolic
 	{ .noneOf(operand) }
 
@@ -47,9 +62,15 @@ extension BracketedExpression:
 	ExpressibleByUnicodeScalarLiteral
 {
 
-	/// Creates a `BracketedExpression` from a Unicode scalar literal.
+	/// Creates a `BracketedExpression` from a `unicodeScalarLiteral`.
 	///
-	/// The resulting `BracketedExpression` will have one component, matching only the provided `unicodeScalarLiteral`.
+	/// The resulting `BracketedExpression` will have one component, matching only the provided `Text.Character`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  + Parameters:
 	///      +  unicodeScalarLiteral:
@@ -64,9 +85,15 @@ extension BracketedExpression:
 	ExpressibleByExtendedGraphemeClusterLiteral
 {
 
-	/// Creates a `BracketedExpression` from an extended grapheme cluster.
+	/// Creates a `BracketedExpression` from an `extendedGraphemeClusterLiteral`.
 	///
-	/// The resulting `BracketedExpression` will only match those `Text.Character`s in the provided `extendedGraphemeClusterLiteral`.
+	/// The resulting `BracketedExpression` will only match those `Text.Character`s in the provided `String`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  + Parameters:
 	///      +  extendedGraphemeClusterLiteral:
@@ -81,9 +108,15 @@ extension BracketedExpression:
 	ExpressibleByStringLiteral
 {
 
-	/// Creates a `BracketedExpression` from a `String`.
+	/// Creates a `BracketedExpression` from a `stringLiteral`.
 	///
-	/// The resulting `BracketedExpression` will only match those `Text.Character`s in the provided `stringLiteral`.
+	/// The resulting `BracketedExpression` will only match those `Text.Character`s in the provided `String`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  + Parameters:
 	///      +  stringLiteral:

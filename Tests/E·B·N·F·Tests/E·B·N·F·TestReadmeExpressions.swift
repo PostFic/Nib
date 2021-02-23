@@ -69,7 +69,7 @@ final class E·B·N·F·TestReadmeExpressions:
 
 	}
 
-	func testSymbolDescription () {
+	func testReadmeSymbolDebugDescription () {
 		for symbol in ExampleSymbol.allCases {
 			let description: String
 			switch symbol {
@@ -99,7 +99,7 @@ final class E·B·N·F·TestReadmeExpressions:
 		}
 	}
 
-	func testExpressionDescriptionInitialization () {
+	func testReadmeExpressionDescriptionInitialization () {
 		for symbol in ExampleSymbol.allCases {
 			XCTAssertEqual(symbol[]!.description, ExampleSymbol.Expression(symbol[]!.description)?.description)
 		}

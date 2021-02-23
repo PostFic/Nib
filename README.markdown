@@ -21,8 +21,8 @@ If you are going to be scared off by something like `.EmptyElemTag′ | [.STag�
 ##  Supports  ##
 
 | Technology | Version(s) | Notes |
-| --- | :-: | --- |
-| XML EBNF | [1.1 (2nd ed.)](https://www.w3.org/TR/2006/REC-xml11-20060816/#sec-notation) | Requires transcription into a DSL. Greedy matching only. Uses the XML 1.1 definition of `Char` when matching bracketed expressions. Does not support validity constraints. |
+| :-: | :-: | --- |
+| [XML EBNF](Sources/E·B·N·F/) | [1.1 (2nd ed.)](https://www.w3.org/TR/2006/REC-xml11-20060816/#sec-notation) | Requires transcription into a DSL. Greedy matching only. Uses the XML 1.1 definition of `Char` when matching bracketed expressions. |
 
 ##  Dependencies  ##
 

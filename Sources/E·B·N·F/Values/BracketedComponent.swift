@@ -10,6 +10,9 @@ import Core
 ///
 ///  +  Note:
 ///     Single characters are expressed as ranges whose `.lowerBound` and `.upperBound` are the same.
+///
+///  +  Version:
+///     `0.1.0`.
 public struct BracketedComponent:
 	Hashable
 {
@@ -18,6 +21,12 @@ public struct BracketedComponent:
 	public let range: ClosedRange<Text.Character>
 
 	/// Creates a `BracketedComponent` from a single `Text.Character`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  character:
@@ -28,6 +37,12 @@ public struct BracketedComponent:
 
 	/// Creates a `BracketedComponent` from a `ClosedRange<Text.Character>`.
 	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
+	///
 	///  +  Parameters:
 	///      +  range:
 	///         The `ClosedRange<Text.Character>` which this `BracketedComponent` represents.
@@ -36,6 +51,12 @@ public struct BracketedComponent:
 	) { self.range = range }
 
 	/// Returns whether this `BracketedComponent` matches a given `Text.Character`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  character:
@@ -50,6 +71,12 @@ public struct BracketedComponent:
 	{ range ~= character }
 
 	/// Returns whether a given `BracketedComponent` matches a given `Text.Character`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  lhs:
@@ -68,6 +95,9 @@ public struct BracketedComponent:
 
 
 	/// Escapes all nonprintable ASCII characters as `£N;`, where `N` is the Unicode codepoint (in hexadecimal).
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  char:
@@ -102,6 +132,12 @@ extension BracketedComponent:
 	///  +  Note:
 	///     The character used to delimit ranges is `U+2013 EN DASH`, not `U+002D HYPHEN-MINUS`.
 	///     The latter may appear literally in strings.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	public var description: String
 	{ range.lowerBound == range.upperBound ? BracketedComponent.charString(range.lowerBound) : "\(BracketedComponent.charString(range.lowerBound))–\(BracketedComponent.charString(range.upperBound))" }
 
@@ -112,6 +148,12 @@ extension BracketedComponent:
 {
 
 	/// Creates a `BracketedComponent` from a Unicode scalar literal.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.1.0`.
 	///
 	///  +  Parameters:
 	///      +  value:
