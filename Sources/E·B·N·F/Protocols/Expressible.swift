@@ -1,11 +1,10 @@
-//  #  EBNF :: Expressible  #
+//  #  E·B·N·F :: Expressible  #
 //
 //  Copyright © 2021 kibigo!
 //
-//  This file is made available under the terms of the Mozilla Public License, version 2.0 (MPL 2.0).
-//  If a copy of the MPL 2.0 was not distributed with this file, you can obtain one at <http://mozilla.org/MPL/2.0/>.
+//  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A type which can be converted into an expression using the `′` postfix operator.
+/// A type which can be converted into an `Expression` using the `′` postfix operator.
 public protocol Expressible {
 
 	/// The type of values associated with generated `Expression.symbol`s.
@@ -18,10 +17,10 @@ public protocol Expressible {
 	///         The `Expressible` value to create an `Expression` from.
 	///
 	///  +  Returns:
-	///     An `Expression.zeroOrOne`.
+	///     An `Expression.zeroOrOne`, or an equivalent expression.
 	static postfix func ° (
 		_ operand: Self
-	) -> Expression<Symbol>
+	) -> Symbol.Expression
 
 	/// Returns the `Expression` that this `Expressible` can be expressed as.
 	///
@@ -33,7 +32,7 @@ public protocol Expressible {
 	///     An `Expression`.
 	static postfix func ′ (
 		_ operand: Self
-	) -> Expression<Symbol>
+	) -> Symbol.Expression
 
 	/// Returns an `Expression.oneOrMore` of the generated `Expression`.
 	///
@@ -42,10 +41,10 @@ public protocol Expressible {
 	///         The `Expressible` value to create an `Expression` from.
 	///
 	///  +  Returns:
-	///     An `Expression.oneOrMore`.
+	///     An `Expression.oneOrMore`, or an equivalent expression.
 	static postfix func ″ (
 		_ operand: Self
-	) -> Expression<Symbol>
+	) -> Symbol.Expression
 
 	/// Returns an `Expression.zeroOrMore` of the generated `Expression`.
 	///
@@ -54,10 +53,10 @@ public protocol Expressible {
 	///         The `Expressible` value to create an `Expression` from.
 	///
 	///  +  Returns:
-	///     An `Expression.zeroOrMore`.
+	///     An `Expression.zeroOrMore`, or an equivalent expression.
 	static postfix func * (
 		_ operand: Self
-	) -> Expression<Symbol>
+	) -> Symbol.Expression
 
 }
 
