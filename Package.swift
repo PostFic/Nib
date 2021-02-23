@@ -27,6 +27,11 @@ let package = Package(
 			name: "E·B·N·F",
 			dependencies: ["Core"],
 			exclude: ["Documentation"]
+		),
+		.testTarget(
+			name: "E·B·N·F·Tests",
+			dependencies: ["Core", "E·B·N·F"],
+			exclude: ["Documentation"]
 		)
 	],
 
