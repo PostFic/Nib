@@ -391,4 +391,49 @@ final class E·B·N·F·TestExpressions:
 		}
 	}
 
+	func testExpressionEmptyMultiples () {
+		XCTAssertEqual(*Symbol.symbol′, Symbol.symbol*)
+	}
+
+	func testExpressionSingleMultiples () {
+		XCTAssertEqual(0 * Symbol.symbol′, [])
+		XCTAssertEqual(1 * Symbol.symbol′, Symbol.symbol′)
+		XCTAssertEqual(4 * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, Symbol.symbol′, Symbol.symbol′])
+	}
+
+	func testExpressionMultiplesFrom () {
+		XCTAssertEqual(0... * Symbol.symbol′, Symbol.symbol*)
+		XCTAssertEqual(1... * Symbol.symbol′, Symbol.symbol″)
+		XCTAssertEqual(4... * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, Symbol.symbol′, Symbol.symbol″])
+	}
+
+	func testExpressionMultiplesThrough () {
+		XCTAssertEqual(...0 * Symbol.symbol′, [])
+		XCTAssertEqual(...1 * Symbol.symbol′, Symbol.symbol°)
+		XCTAssertEqual(...4 * Symbol.symbol′, [Symbol.symbol′, [Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°]°]°)
+	}
+
+	func testExpressionMultiplesUpTo () {
+		XCTAssertEqual(..<0 * Symbol.symbol′, [])
+		XCTAssertEqual(..<1 * Symbol.symbol′, [])
+		XCTAssertEqual(..<2 * Symbol.symbol′, Symbol.symbol°)
+		XCTAssertEqual(..<4 * Symbol.symbol′, [Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°]°)
+	}
+
+	func testExpressionMultiplesFromThrough () {
+		XCTAssertEqual((0...4) * Symbol.symbol′, [Symbol.symbol′, [Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°]°]°)
+		XCTAssertEqual((1...4) * Symbol.symbol′, [Symbol.symbol′, [Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°]°])
+		XCTAssertEqual((2...4) * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°])
+		XCTAssertEqual((3...4) * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, Symbol.symbol′, Symbol.symbol°])
+		XCTAssertEqual((4...4) * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, Symbol.symbol′, Symbol.symbol′])
+	}
+
+	func testExpressionMultiplesFromUpTo () {
+		XCTAssertEqual((0..<4) * Symbol.symbol′, [Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°]°)
+		XCTAssertEqual((1..<4) * Symbol.symbol′, [Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°])
+		XCTAssertEqual((2..<4) * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, Symbol.symbol°])
+		XCTAssertEqual((3..<4) * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, Symbol.symbol′])
+		XCTAssertEqual((4..<4) * Symbol.symbol′, [])
+	}
+
 }

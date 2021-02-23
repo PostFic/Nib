@@ -25,7 +25,7 @@ extension Array {
 	///
 	///  +  Parameters:
 	///      +  operand:
-	///         An `[Expression]`.
+	///         An `Array` of `Expression`s.
 	///
 	///  +  Returns:
 	///     A `Expression.choice` between the expressions in `operand`, or an equivalent expression.
@@ -115,6 +115,95 @@ extension Array {
 		return simplified.count == 1 ? simplified[0] : .choice(simplified)
 	}
 
+	/// Returns an `Expression.sequence` of the `operand`.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  operand:
+	///         An `Array` of `Expression`s.
+	///
+	///  +  Returns:
+	///     A `Expression.sequence` of the expressions in `operand`, or an equivalent expression.
+	@inlinable
+	public static postfix func ′ <Symbol> (
+		_ operand: [Element]
+	) -> Element
+	where
+		Symbol: Symbolic,
+		Element == Symbol.Expression
+	{
+		let simplified = operand.flatMap { expr -> [Element] in
+			if case .sequence (
+				let inner
+			) = expr
+			{ return inner }
+			else
+			{ return [expr] }
+		}.reduce(into: [] as [Element]) { result, expr in
+			guard let last = result.last
+			else {
+				result.append(expr)
+				return
+			}
+			if
+				case .string (
+					let str
+				) = expr,
+				case .string (
+					let lastStr
+				) = last
+			{
+				result.replaceSubrange(
+					result.endIndex - 1 ..< result.endIndex,
+					with: CollectionOfOne(.string(str + lastStr))
+				)
+			} else if
+				case .character (
+					let char
+				) = expr,
+				case .string (
+					let lastStr
+				) = last
+			{
+				result.replaceSubrange(
+					result.endIndex - 1 ..< result.endIndex,
+					with: CollectionOfOne(.string(Text(CollectionOfOne(char) + lastStr)))
+				)
+			} else if
+				case .string (
+					let str
+				) = expr,
+				case .character (
+					let lastChar
+				) = last
+			{
+				result.replaceSubrange(
+					result.endIndex - 1 ..< result.endIndex,
+					with: CollectionOfOne(.string(Text(str + CollectionOfOne(lastChar))))
+				)
+			} else if
+				case .character (
+					let char
+				) = expr,
+				case .character (
+					let lastChar
+				) = last
+			{
+				result.replaceSubrange(
+					result.endIndex - 1 ..< result.endIndex,
+					with: CollectionOfOne(.string(Text([char, lastChar])))
+				)
+			} else
+			{ result.append(expr) }
+		}
+		return simplified.count == 1 ? simplified[0] : .sequence(simplified)
+	}
+
 }
 
 extension Array
@@ -189,7 +278,7 @@ where Element == Text.Character {
 	///     `0.2.0`.
 	///
 	///  +  Parameters:
-	///      +  expression:
+	///      +  l·h·s:
 	///         An `Expressible`.
 	///      +  r·h·s:
 	///         A `Array` whose `Element` is `Text.Character`.

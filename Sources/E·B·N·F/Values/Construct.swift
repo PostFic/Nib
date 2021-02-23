@@ -17,7 +17,7 @@ import Core
 ///  +  Version:
 ///     `0.1.0`.
 public enum Construct <Symbol>
-where Symbol: Symbolic {
+where Symbol : Symbolic {
 
 	/// The text contents of an instance of a terminal `Expression`.
 	///

@@ -46,6 +46,12 @@ prefix operator √
 ///     `0.1.0`.
 prefix operator ^
 
+/// Zero·or·more·of.
+///
+///  +  Version:
+///     `0.1.0`.
+prefix operator *
+
 /// Zero·or·one·of.
 ///
 ///  +  Version:
