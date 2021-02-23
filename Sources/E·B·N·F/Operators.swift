@@ -4,23 +4,11 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// Excluding.
-///
-///  +  Version:
-///     `0.1.0`.
-infix operator −: ExclusionPrecedence
-
 /// Not·including.
 ///
 ///  +  Version:
 ///     `0.1.0`.
-infix operator ÷: ExclusionPrecedence
-
-/// Excluding Assignment.
-///
-///  +  Version:
-///     `0.1.0`.
-infix operator −=: AssignmentPrecedence
+infix operator ÷: AdditionPrecedence
 
 /// Not·including Assignment.
 ///
@@ -28,11 +16,17 @@ infix operator −=: AssignmentPrecedence
 ///     `0.1.0`.
 infix operator ÷=: AssignmentPrecedence
 
-/// Choose·between.
+/// Choice.
 ///
 ///  +  Version:
-///     `0.1.0`.
-prefix operator ‖
+///     `0.2.0`.
+prefix operator ∑
+
+/// Sequence.
+///
+///  +  Version:
+///     `0.2.0`.
+prefix operator ∏
 
 /// Any·of.
 ///
@@ -52,27 +46,27 @@ prefix operator ^
 ///     `0.1.0`.
 prefix operator *
 
-/// Zero·or·one·of.
-///
-///  +  Version:
-///     `0.1.0`.
-postfix operator °
-
 /// One·of.
 ///
 ///  +  Version:
-///     `0.1.0`.
-postfix operator ′
+///     `0.2.0`.
+postfix operator ®
+
+/// Zero·or·one·of.
+///
+///  +  Version:
+///     `0.2.0`.
+postfix operator ^?
 
 /// One·or·more·of.
 ///
 ///  +  Version:
-///     `0.1.0`.
-postfix operator ″
+///     `0.2.0`.
+postfix operator ^+
 
 /// Zero·or·more·of.
 ///
 ///  +  Version:
-///     `0.1.0`.
-postfix operator *
+///     `0.2.0`.
+postfix operator ^*
 

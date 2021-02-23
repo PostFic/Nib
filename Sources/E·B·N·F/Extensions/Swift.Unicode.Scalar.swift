@@ -1,14 +1,12 @@
-//  #  E·B·N·F :: Core.Text.Character  #
+//  #  E·B·N·F :: Swift.Unicode.Scalar  #
 //
 //  Copyright © 2021 kibigo!
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import Core
+extension Unicode.Scalar {
 
-extension Text.Character {
-
-	/// Creates a `BracketedComponent` ranging the operand `Text.Character`s.
+	/// Creates a `BracketedComponent` ranging the operand `Unicode.Scalar`s.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -18,16 +16,16 @@ extension Text.Character {
 	///
 	///  +  Parameters:
 	///      + l·h·s:
-	///        A `Text.Character`·
+	///        A `Unicode.Scalar`·
 	///      + r·h·s:
-	///        A `Text.Character`·
+	///        A `Unicode.Scalar`·
 	///
 	///  +  Returns:
 	///     A `BracketedComponent` which ranges from `l·h·s` to `r·h·s`.
 	@inlinable
 	public static func ... (
-		_ l·h·s: Text.Character,
-		_ r·h·s: Text.Character
+		_ l·h·s: Unicode.Scalar,
+		_ r·h·s: Unicode.Scalar
 	) -> BracketedComponent
 	{ BracketedComponent(l·h·s...r·h·s) }
 

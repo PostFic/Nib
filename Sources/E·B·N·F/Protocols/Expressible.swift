@@ -4,7 +4,7 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-/// A type which can be converted into an `Expression` using the `′` postfix operator.
+/// A type which can be converted into an `Expression` using the `®` postfix operator.
 ///
 ///  +  Version:
 ///     `0.1.0`.
@@ -16,25 +16,10 @@ public protocol Expressible {
 	///     `0.1.0`.
 	associatedtype Symbol where Symbol: Symbolic
 
-	/// Returns an `Expression.zeroOrOne` of the generated `Expression`.
-	///
-	///  +  Version:
-	///     `0.1.0`.
-	///
-	///  +  Parameters:
-	///      +  operand:
-	///         The `Expressible` value to create an `Expression` from.
-	///
-	///  +  Returns:
-	///     An `Expression.zeroOrOne`, or an equivalent expression.
-	static postfix func ° (
-		_ operand: Self
-	) -> Symbol.Expression
-
 	/// Returns the `Expression` that this `Expressible` can be expressed as.
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -42,14 +27,29 @@ public protocol Expressible {
 	///
 	///  +  Returns:
 	///     An `Expression`.
-	static postfix func ′ (
+	static postfix func ® (
+		_ operand: Self
+	) -> Symbol.Expression
+
+	/// Returns an `Expression.zeroOrOne` of the generated `Expression`.
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  operand:
+	///         The `Expressible` value to create an `Expression` from.
+	///
+	///  +  Returns:
+	///     An `Expression.zeroOrOne`, or an equivalent expression.
+	static postfix func ^? (
 		_ operand: Self
 	) -> Symbol.Expression
 
 	/// Returns an `Expression.oneOrMore` of the generated `Expression`.
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -57,14 +57,14 @@ public protocol Expressible {
 	///
 	///  +  Returns:
 	///     An `Expression.oneOrMore`, or an equivalent expression.
-	static postfix func ″ (
+	static postfix func ^+ (
 		_ operand: Self
 	) -> Symbol.Expression
 
 	/// Returns an `Expression.zeroOrMore` of the generated `Expression`.
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -72,7 +72,7 @@ public protocol Expressible {
 	///
 	///  +  Returns:
 	///     An `Expression.zeroOrMore`, or an equivalent expression.
-	static postfix func * (
+	static postfix func ^* (
 		_ operand: Self
 	) -> Symbol.Expression
 
@@ -86,12 +86,15 @@ public extension Expressible {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
+	///
+	///  +  Returns:
+	///     An `Expression.zeroOrOne`, or an equivalent expression.
 	@inlinable
-	static postfix func ° (
+	static postfix func ^? (
 		_ operand: Self
 	) -> Symbol.Expression
-	{ .zeroOrOne(operand′) }
+	{ .zeroOrOne(operand®) }
 
 	/// Returns an `Expression.oneOrMore` of the `operand`.
 	///
@@ -99,12 +102,15 @@ public extension Expressible {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
+	///
+	///  +  Returns:
+	///     An `Expression.oneOrMore`, or an equivalent expression.
 	@inlinable
-	static postfix func ″ (
+	static postfix func ^+ (
 		_ operand: Self
 	) -> Symbol.Expression
-	{ .oneOrMore(operand′) }
+	{ .oneOrMore(operand®) }
 
 	/// Returns an `Expression.zeroOrMore` of the `operand`.
 	///
@@ -112,11 +118,14 @@ public extension Expressible {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
+	///
+	///  +  Returns:
+	///     An `Expression.zeroOrMore`, or an equivalent expression.
 	@inlinable
-	static postfix func * (
+	static postfix func ^* (
 		_ operand: Self
 	) -> Symbol.Expression
-	{ .zeroOrMore(operand′) }
+	{ .zeroOrMore(operand®) }
 
 }

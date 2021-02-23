@@ -4,9 +4,7 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import Core
-
-/// A single `Text.Character` or `ClosedRange<Text.Character>`, as present within a set of brackets in the XML EBNF syntax.
+/// A single `Unicode.Scalar` or `ClosedRange<Unicode.Scalar>`, as present within a set of brackets in the XML EBNF syntax.
 ///
 ///  +  Note:
 ///     Single characters are expressed as ranges whose `.lowerBound` and `.upperBound` are the same.
@@ -18,9 +16,9 @@ public struct BracketedComponent:
 {
 
 	/// The range of characters represented by this component.
-	public let range: ClosedRange<Text.Character>
+	public let range: ClosedRange<Unicode.Scalar>
 
-	/// Creates a `BracketedComponent` from a single `Text.Character`.
+	/// Creates a `BracketedComponent` from a single `Unicode.Scalar`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -30,12 +28,12 @@ public struct BracketedComponent:
 	///
 	///  +  Parameters:
 	///      +  character:
-	///         The `Text.Character` which this `BracketedComponent` represents.
+	///         The `Unicode.Scalar` which this `BracketedComponent` represents.
 	public init (
-		_ character: Text.Character
+		_ character: Unicode.Scalar
 	) { range = character...character }
 
-	/// Creates a `BracketedComponent` from a `ClosedRange<Text.Character>`.
+	/// Creates a `BracketedComponent` from a `ClosedRange<Unicode.Scalar>`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -45,12 +43,12 @@ public struct BracketedComponent:
 	///
 	///  +  Parameters:
 	///      +  range:
-	///         The `ClosedRange<Text.Character>` which this `BracketedComponent` represents.
+	///         The `ClosedRange<Unicode.Scalar>` which this `BracketedComponent` represents.
 	public init (
-		_ range: ClosedRange<Text.Character>
+		_ range: ClosedRange<Unicode.Scalar>
 	) { self.range = range }
 
-	/// Returns whether this `BracketedComponent` matches a given `Text.Character`.
+	/// Returns whether this `BracketedComponent` matches a given `Unicode.Scalar`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -60,17 +58,17 @@ public struct BracketedComponent:
 	///
 	///  +  Parameters:
 	///      +  character:
-	///         The `Text.Character` to test.
+	///         The `Unicode.Scalar` to test.
 	///
 	///  +  Returns:
 	///     `true` if `character` is contained by this `BracketedComponent`; `false` otherwise.
 	@inlinable
 	public func matches (
-		_ character: Text.Character
+		_ character: Unicode.Scalar
 	) -> Bool
 	{ range ~= character }
 
-	/// Returns whether a given `BracketedComponent` matches a given `Text.Character`.
+	/// Returns whether a given `BracketedComponent` matches a given `Unicode.Scalar`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -82,14 +80,14 @@ public struct BracketedComponent:
 	///      +  lhs:
 	///         The `BracketedComponent` to match against.
 	///      +  rhs:
-	///         The `Text.Character` to test.
+	///         The `Unicode.Scalar` to test.
 	///
 	///  +  Returns:
 	///     `true` if `character` is contained by this `BracketedComponent`; `false` otherwise.
 	@inlinable
 	public static func ~= (
 		_ lhs: BracketedComponent,
-		_ rhs: Text.Character
+		_ rhs: Unicode.Scalar
 	) -> Bool
 	{ lhs.matches(rhs) }
 
@@ -101,14 +99,14 @@ public struct BracketedComponent:
 	///
 	///  +  Parameters:
 	///      +  char:
-	///         The `Text.Character` to escape.
+	///         The `Unicode.Scalar` to escape.
 	///
 	///  +  Returns:
 	///     A `String` escaping the `Text.Character` if necessary.
 	private static func charString (
-		_ char: Text.Character
+		_ char: Unicode.Scalar
 	) -> String {
-		return "!"..."~" as ClosedRange<Text.Character> ~= char ? String(char) : """
+		return "!"..."~" as ClosedRange<Unicode.Scalar> ~= char ? String(char) : """
 			£\(
 				String(
 					UInt32(char),
@@ -157,9 +155,9 @@ extension BracketedComponent:
 	///
 	///  +  Parameters:
 	///      +  value:
-	///         The `Character` which this `BracketedComponent` represents.
+	///         The `Unicode.Scalar` which this `BracketedComponent` represents.
 	public init(
-		unicodeScalarLiteral value: Text.Character
+		unicodeScalarLiteral value: Unicode.Scalar
 	) { range = value...value }
 
 }
