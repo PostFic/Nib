@@ -1,4 +1,4 @@
-// swift-tools-version:4.2
+// swift-tools-version:5.3
 import PackageDescription
 
 let package = Package(
@@ -20,7 +20,8 @@ let package = Package(
 	targets: [
 		.target(
 			name: "Core",
-			dependencies: []
+			dependencies: [],
+			exclude: ["Documentation"]
 		),
 		.target(
 			name: "EBNF",
@@ -28,6 +29,6 @@ let package = Package(
 		)
 	],
 
-	swiftLanguageVersions: [.v4_2]
+	swiftLanguageVersions: [.v5]
 
 )
