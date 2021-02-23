@@ -62,21 +62,10 @@ extension Array {
 					with: CollectionOfOne(.anyOf(lastBracket + bracket))
 				)
 			} else if
-				case .noneOf (
-					let bracket
-				) = expr,
-				case .noneOf (
-					let lastBracket
-				) = last
-			{
-				result.replaceSubrange(
-					result.endIndex - 1 ..< result.endIndex,
-					with: CollectionOfOne(.noneOf(lastBracket + bracket))
-				)
-			} else if
 				case .character (
 					let char
 				) = expr,
+				("\u{1}"..."\u{D7FF}" as ClosedRange<Text.Character> ~= char || "\u{E000}"..."\u{FFFD}" as ClosedRange<Text.Character> ~= char || "\u{10000}"..."\u{10FFFF}" as ClosedRange<Text.Character> ~= char),
 				case .anyOf (
 					let lastBracket
 				) = last
@@ -91,7 +80,8 @@ extension Array {
 				) = expr,
 				case .character (
 					let lastChar
-				) = last
+				) = last,
+				("\u{1}"..."\u{D7FF}" as ClosedRange<Text.Character> ~= lastChar || "\u{E000}"..."\u{FFFD}" as ClosedRange<Text.Character> ~= lastChar || "\u{10000}"..."\u{10FFFF}" as ClosedRange<Text.Character> ~= lastChar)
 			{
 				result.replaceSubrange(
 					result.endIndex - 1 ..< result.endIndex,
@@ -101,9 +91,11 @@ extension Array {
 				case .character (
 					let char
 				) = expr,
+				("\u{1}"..."\u{D7FF}" as ClosedRange<Text.Character> ~= char || "\u{E000}"..."\u{FFFD}" as ClosedRange<Text.Character> ~= char || "\u{10000}"..."\u{10FFFF}" as ClosedRange<Text.Character> ~= char),
 				case .character (
 					let lastChar
-				) = last
+				) = last,
+				("\u{1}"..."\u{D7FF}" as ClosedRange<Text.Character> ~= lastChar || "\u{E000}"..."\u{FFFD}" as ClosedRange<Text.Character> ~= lastChar || "\u{10000}"..."\u{10FFFF}" as ClosedRange<Text.Character> ~= lastChar)
 			{
 				result.replaceSubrange(
 					result.endIndex - 1 ..< result.endIndex,
