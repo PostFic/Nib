@@ -68,16 +68,16 @@ A table summarizing the various EBNF expressions is below:
 | `[^#x2620#xFE0F#x1F496]` | `^"\u{2620}\u{FE0F}\u{1F496}"` | `⟨∼£2620;£FE0F;£1F496;⟩` | `.noneOf` |
 | `[^#x1F494-#x1F49D]` | `^["\u{1F494}"..."\u{1F49D}"]` | `⟨∼£1F494;-£1F49D;⟩` | `.noneOf` |
 | `"string"` | `"string"` | `‹string›` | `.string` |
-| `symbol` | `symbol′` | `symbol` | `.symbol` |
+| `symbol` | `symbol®` | `symbol` | `.symbol` |
 | <code>A &#x7C; B</code> | <code>A &#x7C; B</code> | <code>(A &#x7C; B)</code> | `.choice` |
-| <code>A &#x7C; B &#x7C; C</code> | `‖[A, B, C]` | <code>(A &#x7C; B &#x7C; C)</code> | `.choice` |
+| <code>A &#x7C; B &#x7C; C</code> | `∑[A, B, C]` | <code>(A &#x7C; B &#x7C; C)</code> | `.choice` |
 | `A B` | `A & B` | `(A B)` | `.sequence` |
-| `A B C` | `[A, B, C]` | `(A B C)` | `.sequence` |
-| `A - B` | `A − B` | `(A − B)` | `.excluding` |
+| `A B C` | `∏[A, B, C]` | `(A B C)` | `.sequence` |
+| `A - B` | `A - B` | `(A − B)` | `.excluding` |
 | `A - (Char* B Char*)` | `A ÷ B` | `(A ÷ B)` | `.notIncluding` |
-| `A?` | `A°` | `(A?)` | `.zeroOrOne` |
-| `A+` | `A″` | `(A+)` | `.oneOrMore` |
-| `A*` | `A*` | `(A×)` | `.zeroOrMore` |
+| `A?` | `A^?` | `(A?)` | `.zeroOrOne` |
+| `A+` | `A^+` | `(A+)` | `.oneOrMore` |
+| `A*` | `A^*` | `(A×)` | `.zeroOrMore` |
 
 ###  `.character`  ###
 
@@ -142,7 +142,7 @@ Matches the sequence of Unicode codepoints given by `string`.
 Where `symbol` is a `.Symbol` :—
 
  +  XML EBNF: `symbol`
- +  Swift DSL: `symbol′`
+ +  Swift DSL: `symbol®`
  +  `.description`: `symbol.name`.
  
 Matches `symbol.expression`.
@@ -152,7 +152,7 @@ Matches `symbol.expression`.
 Where `A`, `B`, and `C` are `Expression`s :—
 
  +  XML EBNF: `A | B`; `A | B | C`
- +  Swift DSL: `A | B`; `‖[A, B, C]`
+ +  Swift DSL: `A | B`; `∑[A, B, C]`
  +  `.description`: `(A | B)`; `(A | B | C)`
  
 Matches `A`, `B`, or `C` (always selecting whichever matches first).
@@ -166,7 +166,7 @@ The `‖[A, B, C]` form is preferred whenever choosing between more than two opt
 Where `A`, `B`, and `C` are `Expression`s :—
 
  +  XML EBNF: `A B`; `A B C`
- +  Swift DSL: `A & B`; `[A, B, C]`
+ +  Swift DSL: `A & B`; `∏[A, B, C]`
  +  `.description`: `(A B)`; `(A B C)`
  
 Matches `A`, `B`, and `C` in order.
@@ -176,7 +176,7 @@ Matches `A`, `B`, and `C` in order.
 Where `A` and `B` are `Expression`s :—
 
  +  XML EBNF: `A - B`
- +  Swift DSL: `A − B`
+ +  Swift DSL: `A - B`
  +  `.description`: `(A − B)`
  
 Matches `A` only if `B` does not also (exactly) match.
@@ -198,7 +198,7 @@ Matches `A`, if possible, but only up until the first occurrence of `B`, if pres
 Where `A` is an `Expression` :—
 
  +  XML EBNF: `A?`
- +  Swift DSL: `A°`
+ +  Swift DSL: `A^?`
  +  `.description`: `(A?)`
  
 Matches `A` zero or one times.
@@ -208,7 +208,7 @@ Matches `A` zero or one times.
 Where `A` is an `Expression` :—
 
  +  XML EBNF: `A+`
- +  Swift DSL: `A″`
+ +  Swift DSL: `A^+`
  +  `.description`: `(A+)`
  
 Matches `A` one or more times.
@@ -218,7 +218,7 @@ Matches `A` one or more times.
 Where `A` is an `Expression` :—
 
  +  XML EBNF: `A*`
- +  Swift DSL: `A*`
+ +  Swift DSL: `A^*`
  +  `.description`: `(A×)`
  
 Matches `A` zero or more times.
@@ -226,4 +226,4 @@ Matches `A` zero or more times.
 ---
 
 Copyright © 2021 kibigo!
-[This file](https://github.com/marrus-sh/Nib/blob/current/E·B·N·F/README.md) is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International Public License](https://creativecommons.org/licenses/by-sa/4.0/) 🅭🅯🄎.
+[This file](https://github.com/marrus-sh/Nib/blob/current/Sources/E·B·N·F/Documentation/README.markdown) is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International Public License](https://creativecommons.org/licenses/by-sa/4.0/) 🅭🅯🄎.
