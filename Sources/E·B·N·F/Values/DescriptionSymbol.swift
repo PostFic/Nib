@@ -6,7 +6,7 @@
 
 import Core
 
-/// An enumeration of symbols describing Nib’s EBNF description syntax.
+/// A symbol describing Nib’s EBNF description syntax.
 ///
 ///  +  Version:
 ///     `0.1.0`.
@@ -106,14 +106,22 @@ public enum DescriptionSymbol:
 	///     `0.1.0`.
 	case zeroOrMore
 
-	/// The `Expression` corresponding to this `DescriptionSymbol`.
+	/// Returns the `Expression` corresponding to this `DescriptionSymbol`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
-	public var expression: Symbol.Expression {
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  version:
+	///         The `Version` of this value to get an `Expression` for.
+	///
+	///  +  Returns:
+	///     An `Expression`.
+	public func callAsFunction ()
+	-> Symbol.Expression {
 		switch self {
 			case .character:
 				return ["£", (√["0"..."9", "A"..."F"])″, ";"]
@@ -166,16 +174,23 @@ extension DescriptionSymbol:
 	public var reference: Text?
 	{ nil }
 
-	/// The `.expression` of this `DescriptionSymbol`.
+	/// Returns the `Expression` corresponding to this `DescriptionSymbol` for the given `version`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
-	public subscript(
-		version: Version = .default
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  version:
+	///         The `Version` of this value to get an `Expression` for.
+	///
+	///  +  Returns:
+	///     An `Expression`.
+	public func callAsFunction (
+		_ version: Version
 	) -> Symbol.Expression?
-	{ self.expression }
+	{ self() }
 
 }
