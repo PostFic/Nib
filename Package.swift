@@ -9,7 +9,7 @@ let package = Package(
 	products: [
 		.library(
 			name: "Nib",
-			targets: ["Core", "E·B·N·F"]
+			targets: ["Core", "E·B·N·F", "X·M·L"]
 		)
 	],
 
@@ -27,6 +27,21 @@ let package = Package(
 			name: "E·B·N·F",
 			dependencies: ["Core"],
 			exclude: ["Documentation"]
+		),
+		.target(
+			name: "X·M·L",
+			dependencies: ["Core", "E·B·N·F"],
+ 			exclude: ["Documentation"]
+		),
+		.testTarget(
+			name: "E·B·N·F·Tests",
+			dependencies: ["Core", "E·B·N·F"],
+			exclude: ["Documentation"]
+		),
+		.testTarget(
+			name: "X·M·L·Tests",
+			dependencies: ["Core", "E·B·N·F", "X·M·L"],
+ 			exclude: ["Documentation"]
 		)
 	],
 
