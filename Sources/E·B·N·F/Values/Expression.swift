@@ -29,14 +29,14 @@ where Symbol : Symbolic {
 		fileprivate let failedExpression: Symbol.Expression
 
 		/// The text which failed to match.
-		fileprivate let text: Text.SubSequence
+		fileprivate let text: Substring.UnicodeScalarView
 
 		/// Creates a new gobbling error from the `text` and `expression`.
 		///
 		///  +  Authors:
 		///     [kibigo!](https://go.KIBI.family/About/#me).
 		fileprivate init (
-			_ text: Text.SubSequence,
+			_ text: Substring.UnicodeScalarView,
 			_ expression: Symbol.Expression
 		) {
 			failedExpression = expression
@@ -51,17 +51,17 @@ where Symbol : Symbolic {
 	///     `0.1.0`.
 	public typealias Version = Symbol.Version
 
-	/// Match a single `Text.Character`.
+	/// Match a single `Unicode.Scalar`.
 	///
 	///     £N;
 	///
 	///  +  Version:
 	///     `0.1.0`.
 	case character (
-		Text.Character
+		Unicode.Scalar
 	)
 
-	/// Match any `Text.Character` matched by the `BracketedExpression`.
+	/// Match any `Unicode.Scalar` matched by the `BracketedExpression`.
 	///
 	///     ⟨£I;£J;£K;⟩
 	///     ⟨£M;–£N;⟩
@@ -72,7 +72,7 @@ where Symbol : Symbolic {
 		BracketedExpression
 	)
 
-	/// Match any `Text.Character` not matched by the `BracketedExpression`.
+	/// Match any `Unicode.Scalar` not matched by the `BracketedExpression`.
 	///
 	///     ⟨∼£I;£J;£K;⟩
 	///     ⟨∼£M;–£N;⟩
@@ -83,14 +83,14 @@ where Symbol : Symbolic {
 		BracketedExpression
 	)
 
-	/// Match the literal `Text.Character`s in the `String`.
+	/// Match the literal `Unicode.Scalar`s in the `String.UnicodeScalarView`.
 	///
 	///     ‹string›
 	///
 	///  +  Version:
 	///     `0.1.0`.
 	case string (
-		Text
+		String.UnicodeScalarView
 	)
 
 	/// Match a `Symbol`.
@@ -256,7 +256,7 @@ where Symbol : Symbolic {
 				description.unicodeScalars[
 					(
 						(
-							try? (X.S | X.comment)″.extract(
+							try? (X.S | X.comment)^+.extract(
 								from: description.unicodeScalars
 							)
 						)?.last?.text.endIndex ?? description.startIndex
@@ -264,7 +264,7 @@ where Symbol : Symbolic {
 				]
 			),
 			endIndex == description.unicodeScalars.endIndex || (
-				try? (X.S | X.comment)″.extract(
+				try? (X.S | X.comment)^+.extract(
 					from: description.unicodeScalars[endIndex...]
 				)
 			)?.last?.text.endIndex == description.endIndex
@@ -287,7 +287,7 @@ where Symbol : Symbolic {
 	///
 	///  +  Parameters:
 	///      +  text:
-	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
+	///         A `Substring.UnicodeScalarView`.
 	///      +  version:
 	///         The `Version` to use when matching.
 	///
@@ -296,15 +296,55 @@ where Symbol : Symbolic {
 	///
 	///  +  Returns:
 	///     An `Array` of `Construct`s.
-	public func extract <T> (
-		from text: T,
-		version: Version = Version.default
+	public func extract (
+		from text: Substring.UnicodeScalarView,
+		version: Version = .default
+	) throws -> [Symbol.Construct] {
+		do {
+			let (
+				_,
+				contained
+			) = try gobble(text, version)
+			return contained
+		} catch let error as GobbleError {
+			throw ParseError(
+				text,
+				at: error.text.startIndex,
+				failed: error.failedExpression,
+				version: version
+			)
+		}
+	}
+
+	/// Returns an `Array` of `Construct`s matching this `Expression` from the beginning of the provided `text`, or throws.
+	///
+	///  +  Note:
+	///     This `Expression` need not match the entire `text` for `.extract(from:version:)` to return a value.
+	///     To see if the whole `text` was matched, use `.parse(:version:)` instead.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  text:
+	///         A `LosslessTextConvertible`.
+	///      +  version:
+	///         The `Version` to use when matching.
+	///
+	///  +  Throws:
+	///     A `ParseError` if this `Expression` does not match the beginning of the provided `text`.
+	///
+	///  +  Returns:
+	///     An `Array` of `Construct`s.
+	public func extract <TextConvertible> (
+		from text: TextConvertible,
+		version: Version = .default
 	) throws -> [Symbol.Construct]
-	where
-		T : Collection,
-		T.SubSequence == Text.SubSequence
-	{
-		let view = text[...]
+	where TextConvertible : LosslessTextConvertible {
+		let view = Substring.UnicodeScalarView(text.text)
 		do {
 			let (
 				_,
@@ -321,14 +361,14 @@ where Symbol : Symbolic {
 		}
 	}
 
-	/// Returns a tuple consisting of a `Text.Index`, signifying where matching ended, and an `Array` of `Construct`s matching this `Expression` from the beginning of the provided `view`, or throws.
+	/// Returns a tuple consisting of a `Substring.UnicodeScalarView.Index`, signifying where matching ended, and an `Array` of `Construct`s matching this `Expression` from the beginning of the provided `view`, or throws.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Parameters:
 	///      +  view:
-	///         A `Text.SubSequence`.
+	///         A `Substring.UnicodeScalarView`.
 	///      +  version:
 	///         The `Version` to use when matching.
 	///
@@ -336,12 +376,12 @@ where Symbol : Symbolic {
 	///     A `GobbleError` if this `Expression` does not match the beginning of the provided `text`.
 	///
 	///  +  Returns:
-	///     A tuple consisting of a `Text.Index` and an `Array` of `Construct`s.
+	///     A tuple consisting of a `Substring.UnicodeScalarView.Index` and an `Array` of `Construct`s.
 	private func gobble (
-		_ view: Text.SubSequence,
+		_ view: Substring.UnicodeScalarView,
 		_ version: Version
 	) throws -> (
-		Text.SubSequence.Index,
+		Substring.UnicodeScalarView.Index,
 		[Symbol.Construct]
 	) {
 		let failure = GobbleError(view, self)
@@ -358,10 +398,10 @@ where Symbol : Symbolic {
 					case
 						.anyOf (
 							let bracketed
-						) where ("\u{1}"..."\u{D7FF}" as ClosedRange<Text.Character> ~= character || "\u{E000}"..."\u{FFFD}" as ClosedRange<Text.Character> ~= character || "\u{10000}"..."\u{10FFFF}" as ClosedRange<Text.Character> ~= character) && bracketed.contains { $0 ~= character },
+						) where ("\u{1}"..."\u{D7FF}" as ClosedRange<Unicode.Scalar> ~= character || "\u{E000}"..."\u{FFFD}" as ClosedRange<Unicode.Scalar> ~= character || "\u{10000}"..."\u{10FFFF}" as ClosedRange<Unicode.Scalar> ~= character) && bracketed.contains { $0 ~= character },
 						.noneOf (
 							let bracketed
-						) where ("\u{1}"..."\u{D7FF}" as ClosedRange<Text.Character> ~= character || "\u{E000}"..."\u{FFFD}" as ClosedRange<Text.Character> ~= character || "\u{10000}"..."\u{10FFFF}" as ClosedRange<Text.Character> ~= character) && !(bracketed.contains { $0 ~= character })
+						) where ("\u{1}"..."\u{D7FF}" as ClosedRange<Unicode.Scalar> ~= character || "\u{E000}"..."\u{FFFD}" as ClosedRange<Unicode.Scalar> ~= character || "\u{10000}"..."\u{10FFFF}" as ClosedRange<Unicode.Scalar> ~= character) && !(bracketed.contains { $0 ~= character })
 					: break
 					case
 						.character (
@@ -545,7 +585,7 @@ where Symbol : Symbolic {
 	///
 	///  +  Parameters:
 	///      +  text:
-	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
+	///         A `Substring.UnicodeScalarView`.
 	///      +  version:
 	///         The `Version` to use when matching.
 	///
@@ -554,25 +594,61 @@ where Symbol : Symbolic {
 	///
 	///  +  Returns:
 	///     An `Array` of `Construct`s.
-	public func parse <T> (
-		_ text: T,
-		version: Version = Version.default
-	) throws -> [Symbol.Construct]
-	where
-		T : Collection,
-		T.SubSequence == Text.SubSequence
-	{
-		let view = text[...]
+	public func parse (
+		_ text: Substring.UnicodeScalarView,
+		version: Version = .default
+	) throws -> [Symbol.Construct] {
 		let (
 			end,
 			result
-		) = try self.gobble(view, version)
+		) = try self.gobble(text, version)
 		if end == text.endIndex
 		{ return result }
 		else {
 			throw ParseError(
-				view,
+				text,
 				at: text.startIndex,
+				failed: self,
+				exhaustive: true
+			)
+		}
+	}
+
+	/// Returns a tree of `Construct`s parsed from the provided `text`, or throws.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  text:
+	///         A `LosslessTextConvertible`.
+	///      +  version:
+	///         The `Version` to use when matching.
+	///
+	///  +  Throws:
+	///     A `ParseError` if this `Expression` does not exactly match the provided `text`.
+	///
+	///  +  Returns:
+	///     An `Array` of `Construct`s.
+	public func parse <TextConvertible> (
+		_ text: TextConvertible,
+		version: Version = .default
+	) throws -> [Symbol.Construct]
+	where TextConvertible : LosslessTextConvertible {
+		let view = Substring.UnicodeScalarView(text.text)
+		let (
+			end,
+			result
+		) = try self.gobble(view, version)
+		if end == view.endIndex
+		{ return result }
+		else {
+			throw ParseError(
+				view,
+				at: view.startIndex,
 				failed: self,
 				exhaustive: true
 			)
@@ -590,11 +666,11 @@ where Symbol : Symbolic {
 	///      +  addition:
 	///         The `Array` of `Construct`s to add.
 	///      +  view:
-	///         A `Text.SubSequence` which is a supersequence of the `.text`s of all of the `Construct`s.
+	///         A `Substring.UnicodeScalarView` which is a supersequence of the `.text`s of all of the `Construct`s.
 	private static func collect (
 		_ collection: inout [Symbol.Construct],
 		_ addition: [Symbol.Construct],
-		in view: Text.SubSequence
+		in view: Substring.UnicodeScalarView
 	) {
 		if
 			let prev = collection.last,
@@ -622,14 +698,14 @@ where Symbol : Symbolic {
 	///
 	///  +  Parameters:
 	///      +  text:
-	///         A `Text.SubSequence` to gobble from.
+	///         A `Substring.UnicodeScalarView` to gobble from.
 	///
 	///  +  Returns:
-	///     A `(Text.SubSequence.Index, Symbol.Expression)` tuple of the end·index of the match and the resulting expression; or `nil` if no expression was found.
+	///     A `(Substring.UnicodeScalarView.Index, Symbol.Expression)` tuple of the end·index of the match and the resulting expression; or `nil` if no expression was found.
 	private static func gobbleExpression (
-		_ text: Text.SubSequence
+		_ text: Substring.UnicodeScalarView
 	) -> (
-		Text.SubSequence.Index,
+		Substring.UnicodeScalarView.Index,
 		Symbol.Expression
 	)? {
 		typealias X = DescriptionSymbol.Expression
@@ -650,7 +726,7 @@ where Symbol : Symbolic {
 						Substring(match.dropFirst().dropLast()),
 						radix: 16
 					),
-					let char = Text.Character(codepoint)
+					let char = Unicode.Scalar(codepoint)
 				else
 				{ return nil }
 				return (match.endIndex, .character(char))
@@ -673,7 +749,7 @@ where Symbol : Symbolic {
 				while index < match.index(
 					before: match.endIndex
 				) {
-					let startChar: Text.Character
+					let startChar: Unicode.Scalar
 					if match[index] == "£" {
 						guard
 							let (
@@ -698,7 +774,7 @@ where Symbol : Symbolic {
 						bra·ket·d.append(startChar...startChar)
 						continue
 					}
-					let endChar: Text.Character
+					let endChar: Unicode.Scalar
 					index = match.index(
 						after: index
 					)
@@ -728,16 +804,16 @@ where Symbol : Symbolic {
 				}
 				return (match.endIndex, isNegative ? .noneOf(bra·ket·d) : .anyOf(bra·ket·d))
 			case .string:
-				return (match.endIndex, .string(Text(match.dropFirst().dropLast())))
+				return (match.endIndex, .string(String.UnicodeScalarView(match.dropFirst().dropLast())))
 			case .symbol:
 				guard let symbol = Symbol(
-					name: Text(construct.text)
+					name: String(construct.text)
 				) else
 				{ return nil }
 				return (match.endIndex, .symbol(symbol))
 			case .choice:
 				var index = (
-					try? (X.S | X.comment)″.extract(
+					try? (X.S | X.comment)^+.extract(
 						from: match.dropFirst()
 					)
 				)?.last?.text.endIndex ?? match.index(
@@ -753,7 +829,7 @@ where Symbol : Symbolic {
 					{ return nil }
 					exprs.append(expr)
 					index = (
-						try? (X.S | X.comment)″.extract(
+						try? (X.S | X.comment)^+.extract(
 							from: match[exprEnd...]
 						)
 					)?.last?.text.endIndex ?? exprEnd
@@ -763,7 +839,7 @@ where Symbol : Symbolic {
 				) {
 					guard
 						let exprStart = (
-							try? ["|", (X.S | X.comment)*]′.extract(
+							try? ("|" & (X.S | X.comment)^*).extract(
 								from: match[index...]
 							)
 						)?.last?.text.endIndex,
@@ -774,7 +850,7 @@ where Symbol : Symbolic {
 					else { return nil }
 					exprs.append(expr)
 					index = (
-						try? (X.S | X.comment)″.extract(
+						try? (X.S | X.comment)^+.extract(
 							from: match[exprEnd...]
 						)
 					)?.last?.text.endIndex ?? exprEnd
@@ -782,7 +858,7 @@ where Symbol : Symbolic {
 				return (match.endIndex, .choice(exprs))
 			case .sequence:
 				var index = (
-					try? (X.S | X.comment)″.extract(
+					try? (X.S | X.comment)^+.extract(
 						from: match.dropFirst()
 					)
 				)?.last?.text.endIndex ?? match.index(
@@ -802,7 +878,7 @@ where Symbol : Symbolic {
 					{ return nil }
 					exprs.append(expr)
 					index = (
-						try? X.comment″.extract(
+						try? X.comment^+.extract(
 							from: match[exprEnd...]
 						)
 					)?.last?.text.endIndex ?? exprEnd
@@ -812,7 +888,7 @@ where Symbol : Symbolic {
 				) {
 					guard
 						let exprStart = (
-							try? [X.S, [X.comment, X.S°]*]′.extract(
+							try? (X.S & [X.comment, X.S^?]^*).extract(
 								from: match[index...]
 							)
 						)?.last?.text.endIndex,
@@ -823,7 +899,7 @@ where Symbol : Symbolic {
 					else { return nil }
 					exprs.append(expr)
 					index = (
-						try? X.comment″.extract(
+						try? X.comment^+.extract(
 							from: match[exprEnd...]
 						)
 					)?.last?.text.endIndex ?? exprEnd
@@ -841,7 +917,7 @@ where Symbol : Symbolic {
 						match[
 							(
 								(
-									try? (X.S | X.comment)″.extract(
+									try? (X.S | X.comment)^+.extract(
 										from: match.dropFirst()
 									)
 								)?.last?.text.endIndex ?? match.index(
@@ -851,7 +927,7 @@ where Symbol : Symbolic {
 						]
 					),
 					let startB = (
-						try? [(X.S | X.comment)*, √"−÷", (X.S | X.comment)*]′.extract(
+						try? (∏[(X.S | X.comment)^*, √"−÷", (X.S | X.comment)^*]).extract(
 							from: match[endA...]
 						)
 					)?.last?.text.endIndex,
@@ -874,7 +950,7 @@ where Symbol : Symbolic {
 					match[
 						(
 							(
-								try? (X.S | X.comment)″.extract(
+								try? (X.S | X.comment)^+.extract(
 									from: match.dropFirst()
 								)
 							)?.last?.text.endIndex ?? match.index(
@@ -911,14 +987,14 @@ where Symbol : Symbolic {
 	) -> Symbol.Expression {
 		let lowerPart: Symbol.Expression
 		if l·h·s.lowerBound < 1
-		{ lowerPart = [] }
+		{ lowerPart = ∏[] }
 		else if l·h·s.lowerBound == 1
 		{ lowerPart = r·h·s }
 		else {
-			lowerPart = Array(
+			lowerPart = ∏Array(
 				repeating: r·h·s,
 				count: l·h·s.lowerBound
-			)′
+			)
 		}
 		return lowerPart & (...(l·h·s.upperBound - l·h·s.lowerBound) * r·h·s)
 	}
@@ -945,14 +1021,14 @@ where Symbol : Symbolic {
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression {
 		if l·h·s.lowerBound < 1
-		{ return r·h·s* }
+		{ return r·h·s^* }
 		else if l·h·s.lowerBound == 1
-		{ return r·h·s″ }
+		{ return r·h·s^+ }
 		else {
-			return Array(
+			return ∏Array(
 				repeating: r·h·s,
 				count: Int(l·h·s.lowerBound - 1)
-			)′ & r·h·s″
+			) & r·h·s^+
 		}
 	}
 
@@ -979,11 +1055,11 @@ where Symbol : Symbolic {
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression {
 		if l·h·s.upperBound < 1
-		{ return [] }
+		{ return ∏[] }
 		else if l·h·s.upperBound == 1
-		{ return r·h·s° }
+		{ return r·h·s^? }
 		else
-		{ return (r·h·s & (...(l·h·s.upperBound - 1) * r·h·s))° }
+		{ return (r·h·s & (...(l·h·s.upperBound - 1) * r·h·s))^? }
 	}
 
 	/// Returns an `Expression` matching `r·h·s`, repeated some number of times indicated by `l·h·s`.
@@ -1009,11 +1085,11 @@ where Symbol : Symbolic {
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression {
 		if l·h·s.upperBound < 2
-		{ return [] }
+		{ return ∏[] }
 		else if l·h·s.upperBound == 2
-		{ return r·h·s° }
+		{ return r·h·s^? }
 		else
-		{ return (r·h·s & (...(l·h·s.upperBound - 2) * r·h·s))° }
+		{ return (r·h·s & (...(l·h·s.upperBound - 2) * r·h·s))^? }
 	}
 
 	/// Returns an `Expression` matching `r·h·s`, repeated some number of times indicated by `l·h·s`.
@@ -1039,7 +1115,7 @@ where Symbol : Symbolic {
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression {
 		if l·h·s.upperBound - l·h·s.lowerBound < 1
-		{ return [] }
+		{ return ∏[] }
 		else if  l·h·s.upperBound - l·h·s.lowerBound == 1
 		{ return l·h·s.lowerBound * r·h·s }
 		else
@@ -1069,14 +1145,14 @@ where Symbol : Symbolic {
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression {
 		if l·h·s < 1
-		{ return []′ }
+		{ return ∏[] }
 		else if l·h·s == 1
 		{ return r·h·s }
 		else {
-			return Array(
+			return ∏Array(
 				repeating: r·h·s,
 				count: l·h·s
-			)′
+			)
 		}
 	}
 
@@ -1104,12 +1180,12 @@ where Symbol : Symbolic {
 		_ l·h·s: Symbol.Expression,
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression
-	{ [l·h·s, r·h·s]′ }
+	{ ∏[l·h·s, r·h·s] }
 
 	/// Returns an `Expression.choice` of its operands.
 	///
 	///  +  Note:
-	///     Consider using `‖` with an array literal instead when you need to produce a `.choice` of more than two `Expression`s.
+	///     Consider using `∑` with an array literal instead when you need to produce a `.choice` of more than two `Expression`s.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -1130,18 +1206,15 @@ where Symbol : Symbolic {
 		_ l·h·s: Symbol.Expression,
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression
-	{ ‖[l·h·s, r·h·s] }
+	{ ∑[l·h·s, r·h·s] }
 
 	/// Returns an `Expression.excluding` of its operands.
-	///
-	///  +  Note:
-	///     This operator is `U+2212 − MINUS SIGN`, not `U+002D - HYPHEN-MINUS`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  l·h·s:
@@ -1152,7 +1225,7 @@ where Symbol : Symbolic {
 	///  +  Returns:
 	///     An `Expression.excluding` excluding `r·h·s` from `l·h·s`, or an equivalent expression.
 	@inlinable
-	public static func − (
+	public static func - (
 		_ l·h·s: Symbol.Expression,
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression {
@@ -1206,7 +1279,7 @@ where Symbol : Symbolic {
 	public static func &= (
 		_ l·h·s: inout Symbol.Expression,
 		_ r·h·s: Symbol.Expression
-	) { l·h·s = [l·h·s, r·h·s]′ }
+	) { l·h·s = ∏[l·h·s, r·h·s] }
 
 	/// Creates an `Expression.choice` of its operands and stores the result in the left·hand·side variable.
 	///
@@ -1225,7 +1298,7 @@ where Symbol : Symbolic {
 	public static func |= (
 		_ l·h·s: inout Symbol.Expression,
 		_ r·h·s: Symbol.Expression
-	) { l·h·s = ‖[l·h·s, r·h·s] }
+	) { l·h·s = ∑[l·h·s, r·h·s] }
 
 	/// Creates an `Expression.excluding` from its operands and stores the result in the left·hand·side variable.
 	///
@@ -1233,7 +1306,7 @@ where Symbol : Symbolic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  lhs:
@@ -1241,10 +1314,10 @@ where Symbol : Symbolic {
 	///      +  rhs:
 	///         An `Expression`.
 	@inlinable
-	public static func −= (
+	public static func -= (
 		_ l·h·s: inout Symbol.Expression,
 		_ r·h·s: Symbol.Expression
-	) { l·h·s = l·h·s − r·h·s }
+	) { l·h·s = l·h·s - r·h·s }
 
 	/// Creates an `Expression.notIncluding` from its operands and stores the result in the left·hand·side variable.
 	///
@@ -1268,7 +1341,7 @@ where Symbol : Symbolic {
 	/// Returns an `Expression.zeroOrMore` of `operand`.
 	///
 	///  +  Note:
-	///     `*operand` is the same as `operand*`, which is preferred in most circumstances.
+	///     `*operand` is the same as `operand^*`, which is preferred in most circumstances.
 	///     It is defined for completeness with regards to the ABNF·style `range*operand` syntax, where `range` is optional.
 	///
 	///  +  Authors:
@@ -1287,7 +1360,7 @@ where Symbol : Symbolic {
 	public static prefix func * (
 		_ operand: Symbol.Expression
 	) -> Symbol.Expression
-	{ operand* }
+	{ operand^* }
 
 }
 
@@ -1314,7 +1387,7 @@ extension Expression:
 		switch self {
 			case .character (
 				let char
-			): return "!"..."~" as ClosedRange<Text.Character> ~= char ? "‹\(char)›" : """
+			): return "!"..."~" as ClosedRange<Unicode.Scalar> ~= char ? "‹\(char)›" : """
 				£\(
 					String(
 						UInt32(char),
@@ -1333,9 +1406,9 @@ extension Expression:
 				let str
 			):
 				let texts = str.indices.reduce(
-					into: [] as [(Bool, Text.SubSequence)]
+					into: [] as [(Bool, Substring.UnicodeScalarView)]
 				) { result, index in
-					let isA·S·C·I·I = "!"..."~" as ClosedRange<Text.Character> ~= str[index]
+					let isA·S·C·I·I = "!"..."~" as ClosedRange<Unicode.Scalar> ~= str[index]
 					if
 						let last = result.last,
 						isA·S·C·I·I == last.0
@@ -1437,6 +1510,7 @@ extension Expression:
 	///
 	///  +  Returns:
 	///     `true` if the operands are identicial; false otherwise.
+	@inlinable
 	public static func == (
 		_ l·h·s: Symbol.Expression,
 		_ r·h·s: Symbol.Expression
@@ -1476,7 +1550,7 @@ extension Expression:
 					case .string (
 						let r·h·s·text
 					) = r·h·s,
-					l·h·s·text.elementsEqual(r·h·s·text)
+					l·h·s·text •=• r·h·s·text
 				{ return true }
 				else
 				{ return false }
@@ -1565,13 +1639,33 @@ extension Expression:
 	Expressible
 {
 
+	/// Returns its operand.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  operand:
+	///         An `Expression`.
+	///
+	///  +  Returns:
+	///     `operand`.
+	@inlinable
+	public static postfix func ® (
+		_ operand: Symbol.Expression
+	) -> Symbol.Expression
+	{ operand }
+
 	/// Returns a `.zeroOrOne` of its operand.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -1580,7 +1674,7 @@ extension Expression:
 	///  +  Returns:
 	///     A `.zeroOrOne` wrapping `operand`, or an equivalent expression.
 	@inlinable
-	public static postfix func ° (
+	public static postfix func ^? (
 		_ operand: Symbol.Expression
 	) -> Symbol.Expression {
 		switch operand {
@@ -1596,33 +1690,13 @@ extension Expression:
 		}
 	}
 
-	/// Returns its operand.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.1.0`.
-	///
-	///  +  Parameters:
-	///      +  operand:
-	///         An `Expression`.
-	///
-	///  +  Returns:
-	///     `operand`.
-	@inlinable
-	public static postfix func ′ (
-		_ operand: Symbol.Expression
-	) -> Symbol.Expression
-	{ operand }
-
 	/// Returns a `.oneOrMore` of its operand.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -1631,7 +1705,7 @@ extension Expression:
 	///  +  Returns:
 	///     A `.oneOrMore` wrapping `operand`, or an equivalent expression.
 	@inlinable
-	public static postfix func ″ (
+	public static postfix func ^+ (
 		_ operand: Symbol.Expression
 	) -> Symbol.Expression {
 		switch operand {
@@ -1653,7 +1727,7 @@ extension Expression:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -1662,7 +1736,7 @@ extension Expression:
 	///  +  Returns:
 	///     A `.zeroOrMore` wrapping `operand`, or an equivalent expression.
 	@inlinable
-	public static postfix func * (
+	public static postfix func ^* (
 		_ operand: Symbol.Expression
 	) -> Symbol.Expression {
 		switch operand {
@@ -1701,9 +1775,10 @@ extension Expression:
 	///
 	///  +  Returns:
 	///     A `.sequence` containing `elements`, or an equivalent expression.
+	@inlinable
 	public init(
 		arrayLiteral elements: Symbol.Expression...
-	) { self = elements′ }
+	) { self = ∏elements }
 
 }
 
@@ -1725,6 +1800,7 @@ extension Expression:
 	///
 	///  +  Returns:
 	///     A `.character` if `value` consists of a single character; otherwise, a `.string`.
+	@inlinable
 	public init (
 		stringLiteral value: String
 	) {
@@ -1746,19 +1822,19 @@ where Symbol == DescriptionSymbol {
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	internal static let QName: Symbol.Expression = {
-		let NCNameStartChar: Symbol.Expression = ‖[√["A"..."Z"], "_", √["a"..."z"], √["\u{C0}"..."\u{D6}"], √["\u{D8}"..."\u{F6}"], √["\u{F8}"..."\u{2FF}"], √["\u{370}"..."\u{37D}"], √["\u{37F}"..."\u{1FFF}"], √["\u{200C}"..."\u{200D}"], √["\u{2070}"..."\u{218F}"], √["\u{2C00}"..."\u{2FEF}"], √["\u{3001}"..."\u{D7FF}"], √["\u{F900}"..."\u{FDCF}"], √["\u{FDF0}"..."\u{FFFD}"], √["\u{10000}"..."\u{EFFFF}"]]
-		let NCNameChar: Symbol.Expression = ‖[NCNameStartChar, "-", ".", √["0"..."9"], "\u{B7}", √["\u{300}"..."\u{36F}"], √["\u{203F}"..."\u{2040}"]]
-		let NCName: Symbol.Expression = [NCNameStartChar, NCNameChar*]
+		let NCNameStartChar: Symbol.Expression = ∑[√["A"..."Z"], "_", √["a"..."z"], √["\u{C0}"..."\u{D6}"], √["\u{D8}"..."\u{F6}"], √["\u{F8}"..."\u{2FF}"], √["\u{370}"..."\u{37D}"], √["\u{37F}"..."\u{1FFF}"], √["\u{200C}"..."\u{200D}"], √["\u{2070}"..."\u{218F}"], √["\u{2C00}"..."\u{2FEF}"], √["\u{3001}"..."\u{D7FF}"], √["\u{F900}"..."\u{FDCF}"], √["\u{FDF0}"..."\u{FFFD}"], √["\u{10000}"..."\u{EFFFF}"]]
+		let NCNameChar: Symbol.Expression = ∑[NCNameStartChar, "-", ".", √["0"..."9"], "\u{B7}", √["\u{300}"..."\u{36F}"], √["\u{203F}"..."\u{2040}"]]
+		let NCName: Symbol.Expression = [NCNameStartChar, NCNameChar^*]
 		return [NCName, ":", NCName] | NCName
 	}()
 
 	/// XML whitespace.
-	internal static let S: Symbol.Expression = (√"\u{20}\u{9}\u{D}\u{A}")″
+	internal static let S: Symbol.Expression = (√"\u{20}\u{9}\u{D}\u{A}")^+
 
 	/// An EBNF comment.
-	internal static let comment: Symbol.Expression = ["/*", (^[])* ÷ "*/", "*/"]
+	internal static let comment: Symbol.Expression = ["/*", (^[])^* ÷ "*/", "*/"]
 
 	/// Any EBNF expression.
-	internal static let expression: Symbol.Expression = ‖[.character′, .anyOf′, .noneOf′, .string′, .symbol′, .choice′, .sequence′, .excluding′, .notIncluding′, .zeroOrOne′, .zeroOrMore′, .oneOrMore′]
+	internal static let expression: Symbol.Expression = ∑[.character®, .anyOf®, .noneOf®, .string®, .symbol®, .choice®, .sequence®, .excluding®, .notIncluding®, .zeroOrOne®, .zeroOrMore®, .oneOrMore®]
 
 }

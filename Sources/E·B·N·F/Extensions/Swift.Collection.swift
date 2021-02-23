@@ -4,10 +4,8 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import Core
-
 extension Collection
-where SubSequence == Text.SubSequence {
+where Element == Unicode.Scalar {
 
 	/// Returns whether the text of this `Collection` starts with something which matches the provided `expression`.
 	///
@@ -34,8 +32,8 @@ where SubSequence == Text.SubSequence {
 	) -> Bool
 	where Expressed : Expressible {
 		(
-			try? expression′.extract(
-				from: self,
+			try? expression®.extract(
+				from: String.UnicodeScalarView(self),
 				version: version
 			)
 		) != nil
@@ -66,8 +64,8 @@ where SubSequence == Text.SubSequence {
 	) -> Bool
 	where Expressed : Expressible {
 		(
-			try? expression′.parse(
-				self,
+			try? expression®.parse(
+				String.UnicodeScalarView(self),
 				version: version
 			)
 		) != nil

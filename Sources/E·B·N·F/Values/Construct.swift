@@ -16,20 +16,23 @@ import Core
 ///
 ///  +  Version:
 ///     `0.1.0`.
-public enum Construct <Symbol>
+public enum Construct <Symbol>:
+	CustomTextConvertible
 where Symbol : Symbolic {
+
+	public typealias Text = Substring.UnicodeScalarView
 
 	/// The text contents of an instance of a terminal `Expression`.
 	///
 	///  +  Version:
 	///     `0.1.0`.
 	case string (
-		content: Text.SubSequence
+		content: Text
 	)
 
 	/// A lexed instance of a `Symbol`.
 	///
-	/// The `content` must form a contiguous sequence from `.first.startIndex` to `.last.endIndex`.
+	/// The `content` must form a contiguous sequence from `.first.text.startIndex` to `.last.text.endIndex`.
 	///
 	///  +  Version:
 	///     `0.1.0`.
@@ -87,7 +90,7 @@ where Symbol : Symbolic {
 	///  +  Version:
 	///     `0.1.0`.
 	@inlinable
-	public var text: Text.SubSequence {
+	public var text: Text {
 		switch self {
 			case .string (
 				content: let text
@@ -96,7 +99,7 @@ where Symbol : Symbolic {
 				_,
 				version: _,
 				content: let children
-			): return children.count == 0 ? Text.SubSequence() : Substring(children[0].text).base[children[0].text.startIndex..<children[children.count - 1].text.endIndex].unicodeScalars
+			): return children.count == 0 ? Text() : Substring(children[0].text).base[children[0].text.startIndex..<children[children.count - 1].text.endIndex].unicodeScalars
 		}
 	}
 

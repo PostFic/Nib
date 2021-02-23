@@ -91,7 +91,7 @@ final class E·B·N·F·TestExpressions:
 
 		case zeroOrMore
 
-		var reference: Text?
+		var reference: String?
 		{ nil }
 
 		func callAsFunction (
@@ -147,23 +147,23 @@ final class E·B·N·F·TestExpressions:
 				case .empty:
 					return ""
 				case .symbol:
-					return .empty′
+					return .empty®
 				case .choice:
 					return "ABC" | "123"
 				case .sequence:
 					return ["do", √"\u{20}\u{9}\u{D}\u{A}", "re", √"\u{20}\u{9}\u{D}\u{A}", "mi"]
 				case .excluding:
-					return ["❤", ^""] − ["❤", √"\u{FE0E}\u{FE0F}"]
+					return ["❤", ^""] - ["❤", √"\u{FE0E}\u{FE0F}"]
 				case .notIncluding:
-					return (^"")* ÷ "💔"
+					return (^"")^* ÷ "💔"
 				case .notIncludingAndThenSome:
-					return ["❤", ([^"\u{FE0E}\u{FE0F}", (^"")*] ÷ "💔")°, "💔"]
+					return ["❤", ([^"\u{FE0E}\u{FE0F}", (^"")^*] ÷ "💔")^?, "💔"]
 				case .zeroOrOne:
-					return (^"")°
+					return (^"")^?
 				case .oneOrMore:
-					return (^"")″
+					return (^"")^+
 				case .zeroOrMore:
-					return (^"")*
+					return (^"")^*
 			}
 		}
 
@@ -371,7 +371,7 @@ final class E·B·N·F·TestExpressions:
 
 	func testParse () {
 		XCTAssertEqual(
-			try! (["tracklist: ", .symbol(.string), "\u{A}hearts: ", (.symbol(.non·a·s·c·i·i·Character))*, √"\u{20}\u{9}\u{D}\u{A}", .symbol(.choice), .symbol(.sequence)] as Symbol.Expression).parse(
+			try! (["tracklist: ", .symbol(.string), "\u{A}hearts: ", (.symbol(.non·a·s·c·i·i·Character))^*, √"\u{20}\u{9}\u{D}\u{A}", .symbol(.choice), .symbol(.sequence)] as Symbol.Expression).parse(
 				"""
 					tracklist: ⒈ GIRLS BE CRUEL ☠️💖
 					hearts: ❤❤❤❤
@@ -392,48 +392,48 @@ final class E·B·N·F·TestExpressions:
 	}
 
 	func testExpressionEmptyMultiples () {
-		XCTAssertEqual(*Symbol.symbol′, Symbol.symbol*)
+		XCTAssertEqual(*Symbol.symbol®, Symbol.symbol^*)
 	}
 
 	func testExpressionSingleMultiples () {
-		XCTAssertEqual(0 * Symbol.symbol′, [])
-		XCTAssertEqual(1 * Symbol.symbol′, Symbol.symbol′)
-		XCTAssertEqual(4 * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, Symbol.symbol′, Symbol.symbol′])
+		XCTAssertEqual(0 * Symbol.symbol®, [])
+		XCTAssertEqual(1 * Symbol.symbol®, Symbol.symbol®)
+		XCTAssertEqual(4 * Symbol.symbol®, [Symbol.symbol®, Symbol.symbol®, Symbol.symbol®, Symbol.symbol®])
 	}
 
 	func testExpressionMultiplesFrom () {
-		XCTAssertEqual(0... * Symbol.symbol′, Symbol.symbol*)
-		XCTAssertEqual(1... * Symbol.symbol′, Symbol.symbol″)
-		XCTAssertEqual(4... * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, Symbol.symbol′, Symbol.symbol″])
+		XCTAssertEqual(0... * Symbol.symbol®, Symbol.symbol^*)
+		XCTAssertEqual(1... * Symbol.symbol®, Symbol.symbol^+)
+		XCTAssertEqual(4... * Symbol.symbol®, [Symbol.symbol®, Symbol.symbol®, Symbol.symbol®, Symbol.symbol^+])
 	}
 
 	func testExpressionMultiplesThrough () {
-		XCTAssertEqual(...0 * Symbol.symbol′, [])
-		XCTAssertEqual(...1 * Symbol.symbol′, Symbol.symbol°)
-		XCTAssertEqual(...4 * Symbol.symbol′, [Symbol.symbol′, [Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°]°]°)
+		XCTAssertEqual(...0 * Symbol.symbol®, [])
+		XCTAssertEqual(...1 * Symbol.symbol®, Symbol.symbol^?)
+		XCTAssertEqual(...4 * Symbol.symbol®, [Symbol.symbol®, [Symbol.symbol®, (Symbol.symbol® & Symbol.symbol^?)^?]^?]^?)
 	}
 
 	func testExpressionMultiplesUpTo () {
-		XCTAssertEqual(..<0 * Symbol.symbol′, [])
-		XCTAssertEqual(..<1 * Symbol.symbol′, [])
-		XCTAssertEqual(..<2 * Symbol.symbol′, Symbol.symbol°)
-		XCTAssertEqual(..<4 * Symbol.symbol′, [Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°]°)
+		XCTAssertEqual(..<0 * Symbol.symbol®, [])
+		XCTAssertEqual(..<1 * Symbol.symbol®, [])
+		XCTAssertEqual(..<2 * Symbol.symbol®, Symbol.symbol^?)
+		XCTAssertEqual(..<4 * Symbol.symbol®, [Symbol.symbol®, (Symbol.symbol® & Symbol.symbol^?)^?]^?)
 	}
 
 	func testExpressionMultiplesFromThrough () {
-		XCTAssertEqual((0...4) * Symbol.symbol′, [Symbol.symbol′, [Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°]°]°)
-		XCTAssertEqual((1...4) * Symbol.symbol′, [Symbol.symbol′, [Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°]°])
-		XCTAssertEqual((2...4) * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°])
-		XCTAssertEqual((3...4) * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, Symbol.symbol′, Symbol.symbol°])
-		XCTAssertEqual((4...4) * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, Symbol.symbol′, Symbol.symbol′])
+		XCTAssertEqual((0...4) * Symbol.symbol®, [Symbol.symbol®, [Symbol.symbol®, (Symbol.symbol® & Symbol.symbol^?)^?]^?]^?)
+		XCTAssertEqual((1...4) * Symbol.symbol®, [Symbol.symbol®, [Symbol.symbol®, (Symbol.symbol® & Symbol.symbol^?)^?]^?])
+		XCTAssertEqual((2...4) * Symbol.symbol®, [Symbol.symbol®, Symbol.symbol®, (Symbol.symbol® & Symbol.symbol^?)^?])
+		XCTAssertEqual((3...4) * Symbol.symbol®, [Symbol.symbol®, Symbol.symbol®, Symbol.symbol®, Symbol.symbol^?])
+		XCTAssertEqual((4...4) * Symbol.symbol®, [Symbol.symbol®, Symbol.symbol®, Symbol.symbol®, Symbol.symbol®])
 	}
 
 	func testExpressionMultiplesFromUpTo () {
-		XCTAssertEqual((0..<4) * Symbol.symbol′, [Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°]°)
-		XCTAssertEqual((1..<4) * Symbol.symbol′, [Symbol.symbol′, (Symbol.symbol′ & Symbol.symbol°)°])
-		XCTAssertEqual((2..<4) * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, Symbol.symbol°])
-		XCTAssertEqual((3..<4) * Symbol.symbol′, [Symbol.symbol′, Symbol.symbol′, Symbol.symbol′])
-		XCTAssertEqual((4..<4) * Symbol.symbol′, [])
+		XCTAssertEqual((0..<4) * Symbol.symbol®, [Symbol.symbol®, (Symbol.symbol® & Symbol.symbol^?)^?]^?)
+		XCTAssertEqual((1..<4) * Symbol.symbol®, [Symbol.symbol®, (Symbol.symbol® & Symbol.symbol^?)^?])
+		XCTAssertEqual((2..<4) * Symbol.symbol®, [Symbol.symbol®, Symbol.symbol®, Symbol.symbol^?])
+		XCTAssertEqual((3..<4) * Symbol.symbol®, [Symbol.symbol®, Symbol.symbol®, Symbol.symbol®])
+		XCTAssertEqual((4..<4) * Symbol.symbol®, [])
 	}
 
 }

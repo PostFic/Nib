@@ -4,8 +4,6 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import Core
-
 /// An EBNF parse error.
 ///
 /// Signifies that a `text` failed to match the `failedExpression` starting from the provided `startIndex`.
@@ -34,13 +32,13 @@ where Symbol: Symbolic {
 	///
 	///  +  Version:
 	///     `0.1.0`.
-	public let startIndex: Text.Index
+	public let startIndex: Substring.UnicodeScalarView.Index
 
 	/// The `Text.SubSequence` that the match was attempted on.
 	///
 	///  +  Version:
 	///     `0.1.0`.
-	public let text: Text.SubSequence
+	public let text: Substring.UnicodeScalarView
 
 	/// The `Symbol.Version` that the match was attempted with.
 	///
@@ -60,9 +58,9 @@ where Symbol: Symbolic {
 	///
 	///  +  Parameters:
 	///      +  text:
-	///         The `Text.SubSequence` that the match was attempted on.
+	///         The `Substring.UnicodeScalarView` that the match was attempted on.
 	///      +  index:
-	///         The start `Text.Index` that the match was attempted from.
+	///         The start `Substring.UnicodeScalarView.Index` that the match was attempted from.
 	///      +  expression:
 	///         The `Expression` which failed to match.
 	///      +  version:
@@ -70,10 +68,10 @@ where Symbol: Symbolic {
 	///      +  exhaustive:
 	///         A `Boolean` indicating whether an exact match was desired.
 	public init (
-		_ text: Text.SubSequence,
-		at index: Text.Index,
+		_ text: Substring.UnicodeScalarView,
+		at index: Substring.UnicodeScalarView.Index,
 		failed expression: Symbol.Expression,
-		version: Symbol.Version = Symbol.Version.default,
+		version: Symbol.Version = .default,
 		exhaustive: Bool = false
 	) {
 		exactMatch = exhaustive

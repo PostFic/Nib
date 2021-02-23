@@ -24,18 +24,18 @@ where
 	Version: Defaultable
 {
 
-	/// The `Text` name of this value.
+	/// The `String` name of this value.
 	///
 	///  +  Version:
-	///     `0.1.0`.
-	var name: Text
+	///     `0.2.0`.
+	var name: String
 	{ get }
 
-	/// The `Text` reference identifier of this value, if one is defined.
+	/// The `String` reference identifier of this value, if one is defined.
 	///
 	///  +  Version:
-	///     `0.1.0`.
-	var reference: Text?
+	///     `0.2.0`.
+	var reference: String?
 	{ get }
 
 	/// Creates a `Symbol` with the given `name`.
@@ -45,9 +45,9 @@ where
 	///
 	///  +  Parameters:
 	///      +  name:
-	///         The `Text` name of the `Symbol` to create.
+	///         The `String` name of the `Symbol` to create.
 	init? (
-		name: Text
+		name: String
 	)
 
 	/// Returns the `Expression` of a given `version` of this value, if one is defined.
@@ -72,11 +72,11 @@ where
 	///     To see if the whole `text` was matched, use `.parse(:version:)` instead.
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  text:
-	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
+	///         A `LosslessTextConvertible` value.
 	///      +  version:
 	///         The `Version` to use when matching.
 	///
@@ -85,22 +85,20 @@ where
 	///
 	///  +  Returns:
 	///     A `Construct.symbol`.
-	func extract <T> (
-		from text: T,
+	func extract <TextConvertible> (
+		from text: TextConvertible,
 		version: Version
 	) throws -> Construct
-	where
-		T : Collection,
-		T.SubSequence == Text.SubSequence
+	where TextConvertible : LosslessTextConvertible
 
 	/// Returns a `Construct.symbol` parsed from the provided `text` according to the `expression` of this `Symbolic`, or throws.
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  text:
-	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
+	///         A `LosslessTextConvertible` value.
 	///      +  version:
 	///         The `Version` to use when matching.
 	///
@@ -109,13 +107,11 @@ where
 	///
 	///  +  Returns:
 	///     A `Construct.symbol`.
-	func parse <T> (
-		_ text: T,
+	func parse <TextConvertible> (
+		_ text: TextConvertible,
 		version: Version
 	) throws -> Construct
-	where
-		T : Collection,
-		T.SubSequence == Text.SubSequence
+	where TextConvertible : LosslessTextConvertible
 
 }
 
@@ -133,7 +129,7 @@ public extension Symbolic {
 	///     `0.1.0`.
 	typealias Expression = E·B·N·F.Expression<Self>
 
-	/// The `String` name of this `Symbolic`.
+	/// The name of this `Symbolic`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -142,9 +138,9 @@ public extension Symbolic {
 	///     `0.1.0`.
 	@inlinable
 	var description: String
-	{ String(name) }
+	{ name }
 
-	/// The `name` of this `Symbolic`.
+	/// The name of this `Symbolic`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -152,8 +148,8 @@ public extension Symbolic {
 	///  +  Version:
 	///     `0.1.0`.
 	@inlinable
-	var name: Text
-	{ rawValue.unicodeScalars }
+	var name: String
+	{ rawValue }
 
 	/// Creates the `Symbol` whose `.rawValue` matches the given `name`.
 	///
@@ -165,15 +161,11 @@ public extension Symbolic {
 	///
 	///  +  Parameters:
 	///      +  name:
-	///         The `Text` name of the `Symbol` to create.
+	///         The `String` name of the `Symbol` to create.
+	@inlinable
 	init? (
-		name: Text
-	) {
-		if let match = Self.nameMapping[Array(name)]
-		{ self = match }
-		else
-		{ return nil }
-	}
+		name: String
+	) { self.init(rawValue: name) }
 
 	/// Returns a `String` EBNF rule for this `Symbolic`.
 	///
@@ -194,9 +186,11 @@ public extension Symbolic {
 		version: Version
 	) -> String {
 		let expressionString: String
-		if let expression = self(version)
-		{ expressionString = String(describing: expression) }
-		else
+		if let expression = self(version) {
+			expressionString = String(
+				describing: expression
+			)
+		} else
 		{ expressionString = "/* Not defined */" }
 		if let i·d = reference
 		{ return "[\(i·d)] \(name) ::= \(expressionString)" }
@@ -214,11 +208,11 @@ public extension Symbolic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  text:
-	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
+	///         A `LosslessTextConvertible` value.
 	///      +  version:
 	///         The `Version` to use when matching.
 	///
@@ -228,15 +222,12 @@ public extension Symbolic {
 	///  +  Returns:
 	///     A `Construct.symbol`.
 	@inlinable
-	func extract <T> (
-		from text: T,
+	func extract <TextConvertible> (
+		from text: TextConvertible,
 		version: Version = Version.default
 	) throws -> Construct
-	where
-		T : Collection,
-		T.SubSequence == Text.SubSequence
-	{
-		try self′.extract(
+	where TextConvertible : LosslessTextConvertible {
+		try self®.extract(
 			from: text,
 			version: version
 		)[0]
@@ -250,56 +241,27 @@ public extension Symbolic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  text:
-	///         A `Collection` whose `SubSequence` is `Text.SubSequence`.
+	///         A `LosslessTextConvertible` value.
 	///      +  version:
 	///         The `Version` to use when matching.
 	///
 	///  +  Returns:
-	///     A `Boolean`.
+	///     A `Construct.symbol`.
 	@inlinable
-	func parse <T> (
-		_ text: T,
+	func parse <TextConvertible> (
+		_ text: TextConvertible,
 		version: Version = Version.default
 	) throws -> Construct
-	where
-		T : Collection,
-		T.SubSequence == Text.SubSequence
-	{
-		try self′.parse(
+	where TextConvertible : LosslessTextConvertible {
+		try self®.parse(
 			text,
 			version: version
 		)[0]
 	}
-
-	private static var nameMapping: [[Text.Character]: Self] {
-		Dictionary(
-			uniqueKeysWithValues: Self.allCases.map { (Array($0.rawValue.unicodeScalars), $0) }
-		)
-	}
-
-	/// Returns an `Expression.zeroOrOne` of an `Expression.symbol` which wraps the given value.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.1.0`.
-	///
-	///  +  Parameters:
-	///      +  operand:
-	///         The value to create a `Expression.symbol` from.
-	///
-	///  +  Returns:
-	///     An `Expression.zeroOrOne`.
-	@inlinable
-	static postfix func ° (
-		_ operand: Self
-	) -> Expression
-	{ .zeroOrOne(operand′) }
 
 	/// Returns an `Expression.symbol` which wraps the given value.
 	///
@@ -307,7 +269,7 @@ public extension Symbolic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -316,10 +278,30 @@ public extension Symbolic {
 	///  +  Returns:
 	///     An `Expression.symbol`.
 	@inlinable
-	static postfix func ′ (
+	static postfix func ® (
 		_ operand: Self
 	) -> Expression
 	{ .symbol(operand) }
+
+	/// Returns an `Expression.zeroOrOne` of an `Expression.symbol` which wraps the given value.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  operand:
+	///         The value to create a `Expression.symbol` from.
+	///
+	///  +  Returns:
+	///     An `Expression.zeroOrOne`.
+	@inlinable
+	static postfix func ^? (
+		_ operand: Self
+	) -> Expression
+	{ .zeroOrOne(operand®) }
 
 	/// Returns an `Expression.oneOrMore` of an `Expression.symbol` which wraps the given value.
 	///
@@ -327,7 +309,7 @@ public extension Symbolic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -336,10 +318,10 @@ public extension Symbolic {
 	///  +  Returns:
 	///     An `Expression.oneOrMore`.
 	@inlinable
-	static postfix func ″ (
+	static postfix func ^+ (
 		_ operand: Self
 	) -> Expression
-	{ .oneOrMore(operand′) }
+	{ .oneOrMore(operand®) }
 
 	/// Returns an `Expression.zeroOrMore` of an `Expression.symbol` which wraps the given value.
 	///
@@ -347,7 +329,7 @@ public extension Symbolic {
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	///
 	///  +  Version:
-	///     `0.1.0`.
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  operand:
@@ -356,9 +338,9 @@ public extension Symbolic {
 	///  +  Returns:
 	///     An `Expression.zeroOrMore`.
 	@inlinable
-	static postfix func * (
+	static postfix func ^* (
 		_ operand: Self
 	) -> Expression
-	{ .zeroOrMore(operand′) }
+	{ .zeroOrMore(operand®) }
 
 }

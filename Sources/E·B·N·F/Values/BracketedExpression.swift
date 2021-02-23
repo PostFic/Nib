@@ -4,8 +4,6 @@
 //
 //  This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import Core
-
 /// An ordered collection of `BracketedComponent`s.
 ///
 ///  +  Version:
@@ -64,7 +62,7 @@ extension BracketedExpression:
 
 	/// Creates a `BracketedExpression` from a Unicode scalar literal.
 	///
-	/// The resulting `BracketedExpression` will have one component, matching only the provided `Text.Character`.
+	/// The resulting `BracketedExpression` will have one component, matching only the provided `Unicode.Scalar`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -74,9 +72,9 @@ extension BracketedExpression:
 	///
 	///  + Parameters:
 	///      +  value:
-	///         A `Text.Character` representing the Unicode scalar literal.
+	///         A `Unicode.Scalar` representing the Unicode scalar literal.
 	public init (
-		unicodeScalarLiteral value: Text.Character
+		unicodeScalarLiteral value: Unicode.Scalar
 	) { self = [BracketedComponent(value)] }
 
 }
@@ -87,7 +85,7 @@ extension BracketedExpression:
 
 	/// Creates a `BracketedExpression` from an extended grapheme cluster literal.
 	///
-	/// The resulting `BracketedExpression` will only match those `Text.Character`s in the provided `String`.
+	/// The resulting `BracketedExpression` will only match those `Unicode.Scalar`s in the provided `String`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
@@ -110,7 +108,7 @@ extension BracketedExpression:
 
 	/// Creates a `BracketedExpression` from a string literal.
 	///
-	/// The resulting `BracketedExpression` will only match those `Text.Character`s in the provided `String`.
+	/// The resulting `BracketedExpression` will only match those `Unicode.Scalar`s in the provided `String`.
 	///
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).

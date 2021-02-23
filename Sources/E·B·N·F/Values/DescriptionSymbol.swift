@@ -124,29 +124,29 @@ public enum DescriptionSymbol:
 	-> Symbol.Expression {
 		switch self {
 			case .character:
-				return ["£", (√["0"..."9", "A"..."F"])″, ";"]
+				return ["£", (√["0"..."9", "A"..."F"])^+, ";"]
 			case .anyOf:
-				return ["⟨", [.character′ | √["!"..."~"], ["–", .character′ | √["!"..."~"]]°]*, "⟩"]
+				return ["⟨", [.character® | √["!"..."~"], ["–", .character® | √["!"..."~"]]^?]^*, "⟩"]
 			case .noneOf:
-				return ["⟨∼", [.character′ | √["!"..."~"], ["–", .character′ | √["!"..."~"]]°]*, "⟩"]
+				return ["⟨∼", [.character® | √["!"..."~"], ["–", .character® | √["!"..."~"]]^?]^*, "⟩"]
 			case .string:
-				return ["‹", (√["!"..."~"])*, "›"]
+				return ["‹", (√["!"..."~"])^*, "›"]
 			case .symbol:
 				return .QName
 			case .choice:
-				return ["(", (.S | .comment)*, .expression, [(.S | .comment)*, "|", (.S | .comment)*, .expression]″, (.S | .comment)*, ")"]
+				return ["(", (.S | .comment)^*, .expression, [(.S | .comment)^*, "|", (.S | .comment)^*, .expression]^+, (.S | .comment)^*, ")"]
 			case .sequence:
-				return ["(", (.S | .comment)*, [.expression, [.comment*, .S, (.comment & .S°)*, .expression]*, (.S | .comment)*]°, ")"]
+				return ["(", (.S | .comment)^*, [.expression, [.comment^*, .S, (.comment & .S^?)^*, .expression]^*, (.S | .comment)^*]^?, ")"]
 			case .excluding:
-				return ["(", (.S | .comment)*, .expression, (.S | .comment)*, "−", (.S | .comment)*, .expression, (.S | .comment)*, ")"]
+				return ["(", (.S | .comment)^*, .expression, (.S | .comment)^*, "−", (.S | .comment)^*, .expression, (.S | .comment)^*, ")"]
 			case .notIncluding:
-				return ["(", (.S | .comment)*, .expression, (.S | .comment)*, "÷", (.S | .comment)*, .expression, (.S | .comment)*, ")"]
+				return ["(", (.S | .comment)^*, .expression, (.S | .comment)^*, "÷", (.S | .comment)^*, .expression, (.S | .comment)^*, ")"]
 			case .zeroOrOne:
-				return ["(", (.S | .comment)*, .expression, (.S | .comment)*, "?", (.S | .comment)*, ")"]
+				return ["(", (.S | .comment)^*, .expression, (.S | .comment)^*, "?", (.S | .comment)^*, ")"]
 			case .oneOrMore:
-				return ["(", (.S | .comment)*, .expression, (.S | .comment)*, "+", (.S | .comment)*, ")"]
+				return ["(", (.S | .comment)^*, .expression, (.S | .comment)^*, "+", (.S | .comment)^*, ")"]
 			case .zeroOrMore:
-				return ["(", (.S | .comment)*, .expression, (.S | .comment)*, "×", (.S | .comment)*, ")"]
+				return ["(", (.S | .comment)^*, .expression, (.S | .comment)^*, "×", (.S | .comment)^*, ")"]
 		}
 	}
 
@@ -171,7 +171,7 @@ extension DescriptionSymbol:
 	///
 	///  +  Version:
 	///     `0.1.0`.
-	public var reference: Text?
+	public var reference: String?
 	{ nil }
 
 	/// Returns the `Expression` corresponding to this `DescriptionSymbol` for the given `version`.
