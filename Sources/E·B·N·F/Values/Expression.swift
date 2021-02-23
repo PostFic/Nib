@@ -287,6 +287,49 @@ where Symbol : Symbolic {
 	///
 	///  +  Parameters:
 	///      +  text:
+	///         A `Substring.UnicodeScalarView`.
+	///      +  version:
+	///         The `Version` to use when matching.
+	///
+	///  +  Throws:
+	///     A `ParseError` if this `Expression` does not match the beginning of the provided `text`.
+	///
+	///  +  Returns:
+	///     An `Array` of `Construct`s.
+	public func extract (
+		from text: Substring.UnicodeScalarView,
+		version: Version = .default
+	) throws -> [Symbol.Construct] {
+		do {
+			let (
+				_,
+				contained
+			) = try gobble(text, version)
+			return contained
+		} catch let error as GobbleError {
+			throw ParseError(
+				text,
+				at: error.text.startIndex,
+				failed: error.failedExpression,
+				version: version
+			)
+		}
+	}
+
+	/// Returns an `Array` of `Construct`s matching this `Expression` from the beginning of the provided `text`, or throws.
+	///
+	///  +  Note:
+	///     This `Expression` need not match the entire `text` for `.extract(from:version:)` to return a value.
+	///     To see if the whole `text` was matched, use `.parse(:version:)` instead.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
+	///
+	///  +  Parameters:
+	///      +  text:
 	///         A `LosslessTextConvertible`.
 	///      +  version:
 	///         The `Version` to use when matching.
@@ -539,6 +582,45 @@ where Symbol : Symbolic {
 	///
 	///  +  Version:
 	///     `0.1.0`.
+	///
+	///  +  Parameters:
+	///      +  text:
+	///         A `Substring.UnicodeScalarView`.
+	///      +  version:
+	///         The `Version` to use when matching.
+	///
+	///  +  Throws:
+	///     A `ParseError` if this `Expression` does not exactly match the provided `text`.
+	///
+	///  +  Returns:
+	///     An `Array` of `Construct`s.
+	public func parse (
+		_ text: Substring.UnicodeScalarView,
+		version: Version = .default
+	) throws -> [Symbol.Construct] {
+		let (
+			end,
+			result
+		) = try self.gobble(text, version)
+		if end == text.endIndex
+		{ return result }
+		else {
+			throw ParseError(
+				text,
+				at: text.startIndex,
+				failed: self,
+				exhaustive: true
+			)
+		}
+	}
+
+	/// Returns a tree of `Construct`s parsed from the provided `text`, or throws.
+	///
+	///  +  Authors:
+	///     [kibigo!](https://go.KIBI.family/About/#me).
+	///
+	///  +  Version:
+	///     `0.2.0`.
 	///
 	///  +  Parameters:
 	///      +  text:
