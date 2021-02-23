@@ -32,10 +32,10 @@ extension String {
 }
 
 extension String:
-	LosslessTextConvertible
+	CustomTextConvertible
 {
 
-	/// The type of text associated with this `LosslessTextConvertible`.
+	/// The type of text associated with this `CustomTextConvertible`.
 	///
 	///  +  Version:
 	///     `0.2.0`.
@@ -55,3 +55,7 @@ extension String:
 	{ self.unicodeScalars }
 
 }
+
+extension String:
+	LosslessTextConvertible
+{}
