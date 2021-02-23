@@ -10,7 +10,7 @@ let package = Package(
 		.library(
 			name: "Nib",
 			targets: [
-//				"EBNF",
+				"EBNF",
 //				"XML11",
 //				"XSD"
 			]
@@ -22,10 +22,10 @@ let package = Package(
 	],
 
 	targets: [
-//		.target(
-//			name: "EBNF",
-//			dependencies: []
-//		),
+		.target(
+			name: "EBNF",
+			dependencies: []
+		),
 //		.target(
 //			name: "XML11",
 //			dependencies: ["EBNF"]
