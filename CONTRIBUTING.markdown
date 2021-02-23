@@ -58,4 +58,4 @@ Reach out to me [on Mastodon](https://joinmastodon.org).
 
 Copyright © 2021 kibigo!
 
-[This file](https://github.com/marrus-sh/Nib/blob/current/CONTRIBUTING.md) is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International Public License](https://creativecommons.org/licenses/by-sa/4.0/) 🅭🅯🄎.
+[This file](https://github.com/marrus-sh/Nib/blob/current/CONTRIBUTING.markdown) is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International Public License](https://creativecommons.org/licenses/by-sa/4.0/) 🅭🅯🄎.

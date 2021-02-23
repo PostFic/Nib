@@ -44,3 +44,9 @@ These principles include:
  +  **Merchantability.**
     The Nib community is not interested in making sellable code or code which is easy to use in sellable products.
     We are doing this work because we value it and think it is important.
+
+---
+
+Copyright © 2021 kibigo!
+
+[This file](https://github.com/marrus-sh/Nib/blob/current/CODE_OF_CONDUCT.markdown) is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International Public License](https://creativecommons.org/licenses/by-sa/4.0/) 🅭🅯🄎.
