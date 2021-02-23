@@ -728,7 +728,7 @@ extension L·E·I·R·I·Symbol:
 					case .leiri:
 						var ucschar: L·E·I·R·I·Symbol.Expression
 						ucschar = ‖[" ", "<", ">", "\"", "{", "}", "|"]
-						ucschar |= ‖["\\", "^", "`", √["\u{0}"..."\u{1F}"], √["\u{7F}"..."\u{D7FF}"]]
+						ucschar |= ‖["\\", "^", "`", "\u{0}", √["\u{1}"..."\u{1F}"], √["\u{7F}"..."\u{D7FF}"]]  //  a bracketed expression will never match `"\u{0}"` because it is not a `Char`
 						ucschar |= √["\u{E000}"..."\u{FFFD}"] | √["\u{10000}"..."\u{10FFFF}"]
 						return ucschar
 				}
