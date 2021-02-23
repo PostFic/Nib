@@ -1,4 +1,4 @@
-//  # EBNF :: Precedences
+//  #  EBNF :: Precedences  #
 //
 //  Copyright © 2021 kibigo!
 //
@@ -9,10 +9,4 @@ precedencegroup ExclusionPrecedence {
 	associativity: none
 	higherThan: RangeFormationPrecedence
 	lowerThan: AdditionPrecedence
-}
-
-precedencegroup DeclarationPrecedence {
-	associativity: none
-	higherThan: TernaryPrecedence
-	lowerThan: LogicalDisjunctionPrecedence
 }
