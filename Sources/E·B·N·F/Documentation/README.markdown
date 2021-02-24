@@ -70,9 +70,9 @@ A table summarizing the various EBNF expressions is below:
 | `"string"` | `"string"` | `‹string›` | `.string` |
 | `symbol` | `symbol®` | `symbol` | `.symbol` |
 | <code>A &#x7C; B</code> | <code>A &#x7C; B</code> | <code>(A &#x7C; B)</code> | `.choice` |
-| <code>A &#x7C; B &#x7C; C</code> | `∑[A, B, C]` | <code>(A &#x7C; B &#x7C; C)</code> | `.choice` |
+| <code>A &#x7C; B &#x7C; C</code> | `ˇ(A, B, C)` | <code>(A &#x7C; B &#x7C; C)</code> | `.choice` |
 | `A B` | `A & B` | `(A B)` | `.sequence` |
-| `A B C` | `∏[A, B, C]` | `(A B C)` | `.sequence` |
+| `A B C` | `ˆ(A, B, C)` | `(A B C)` | `.sequence` |
 | `A - B` | `A - B` | `(A − B)` | `.excluding` |
 | `A - (Char* B Char*)` | `A ÷ B` | `(A ÷ B)` | `.notIncluding` |
 | `A?` | `A^?` | `(A?)` | `.zeroOrOne` |
@@ -152,7 +152,7 @@ Matches `symbol.expression`.
 Where `A`, `B`, and `C` are `Expression`s :—
 
  +  XML EBNF: `A | B`; `A | B | C`
- +  Swift DSL: `A | B`; `∑[A, B, C]`
+ +  Swift DSL: `A | B`; `ˇ(A, B, C)`
  +  `.description`: `(A | B)`; `(A | B | C)`
  
 Matches `A`, `B`, or `C` (always selecting whichever matches first).
@@ -166,7 +166,7 @@ The `‖[A, B, C]` form is preferred whenever choosing between more than two opt
 Where `A`, `B`, and `C` are `Expression`s :—
 
  +  XML EBNF: `A B`; `A B C`
- +  Swift DSL: `A & B`; `∏[A, B, C]`
+ +  Swift DSL: `A & B`; `ˆ(A, B, C)`
  +  `.description`: `(A B)`; `(A B C)`
  
 Matches `A`, `B`, and `C` in order.

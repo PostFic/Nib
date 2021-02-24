@@ -888,7 +888,7 @@ where Symbol : Symbolic {
 				) {
 					guard
 						let exprStart = (
-							try? (X.S & [X.comment, X.S^?]^*).extract(
+							try? (X.S & (X.comment & X.S^?)^*).extract(
 								from: match[index...]
 							)
 						)?.last?.text.endIndex,
@@ -927,7 +927,7 @@ where Symbol : Symbolic {
 						]
 					),
 					let startB = (
-						try? (∏[(X.S | X.comment)^*, √"−÷", (X.S | X.comment)^*]).extract(
+						try? (ˆ((X.S | X.comment)^*, √"−÷", (X.S | X.comment)^*)).extract(
 							from: match[endA...]
 						)
 					)?.last?.text.endIndex,
@@ -987,13 +987,17 @@ where Symbol : Symbolic {
 	) -> Symbol.Expression {
 		let lowerPart: Symbol.Expression
 		if l·h·s.lowerBound < 1
-		{ lowerPart = ∏[] }
+		{ lowerPart = ˆ() }
 		else if l·h·s.lowerBound == 1
 		{ lowerPart = r·h·s }
 		else {
-			lowerPart = ∏Array(
-				repeating: r·h·s,
-				count: l·h·s.lowerBound
+			lowerPart = ˆ(
+				.sequence(
+					Array(
+						repeating: r·h·s,
+						count: l·h·s.lowerBound
+					)
+				)
 			)
 		}
 		return lowerPart & (...(l·h·s.upperBound - l·h·s.lowerBound) * r·h·s)
@@ -1025,9 +1029,13 @@ where Symbol : Symbolic {
 		else if l·h·s.lowerBound == 1
 		{ return r·h·s^+ }
 		else {
-			return ∏Array(
-				repeating: r·h·s,
-				count: Int(l·h·s.lowerBound - 1)
+			return ˆ(
+				.sequence(
+					Array(
+						repeating: r·h·s,
+						count: Int(l·h·s.lowerBound - 1)
+					)
+				)
 			) & r·h·s^+
 		}
 	}
@@ -1055,7 +1063,7 @@ where Symbol : Symbolic {
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression {
 		if l·h·s.upperBound < 1
-		{ return ∏[] }
+		{ return ˆ() }
 		else if l·h·s.upperBound == 1
 		{ return r·h·s^? }
 		else
@@ -1085,7 +1093,7 @@ where Symbol : Symbolic {
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression {
 		if l·h·s.upperBound < 2
-		{ return ∏[] }
+		{ return ˆ() }
 		else if l·h·s.upperBound == 2
 		{ return r·h·s^? }
 		else
@@ -1115,7 +1123,7 @@ where Symbol : Symbolic {
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression {
 		if l·h·s.upperBound - l·h·s.lowerBound < 1
-		{ return ∏[] }
+		{ return ˆ() }
 		else if  l·h·s.upperBound - l·h·s.lowerBound == 1
 		{ return l·h·s.lowerBound * r·h·s }
 		else
@@ -1145,13 +1153,17 @@ where Symbol : Symbolic {
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression {
 		if l·h·s < 1
-		{ return ∏[] }
+		{ return ˆ() }
 		else if l·h·s == 1
 		{ return r·h·s }
 		else {
-			return ∏Array(
-				repeating: r·h·s,
-				count: l·h·s
+			return ˆ(
+				.sequence(
+					Array(
+						repeating: r·h·s,
+						count: l·h·s
+					)
+				)
 			)
 		}
 	}
@@ -1180,7 +1192,7 @@ where Symbol : Symbolic {
 		_ l·h·s: Symbol.Expression,
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression
-	{ ∏[l·h·s, r·h·s] }
+	{ ˆ(l·h·s, r·h·s) }
 
 	/// Returns an `Expression.choice` of its operands.
 	///
@@ -1206,7 +1218,7 @@ where Symbol : Symbolic {
 		_ l·h·s: Symbol.Expression,
 		_ r·h·s: Symbol.Expression
 	) -> Symbol.Expression
-	{ ∑[l·h·s, r·h·s] }
+	{ ˇ(l·h·s, r·h·s) }
 
 	/// Returns an `Expression.excluding` of its operands.
 	///
@@ -1279,7 +1291,7 @@ where Symbol : Symbolic {
 	public static func &= (
 		_ l·h·s: inout Symbol.Expression,
 		_ r·h·s: Symbol.Expression
-	) { l·h·s = ∏[l·h·s, r·h·s] }
+	) { l·h·s = ˆ(l·h·s, r·h·s) }
 
 	/// Creates an `Expression.choice` of its operands and stores the result in the left·hand·side variable.
 	///
@@ -1298,7 +1310,7 @@ where Symbol : Symbolic {
 	public static func |= (
 		_ l·h·s: inout Symbol.Expression,
 		_ r·h·s: Symbol.Expression
-	) { l·h·s = ∑[l·h·s, r·h·s] }
+	) { l·h·s = ˇ(l·h·s, r·h·s) }
 
 	/// Creates an `Expression.excluding` from its operands and stores the result in the left·hand·side variable.
 	///
@@ -1758,31 +1770,6 @@ extension Expression:
 }
 
 extension Expression:
-	ExpressibleByArrayLiteral
-{
-
-	/// Creates a `.sequence` from an array literal.
-	///
-	///  +  Authors:
-	///     [kibigo!](https://go.KIBI.family/About/#me).
-	///
-	///  +  Version:
-	///     `0.1.0`.
-	///
-	///  +  Parameters:
-	///      +  elements:
-	///         An `Array` of `Expression`s.
-	///
-	///  +  Returns:
-	///     A `.sequence` containing `elements`, or an equivalent expression.
-	@inlinable
-	public init(
-		arrayLiteral elements: Symbol.Expression...
-	) { self = ∏elements }
-
-}
-
-extension Expression:
 	ExpressibleByStringLiteral
 {
 
@@ -1822,19 +1809,19 @@ where Symbol == DescriptionSymbol {
 	///  +  Authors:
 	///     [kibigo!](https://go.KIBI.family/About/#me).
 	internal static let QName: Symbol.Expression = {
-		let NCNameStartChar: Symbol.Expression = ∑[√["A"..."Z"], "_", √["a"..."z"], √["\u{C0}"..."\u{D6}"], √["\u{D8}"..."\u{F6}"], √["\u{F8}"..."\u{2FF}"], √["\u{370}"..."\u{37D}"], √["\u{37F}"..."\u{1FFF}"], √["\u{200C}"..."\u{200D}"], √["\u{2070}"..."\u{218F}"], √["\u{2C00}"..."\u{2FEF}"], √["\u{3001}"..."\u{D7FF}"], √["\u{F900}"..."\u{FDCF}"], √["\u{FDF0}"..."\u{FFFD}"], √["\u{10000}"..."\u{EFFFF}"]]
-		let NCNameChar: Symbol.Expression = ∑[NCNameStartChar, "-", ".", √["0"..."9"], "\u{B7}", √["\u{300}"..."\u{36F}"], √["\u{203F}"..."\u{2040}"]]
-		let NCName: Symbol.Expression = [NCNameStartChar, NCNameChar^*]
-		return [NCName, ":", NCName] | NCName
+		let NCNameStartChar: Symbol.Expression = ˇ(√["A"..."Z"], "_", √["a"..."z"], √["\u{C0}"..."\u{D6}"], √["\u{D8}"..."\u{F6}"], √["\u{F8}"..."\u{2FF}"], √["\u{370}"..."\u{37D}"], √["\u{37F}"..."\u{1FFF}"], √["\u{200C}"..."\u{200D}"], √["\u{2070}"..."\u{218F}"], √["\u{2C00}"..."\u{2FEF}"], √["\u{3001}"..."\u{D7FF}"], √["\u{F900}"..."\u{FDCF}"], √["\u{FDF0}"..."\u{FFFD}"], √["\u{10000}"..."\u{EFFFF}"])
+		let NCNameChar: Symbol.Expression = ˇ(NCNameStartChar, "-", ".", √["0"..."9"], "\u{B7}", √["\u{300}"..."\u{36F}"], √["\u{203F}"..."\u{2040}"])
+		let NCName: Symbol.Expression = NCNameStartChar & NCNameChar^*
+		return ˆ(NCName, ":", NCName) | NCName
 	}()
 
 	/// XML whitespace.
 	internal static let S: Symbol.Expression = (√"\u{20}\u{9}\u{D}\u{A}")^+
 
 	/// An EBNF comment.
-	internal static let comment: Symbol.Expression = ["/*", (^[])^* ÷ "*/", "*/"]
+	internal static let comment: Symbol.Expression = ˆ("/*", (^[])^* ÷ "*/", "*/")
 
 	/// Any EBNF expression.
-	internal static let expression: Symbol.Expression = ∑[.character®, .anyOf®, .noneOf®, .string®, .symbol®, .choice®, .sequence®, .excluding®, .notIncluding®, .zeroOrOne®, .zeroOrMore®, .oneOrMore®]
+	internal static let expression: Symbol.Expression = ˇ(.character®, .anyOf®, .noneOf®, .string®, .symbol®, .choice®, .sequence®, .excluding®, .notIncluding®, .zeroOrOne®, .zeroOrMore®, .oneOrMore®)
 
 }

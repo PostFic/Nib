@@ -16,18 +16,6 @@ infix operator ÷: AdditionPrecedence
 ///     `0.1.0`.
 infix operator ÷=: AssignmentPrecedence
 
-/// Choice.
-///
-///  +  Version:
-///     `0.2.0`.
-prefix operator ∑
-
-/// Sequence.
-///
-///  +  Version:
-///     `0.2.0`.
-prefix operator ∏
-
 /// Any·of.
 ///
 ///  +  Version:

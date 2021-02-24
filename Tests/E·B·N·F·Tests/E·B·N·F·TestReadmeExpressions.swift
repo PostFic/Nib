@@ -49,21 +49,21 @@ final class E·B·N·F·TestReadmeExpressions:
 		) -> Expression<ExampleSymbol>? {
 			switch self {
 				case .S:
-					return (∑["\u{20}", "\u{9}", "\u{D}", "\u{A}"])^+
+					return ˇ("\u{20}", "\u{9}", "\u{D}", "\u{A}")^+
 				case .endsWithSpace:
-					return ["something", .S^?]
+					return "something" & .S^?
 				case .somethingMore:
-					return [.endsWithSpace®, .S®, "else"]
+					return ˆ(.endsWithSpace®, .S®, "else")
 				case .symbol:
 					return ^[]
 				case .postfix:
 					return "*"
 				case .postfixed:
-					return [.expression®, .postfix®]
+					return .expression® & .postfix®
 				case .expression:
 					return "$" | .postfixed®
 				case .properExpression:
-					return ["$", .postfix^*]
+					return "$" & .postfix^*
 			}
 		}
 

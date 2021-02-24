@@ -124,29 +124,29 @@ public enum DescriptionSymbol:
 	-> Symbol.Expression {
 		switch self {
 			case .character:
-				return ["£", (√["0"..."9", "A"..."F"])^+, ";"]
+				return ˆ("£", (√["0"..."9", "A"..."F"])^+, ";")
 			case .anyOf:
-				return ["⟨", [.character® | √["!"..."~"], ["–", .character® | √["!"..."~"]]^?]^*, "⟩"]
+				return ˆ("⟨", ˆ(.character® | √["!"..."~"], ˆ("–", .character® | √["!"..."~"])^?)^*, "⟩")
 			case .noneOf:
-				return ["⟨∼", [.character® | √["!"..."~"], ["–", .character® | √["!"..."~"]]^?]^*, "⟩"]
+				return ˆ("⟨∼", ˆ(.character® | √["!"..."~"], ˆ("–", .character® | √["!"..."~"])^?)^*, "⟩")
 			case .string:
-				return ["‹", (√["!"..."~"])^*, "›"]
+				return ˆ("‹", (√["!"..."~"])^*, "›")
 			case .symbol:
 				return .QName
 			case .choice:
-				return ["(", (.S | .comment)^*, .expression, [(.S | .comment)^*, "|", (.S | .comment)^*, .expression]^+, (.S | .comment)^*, ")"]
+				return ˆ("(", (.S | .comment)^*, .expression, ˆ((.S | .comment)^*, "|", (.S | .comment)^*, .expression)^+, (.S | .comment)^*, ")")
 			case .sequence:
-				return ["(", (.S | .comment)^*, [.expression, [.comment^*, .S, (.comment & .S^?)^*, .expression]^*, (.S | .comment)^*]^?, ")"]
+				return ˆ("(", (.S | .comment)^*, ˆ(.expression, ˆ(.comment^*, .S, ˆ(.comment, .S^?)^*, .expression)^*, (.S | .comment)^*)^?, ")")
 			case .excluding:
-				return ["(", (.S | .comment)^*, .expression, (.S | .comment)^*, "−", (.S | .comment)^*, .expression, (.S | .comment)^*, ")"]
+				return ˆ("(", (.S | .comment)^*, .expression, (.S | .comment)^*, "−", (.S | .comment)^*, .expression, (.S | .comment)^*, ")")
 			case .notIncluding:
-				return ["(", (.S | .comment)^*, .expression, (.S | .comment)^*, "÷", (.S | .comment)^*, .expression, (.S | .comment)^*, ")"]
+				return ˆ("(", (.S | .comment)^*, .expression, (.S | .comment)^*, "÷", (.S | .comment)^*, .expression, (.S | .comment)^*, ")")
 			case .zeroOrOne:
-				return ["(", (.S | .comment)^*, .expression, (.S | .comment)^*, "?", (.S | .comment)^*, ")"]
+				return ˆ("(", (.S | .comment)^*, .expression, (.S | .comment)^*, "?", (.S | .comment)^*, ")")
 			case .oneOrMore:
-				return ["(", (.S | .comment)^*, .expression, (.S | .comment)^*, "+", (.S | .comment)^*, ")"]
+				return ˆ("(", (.S | .comment)^*, .expression, (.S | .comment)^*, "+", (.S | .comment)^*, ")")
 			case .zeroOrMore:
-				return ["(", (.S | .comment)^*, .expression, (.S | .comment)^*, "×", (.S | .comment)^*, ")"]
+				return ˆ("(", (.S | .comment)^*, .expression, (.S | .comment)^*, "×", (.S | .comment)^*, ")")
 		}
 	}
 
