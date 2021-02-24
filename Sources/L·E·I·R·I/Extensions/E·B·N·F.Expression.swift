@@ -16,6 +16,6 @@ where Symbol == L·E·I·R·I·Symbol {
 	internal static let DIGIT: L·E·I·R·I·Symbol.Expression = √["\u{30}"..."\u{39}"]
 
 	/// Hexadecimal digit (case·insensitive)
-	internal static let HEXDIG: L·E·I·R·I·Symbol.Expression = ∑[DIGIT, √"Aa", √"Bb", √"Cc", √"Dd", √"Ee", √"Ff"]
+	internal static let HEXDIG: L·E·I·R·I·Symbol.Expression = ˇ(DIGIT, √"Aa", √"Bb", √"Cc", √"Dd", √"Ee", √"Ff")
 
 }
