@@ -327,7 +327,7 @@ public enum L·E·I·R·I·Symbol:
 	///
 	///  +  Version:
 	///     `0.2.0`.
-	case IP·literal
+	case IP·literal = "IP-literal"
 
 	/// A (LE)IRI IP future address literal.
 	///
@@ -399,7 +399,7 @@ public enum L·E·I·R·I·Symbol:
 	///
 	///  +  Version:
 	///     `0.2.0`.
-	case dec·octet
+	case dec·octet = "dec-octet"
 
 	/// A (LE)IRI percentencoded character.
 	///
@@ -409,7 +409,7 @@ public enum L·E·I·R·I·Symbol:
 	///
 	///  +  Version:
 	///     `0.2.0`.
-	case pct·encoded
+	case pct·encoded = "pct-encoded"
 
 	/// A (LE)IRI unreserved character.
 	///
@@ -439,7 +439,7 @@ public enum L·E·I·R·I·Symbol:
 	///
 	///  +  Version:
 	///     `0.2.0`.
-	case gen·delims
+	case gen·delims = "gen-delims"
 
 	/// A (LE)IRI sub delimiter.
 	///
@@ -449,7 +449,7 @@ public enum L·E·I·R·I·Symbol:
 	///
 	///  +  Version:
 	///     `0.2.0`.
-	case sub·delims
+	case sub·delims = "sub-delims"
 
 	/// A (LE)IRI UCS character.
 	///
@@ -475,7 +475,7 @@ extension L·E·I·R·I·Symbol:
 	///     `0.2.0`.
 	public typealias Symbol = L·E·I·R·I·Symbol
 
-	/// The reference identifier for this `DescriptionSymbol`.
+	/// The reference identifier for this `L·E·I·R·I·Symbol`.
 	///
 	/// Reference identifiers are based off of the [LEIRI](https://www.w3.org/TR/2008/NOTE-leiri-20081103/) spec.
 	///
@@ -484,86 +484,86 @@ extension L·E·I·R·I·Symbol:
 	///
 	///  +  Version:
 	///     `0.2.0`.
-	public var reference: Text? {
+	public var reference: String? {
 		switch self {
 			case .LEIRI:
-				return "1".unicodeScalars
+				return "1"
 			case .ihier·part:
-				return "2".unicodeScalars
+				return "2"
 			case .LEIRI·reference:
-				return "3".unicodeScalars
+				return "3"
 			case .absolute·LEIRI:
-				return "4".unicodeScalars
+				return "4"
 			case .irelative·ref:
-				return "5".unicodeScalars
+				return "5"
 			case .irelative·part:
-				return "6".unicodeScalars
+				return "6"
 			case .iauthority:
-				return "7".unicodeScalars
+				return "7"
 			case .iuserinfo:
-				return "8".unicodeScalars
+				return "8"
 			case .ihost:
-				return "9".unicodeScalars
+				return "9"
 			case .ireg·name:
-				return "10".unicodeScalars
+				return "10"
 			case .ipath:
-				return "11".unicodeScalars
+				return "11"
 			case .ipath·abempty:
-				return "12".unicodeScalars
+				return "12"
 			case .ipath·absolute:
-				return "13".unicodeScalars
+				return "13"
 			case .ipath·noscheme:
-				return "14".unicodeScalars
+				return "14"
 			case .ipath·rootless:
-				return "15".unicodeScalars
+				return "15"
 			case .ipath·empty:
-				return "16".unicodeScalars
+				return "16"
 			case .isegment:
-				return "17".unicodeScalars
+				return "17"
 			case .isegment·nz:
-				return "18".unicodeScalars
+				return "18"
 			case .isegment·nz·nc:
-				return "19".unicodeScalars
+				return "19"
 			case .ipchar:
-				return "20".unicodeScalars
+				return "20"
 			case .iquery:
-				return "21".unicodeScalars
+				return "21"
 			case .ifragment:
-				return "22".unicodeScalars
+				return "22"
 			case .iunreserved:
-				return "23".unicodeScalars
+				return "23"
 			case .iprivate:
-				return "24".unicodeScalars
+				return "24"
 			case .scheme:
-				return "25".unicodeScalars
+				return "25"
 			case .port:
-				return "26".unicodeScalars
+				return "26"
 			case .IP·literal:
-				return "27".unicodeScalars
+				return "27"
 			case .IPvFuture:
-				return "28".unicodeScalars
+				return "28"
 			case .IPv6address:
-				return "29".unicodeScalars
+				return "29"
 			case .h16:
-				return "30".unicodeScalars
+				return "30"
 			case .ls32:
-				return "31".unicodeScalars
+				return "31"
 			case .IPv4address:
-				return "32".unicodeScalars
+				return "32"
 			case .dec·octet:
-				return "33".unicodeScalars
+				return "33"
 			case .pct·encoded:
-				return "34".unicodeScalars
+				return "34"
 			case .unreserved:
-				return "35".unicodeScalars
+				return "35"
 			case .reserved:
-				return "36".unicodeScalars
+				return "36"
 			case .gen·delims:
-				return "37".unicodeScalars
+				return "37"
 			case .sub·delims:
-				return "38".unicodeScalars
+				return "38"
 			case .ucschar:
-				return "39".unicodeScalars
+				return "39"
 		}
 	}
 
@@ -587,128 +587,128 @@ extension L·E·I·R·I·Symbol:
 		switch self {
 			//  Productions changed from RFC3986
 			case .LEIRI:
-				return [.scheme′, ":", .ihier·part′, ("?" & .iquery′)°, ("#" & .ifragment′)°]
+				return ∏[.scheme®, ":", .ihier·part®, ("?" & .iquery®)^?, ("#" & .ifragment®)^?]
 			case .ihier·part:
 				var ihier·part: L·E·I·R·I·Symbol.Expression
-				ihier·part = ["//", .iauthority′, .ipath·abempty′]
-				ihier·part |= .ipath·absolute′
-				ihier·part |= .ipath·rootless′
-				ihier·part |= .ipath·empty′
+				ihier·part = ∏["//", .iauthority®, .ipath·abempty®]
+				ihier·part |= .ipath·absolute®
+				ihier·part |= .ipath·rootless®
+				ihier·part |= .ipath·empty®
 				return ihier·part
 			case .LEIRI·reference:
-				return .LEIRI′ | .irelative·ref′
+				return .LEIRI® | .irelative·ref®
 			case .absolute·LEIRI:
-				return [.scheme′, ":", .ihier·part′, ("?" & .iquery′)°]
+				return ∏[.scheme®, ":", .ihier·part®, ("?" & .iquery®)^?]
 			case .irelative·ref:
-				return [.irelative·part′, ("?" & .iquery′)°, ("#" & .ifragment′)°]
+				return ∏[.irelative·part®, ("?" & .iquery®)^?, ("#" & .ifragment®)^?]
 			case .irelative·part:
 				var irelative·part: L·E·I·R·I·Symbol.Expression
-				irelative·part = ["//", .iauthority′, .ipath·abempty′]
-				irelative·part |= .ipath·absolute′
-				irelative·part |= .ipath·noscheme′
-				irelative·part |= .ipath·empty′
+				irelative·part = ["//", .iauthority®, .ipath·abempty®]
+				irelative·part |= .ipath·absolute®
+				irelative·part |= .ipath·noscheme®
+				irelative·part |= .ipath·empty®
 				return irelative·part
 			case .iauthority:
-				return [(.iuserinfo′ & "@")°, .ihost′, (":" & .port′)°]
+				return ∏[(.iuserinfo® & "@")^?, .ihost®, (":" & .port®)^?]
 			case .iuserinfo:
-				return *(‖[.iunreserved′, .pct·encoded′, .sub·delims′, ":"])
+				return *(∑[.iunreserved®, .pct·encoded®, .sub·delims®, ":"])
 			case .ihost:
-				return ‖[.IP·literal′, .IPv4address′, .ireg·name′]
+				return ∑[.IP·literal®, .IPv4address®, .ireg·name®]
 			case .ireg·name:
-				return *(‖[.iunreserved′, .pct·encoded′, .sub·delims′])
+				return *(∑[.iunreserved®, .pct·encoded®, .sub·delims®])
 			case .ipath:
 				var ipath: L·E·I·R·I·Symbol.Expression
-				ipath = .ipath·abempty′
-				ipath |= .ipath·absolute′
-				ipath |= .ipath·noscheme′
-				ipath |= .ipath·rootless′
-				ipath |= .ipath·empty′
+				ipath = .ipath·abempty®
+				ipath |= .ipath·absolute®
+				ipath |= .ipath·noscheme®
+				ipath |= .ipath·rootless®
+				ipath |= .ipath·empty®
 				return ipath
 			case .ipath·abempty:
-				return *("/" & .isegment′)
+				return *("/" & .isegment®)
 			case .ipath·absolute:
-				return "/" & (.isegment·nz′ & *("/" & .isegment′))°
+				return "/" & (.isegment·nz® & *("/" & .isegment®))^?
 			case .ipath·noscheme:
-				return .isegment·nz·nc′ & *("/" & .isegment′)
+				return .isegment·nz·nc® & *("/" & .isegment®)
 			case .ipath·rootless:
-				return .isegment·nz′ & *("/" & .isegment′)
+				return .isegment·nz® & *("/" & .isegment®)
 			case .ipath·empty:
-				return 0 * .ipchar′
+				return 0 * .ipchar®
 			case .isegment:
-				return *.ipchar′
+				return *.ipchar®
 			case .isegment·nz:
-				return 1... * .ipchar′
+				return 1... * .ipchar®
 			case .isegment·nz·nc:
-				return 1... * ‖[.unreserved′, .pct·encoded′, .sub·delims′, "@"]
+				return 1... * ∑[.unreserved®, .pct·encoded®, .sub·delims®, "@"]
 			case .ipchar:
 				var ipchar: L·E·I·R·I·Symbol.Expression
-				ipchar = ‖[.unreserved′, .pct·encoded′, .sub·delims′, ":"]
+				ipchar = ∑[.unreserved®, .pct·encoded®, .sub·delims®, ":"]
 				ipchar |= "@"
 				return ipchar
 			case .iquery:
-				return version == .rfc3986 ? *(‖[.ipchar′, "/", "?"]) : *(‖[.ipchar′, .iprivate′, "/", "?"])
+				return version == .rfc3986 ? *(∑[.ipchar®, "/", "?"]) : *(∑[.ipchar®, .iprivate®, "/", "?"])
 			case .ifragment:
-				return *(‖[.ipchar′, "/", "?"])
+				return *(∑[.ipchar®, "/", "?"])
 			case .iunreserved:
-				return version == .rfc3986 ? ‖[.ALPHA, .DIGIT, "-", ".", "_", "~"] : ‖[.ALPHA, .DIGIT, "-", ".", "_", "~", .ucschar′]
+				return version == .rfc3986 ? ∑[.ALPHA, .DIGIT, "-", ".", "_", "~"] : ∑[.ALPHA, .DIGIT, "-", ".", "_", "~", .ucschar®]
 			case .iprivate:
 				guard version != .rfc3986
 				else { return nil }
 				var iprivate: L·E·I·R·I·Symbol.Expression
-				iprivate = ‖[√["\u{E000}"..."\u{F8FF}"], √["\u{E0000}"..."\u{E0FFF}"], √["\u{F0000}"..."\u{FFFFD}"]]
+				iprivate = ∑[√["\u{E000}"..."\u{F8FF}"], √["\u{E0000}"..."\u{E0FFF}"], √["\u{F0000}"..."\u{FFFFD}"]]
 				iprivate |= √["\u{100000}"..."\u{10FFFD}"]
 				return iprivate
 
 			//  Productions unchanged from RFC3986
 			case .scheme:
-				return .ALPHA & *(‖[.ALPHA, .DIGIT, "+", "-", "."])
+				return .ALPHA & *(∑[.ALPHA, .DIGIT, "+", "-", "."])
 			case .port:
 				return *.DIGIT
 			case .IP·literal:
-				return ["[", (.IPv6address′ | .IPvFuture′), "]"]
+				return ∏["[", (.IPv6address® | .IPvFuture®), "]"]
 			case .IPvFuture:
-				return ["v", 1... * .HEXDIG, ".", 1... * ‖[.unreserved′, .sub·delims′, ":"]]
+				return ∏["v", 1... * .HEXDIG, ".", 1... * ∑[.unreserved®, .sub·delims®, ":"]]
 			case .IPv6address:
 				//  <https://www.rfc-editor.org/errata/eid4394> is not relevant here because IPv6 addresses are properly end‐delimited with two colons and/or a pattern of set length.
 				//  Nib’s first·match·wins strategy nevertheless requires a complete match.
 				var IPv6address: L·E·I·R·I·Symbol.Expression
-				IPv6address = [6 * (.h16′ & ":"), .ls32′]
-				IPv6address |= ["::", 5 * (.h16′ & ":"), .ls32′]
-				IPv6address |= [.h16°, "::", 4 * (.h16′ & ":"), .ls32′]
-				IPv6address |= [[...1 * (.h16′ & ":"), .h16′]°, "::", 3 * (.h16′ & ":"), .ls32′]
-				IPv6address |= [[...2 * (.h16′ & ":"), .h16′]°, "::", 2 * (.h16′ & ":"), .ls32′]
-				IPv6address |= [[...3 * (.h16′ & ":"), .h16′]°, "::", .h16′, ":", .ls32′]
-				IPv6address |= [[...4 * (.h16′ & ":"), .h16′]°, "::", .ls32′]
-				IPv6address |= [[...5 * (.h16′ & ":"), .h16′]°, "::", .h16′]
-				IPv6address |= [[...6 * (.h16′ & ":"), .h16′]°, "::"]
+				IPv6address = [6 * (.h16® & ":"), .ls32®]
+				IPv6address |= ∏["::", 5 * (.h16® & ":"), .ls32®]
+				IPv6address |= ∏[.h16^?, "::", 4 * (.h16® & ":"), .ls32®]
+				IPv6address |= ∏[((...1 * (.h16® & ":")) & .h16®)^?, "::", 3 * (.h16® & ":"), .ls32®]
+				IPv6address |= ∏[((...2 * (.h16® & ":")) & .h16®)^?, "::", 2 * (.h16® & ":"), .ls32®]
+				IPv6address |= ∏[((...3 * (.h16® & ":")) & .h16®)^?, "::", .h16®, ":", .ls32®]
+				IPv6address |= ∏[((...4 * (.h16® & ":")) & .h16®)^?, "::", .ls32®]
+				IPv6address |= ∏[((...5 * (.h16® & ":")) & .h16®)^?, "::", .h16®]
+				IPv6address |= ((...6 * (.h16® & ":")) & .h16®)^? & "::"
 				return IPv6address
 			case .h16:
 				return (1...4) * .HEXDIG
 			case .ls32:
-				return [.h16′, ":", .h16′] | .IPv4address′
+				return ∏[.h16®, ":", .h16®] | .IPv4address®
 			case .IPv4address:
-				return [.dec·octet′, ".", .dec·octet′, ".", .dec·octet′, ".", .dec·octet′]
+				return ∏[.dec·octet®, ".", .dec·octet®, ".", .dec·octet®, ".", .dec·octet®]
 			case .dec·octet:
 				//  See <https://www.rfc-editor.org/errata/eid4393>.
 				var dec·octet: L·E·I·R·I·Symbol.Expression
-				dec·octet = ["25", √["\u{30}"..."\u{35}"]]
-				dec·octet |= ["2", √["\u{30}"..."\u{34}"], .DIGIT]
-				dec·octet |= ["1", 2 * .DIGIT]
+				dec·octet = "25" & √["\u{30}"..."\u{35}"]
+				dec·octet |= ∏["2", √["\u{30}"..."\u{34}"], .DIGIT]
+				dec·octet |= "1" & (2 * .DIGIT)
 				dec·octet |= √["\u{31}"..."\u{39}"] & .DIGIT
 				dec·octet |= .DIGIT
 				return dec·octet
 			case .pct·encoded:
-				return ["%", .HEXDIG, .HEXDIG]
+				return ∏["%", .HEXDIG, .HEXDIG]
 			case .unreserved:
-				return ‖[.ALPHA, .DIGIT, "-", ".", "_", "~"]
+				return ∑[.ALPHA, .DIGIT, "-", ".", "_", "~"]
 			case .reserved:
-				return .gen·delims′ | .sub·delims′
+				return .gen·delims® | .sub·delims®
 			case .gen·delims:
-				return ‖[":", "/", "?", "#", "[", "]", "@"]
+				return ∑[":", "/", "?", "#", "[", "]", "@"]
 			case .sub·delims:
 				var sub·delims: L·E·I·R·I·Symbol.Expression
-				sub·delims = ‖["!", "$", "&", "'", "(", ")"]
-				sub·delims |= ‖["*", "+", ",", ";", "="]
+				sub·delims = ∑["!", "$", "&", "'", "(", ")"]
+				sub·delims |= ∑["*", "+", ",", ";", "="]
 				return sub·delims
 
 			//  Modified ucschar production
@@ -718,17 +718,17 @@ extension L·E·I·R·I·Symbol:
 						return nil
 					case .rfc3987:
 						var ucschar: L·E·I·R·I·Symbol.Expression
-						ucschar = ‖[√["\u{A0}"..."\u{D7FF}"], √["\u{F900}"..."\u{FDCF}"], √["\u{FDF0}"..."\u{FFEF}"]]
-						ucschar |= ‖[√["\u{10000}"..."\u{1FFFD}"], √["\u{20000}"..."\u{2FFFD}"], √["\u{30000}"..."\u{3FFFD}"]]
-						ucschar |= ‖[√["\u{40000}"..."\u{4FFFD}"], √["\u{50000}"..."\u{5FFFD}"], √["\u{60000}"..."\u{6FFFD}"]]
-						ucschar |= ‖[√["\u{70000}"..."\u{7FFFD}"], √["\u{80000}"..."\u{8FFFD}"], √["\u{90000}"..."\u{9FFFD}"]]
-						ucschar |= ‖[√["\u{A0000}"..."\u{AFFFD}"], √["\u{B0000}"..."\u{BFFFD}"], √["\u{C0000}"..."\u{CFFFD}"]]
+						ucschar = ∑[√["\u{A0}"..."\u{D7FF}"], √["\u{F900}"..."\u{FDCF}"], √["\u{FDF0}"..."\u{FFEF}"]]
+						ucschar |= ∑[√["\u{10000}"..."\u{1FFFD}"], √["\u{20000}"..."\u{2FFFD}"], √["\u{30000}"..."\u{3FFFD}"]]
+						ucschar |= ∑[√["\u{40000}"..."\u{4FFFD}"], √["\u{50000}"..."\u{5FFFD}"], √["\u{60000}"..."\u{6FFFD}"]]
+						ucschar |= ∑[√["\u{70000}"..."\u{7FFFD}"], √["\u{80000}"..."\u{8FFFD}"], √["\u{90000}"..."\u{9FFFD}"]]
+						ucschar |= ∑[√["\u{A0000}"..."\u{AFFFD}"], √["\u{B0000}"..."\u{BFFFD}"], √["\u{C0000}"..."\u{CFFFD}"]]
 						ucschar |= √["\u{D0000}"..."\u{DFFFD}"] | √["\u{E1000}"..."\u{EFFFD}"]
 						return ucschar
 					case .leiri:
 						var ucschar: L·E·I·R·I·Symbol.Expression
-						ucschar = ‖[" ", "<", ">", "\"", "{", "}", "|"]
-						ucschar |= ‖["\\", "^", "`", "\u{0}", √["\u{1}"..."\u{1F}"], √["\u{7F}"..."\u{D7FF}"]]  //  a bracketed expression will never match `"\u{0}"` because it is not a `Char`
+						ucschar = ∑[" ", "<", ">", "\"", "{", "}", "|"]
+						ucschar |= ∑["\\", "^", "`", "\u{0}", √["\u{1}"..."\u{1F}"], √["\u{7F}"..."\u{D7FF}"]]  //  a bracketed expression will never match `"\u{0}"` because it is not a `Char`
 						ucschar |= √["\u{E000}"..."\u{FFFD}"] | √["\u{10000}"..."\u{10FFFF}"]
 						return ucschar
 				}
