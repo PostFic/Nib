@@ -80,6 +80,16 @@ Use `Note` callouts for documenting ambiguous cases in the spec, differences in 
 
 Functions which take parameters should have a `Parameters` section; functions which return should have a `Returns`, and functions which throw should have a `Throws`.
 
+##  Branches and Pull Requests  ##
+
+Git branches whose names begin with a capital letter (e.g. `Core`) are dedicated to development of their respective module.
+*All* pull requests involving code should be contained to a single module and sent to the appropriate branch.
+When the branches are in a stable place, they will be merged into the `development` branch which will then be merged into `current` for a release.
+
+**If you send a pull request which affects more than one module, it will be rejected.**
+
+Changes to things which do not belong in a module (e.g. this file) may be merged onto `current` or `development` directly.
+
 ---
 
 Copyright © 2021 kibigo!
