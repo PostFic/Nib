@@ -59,7 +59,7 @@ However, the names given in specifications take priority; this is especially tru
 In some cases the specification name is a little more opaque or cumbersome than the common name which you might expect; oftentimes, maintaining this is important, because another specification will later redefine the common name with slightly different semantics.
 
 Emoji may be used in non‐public code *only*.
-The emoji `🙈`, `🙉`, `🙊` are used as markers of access control, signifying `private`, `fileprivate`, and `internal`, respectively.
+The emoji `🙈`, `🙉`, `🙊` are used to denote changes in access control, signifying `private`, `fileprivate`, and `internal`, respectively.
 
 The character `U+00B7 · MIDDLE DOT` is used in place of a hyphen; the following letter is not capitalized.
 It is also used in abbreviations in place of Swift’s more idiomatic “write all the letters with the same case” convention; in this case, the following letter *is* capitalized.
