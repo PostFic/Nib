@@ -73,7 +73,7 @@ Documentation should follow [ordinary Swift conventions](https://developer.apple
 All public API terms should be documented, and each should have a `Version` callout describing when they were added.
 Additional `Version` callouts should be used when additional features are added.
 
-An `Authors` callout should be used for functions and computed properties, but *not* for protocol requirements or types.
+An `Authors` callout should be used for functions and computed properties (anything which might appear within an extension), but *not* for types or protocol requirements.
 All contributors to the implementation should put their names here.
 
 Use `Note` callouts for documenting ambiguous cases in the spec, differences in the implementation, or common gotchas with use.
